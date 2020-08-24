@@ -39,8 +39,8 @@ export default class User {
 		$('.tab.chatlist .count').text( $('#chat-list li').length );
 		
 		// flag chat button (if chat exist) online
-		if ( $('#activechats li[data-username="'+username+'"]').length ){
-			$('#activechats li[data-username="'+username+'"]').addClass('online');
+		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
+			$('#activechats .userpm-select[data-username="'+username+'"]').addClass('online');
 		}		
 		
     }
@@ -64,8 +64,8 @@ export default class User {
 		$('.tab.chatlist .count').text( $('#chat-list li').length );
 		
 		// flag chat button offline
-		if ( $('#activechats li[data-username="'+username+'"]').length ){
-			$('#activechats li[data-username="'+username+'"]').addClass('offline');
+		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
+			$('#activechats .userpm-select[data-username="'+username+'"]').removeClass('online');
 		}
 		
 	}

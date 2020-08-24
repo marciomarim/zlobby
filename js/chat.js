@@ -34,18 +34,24 @@ $('body').on('click', '.userchat .closewin', function(e) {
 	
 	$(this).closest('.userchat').removeClass('active');	
 	var username = $(this).data('username');	
-	$('#activechats li[data-username="'+username+'"]').remove();
+	$('#activechats .userpm-select[data-username="'+username+'"]').remove();
 	
 });
 
 $('body').on('click', '.userchat .clearchat', function(e) {
-	
 	var username = $(this).data('username');			
 	utils.clear_user_chat(username);
 	$(this).closest('.userchat').remove();
 	$('.userpm-select[data-username="'+username+'"]').remove();
-	
 });
+
+
+$('body').on('click', '.userchat.active', function(e) {
+	// on click on chat, clear unread message counter
+	var username = $(this).data('username');			
+	$('.userpm-select[data-username="'+username+'"] .unread').remove();
+});
+
 
 
 $('#activechats').on('click', '.userpm-select', function(e) {
@@ -60,6 +66,7 @@ $('#activechats').on('click', '.userpm-select', function(e) {
 		utils.init_chat( username );
 	}
 	
+	$('.userpm-select[data-username="'+username+'"] .unread').remove();
 	$('#chats .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);    	    	
 	
 });

@@ -1016,18 +1016,6 @@ span.upper{
     display: flex;
     flex-direction: column;
 }	
-
-/*
-	#activechats li{
-	    text-decoration: none;
-	    display: flex;
-	    padding: 0.3em 1em;
-	    margin: 0.5em;
-	    cursor: pointer;
-	    background: #223;
-	    border-radius: 30px;
-	}
-*/
 	
 	#activechats .userpm-select{
 		text-decoration: none;
@@ -1055,6 +1043,25 @@ span.upper{
 		
 		#activechats .userpm-select.online:before{
 			background: #5588ff;			
+		}
+		
+		#activechats .userpm-select .unread{
+		    content: '';
+		    position: absolute;
+	        padding: 0.1em 0.5em;
+		    border-radius: 15px;
+		    background: #1553da;
+		    z-index: 1;
+		    top: 5px;
+		    right: 3px;
+		    z-index: 3;
+		    font-size: 10px;
+		    line-height: 1.4em;
+		    text-align: center;
+		}
+		
+		#activechats .userpm-select .unread:empty{
+			display: none;
 		}
 	
 	#activechats .userpm-select:hover,

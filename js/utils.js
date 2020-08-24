@@ -117,6 +117,18 @@ export default class Utils {
 		});
 		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
 		
+		if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
+			var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+			unread += 1;	
+			$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+		}else{
+			var unread = 1;
+			$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+		}		
+		
+		
+		
+		
 		// show chat 
 		// $('.rcontainer').removeClass('active');
 		// $('#chats').addClass('active');											

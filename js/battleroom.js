@@ -220,7 +220,7 @@ $('body').on('click', '.battle-players li', function(e) {
 		$('.userchat[data-username="'+username+'"]').addClass('active');
 	}
 	// 
-	if (!$('#activechats li[data-username="'+username+'"]').length ){
+	if (!$('#activechats .userpm-select[data-username="'+username+'"]').length ){
 		$('#activechats').append($('#chat-list li[data-username="'+username+'"]').clone());		
 	}	
 	
