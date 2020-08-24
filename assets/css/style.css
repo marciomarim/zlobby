@@ -1004,10 +1004,6 @@ span.upper{
 		margin: 0 5px;
 		cursor: pointer;
 	}
-	
-	.userchat .clearchat{
-			
-	}
 
 #activechats{
 	position: absolute;
@@ -1042,25 +1038,30 @@ span.upper{
 	    background: #223;
 	    border-radius: 30px;
 	    overflow: hidden;
+	    position: relative;
 	}
+	
+		#activechats .userpm-select:before{
+		    content: '';
+		    position: absolute;
+		    width: 6px;
+		    height: 6px;
+		    border-radius: 50%;
+		    background: #aaa;
+		    z-index: 1;
+		    top: 10px;
+		    left: 3px;
+		}
+		
+		#activechats .userpm-select.online:before{
+			background: #5588ff;			
+		}
 	
 	#activechats .userpm-select:hover,
 	#activechats .userpm-select.active{
 		background: #5588ff;
 	}
-	
-/*
-	#activechats li .ingame,
-	#activechats li .flag-icon,
-	#activechats li .rank,
-	#activechats li .trueskill,
-	#activechats li .admin,
-	#activechats li .away,
-	#activechats li .bot,
-	#activechats li .country{
-		display: none;				
-	}
-*/
+
 	
 #replaylist{
 	display: flex;	
