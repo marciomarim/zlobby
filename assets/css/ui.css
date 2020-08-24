@@ -1,0 +1,166 @@
+.icon{
+	position: relative;
+}
+
+.icon:before{
+	content: '';
+	display: inline-block;		
+	background-size: contain;
+	background-position:50%;
+	background-repeat:no-repeat;
+	width: 1.5em;
+	height: 1.5em;
+	margin-right: 5px;
+	position: relative;
+    top: 0.3em;	
+	font-size: 0.9em;
+	line-height: 1em;
+}
+
+.lmenu .icon:before{
+    display: block;
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 50%;
+    top:0;
+    margin-left: -20px;
+    font-size: 36px;
+}
+
+.lmenu .icon.active,
+.lmenu .icon.active:before,
+.lmenu .icon:hover,
+.lmenu .icon:hover:before{
+	color: #5588ff;
+}
+
+.icon-start:before{	
+	background-image: url(../svg/040-project.svg);
+}
+
+.icon-chatlist:before{	
+	background-image: url(../svg/037-walkie-talkie.svg);
+}
+
+.icon-battlelist:before{	
+	background-image: url(../svg/035-shield.svg);
+}
+
+.icon-battleroom:before{	
+	background-image: url(../svg/016-tank.svg);
+}
+
+.icon-website:before{	
+	background-image: url(../images/ba.png);
+}
+
+.icon-discord:before{	
+	background-image: url(../images/discord.png);
+}
+
+.icon-replays:before{	
+	background-image: url(../svg/046-space-invaders.svg);
+}
+
+
+
+.icon-arm:before{
+	background-image: url(../images/ARM.svg);
+    position: relative;
+    top: 0;
+}
+.icon-core:before{
+	background-image: url(../images/CORE.svg);
+	    position: relative;
+    top: 0;
+}
+
+
+
+.icon-ingame:before{	
+	background-image: url(../svg/020-soldier-1.svg);
+}
+
+.icon-ingame.false:before{	
+ 	background-image: none;
+}
+
+.icon-ingame.battle:before{	
+	background-image: url(../svg/036-sword.svg);
+}
+
+.icon-admin:before{	
+	background-image: url(../svg/044-call-center.svg);
+}
+
+.icon-admin.false:before{	
+	background-image: none;
+}
+
+
+.icon-bot:before{	
+	background-image: url(../svg/041-robot.svg);
+}
+
+.icon-bot.false:before{	
+	background-image: none;
+}
+
+.icon-away:before{	
+	background-image: url(../svg/056-clock.svg);
+}
+
+.icon-away.false:before{	
+	background-image: none;
+}
+
+
+.icon-rank0:before,
+.icon-rank1:before{	
+	background-image: url(../svg/010-chevron-1.svg);
+}
+
+
+.icon-rank2:before{	
+	background-image: url(../svg/012-chevron-3.svg);
+}
+
+.icon-rank3:before{	
+	background-image: url(../svg/013-chevron-4.svg);
+}
+
+.icon-rank4:before{	
+	background-image: url(../svg/059-official.svg);
+}
+
+.icon-rank5:before{	
+	background-image: url(../svg/055-medal-1.svg);
+}
+
+.icon-rank6:before{	
+	background-image: url(../svg/002-army-1.svg);
+}
+
+.icon-rank7:before{	
+	background-image: url(../svg/058-security.svg);
+}
+
+
+
+.icon-spec:before{
+	background-image: url(../svg/054-preview.svg);	
+}
+
+.icon-mod:before{
+	background-image: url(../svg/048-joystick-1.svg);
+}
+
+.icon-locked:before{
+	background-image: none;
+}
+.icon-locked.true:before{
+	background-image: url(../svg/060-padlock.svg);
+}
+
+

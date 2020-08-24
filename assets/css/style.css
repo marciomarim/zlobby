@@ -1,0 +1,1080 @@
+/* 
+	blue: #1d4cba
+	blue text: #5588ff 
+	blue button: #1553da
+*/
+@font-face {
+  font-family: Lato;
+  src: url(../fonts/Lato-Regular.ttf);
+  font-weight: normal;
+}
+@font-face {
+  font-family: LatoBold;
+  src: url(../fonts/Lato-Bold.ttf);
+  font-weight: bold;
+}
+
+* {
+	margin:0;
+	padding:0;
+	box-sizing:border-box;
+}
+
+body {
+	font: 13px Lato, Helvetica, Arial;
+	line-height: 1.5em;	
+	color: #ddd;
+	-webkit-font-smoothing: subpixel-antialiased;
+	background: #111418;
+}
+
+a{
+	color: #5cc2ff;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1b1e23;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #50607b;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+#main{
+	position: fixed;
+	width: 100%;
+	height: calc(100% - 30px);
+	top:0;
+	left:0;		
+	margin-top: 30px;
+	display: flex;
+	background: #24282f;
+}
+
+	#usermenu{
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	    display: flex;
+	    justify-content: center;
+	    width: 100%;
+	    -webkit-app-region: drag;
+	}
+		
+		#usermenu .status{
+		    background-color: #848484;
+		    margin: 10px 3px;
+		    border-radius: 50%;
+		    width: 10px;
+		    height: 10px;
+		    position: relative;
+		}
+		
+		.socketlive #usermenu .status.active{
+			background-color: #1553da;	
+		}
+		
+		#usermenu .username{
+			color: #6e7486;
+			padding: 5px 10px;
+			font-family: LatoBold;
+		}
+		
+	.lmenu{
+		position: relative;
+		left:0;
+		top:0;
+		height: 100vh;
+		width: 120px;
+		background: #111418;
+	    padding: 20px 10px;
+	}
+	
+		.lmenu .tab{
+			text-align: center;
+			padding: 50px 10px 10px;
+			margin: 20px 0;
+			font-family: LatoBold;
+			text-transform: uppercase;
+			font-size: 11px;
+			cursor: pointer;
+			position: relative;
+		}
+		
+		.lmenu .tab .status,
+		.lmenu .tab .count{
+			font-size: 9px;
+			position: absolute;
+			top: 0;
+			right: 0;			
+			padding: 1px 5px;
+		    line-height: 1.5em;
+			border-radius: 50%;
+			background: #333;
+		}
+		
+		.lmenu .tab .status{
+			width: 12px;
+			height: 12px;
+		}
+		
+		.lmenu .tab .status.active{						
+			background: #1d4cba;
+		}		
+		
+		.lmenu .tab .status.active:before{
+			content:'';						
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: 12px;
+			height: 12px;
+		    margin: -6px 0 0 -6px;			
+			border-radius: 50%;
+			background: #1d4cba;
+			opacity: 0.5;
+			animation: pulse 1s ease-in-out 5 alternate;
+	        -webkit-animation: pulse 1s ease-in-out 5 alternate;
+		}
+		
+		@keyframes pulse {
+	        0% {
+	            transform: scale(1.0);
+	            -webkit-transform: scale(1.0);
+	        }
+	        100% {
+	            transform: scale(2.0);
+	            -webkit-transform: scale(2.0);
+	        }
+	    }
+	    
+	    .tab.battleroom{
+		    opacity: 0.5;
+	    }
+	    
+	    .inbattleroom .tab.battleroom{
+		    opacity: 1;
+	    }
+				
+	
+	.container{
+		width: 55%;		
+		height: 100%;
+		top:0;
+		left: 120px;		
+		display: none;	
+	}
+	
+	.container.wide{
+		width: 100%;		
+	}
+	
+		.container.active{
+			display: block;	
+		}
+	
+	.rcontainer .title,
+	.container .title{
+		height: 30px;
+		width: 100%;
+		text-align: center;
+		text-transform: uppercase;
+		font-family: LatoBold;
+		color: #aaa;
+		font-size: 13px;
+	}
+	
+	.container .account{
+		position: relative;
+		width: 100%;
+		height: 100%;
+	    overflow: auto;
+	}
+	
+		.account .line{
+			margin-top:20px;
+		}
+		
+		.account label{
+			padding: 0.5em 0;
+			color: #777;
+		}
+		
+	.rcontainer{
+		width: calc(45% - 120px);
+		position: fixed;
+		right: 0;
+		display: none;
+		height: calc(100% - 30px);
+		background: #1d2229;
+	}
+		.rcontainer.active{
+			display: block;	
+		}
+	
+	#battle-right-info{
+		width: calc(45% - 120px);
+	}
+	
+	.text-scroll{
+		width: 100%;
+		height: calc(100% - 70px);
+	    overflow-x: hidden;
+		overflow: auto;
+	    position: relative;
+	}
+	
+	.text-scroll .messages{
+		position: relative;
+		width: 100%;
+		bottom: 0;
+		left: 0;
+	    padding: 1em;
+	}
+	
+	.userchat{
+		height: 100%;
+		margin-right: 100px;
+	}
+	
+	.userchat .text-scroll{
+		height: calc(100% - 100px);
+	}
+
+	
+	.bottom-input {
+		padding: 6px;
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		background: #212832;
+	}
+	
+	#chats .bottom-input {
+		width: calc(100% - 100px);
+	}
+	
+
+
+.center-win{
+	background: #32343b;
+	padding: 30px;
+	border-radius: 3px;
+	position: absolute;
+	top: 49.9%;
+	left: 49.9%;
+	-webkit-transform: translate(-50.1%, -50.1%);
+	transform: translate(-50.1%, -50.1%);
+}
+
+button {
+    background: #1553da;
+    border: none;
+    padding: 10px 25px;
+    color: #eee;
+    border-radius: 25px;
+    font-family: LatoBold;
+    text-transform: uppercase;
+    font-size: 12px;
+    cursor: pointer;
+}
+	
+
+
+input[type=password], 
+input[type=text]{
+	border: 1px solid #3b5fb3;
+	padding: 10px 1.2em 10px 1.2em;
+	width: 100%;
+	margin-right: .5%;
+	background: #11151a;
+	color: #fff;	
+	border-radius: 20px;
+}
+
+.battleroom_input{
+	padding-right: 80px;	
+}
+
+button:focus,
+input:focus {
+    outline: none !important;
+    border: 1px solid #004eff;
+}
+
+
+ul.list {	
+	list-style-type:none;
+	margin:0;	
+	padding:0;
+	overflow: auto;
+}
+
+	.list li {
+		padding: 0.25em 10px;
+		display: flex;
+		cursor: default;
+	}
+	
+	.list li:nth-child(odd) {
+		background: rgba(255,255,255,0.02);
+	}
+
+.userchat .messages{
+	
+}
+
+#battle-list li .passworded,
+#battle-list li .maxPlayers,
+#battle-list li .status{
+	flex: 0.2;	
+}
+
+#battle-list li .gameName,
+#battle-list li .title,
+#battle-list li .map,
+#chat-list li .name{
+	flex: 1;
+}
+
+#battle-list li .engine,
+#battle-list li .username{
+	flex: 0.6;
+}
+
+#battle-list{
+	display: flex;
+	flex-wrap: wrap;	
+	margin: 1%;
+}
+
+	.battle-card{
+		width: 49.4%;
+		margin: 0.3%;
+		padding: 1%;
+		background: #101113;		
+		font-size: 12px;
+		cursor: alias;
+		position: relative;
+	}
+	
+	
+	.battle-card.activebattle:after,
+	.battle-card:hover:after{		
+		content: '';
+		position: absolute;
+		top:0;
+		left: 0;
+		width: 100%;
+		height: 4px;
+		background: #1d4cba;
+	}
+	
+		.battle-card .meta{
+			display: flex;
+			justify-content: space-between;
+			font-size: 11px;
+			font-family: LatoBold;
+			color: #ccc;
+		}
+		
+/*
+		.battle-card .meta .ip,
+		.battle-card .meta .port,
+		.battle-card .meta .maphash{
+			display: none;
+		}
+*/
+		
+		.battle-card .header{
+			display: flex;
+		}
+		
+		.battle-card .minimap{
+			width: 140px;
+			height: 140px;
+			background: #000;	
+			position: relative;
+		}
+		
+		.battle-card .minimap img{
+			width: 100%;
+			height: auto;
+		}
+		
+		.battle-card .header .infos{
+			flex: 1;
+			padding-right: 1.5em;
+		}
+			
+			.battle-card .battletitle{
+				text-align: left;
+				padding: 1em 0;
+				font-family: LatoBold;
+				font-size: 14px;
+			}
+								
+			.battle-card .meta2{
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				color: #ccc;
+				padding: 1em;
+			}
+			
+				.battle-card .meta2 div{
+					width: 50%;
+				}
+		
+		.battle-card .playerlist{
+			display: flex;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			background: #000;
+		    margin: 20px 0 0 0;
+	        padding: 13px 0;
+		    color: #bbb;
+		}
+		
+			.battle-card .playerlist:empty{
+			    display:none;
+			}
+		
+			.battle-card .playerlist li{
+				width: 50%;
+			}
+			
+			.battle-card .playerlist li:nth-child(odd){
+				background: none;
+			}
+			
+						
+		#battle-right-info .title,
+		#battleroom .battleid,
+		#battleroom .port,
+		#battleroom .maphash,
+		#battleroom .hashCode,
+		#battleroom .channelName,
+		#battleroom .ip,
+		.battle-card .battleid,
+		.battle-card .port,
+		.battle-card .maphash,
+		.battle-card .ip,
+		.battle-card .playerlist li .trueskill,
+		.battle-card .playerlist li .country,
+		.battle-card .playerlist li .userID,
+		.battle-card .playerlist li .lobbyID,
+		.battle-card .playerlist li .cpu,
+		.battle-card .playerlist li .admin,
+		.battle-card .playerlist li .away,			
+		.battle-card .playerlist li .bot{
+			display: none;
+		}
+
+#battleroom{
+	position: relative;
+	left: 0;	
+}	
+	
+	#battle-minimap{
+	    width: 100%;
+	    height: 300px;
+	    background: #000;
+	    position: relative;
+	    text-align: center;
+	}
+	
+		#battle-minimap img{
+			height: 100%;
+			width: auto;
+		}
+		
+	.battle-main-info{
+		width: 100%;
+		padding: 1em;
+		font-size: 13px;
+	}
+	
+		.battle-main-info .meta{
+			display: flex;
+			justify-content: space-between;
+			font-size: 12px;
+			font-family: LatoBold;
+			color: #ccc;
+		}
+		
+		.battle-main-info .meta2{
+			display: flex;
+			justify-content: space-between;			
+			color: #ccc;
+			margin: 3px 0 0 0;
+			flex-wrap: wrap;
+		}
+		
+		.battle-main-info .meta2 div{
+			width: 50%;
+		}
+		
+		.game-download,
+		.map-download{
+			display: none;
+			position: relative;
+		}
+		
+		.game-download .download-title,
+		.map-download .download-title{
+			padding: 1em 0;
+		}
+		
+		.game-download.downloading,
+		.map-download.downloading{
+			display: block;
+		}
+		
+		.game-download .progress,
+		.map-download .progress{
+			position: absolute;
+			content: '';
+			top:0;
+			left: 0;
+			width: 0;
+			height: 4px;
+			background: #1d4cba;
+			
+		}
+	
+	.battle-players{
+		display: flex;				
+		height: calc(50vh - 75px);
+		overflow: auto;
+		position: relative;
+	}
+	
+		.battle-players .battle-speclist,
+		.battle-players .battle-playerlist{
+			width: 50%;
+			display: flex;
+		    flex-direction: column;
+		}
+		
+		.battle-players li{
+			justify-content: space-between;
+			position: relative;
+		    border-bottom: 1px solid #303440;
+		}
+		
+			.battle-players li:nth-child(odd) {
+				background: none;
+			}
+		
+			#battleroom[data-battlesize="big"] .battle-players li{
+				font-size: 12px;
+				line-height: 1.3em;
+			}
+			
+			#battleroom[data-battlesize="verybig"] .battle-players li{
+				font-size: 11px;
+				line-height: 1.2em;
+			}
+			
+			#battleroom[data-battlesize="huge"] .battle-players li{
+				font-size: 10px;
+				line-height: 1.2em;
+			}
+		
+		.battle-players li div{
+			flex: 0.1;
+		}
+		
+		.battle-players li .name{
+			flex: 0.6;	
+		}
+		
+		.battle-players li .trueskill{
+			position: relative;
+		}
+		
+		.battle-players li .trueskill:before{
+			content: 'TS';
+			position: absolute;
+		    top: -1em;
+		    left: -1.3em;
+		    font-size: 7px;			
+		}
+		
+		.battle-players li .ally{
+			position: relative;
+		}
+		
+		.battle-players li .ally:before{
+		    content: '';
+		    position: absolute;
+		    top: -1px;
+		    left: -6px;
+		    border-radius: 50%;
+		    z-index: -1;
+		    width: 20px;
+		    height: 20px;
+		}
+		
+		.battle-players li .ally.ally-1:before,
+		.battle-players li .ally.ally-3:before,
+		.battle-players li .ally.ally-5:before,
+		.battle-players li .ally.ally-7:before,
+		.battle-players li .ally.ally-9:before,
+		.battle-players li .ally.ally-11:before,
+		.battle-players li .ally.ally-13:before,
+		.battle-players li .ally.ally-15:before,
+		.battle-players li .ally.ally-17:before{
+		    background: #5f647e;
+	    }
+	    
+	    .battle-players li .ally.ally-2:before,
+	    .battle-players li .ally.ally-4:before,
+	    .battle-players li .ally.ally-6:before,
+	    .battle-players li .ally.ally-8:before,
+	    .battle-players li .ally.ally-10:before,
+	    .battle-players li .ally.ally-12:before,
+	    .battle-players li .ally.ally-14:before,
+	    .battle-players li .ally.ally-16:before,
+	    .battle-players li .ally.ally-18:before{
+		    background: #814984;
+	    }
+		
+/*
+		.battle-players li .ally:empty{
+			
+		}
+*/
+		
+		
+		.battle-players li .country,
+		.battle-players li .admin{
+			display: none;
+		}
+		
+		.battle-players .battle-speclist li .ally,
+		.battle-players .battle-speclist li .team,
+		.battle-players .battle-speclist li .bonus,
+		.battle-players .battle-speclist li .faction{
+			display: none;
+		}
+		
+		.battle-players .userwin{
+			display: none;
+			position: absolute;
+			top: 30px;
+			left: 20px;
+			background: #12171d;
+			border-radius: 6px;
+			padding: 1em;
+			z-index: 9;
+		}
+		
+			.battle-players .userwin.active{
+				display: block;
+			}
+			
+			.battle-players .userwin .title{
+				font-size: 12px;
+			}
+			
+			.userwin .usercommands{
+				display: flex;
+			    margin: 0 0 1em 0;
+			    justify-content: center;
+			}
+			
+				.userwin .usercommand{
+					padding: 4px 6px;
+					border-radius: 15px;
+					margin: 0 5px;
+					cursor: pointer;
+					background: #434851;
+					font-size: 12px;
+				}
+		
+	#battlelabels{
+		position: absolute;
+		top: 0;
+		left: 0; 
+		padding: 5px;
+	}
+		#battlelabels .labels:empty{
+		    display:none;
+		}
+	
+		#battlelabels .labels{
+		    background: #1553da;
+		    padding: 0.1em 0.6em;
+		    border-radius: 3px;
+		    font-size: 10px;
+		    font-family: LatoBold;
+		    display: inline-block;
+		    margin: 0 0 0 10px;
+		}
+		
+	
+	#battleroom .text-scroll {
+		width: 100%;
+    	height: calc(50vh - 35px);
+	    background: #1b1e23;
+	    
+	}	
+				
+/*
+	#hostmessages .text-scroll{
+		height: calc(100vh - 340px);
+	}
+*/
+		
+		#battlechatoptions{
+			position: absolute;
+		    top: calc(50vh + -30px);
+		    right: 6px;
+		    color: #ccc;
+		    font-size: 12px;
+		    z-index: 9;	
+			background: #111;
+			padding: 10px;
+			border-radius: 20px;
+		}
+		
+			#autoscrollbattle{
+			    
+			}
+			
+		.votes{			
+			font-size: 20px;
+			position: absolute;
+			top: 0;
+			right: 6px;
+		}
+		
+			.votes.active{
+				display: flex;
+			}
+		
+			.votes .vote{
+			    background: #000;
+			    border-radius: 25px;
+			    padding: 2px 0px 2px 13px;
+			    margin: 9px 3px;
+			}
+			
+			.votes .vote:hover{
+				background: #1553da;
+			}
+	
+	.battle-actions{		
+	    padding: 6px;
+	    position: fixed;
+	    bottom: 0;
+	    right: 0;
+	    width: calc(45% - 120px);		
+	    background: #1b1e23;
+	    padding: 0 2em 1em 2em;
+	    font-size: 12px;
+	}
+	
+		.battle-actions .line{
+			display: flex;
+			justify-content: space-between;
+		    align-items: center;
+		    height: 50px;
+		}
+		
+		.ui-label{
+			font-size: 11px;
+			text-transform: uppercase;
+			color: #889;		
+		}
+		
+		.battle-players .ui-label{
+			text-align: center;
+		}
+		
+		.pickcore,
+		.pickarm{
+			cursor: pointer;
+			filter: grayscale(100%);
+			opacity: 0.5;
+		}
+		
+		.pickcore.active,
+		.pickarm.active{
+			filter: grayscale(0);
+			opacity: 1;
+		}
+		
+		
+		
+		
+
+	#main .pretty.p-switch.p-fill input:checked~.state:before {
+	    border-color: #1553da;
+	    background-color: #1553da!important;
+	}
+	
+	
+	
+	#battle-right-info{
+		position: fixed;
+		right: 0;
+		top: 30px;
+		height: calc(100% - 30px);
+		background: #111418;
+		overflow: auto;
+		padding: 2em 2em 140px 2em;
+	}
+	
+	.smallnav{
+		margin-top: 5px;
+		display: flex;
+	}
+	
+	.smallnav .navbtn{
+	    font-size: 11px;
+	    text-transform: uppercase;
+	    color: #889;	
+	    margin-right: 5px;
+	    padding: 2px 5px;
+	    background: #0b0d0f;
+	}
+	
+	.smallnav .navbtn.active{
+		color: #1d4cba;
+		background: #1b1e23;
+	}
+	
+	.smalltab{
+		display: none;
+	}
+	
+	.smalltab.active{
+		display: block;
+	}
+	
+	#battleoptions{
+		background: #1b1e23;
+	    padding: 1em;
+	}
+	
+	
+	#battle-right-info .option{
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		color: #777;	
+	}
+	
+		#battle-right-info .option .name,
+		#battle-right-info .option .val{
+			width: 50%;
+		}	
+	
+span.upper{
+	position: relative;
+	top: -0.5em;
+	margin: 0 0.3em; 	
+	font-size: 0.7em;
+	opacity: 0.5;
+}
+
+#chat-list li .status{
+	
+}
+
+
+.messages li{
+	display: block;
+	clear: both;
+	overflow: hidden;
+}	
+	
+	.messages li:nth-child(odd){
+		background: none;
+	}
+	
+	.messages li .messageinfo{
+		padding-left: 0.7em;	
+	}
+	
+	.messages li a{
+		overflow-wrap: anywhere;
+	}
+	
+		.messages li .messageinfo.hidden{
+			display: none;
+		}
+	
+	.messages li .time{
+		font-size: 10px;
+		color: #666;
+		display: inline-block;
+	}
+	
+	.messages li .userspeaking{
+		font-size: 11px;
+		color: #5588ff;
+		display: inline-block;
+		margin-right: 0.5em;
+	}
+	
+	.messages li .message{
+		float: left;
+		padding: 5px 12px 6px;
+		background: rgba(255,255,255,0.1);
+		background: rgba(255,255,255,0.1);
+		border-radius: 16px;
+		max-width: 80%;
+        margin: -2px 0 4px 0;
+	}
+	
+	.messages li.mine{
+		text-align: right;
+	}		
+	
+	.messages li.mine .message{
+		float: right;
+		background: #1d4cba;		 
+	}
+	
+	.messages li.talkingabout .message{
+		background: #183479;		 
+	}
+	
+	.messages li.ishost{
+		opacity: 0.7;
+	}		
+	
+	.messages li.ishost .message{
+		background: #222a3e;
+	}
+	
+	.messages li.hidemessage{
+		display: none;
+	}
+
+	
+#main .flag-icon{
+	position: relative;
+    top: 3px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 0.3em 0 -0.3em;
+    width: 1.3em;
+    height: 1.3em;
+    flex: inherit;
+}
+
+.userchat{
+	display: none;
+}
+
+	.userchat.active{
+		display: block;
+	}
+	
+	.userchat .actions{
+		position: absolute;
+		top: 2px;
+		right: 100px;
+		display: flex;
+	}
+	
+	.userchat .actions .clearchat,
+	.userchat .actions .closewin{
+		background: #223;
+		border-radius: 30px;		
+		padding: 4px 15px;
+		font-size: 11px;
+		margin: 0 5px;
+		cursor: pointer;
+	}
+	
+	.userchat .clearchat{
+			
+	}
+
+#activechats{
+	position: absolute;
+	width: 100px;
+	right: 0;
+	height: 100%;	
+	background: #111213;
+	overflow: hidden;
+	font-size: 12px;
+    display: flex;
+    flex-direction: column;
+}	
+
+/*
+	#activechats li{
+	    text-decoration: none;
+	    display: flex;
+	    padding: 0.3em 1em;
+	    margin: 0.5em;
+	    cursor: pointer;
+	    background: #223;
+	    border-radius: 30px;
+	}
+*/
+	
+	#activechats .userpm-select{
+		text-decoration: none;
+	    display: flex;
+	    padding: 0.3em 1em;
+	    margin: 0.5em;
+	    cursor: pointer;
+	    background: #223;
+	    border-radius: 30px;
+	    overflow: hidden;
+	}
+	
+	#activechats .userpm-select:hover,
+	#activechats .userpm-select.active{
+		background: #5588ff;
+	}
+	
+/*
+	#activechats li .ingame,
+	#activechats li .flag-icon,
+	#activechats li .rank,
+	#activechats li .trueskill,
+	#activechats li .admin,
+	#activechats li .away,
+	#activechats li .bot,
+	#activechats li .country{
+		display: none;				
+	}
+*/
+	
+#replaylist{
+	display: flex;	
+	flex-wrap: wrap;
+	margin: 1%;
+}
+
+#replaylist .replayitem{
+	width: 49.4%;
+	margin: 0.3%;
+	padding: 1%;
+	background: #33383e;
+	font-size: 12px;
+	cursor: alias;
+	position: relative;
+}
+	

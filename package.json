@@ -1,0 +1,35 @@
+{
+  "name": "Lobby",
+  "version": "0.0.1",
+  "description": "Electron based lobby",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder -mwl"    
+  },
+  "author": "Zorro",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^9.1.2",
+    "electron-builder": "^22.8.0"
+  },
+  "dependencies": {
+    "bad-words": "^3.0.3",
+    "child_process": "^1.0.2",
+    "crypto": "^1.0.1",
+    "electron-dl": "^3.0.2",
+    "electron-store": "^6.0.0",
+    "export": "^0.1.337",
+    "fs": "0.0.1-security",
+    "jquery": "^3.5.1",
+    "net": "^1.0.2",
+    "node-7z": "^2.1.1",
+    "yarn": "^1.22.4"
+  },
+  "build": {
+    "appId": "com.electron.lobby",
+    "productName": "Lobby",
+    "copyright": "Copyright @ 2020 Zorro"
+  }
+}

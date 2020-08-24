@@ -1,0 +1,280 @@
+<!doctype html>
+<html>
+  <head>
+		<meta charset="UTF-8">
+		<title>Electron Lobby</title>
+		<!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+	    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/ui.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/fontello.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/flag-icon.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+		<!-- jQuery (Should be declared before other JS imports) -->
+	    <script>
+	      var $ = jQuery = require("jquery")
+	    </script>
+    	<script src="node_modules/jquery/dist/jquery.slim.min.js"></script>    	
+    	<script type="module" src="js/init.js"></script>
+    	<script type="module" src="js/socket.js"></script>
+    	<script type="module" src="js/chat.js"></script>
+    	<script type="module" src="js/battleroom.js"></script>
+    	<script type="module" src="js/replays.js"></script>
+  </head>
+  
+  <body>    
+    
+    <div id="main">
+	    
+	    <div id="myusername" style="display:none;"></div>
+	    
+	    <div id="usermenu">
+		    <div class="status socket"></div>
+		    <div class="username"></div>
+	    </div>
+	    
+	    <div class="lmenu">
+			<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>    
+			<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count">0</span></div>    
+			<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count">0</span></div>    
+			<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
+<!-- 			<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div> -->
+			<div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
+			<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
+<!-- 			<div class="tab maps icon icon-account-television" data-target="maps">Maps</div> -->		
+<!-- 			<div class="tab website icon icon-website" data-target="website">Preferences</div> -->
+	    </div>
+	    
+	    
+	    
+	    <div id="start" class="container active wide">		    		    
+		    
+		    <div class="title">Start</div>
+		    
+		    <div class="account">  
+			  	
+			  	<div class="center-win">
+			    	
+			    	<div class="line">
+				    	<label for="username">Username:</label>
+					    <input type="text" id="username" name="username" value="">
+			    	</div>
+			    	
+			    	<div class="line">
+					    <label for="pass">Password:</label>
+					    <input type="password" id="password" name="password" minlength="5" required value="">
+			    	</div>
+			    	
+			    	<div class="line" style="text-align: center; margin-top: 20px;">
+					    <button class="login">Login</button>
+			    	</div>
+				    
+				</div>						
+	
+		    </div>
+		    
+	    </div>
+	    
+	    
+	    
+	    <div id="chatlist" class="container">
+		    <div class="title icon icon-chatlist">Chatlist</div>
+		    <div class="text-scroll">
+				<ul id="chat-list" class="list"></ul>	    
+		    </div>
+	    </div>
+	    
+	    
+	    
+	    <div id="battlelist" class="container wide">
+		    <div class="title icon icon-battlelist">Battlelist</div>
+		    <div class="text-scroll">
+				<div id="battle-list" class="list"></div>	    
+		    </div>
+	    </div>
+	    
+	    
+	    
+	    <div id="battleroom" class="container"></div>
+	    
+	    <div id="battleroomtemplate" style="display:none;">
+		    
+		    <div class="title icon icon-battleroom">Battleroom</div>
+		    
+		    <div id="battlelabels">
+			    <div class="labels gametype">TEAMS</div>
+			    <div class="labels ffatype"></div>
+		    </div>
+			    		    		    
+		    <div class="battle-players">
+				<div class="battle-playerlist list">
+					<div class="ui-label">Players</div>
+				</div>
+				<div class="battle-speclist list">
+					<div class="ui-label">Spectators</div>
+				</div>
+				    
+		    </div>
+		    
+		    <div id="battlechatoptions">
+				
+				<div id="showhostmessages" class="pretty p-switch p-fill">
+			        <input class="showhostmessages" type="checkbox"/>
+			        <div class="state">
+			            <label>Host messages</label>
+			        </div>
+			    </div>
+			    		    
+				<div id="autoscrollbattle" class="pretty p-switch p-fill">
+			        <input class="autoscrollbattle" type="checkbox" checked/>
+			        <div class="state">
+			            <label>Autoscroll</label>
+			        </div>
+			    </div>
+		    
+		    </div>
+		    
+		    <div class="text-scroll">			    			    			    
+				<ul id="battle-room" class="messages"></ul>	    
+		    </div>		    		    
+		    
+		    <div class="bottom-input">
+		      <input type="text" class="battleroom_input" placeholder="Battle message"/>
+		      	<div class="votes active">
+			    	<div class="vote yes icon icon-thumbs-up-2"></div>
+			    	<div class="vote no icon icon-thumbs-down-2"></div>	
+		    	</div>
+		    </div>
+		    
+		    <div id="battle-right-info">
+			    
+			    <div class="title">Battle Info</div>
+			    
+			    <div class="battle-main-info"></div>
+			    
+			    <div class="game-download">
+				    <div class="download-title">Downloading game...</div>
+				    <div class="progress"></div>
+			    </div>
+			    <div class="map-download">
+				    <div class="download-title">Downloading map...</div>
+				    <div class="progress"></div>
+			    </div>
+				    
+			    <div class="ui-label">Minimap</div>
+			    <div id="battle-minimap"></div>
+			    
+			    
+			    <div class="smallnav">				    
+				    <div class="navbtn active" data-target="battleoptions">options</div>
+				    <div class="navbtn" data-target="hostmessages">host</div>
+			    </div>
+												
+				<div id="battleoptions" class="smalltab active">    
+				    <div class="ui-label">Game</div>
+				    <div class="gameoptions"></div>
+				    
+				    <div class="ui-label">Map Options</div>
+				    <div class="mapoptions"></div>
+				    
+				    <div class="ui-label">Mod Options</div>
+				    <div class="modoptions"></div>
+				    
+				    <div class="ui-label">Other Options</div>
+				    <div class="otheroptions"></div>
+				</div>
+				
+			    <div id="hostmessages" class="smalltab">    
+				    <div class="text-scroll">
+					    <ul id="host-messages" class="messages"></ul>
+				    </div>
+				</div>
+				
+			    <div class="battle-actions">	
+									    
+			    	<div class="line">				    
+					    <button class="leavebattle">Leave Battle</button>
+					    <div class="pickarm icon icon-arm active">ARM</div>
+					    <div class="pickcore icon icon-core">CORE</div>
+					    <button class="startbattle">Start</button>
+				    </div>
+				    
+			    	<div class="line">
+					    <div class="pretty p-switch p-fill">
+					        <input class="autounspecbattle" type="checkbox" />
+					        <div class="state">
+					            <label>Auto unspec</label>
+					        </div>
+					    </div>
+					    			    
+					    <div class="pretty p-switch p-fill">
+					        <input class="specbattle" type="checkbox" checked/>
+					        <div class="state">
+					            <label>Spectate</label>
+					        </div>
+					    </div>
+				    	
+				    	<div class="pretty p-switch p-fill">
+					        <input class="autolaunchbattle" type="checkbox" checked/>
+					        <div class="state">
+					            <label>Autolaunch</label>
+					        </div>
+					    </div>
+					    				    	
+					    <div class="pretty p-switch p-fill">
+					        <input class="readybattle" type="checkbox"/>
+					        <div class="state">
+					            <label>Ready</label>
+					        </div>
+					    </div>
+				    </div>
+
+		    	</div>
+		    
+		    </div>
+	    </div>
+	  	
+	  	
+	  	<div id="website" class="container wide">
+		    <div class="title icon icon-website">Balanced Annihilation</div>		    
+<!-- 			<webview id="bawebsite" src="https://balancedannihilation.com/" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>		     -->
+	    </div>
+	    
+	    <div id="discord" class="container wide">
+		    <div class="title icon icon-discord">Discord</div>
+<!-- 			<webview id="replaywebsite" src="https://discord.gg/Yd6nT2m " style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview> -->
+	    </div>
+	     
+   	    <div id="replays" class="container wide">
+		    <div class="title icon icon-replays">Replays</div>
+			<div class="text-scroll">
+				<div id="replaylist"></div>
+			</div>
+	    </div>
+	    
+	    <div id="maps" class="container wide">
+		    <div class="title icon icon-replays">Maps</div>
+			<div class="text-scroll">
+				<div id="maplist">
+					
+				</div>
+			</div>
+	    </div>	    		
+		
+		
+		<div id="chats" class="rcontainer">			
+			<div id="activechats">
+				<div class="title">CHATS</div>
+			</div>
+		</div>
+	    
+	    <div id="sounds">
+		    <audio id="ringsound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
+		    <audio id="messagesound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
+	    </div>
+	    
+    </div>
+        
+  </body>
+  
+</html>
