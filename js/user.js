@@ -36,7 +36,7 @@ export default class User {
 		
 		line += '</div>';
 		$('#chat-list').append('<li data-username="'+username+'">'+line+'</li>');					
-		$('.tab.chatlist .count').text( $('#chat-list li').length );
+		//$('.tab.chatlist .count').text( $('#chat-list li').length );
 		
 		// flag chat button (if chat exist) online
 		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
@@ -60,9 +60,7 @@ export default class User {
     }
     
 	removeuser( username ){
-		$('#chat-list li[data-username="'+username+'"]').remove();
-		$('.tab.chatlist .count').text( $('#chat-list li').length );
-		
+		$('#chat-list li[data-username="'+username+'"]').remove();				
 		// flag chat button offline
 		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
 			$('#activechats .userpm-select[data-username="'+username+'"]').removeClass('online');

@@ -126,13 +126,19 @@ export default class Utils {
 			$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
 		}		
 		
-		
-		
-		
+		this.update_global_unread_count();
 		// show chat 
 		// $('.rcontainer').removeClass('active');
 		// $('#chats').addClass('active');											
 		
+	}
+	
+	update_global_unread_count(){
+		var count = 0;
+		$('#activechats .userpm-select .unread').each( function(){
+			count += parseInt( $(this).text());
+		});
+		$('.tab.chatlist .count').text( count );
 	}
 	
 	

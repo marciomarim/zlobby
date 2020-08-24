@@ -66,7 +66,10 @@ $('#activechats').on('click', '.userpm-select', function(e) {
 		utils.init_chat( username );
 	}
 	
+	// if unread, remove unread count
 	$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	utils.update_global_unread_count();
+	
 	$('#chats .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);    	    	
 	
 });
