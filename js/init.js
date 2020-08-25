@@ -1,5 +1,5 @@
 const os = require('os');
-
+var fs = require('fs');
 const homedir = os.homedir();
 
 var appVersion = require('electron').remote.app.getVersion();
@@ -30,6 +30,11 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	var infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.log';
 	var scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
 	var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
+}
+
+
+if (!fs.existsSync(chatlogsdir)){
+    fs.mkdirSync(chatlogsdir);
 }
 
 var remotemodsurl = 'https://springfightclub.com/data/';
@@ -70,5 +75,5 @@ $('.open-in-browser').click((event) => {
 
 $(window).on( 'load', function(){
 	console.log('Elobby v' + appVersion);
-	$('#appVersion').text('ELobby v'+appVersion);
+	$('#appVersion').text('ELobby v'+appVersion);	
 });
