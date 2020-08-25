@@ -979,6 +979,11 @@ span.upper{
 	
 	.messages li.offline .message{
 		background: #791919; 
+		cursor: pointer;
+	}
+	
+	.messages li.offline .message:before{
+		content: 'unsent: ';
 	}
 
 	

@@ -57,6 +57,14 @@ $('body').on('click', '.userchat.active', function(e) {
 $('body').on('click', '.messages .offline', function(e) {
 	
 	var username = $('.userchat.active').data('username');
+	
+	if (!$('#chat-list li[data-username="'+username+'"]').length){
+		var notification = new Notification( 'Cant send yet', {
+		  body: 'User still offline'
+		});	
+		return false;
+	}
+		
 	var html = $(this).html();
 	
 	var message = $(this).children('.message').text();	
