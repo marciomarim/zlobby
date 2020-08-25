@@ -976,6 +976,10 @@ span.upper{
 	.messages li.hidemessage{
 		display: none;
 	}
+	
+	.messages li.offline .message{
+		background: #791919; 
+	}
 
 	
 #main .flag-icon{

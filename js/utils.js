@@ -95,14 +95,20 @@ export default class Utils {
 	
 	add_message_to_chat(username, message, me){
 		
-		var $bubble = $('<li></li>');		
+		// if user not online, mark messages as unsent
+		var user_online = $('#chat-list li[data-username="'+username+'"]').length;		
+		var $bubble = $('<li></li>');				
 
 		if (me){			
 			$bubble.addClass('mine');
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.timenow +'</div></div><div class="message">' +message+'</div>');
 		}else{
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">'+username+'</div><div class="time">' + this.timenow +'</div></div><div class="message">' +message+'</div>');
-		}	
+		}
+			
+		if (!user_online){
+			$bubble.addClass('offline');
+		}
 					
 		$('.userchat[data-username="'+username+'"] .messages').append($bubble);    	
     	$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);    	    	
@@ -117,20 +123,39 @@ export default class Utils {
 		});
 		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
 		
-		if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
-			var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
-			unread += 1;	
-			$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
-		}else{
-			var unread = 1;
-			$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
-		}		
+		// update unread messages count if not mine
+		if (!me){
+			if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
+				var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+				unread += 1;	
+				$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+			}else{
+				var unread = 1;
+				$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+			}				
+			this.update_global_unread_count();	
+		}
 		
-		this.update_global_unread_count();
 		// show chat 
 		// $('.rcontainer').removeClass('active');
 		// $('#chats').addClass('active');											
 		
+	}
+	
+	
+	send_unsent_message(username, html){
+		
+		//var newhtml = html.replace('offline', '');
+		console.log('here');
+		fs.readFile(chatlogsdir + 'pm-'+username+'.log', function (err, data) {
+		    if (err) throw err;
+		    var content = data.toString().replace(html, '');
+		    //console.log(content);
+		    console.log();
+		    fs.writeFileSync(chatlogsdir + 'pm-'+username+'.log', content);
+		});
+		
+				
 	}
 	
 	update_global_unread_count(){

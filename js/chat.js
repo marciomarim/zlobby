@@ -53,6 +53,23 @@ $('body').on('click', '.userchat.active', function(e) {
 });
 
 
+//deal with unsent messages
+$('body').on('click', '.messages .offline', function(e) {
+	
+	var username = $('.userchat.active').data('username');
+	var html = $(this).html();
+	
+	var message = $(this).children('.message').text();	
+	
+	utils.send_unsent_message( username, html);
+	
+	var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
+	socketClient.write( command );
+	utils.add_message_to_chat(username, message, true);
+	
+	$(this).remove();
+		
+});
 
 $('#activechats').on('click', '.userpm-select', function(e) {
 
@@ -80,7 +97,7 @@ $('body').on('keypress','.userchat_input', function (e) {
 			
 	if (e.which == 13) {
 		
-		var username = $(this).data('username');
+		var username = $(this).data('username');				
 		var message = $(this).val(); 
 		
 		if (message == '')
