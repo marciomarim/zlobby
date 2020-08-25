@@ -69,6 +69,6 @@ $('.open-in-browser').click((event) => {
 });
 
 $(window).on( 'load', function(){
-	console.log(appVersion);
+	console.log('Elobby v' + appVersion);
 	$('#appVersion').text('ELobby v'+appVersion);
 });

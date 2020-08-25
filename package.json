@@ -3,13 +3,14 @@
   "version": "0.0.1",
   "description": "Electron based lobby",
   "main": "main.js",
+  "author": "Zorro",
+  "license": "ISC",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder -mwl"
-  },
-  "author": "Zorro",
-  "license": "ISC",
+    "dist": "electron-builder -mwl",
+    "publish": "build --mac --win -p always"
+  },  
   "devDependencies": {
     "electron": "^9.1.2",
     "electron-builder": "^22.8.0"
@@ -29,12 +30,20 @@
     "yarn": "^1.22.4"
   },
   "build": {
-    "appId": "com.electron.lobby",
+    "appId": "com.electron.elobby",
     "productName": "Lobby",
     "copyright": "Copyright @ 2020 Zorro",
-    "publish": "github",
+    "publish": [{
+             "provider": "github",
+             "owner": "marciomarim",
+             "repo": "Elobby"
+         }],
     "mac": {
-      "icon": "assets/icons/icon.icns"
+	    "icon": "assets/icons/icon.icns",
+	    "target": [
+		    "zip",
+		    "dmg"
+	    ]		
     },
     "linux": {
       "icon": "assets/icons/icon.png"
