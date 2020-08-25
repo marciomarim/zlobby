@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  SyntaxError: /Users/marcio/Dropbox/Electron/Lobby-builder/package.json: Unexpected token / in JSON at position 220
+  SyntaxError: /Users/marcio/GitHub/Elobby/package.json: Unexpected token } in JSON at position 892
       at JSON.parse (<anonymous>)
       at /Users/marcio/.yarn/lib/cli.js:1625:59
       at Generator.next (<anonymous>)
@@ -24,14 +24,13 @@ Trace:
 npm manifest: 
   {
     "name": "Lobby",
-    "version": "1.0.0",
+    "version": "0.0.1",
     "description": "Electron based lobby",
     "main": "main.js",
     "scripts": {
       "start": "electron .",
       "pack": "electron-builder --dir",
-      "dist": "electron-builder"
-      //"dist": "electron-builder -mwl",
+      "dist": "electron-builder -mwl"    
     },
     "author": "Zorro",
     "license": "ISC",
@@ -55,7 +54,16 @@ npm manifest:
     "build": {
       "appId": "com.electron.lobby",
       "productName": "Lobby",
-      "copyright": "Copyright @ 2020 Zorro"
+      "copyright": "Copyright @ 2020 Zorro",
+      "mac": {
+  		"icon": "assets/icons/icon.icns"
+  	},
+  	"linux": {
+  		"icon": "assets/icons/icon.png",
+  	},
+  	"win": {
+  		"icon": "assets/icons/icon.png"
+  	}
     }
   }
 

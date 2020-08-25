@@ -30,6 +30,15 @@
   "build": {
     "appId": "com.electron.lobby",
     "productName": "Lobby",
-    "copyright": "Copyright @ 2020 Zorro"
+    "copyright": "Copyright @ 2020 Zorro",
+    "mac": {
+		"icon": "assets/icons/icon.icns"
+	},
+	"linux": {
+		"icon": "assets/icons/icon.png"
+	},
+	"win": {
+		"icon": "assets/icons/icon.png"
+	}
   }
 }

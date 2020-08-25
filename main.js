@@ -5,8 +5,8 @@ function createWindow () {
 	// Create the browser window.
 	const win = new BrowserWindow({
 		width: 1800,
-		height: 900,
-		icon: __dirname + '/assets/appstore.png',
+		height: 1000,
+		icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
 		webPreferences: {
 		  nodeIntegration: true,
