@@ -60,7 +60,7 @@ function login(){
 		.update(password)
 		.digest("base64");
 		
-	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Electron 1.0 \n';	
+	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Elobby 1.0 \n';	
 	socketClient.write(loginString);
 	
 	// save my username

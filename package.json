@@ -1,5 +1,5 @@
 {
-  "name": "Lobby",
+  "name": "Elobby",
   "version": "0.0.1",
   "description": "Electron based lobby",
   "main": "main.js",
