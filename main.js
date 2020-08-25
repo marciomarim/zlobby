@@ -13,6 +13,7 @@ function createWindow () {
 		height: 1000,
 		icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
+		frame: false,
 		webPreferences: {
 		  nodeIntegration: true,
 		  webviewTag: true,

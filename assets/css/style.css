@@ -71,6 +71,7 @@ a{
 	    justify-content: flex-end;
 	    width: calc(100% - 120px);	    
 	    -webkit-app-region: drag;
+	    -webkit-app-select: none;
 	}
 		
 		#topbar .left,
