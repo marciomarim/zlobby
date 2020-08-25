@@ -309,8 +309,7 @@ export default class User {
 		*/
 			
 		var bitcode = ingame + away*2;		
-		var command = 'MYSTATUS ' + bitcode + '\n';												
-		console.error(command);		
+		var command = 'MYSTATUS ' + bitcode + '\n';														
 		socketClient.write( command );
     }
     

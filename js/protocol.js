@@ -1,4 +1,4 @@
-import {socketClient} from './socket.js'	
+import {socketClient, login} from './socket.js'	
 
 var Filter = require('bad-words'),
     filter = new Filter();
@@ -37,7 +37,10 @@ export default class Protocol {
 			switch(command_name) {
 			  
 				case 'ACCEPTED':
-				
+					
+					$('.account #disconnectpane').addClass('active');
+					$('.account #loginpane, .account #createpane').removeClass('active');
+					$('.account .btn').addClass('active');										
 					break;			    
 			    
 			    
@@ -80,7 +83,10 @@ export default class Protocol {
 			    
 			    
 				case 'AGREEMENT':
-				
+					
+					var command = 'CONFIRMAGREEMENT\n';	
+					socketClient.write(command);
+					login();
 					break;			    
 			    
 			    
@@ -519,7 +525,11 @@ export default class Protocol {
 			    
 			    
 				case 'REGISTRATIONACCEPTED':
-				
+					
+					var notification = new Notification( 'REGISTRATION ACCEPTED', {
+					  body: "Trying to login."
+					});
+					login();
 					break;			    
 			    
 			    
@@ -527,7 +537,11 @@ export default class Protocol {
 			    
 			    
 				case 'REGISTRATIONDENIED':
-				
+				    
+				    var reason = parts[1];
+				    var notification = new Notification( 'REGISTRATION DENIED', {
+					  body: reason
+					});	
 					break;			    
 			    
 			    

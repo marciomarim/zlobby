@@ -10,6 +10,8 @@ let protocol = new Protocol();
 export var socketClient;
 var connectInterval;
 
+var appVersion = require('electron').remote.app.getVersion();
+
 function socket_connect(){
 	
 	socketClient = net.connect({host:'springfightclub.com', port:8200},  () => {
@@ -29,19 +31,26 @@ function socket_connect(){
 	
 }
 
+function socket_disconnect(){
+	
+	socketClient.write('EXIT \n');																	
+	socketClient.destroy();	
+	
+}
+
 
 
 	
-function login(){
+export function login(){				
 	
-	var username = document.getElementById("username").value;
-	var password = document.getElementById("password").value;
-		
+	var username = $('#username').val();
+	var password = $('#password').val();
+	
 	if (username && password){
 		
 		store.set('user.username', username);
 		store.set('user.password', password);
-		
+						
 		$('.container.active').removeClass('active');		
 		$('.tab').removeClass('active');
 		
@@ -52,19 +61,17 @@ function login(){
 		return false;
 	}
 	
-		
-	socket_connect();		
-	
 	const passwordHash = crypto
 		.createHash("md5")
 		.update(password)
 		.digest("base64");
 		
-	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Elobby 1.0 \n';	
+	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Elobby '+appVersion+' \n';	
 	socketClient.write(loginString);
 	
 	// save my username
 	$('#myusername').text(username);
+	
 		
 	var socketInterval = setInterval(function(){
 		socketClient.write('PING\n');	
@@ -80,7 +87,6 @@ function login(){
 	});
 	
 	
-	
 	socketClient.on('end', (data) => {
 		
 		console.log( 'Socket End: Disconnected from server' );
@@ -91,46 +97,32 @@ function login(){
 	});
 	
 	
-	
-	socketClient.on('destroy', (data) => {
-		
-		console.log( 'Socket Destroyed' );
-		console.log( data.toString() );	
-		resetUI();	
-		//socket_connect();		
-		
-	});
-	
-	
-	
 	socketClient.on('error', (data) => {
 		
 		console.log( 'Socket Error' );
 		console.log( data.toString() );		
-		socketClient.destroy();
-		
+		socketClient.destroy();		
 		resetUI();
-		
-/*
-		// start trying connect 
-		connectInterval = setInterval(function(){
-			login();
-		}, 10000);
-*/
-		
-		
-	});
-	
-	
-	
-	socketClient.on( "timeout", () => {
-		
-	    console.log('Socket Timeout');		
-		socket_connect();
 		
 	});
 
 }	
+
+function create_account(){
+	
+	var username = $('#createusername').val();
+	var password = $('#createpassword').val();
+	
+	const passwordHash = crypto
+		.createHash("md5")
+		.update(password)
+		.digest("base64");
+		
+	var loginString = 'REGISTER ' + username + ' ' + passwordHash + '\n';	
+	console.log(loginString);
+	socketClient.write(loginString);
+	
+}
 
 function resetUI(){
 	
@@ -139,11 +131,25 @@ function resetUI(){
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
 	$('.tab.battlelist .count').text();
 	
+	$('.account #disconnectpane').removeClass('active');
+	$('.account #loginpane').raddClass('active');
+	$('.account .btn').removeClass('active');
+	
 }
 
-$('body').on('click', '.login', function(e) {
+$('body').on('click', '.login', function(e) {					
+			
+	socket_connect();
 	
 	login();
+
+});
+
+$('body').on('click', '.createaccount', function(e) {		
+	
+	socket_connect();
+	
+	create_account();
 
 });
 
@@ -154,6 +160,22 @@ $('body').on('keypress','#password', function (e) {
 		login();
 	}
 	
+});
+
+$('body').on('keypress','#createpassword', function (e) {
+	
+	if (e.which == 13) {
+		create_account();
+	}
+	
+});
+
+
+$('body').on('click', '.disconnect', function(e) {		
+	
+	socket_disconnect();	
+	resetUI();
+
 });
 
 

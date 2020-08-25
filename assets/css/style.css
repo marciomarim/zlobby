@@ -68,7 +68,7 @@ a{
 	    top: 0;
 	    left: 120px;
 	    display: flex;
-	    justify-content: space-between;
+	    justify-content: flex-end;
 	    width: calc(100% - 120px);	    
 	    -webkit-app-region: drag;
 	}
@@ -76,7 +76,7 @@ a{
 		#topbar .left,
 		#topbar .middle,
 		#topbar .right{
-			display: flex;
+			display: flex;			
 		}
 		
 		#topbar .status{
