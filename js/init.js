@@ -69,9 +69,10 @@ $('.lmenu').on('click', '.tab', function(e) {
 
 const shell = require('electron').shell;
 
-$('.open-in-browser').click((event) => {
-       event.preventDefault();
-       shell.openExternal(event.target.href);
+$('body').on('click', 'a', (event) => {
+	event.preventDefault();
+	let link = event.target.href;
+	shell.openExternal(link);
 });
 
 $(window).on( 'load', function(){
