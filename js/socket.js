@@ -137,7 +137,7 @@ function resetUI(){
 	$('#battleroom, #battle-list, #chat-list').empty();
 	$('body').removeClass();
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
-	$('#start').addClass('active');
+	$('.tab.battlelist .count').text();
 	
 }
 

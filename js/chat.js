@@ -50,6 +50,7 @@ $('body').on('click', '.userchat.active', function(e) {
 	// on click on chat, clear unread message counter
 	var username = $(this).data('username');			
 	$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	utils.update_global_unread_count();
 });
 
 

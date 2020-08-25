@@ -134,6 +134,10 @@ a{
 			background: #333;
 		}
 		
+		.lmenu .tab .count:empty{
+			display: none;
+		}
+		
 		.lmenu .tab .status{
 			width: 12px;
 			height: 12px;

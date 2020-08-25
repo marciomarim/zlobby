@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder -mwl"    
+    "dist": "electron-builder -mwl"
   },
   "author": "Zorro",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "crypto": "^1.0.1",
     "electron-dl": "^3.0.2",
     "electron-store": "^6.0.0",
+    "electron-updater": "^4.3.4",
     "export": "^0.1.337",
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
@@ -31,14 +32,15 @@
     "appId": "com.electron.lobby",
     "productName": "Lobby",
     "copyright": "Copyright @ 2020 Zorro",
+    "publish": "github",
     "mac": {
-		"icon": "assets/icons/icon.icns"
-	},
-	"linux": {
-		"icon": "assets/icons/icon.png"
-	},
-	"win": {
-		"icon": "assets/icons/icon.png"
-	}
+      "icon": "assets/icons/icon.icns"
+    },
+    "linux": {
+      "icon": "assets/icons/icon.png"
+    },
+    "win": {
+      "icon": "assets/icons/icon.png"
+    }
   }
 }

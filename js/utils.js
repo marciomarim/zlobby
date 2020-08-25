@@ -163,6 +163,8 @@ export default class Utils {
 		$('#activechats .userpm-select .unread').each( function(){
 			count += parseInt( $(this).text());
 		});
+		if ( count == 0 )
+			count = '';
 		$('.tab.chatlist .count').text( count );
 	}
 	
