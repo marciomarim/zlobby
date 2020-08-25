@@ -216,14 +216,59 @@ a{
 	    overflow: auto;
 	}
 	
+		.center-win{						
+			position: absolute;
+			top: 49.9%;
+			left: 49.9%;
+			-webkit-transform: translate(-50.1%, -50.1%);
+			transform: translate(-50.1%, -50.1%);
+		}
+		
+		.account .pane{
+			background: #32343b;
+			padding: 30px;
+			border-radius: 3px;
+			display: none;
+		}
+		
+			.account .pane.active{
+				display: block;
+			}
+		
 		.account .line{
 			margin-top:20px;
 		}
+		
+		.account .center{
+			display: flex;
+			justify-content: center;
+		}					
 		
 		.account label{
 			padding: 0.5em 0;
 			color: #777;
 		}
+		
+		.appicon{
+			background: url(../icons/icon.png);
+			background-size: cover;
+		    width: 80px;
+		    height: 80px;
+		    margin: 20px;
+		}
+		
+		.account .nav .btn{
+			display: block;
+			color: #999;
+			text-align: center;
+			padding: 1em;
+			cursor: pointer;
+		}
+		
+		.account .nav .btn.active{
+			display: none;
+		}
+		
 		
 	.rcontainer{
 		width: calc(45% - 120px);
@@ -281,16 +326,7 @@ a{
 	
 
 
-.center-win{
-	background: #32343b;
-	padding: 30px;
-	border-radius: 3px;
-	position: absolute;
-	top: 49.9%;
-	left: 49.9%;
-	-webkit-transform: translate(-50.1%, -50.1%);
-	transform: translate(-50.1%, -50.1%);
-}
+
 
 button {
     background: #1553da;
@@ -785,10 +821,16 @@ ul.list {
 			    border-radius: 25px;
 			    padding: 2px 0px 2px 13px;
 			    margin: 9px 3px;
+			    font-size: 0.9em;
 			}
 			
 			.votes .vote:hover{
 				background: #1553da;
+			}
+			
+			.votes .icon-thumbs-down-2:before{
+				position: relative;
+				top: 4px;
 			}
 	
 	.battle-actions{		

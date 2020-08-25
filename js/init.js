@@ -3,7 +3,8 @@ var fs = require('fs');
 const homedir = os.homedir();
 
 var appVersion = require('electron').remote.app.getVersion();
-	
+
+// set default paths	
 if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	
 	var springdir = homedir + '/.spring/';	
@@ -76,4 +77,12 @@ $('.open-in-browser').click((event) => {
 $(window).on( 'load', function(){
 	console.log('Elobby v' + appVersion);
 	$('#appVersion').text('ELobby v'+appVersion);	
+});
+
+$('body').on('click', '.account .btn', function(e) {
+	var target = '#' + $(this).data('target');
+	$('.account .pane.active, .account .btn').removeClass('active');
+	$(target).addClass('active');
+	$(this).addClass('active');
+		
 });

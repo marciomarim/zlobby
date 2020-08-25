@@ -61,18 +61,53 @@
 			  	
 			  	<div class="center-win">
 			    	
-			    	<div class="line">
-				    	<label for="username">Username:</label>
-					    <input type="text" id="username" name="username" value="">
+			    	<div class="center">
+				    	<div class="appicon"></div>
 			    	</div>
 			    	
-			    	<div class="line">
-					    <label for="pass">Password:</label>
-					    <input type="password" id="password" name="password" minlength="5" required value="">
+			    	<div id="loginpane" class="pane active">
+			    		
+			    		<div class="title">LOGIN</div>
+			    		
+				    	<div class="line">
+					    	<label for="username">Username:</label>
+						    <input type="text" id="username" name="username" value="">
+				    	</div>
+				    	
+				    	<div class="line">
+						    <label for="pass">Password:</label>
+						    <input type="password" id="password" name="password" minlength="5" required value="">
+				    	</div>
+				    	
+				    	<div class="line" style="text-align: center; margin-top: 20px;">
+						    <button class="login">Login</button>
+				    	</div>
+			    	
 			    	</div>
 			    	
-			    	<div class="line" style="text-align: center; margin-top: 20px;">
-					    <button class="login">Login</button>
+			    	<div id="createpane" class="pane">
+			    		
+			    		<div class="title">CREATE NEW ACCOUNT</div>
+			    		
+				    	<div class="line">
+					    	<label for="username">Username:</label>
+						    <input type="text" id="username" name="username" value="">
+				    	</div>
+				    	
+				    	<div class="line">
+						    <label for="pass">Password:</label>
+						    <input type="password" id="password" name="password" minlength="5" required value="">
+				    	</div>
+				    	
+				    	<div class="line" style="text-align: center; margin-top: 20px;">
+						    <button class="create">CREATE</button>
+				    	</div>
+			    	
+			    	</div>
+			    	
+			    	<div class="nav">
+				    	<div class="btn active" data-target="loginpane">Login to existing account.</div>
+				    	<div class="btn" data-target="createpane">Create new account.</div>
 			    	</div>
 				    
 				</div>						
