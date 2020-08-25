@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -9,8 +9,9 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder -mwl",
-    "publish": "build --mac --win -p always"
-  },  
+    "publish": "build --mac --win -p always",
+    "release": "build"
+  },
   "devDependencies": {
     "electron": "^9.1.2",
     "electron-builder": "^22.8.0"
@@ -26,24 +27,25 @@
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
     "net": "^1.0.2",
-    "node-7z": "^2.1.1",
     "yarn": "^1.22.4"
   },
   "build": {
     "appId": "com.electron.elobby",
-    "productName": "Lobby",
+    "productName": "Elobby",
     "copyright": "Copyright @ 2020 Zorro",
-    "publish": [{
-             "provider": "github",
-             "owner": "marciomarim",
-             "repo": "Elobby"
-         }],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "marciomarim",
+        "repo": "Elobby"
+      }
+    ],
     "mac": {
-	    "icon": "assets/icons/icon.icns",
-	    "target": [
-		    "zip",
-		    "dmg"
-	    ]		
+      "icon": "assets/icons/icon.icns",
+      "target": [
+        "zip",
+        "dmg"
+      ]
     },
     "linux": {
       "icon": "assets/icons/icon.png"

@@ -184,7 +184,7 @@ export default class Utils {
 				
 				if (file.startsWith("pm")){
 					var username = file.replace('pm-', '').replace('.log', '');
-					console.log(username);
+					//console.log(username);
 					if ( !$('.userpm-select[data-username="'+username+'"]').length ){						
 						if ( $('#chat-list li[data-username="'+username+'"]').length ){
 							var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
