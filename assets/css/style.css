@@ -63,17 +63,23 @@ a{
 	background: #24282f;
 }
 
-	#usermenu{
+	#topbar{
 	    position: fixed;
 	    top: 0;
-	    left: 0;
+	    left: 120px;
 	    display: flex;
-	    justify-content: center;
-	    width: 100%;
+	    justify-content: space-between;
+	    width: calc(100% - 120px);	    
 	    -webkit-app-region: drag;
 	}
 		
-		#usermenu .status{
+		#topbar .left,
+		#topbar .middle,
+		#topbar .right{
+			display: flex;
+		}
+		
+		#topbar .status{
 		    background-color: #848484;
 		    margin: 10px 3px;
 		    border-radius: 50%;
@@ -82,15 +88,18 @@ a{
 		    position: relative;
 		}
 		
-		.socketlive #usermenu .status.active{
+		.socketlive #topbar .status.active{
 			background-color: #1553da;	
 		}
 		
-		#usermenu .username{
+		#topbar #appVersion,
+		#topbar #myusername{
 			color: #6e7486;
 			padding: 5px 10px;
 			font-family: LatoBold;
 		}
+		
+		
 		
 	.lmenu{
 		position: relative;

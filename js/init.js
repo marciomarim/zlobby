@@ -1,6 +1,8 @@
 const os = require('os');
 
 const homedir = os.homedir();
+
+var appVersion = require('electron').remote.app.getVersion();
 	
 if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	
@@ -66,3 +68,7 @@ $('.open-in-browser').click((event) => {
        shell.openExternal(event.target.href);
 });
 
+$(window).on( 'load', function(){
+	console.log(appVersion);
+	$('#appVersion').text('ELobby v'+appVersion);
+});

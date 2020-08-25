@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-const {download} = require("electron-dl");
+
+const { download } = require("electron-dl")
 
 function createWindow () {
 	// Create the browser window.

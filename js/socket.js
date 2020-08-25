@@ -65,7 +65,6 @@ function login(){
 	
 	// save my username
 	$('#myusername').text(username);
-	$('#usermenu .username').text(username);
 		
 	var socketInterval = setInterval(function(){
 		socketClient.write('PING\n');	
@@ -137,8 +136,9 @@ function resetUI(){
 	
 	$('#battleroom, #battle-list, #chat-list').empty();
 	$('body').removeClass();
-	$('.lmenu .tab, .container').removeClass('active');
+	$('.lmenu .tab, .container, #battleroom .status').removeClass('active');
 	$('#start').addClass('active');
+	
 }
 
 $('body').on('click', '.login', function(e) {
