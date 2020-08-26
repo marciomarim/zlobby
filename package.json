@@ -9,7 +9,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder -mwl",
-    "deploy": "electron-builder build --mac --publish always"
+    "deploy": "electron-builder build --mac --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.1.2",
