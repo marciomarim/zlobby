@@ -38,9 +38,11 @@ export default class Protocol {
 			  
 				case 'ACCEPTED':
 					
+					// hide login pane and show disconnect pane
 					$('.account #disconnectpane').addClass('active');
 					$('.account #loginpane, .account #createpane').removeClass('active');
-					$('.account .btn').addClass('active');										
+					$('.account .btn').addClass('active');
+															
 					break;			    
 			    
 			    
@@ -84,6 +86,7 @@ export default class Protocol {
 			    
 				case 'AGREEMENT':
 					
+					// send first time after account creation
 					var command = 'CONFIRMAGREEMENT\n';	
 					socketClient.write(command);
 					login();
@@ -94,7 +97,7 @@ export default class Protocol {
 			    
 			    
 				case 'AGREEMENTEND':
-				
+					
 					break;			    
 			    
 			    
@@ -296,7 +299,8 @@ export default class Protocol {
 			    
 			    
 				case 'FORCEQUITBATTLE':
-				
+					
+					battles.got_kicked();
 					break;			    
 			    
 			    
@@ -358,6 +362,8 @@ export default class Protocol {
 					var channelName = parts[3];					
 					
 					battles.joinbattle( battleid, hashCode, channelName );
+					
+					//socketClient.write('GETUSERINFO \n');
 					
 					break;			    
 			    

@@ -177,8 +177,6 @@ export default class Battle {
 	    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
 	    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
 	    
-	    //$('.battle-card[data-battleid="'+battleid+'"] .minimap .map').remove();
-	    
 	    $.ajax({ 
             url: url1,             
             type: 'HEAD', 
@@ -191,6 +189,9 @@ export default class Battle {
 		            { 
 						var imgdiv = '<img class="map" src="'+url2+'">';
 						$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
+				        if ( $('#battleroom .battleid').text() == battleid ){
+				        	$('#battleroom #battle-minimap').html(imgdiv);
+				        }
 		            } 
 		        });     
             }, 
@@ -198,8 +199,13 @@ export default class Battle {
             { 
 				var imgdiv = '<img class="map" src="'+url1+'">';
 				$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
+		        if ( $('#battleroom .battleid').text() == battleid ){
+		        	$('#battleroom #battle-minimap').html(imgdiv);
+		        }		
             } 
         });
+        
+        
         		
     }
     
@@ -276,8 +282,6 @@ export default class Battle {
 		
 		$('.battle-card[data-battleid="'+battleid+'"]').remove();				
 		$('.tab.battlelist .count').text( $('.battle-card').length );
-		
-		//
 					
 	}
 	
@@ -287,7 +291,7 @@ export default class Battle {
 		$('.battle-card[data-battleid="'+battleid+'"] .mapname').text(mapname);
 		
 				
-		this.load_remote_map_image( battleid );				
+		this.load_remote_map_image( battleid );
 		
 		if(locked===0){
 			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('🔒');	
@@ -302,12 +306,12 @@ export default class Battle {
 		// update options
 		if ( $('#battleroom .battleid').text() == battleid ){
 						
-			$('#battleroom #battle-minimap').append($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
+			//$('#battleroom #battle-minimap').append($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
 			
 			$('#battleroom .spectatorCount').text(spectatorCount);	
 			$('#battleroom .mapname').text(mapname);
 			
-			$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
+			//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
 			
 			if(locked===0){
 				$('#battleroom .locked').text('🔒');	
@@ -367,7 +371,7 @@ export default class Battle {
 		if(preferedfaction == 0){
 			$('.pickarm').removeClass('active');
 			$('.pickcore').addClass('active');
-		}
+		}				
 		
 		//check if game exist
 		// after game, check if map exist
@@ -442,6 +446,19 @@ export default class Battle {
 		}
     }
     
+	// when client get kicked    
+    got_kicked(){
+	    
+	    $('.tab.battleroom .status').removeClass('active');	
+		$('.container').removeClass('active');
+		$('#battlelist').addClass('active');		
+		
+		$('#battleroom').empty();
+		
+		$('body').removeClass('inbattleroom');
+		$('.activebattle').removeClass('activebattle');
+		
+    }
     
     
     setscripttags( parts ){
