@@ -69,7 +69,8 @@ app.on('activate', () => {
 // code. You can also put them in separate files and require them here.
 
 
-	
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"	
 	
 	
 // github token f9b2e4397287c05311297cc51522bf28a9318458

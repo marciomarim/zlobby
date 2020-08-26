@@ -20,6 +20,7 @@
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
     "electron-dl": "^3.0.2",
+    "electron-log": "^4.2.4",
     "electron-store": "^6.0.0",
     "electron-updater": "^4.3.4",
     "export": "^0.1.337",
@@ -31,8 +32,8 @@
     "yarn": "^1.22.4"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/marciomarim/Elobby.git"
+    "type": "git",
+    "url": "https://github.com/marciomarim/Elobby.git"
   },
   "build": {
     "appId": "com.electron.elobby",
@@ -41,7 +42,7 @@
     "publish": [
       {
         "provider": "github",
-        "token" : "f9b2e4397287c05311297cc51522bf28a9318458",
+        "token": "f9b2e4397287c05311297cc51522bf28a9318458",
         "owner": "marciomarim",
         "repo": "Elobby"
       }
