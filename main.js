@@ -104,3 +104,7 @@ autoUpdater.on('update-downloaded', (info) => {
 	  body: 'Downloaded'
 	});
 });
+
+ipcMain.on('restart_app', () => {
+  autoUpdater.quitAndInstall();
+});

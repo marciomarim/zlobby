@@ -9,7 +9,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder -mwl",
-    "deploy": "electron-builder build --mac --win --publish always"
+    "deploy": "electron-builder build --mac --publish always"
   },
   "devDependencies": {
     "electron": "^9.1.2",
@@ -49,7 +49,6 @@
     "mac": {
       "icon": "assets/icons/icon.icns",
       "target": [
-        "zip",
         "dmg"
       ]
     },
