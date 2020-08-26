@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -9,8 +9,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder -mwl",
-    "publish": "build --mac --win -p always",
-    "release": "build"
+    "deploy": "electron-builder build --mac --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.1.2",
@@ -31,6 +30,10 @@
     "uuid-random": "^1.3.2",
     "yarn": "^1.22.4"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/marciomarim/Elobby.git"
+  },
   "build": {
     "appId": "com.electron.elobby",
     "productName": "Elobby",
@@ -38,6 +41,7 @@
     "publish": [
       {
         "provider": "github",
+        "token" : "f9b2e4397287c05311297cc51522bf28a9318458",
         "owner": "marciomarim",
         "repo": "Elobby"
       }

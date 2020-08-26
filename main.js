@@ -23,7 +23,7 @@ function createWindow () {
 	win.loadFile(__dirname + '/index.html')
 	
 	// Open the DevTools.
-	win.webContents.openDevTools()  
+	//win.webContents.openDevTools()  
   
   	ipcMain.on("download", async (event, info) => {
     	
@@ -68,17 +68,23 @@ app.on('activate', () => {
 	
 	
 	
-
+// github token f9b2e4397287c05311297cc51522bf28a9318458
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
 })
 
 autoUpdater.on('update-available', (info) => {
   console.log('Update available.');
+  var notification = new Notification( 'Update', {
+	  body: 'available'
+	});
 })
 
 autoUpdater.on('update-not-available', (info) => {
   console.log('Update not available.');
+  var notification = new Notification( 'Update', {
+	  body: 'not available'
+	});
 })
 
 autoUpdater.on('error', (err) => {
@@ -94,4 +100,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 
 autoUpdater.on('update-downloaded', (info) => {
   console.log('Update downloaded');
+  var notification = new Notification( 'Update', {
+	  body: 'Downloaded'
+	});
 });

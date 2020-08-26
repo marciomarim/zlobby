@@ -74,7 +74,7 @@ export function login(){
 	// save my username
 	$('#myusername').text(username);		
 	
-	trackEvent('User', 'login');
+	trackEvent('User', 'login', 'username', username);
 		
 	var socketInterval = setInterval(function(){
 		socketClient.write('PING\n');	
