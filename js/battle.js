@@ -14,6 +14,8 @@ const {ipcRenderer} = require("electron");
 
 import {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl} from './init.js'
 
+import {trackEvent} from './init.js';
+
 export default class Battle {
     
     constructor() {
@@ -332,6 +334,7 @@ export default class Battle {
 	// when I join a battle and get a confirmation
 	joinbattle( battleid, hashCode, channelName ){
 		
+		trackEvent('User', 'joinbattle');
 		this.createbattleroom();		
 		
 		$('body').addClass('inbattleroom');

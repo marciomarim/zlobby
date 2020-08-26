@@ -12,6 +12,8 @@ var connectInterval;
 
 var appVersion = require('electron').remote.app.getVersion();
 
+import {trackEvent} from './init.js';
+
 function socket_connect(){
 	
 	socketClient = net.connect({host:'springfightclub.com', port:8200},  () => {
@@ -41,7 +43,7 @@ function socket_disconnect(){
 
 
 	
-export function login(){				
+export function login(){					
 	
 	var username = $('#username').val();
 	var password = $('#password').val();
@@ -49,7 +51,7 @@ export function login(){
 	if (username && password){
 		
 		store.set('user.username', username);
-		store.set('user.password', password);
+		store.set('user.password', password );
 						
 		$('.container.active').removeClass('active');		
 		$('.tab').removeClass('active');
@@ -70,8 +72,9 @@ export function login(){
 	socketClient.write(loginString);
 	
 	// save my username
-	$('#myusername').text(username);
+	$('#myusername').text(username);		
 	
+	trackEvent('User', 'login');
 		
 	var socketInterval = setInterval(function(){
 		socketClient.write('PING\n');	

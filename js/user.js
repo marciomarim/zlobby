@@ -3,6 +3,8 @@ import {socketClient} from './socket.js'
 import Battle from './battle.js';
 let battles = new Battle();
 
+import {trackEvent} from './init.js';
+
 export default class User {
     
     constructor() {

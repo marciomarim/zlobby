@@ -1,8 +1,18 @@
 const os = require('os');
+
 var fs = require('fs');
+
+const Store = require('electron-store'); 
+const store = new Store();
+
 const homedir = os.homedir();
 
+const shell = require('electron').shell;
+
 var appVersion = require('electron').remote.app.getVersion();
+
+const ua = require('universal-analytics');
+
 
 // set default paths	
 if (os.platform() == 'linux' || os.platform() == 'darwin'){
@@ -44,6 +54,38 @@ var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
 
 export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
 
+
+$(window).on( 'load', function(){
+	
+	console.log('Elobby v' + appVersion);	
+	$('#appVersion').text('ELobby v'+appVersion);			
+
+});
+
+// generate uuid 
+var uuid = require('uuid-random');
+var useruuid = store.get('user.uuid');	
+
+if (!useruuid){
+  useruuid = uuid();
+  store.set('user.uuid', useruuid);
+}
+
+const usr = ua('UA-176437325-1', useruuid);
+  	
+export function trackEvent(category, action, label, value) {
+  usr
+    .event({
+      ec: category,
+      ea: action,
+      el: label,
+      ev: value,
+    })
+    .send();
+}
+trackEvent('App', 'launched');
+
+
 $('.lmenu').on('click', '.tab', function(e) {
 	
 	var tab = $(this).data('target');	
@@ -67,18 +109,17 @@ $('.lmenu').on('click', '.tab', function(e) {
 });
 
 
-const shell = require('electron').shell;
+
 
 $('body').on('click', 'a', (event) => {
+	
 	event.preventDefault();
 	let link = event.target.href;
 	shell.openExternal(link);
+	
 });
 
-$(window).on( 'load', function(){
-	console.log('Elobby v' + appVersion);
-	$('#appVersion').text('ELobby v'+appVersion);	
-});
+
 
 $('body').on('click', '.account .btn', function(e) {
 	var target = '#' + $(this).data('target');
