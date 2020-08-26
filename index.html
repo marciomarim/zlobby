@@ -313,6 +313,69 @@
 		    <audio id="messagesound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
 	    </div>
 	    
+	    <div id="update-notification" class="hidden">
+		    <p id="version"></p>
+		    <p id="message"></p>
+		    <button id="close-button" onClick="closeNotification()">
+		      Close
+		    </button>
+		    <button id="restart-button" onClick="restartApp()" class="hidden">
+		      Restart
+		    </button>
+		</div>
+		
+		<script>
+		    const { ipcRenderer } = require('electron');
+		    const version = document.getElementById('version');
+		    const notification = document.getElementById('update-notification');
+		    const message = document.getElementById('message');
+		    const restartButton = document.getElementById('restart-button');
+		    
+		    ipcRenderer.send('app_version');
+		    ipcRenderer.on('app_version', (event, arg) => {
+		      ipcRenderer.removeAllListeners('app_version');
+		      version.innerText = 'Version ' + arg.version;
+		    });
+		
+		    ipcRenderer.on('update_available', () => {
+		      ipcRenderer.removeAllListeners('update_available');
+		      message.innerText = 'A new update is available. Downloading now...';
+		      notification.classList.remove('hidden');
+		    });
+		
+		    ipcRenderer.on('update_downloaded', () => {
+		      ipcRenderer.removeAllListeners('update_downloaded');
+		      message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+		      restartButton.classList.remove('hidden');
+		      notification.classList.remove('hidden');
+		    });
+		
+		    function closeNotification() {
+		      notification.classList.add('hidden');
+		    }
+		    
+		    function restartApp() {
+		      ipcRenderer.send('restart_app');
+		    }
+		</script>
+		 
+	    <style>
+		    #update-notification {
+		      position: fixed;
+		      top: 20px;
+		      right: 20px;
+		      width: 200px;
+		      padding: 20px;
+		      border-radius: 5px;
+		      background-color: black;
+		      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+		    }
+		    
+		    .hidden {
+		      display: none;
+		    }
+		  </style>
+	    
     </div>
         
   </body>

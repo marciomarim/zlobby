@@ -24,6 +24,10 @@ function createWindow () {
 	
 	// Open the DevTools.
 	//win.webContents.openDevTools()  
+	
+	win.once('ready-to-show', () => {
+	    autoUpdater.checkForUpdatesAndNotify();
+	});
   
   	ipcMain.on("download", async (event, info) => {
     	
@@ -81,14 +85,14 @@ autoUpdater.on('update-available', (info) => {
 })
 
 autoUpdater.on('update-not-available', (info) => {
-  console.log('Update not available.');
+  win.webContents.send('update_available');
   var notification = new Notification( 'Update', {
 	  body: 'not available'
 	});
 })
 
 autoUpdater.on('error', (err) => {
-  console.log('Error in auto-updater. ' + err);
+	win.webContents.send('Error in auto-updater. ' + err);
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
@@ -98,11 +102,16 @@ autoUpdater.on('download-progress', (progressObj) => {
   console.log(log_message);
 })
 
-autoUpdater.on('update-downloaded', (info) => {
-  console.log('Update downloaded');
-  var notification = new Notification( 'Update', {
-	  body: 'Downloaded'
+autoUpdater.on('update-downloaded', (info) => {  
+	win.webContents.send('update_downloaded');
+  var notification = new Notification( 'Update Downloaded.', {
+	  body: 'It will be installed on restart.'
 	});
+});
+
+
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
 });
 
 ipcMain.on('restart_app', () => {
