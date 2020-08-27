@@ -97,9 +97,12 @@ export function login(){
 	socketClient.on('error', (data) => {
 		
 		console.log( 'Socket Error' );
-		console.log( data.toString() );		
+		var err = data.toString();
+		console.log( err );		
 		//socketClient.destroy();		
-		//resetUI();
+		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed'){
+			resetUI();
+		}
 		
 	});
 
