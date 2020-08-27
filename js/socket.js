@@ -124,6 +124,7 @@ function create_account(){
 	var loginString = 'REGISTER ' + username + ' ' + passwordHash + '\n';	
 	console.log(loginString);
 	socketClient.write(loginString);
+	$('#loginpane').addClass('active');	
 	
 }
 

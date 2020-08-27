@@ -53,7 +53,6 @@
 	  "entitlementsInherit": "entitlements.mac.plist",
 	  "gatekeeperAssess": false,
 	  "CSC_LINK": "certificate.p12",
-	  "CSC_KEY_PASSWORD": "Q8f~bK/LL`ag\k3E",
 	  "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
       "target": [

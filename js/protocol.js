@@ -535,7 +535,10 @@ export default class Protocol {
 					var notification = new Notification( 'REGISTRATION ACCEPTED', {
 					  body: "Trying to login."
 					});
-					login();
+										
+					//login();
+					$('#loginpane').addClass('active');
+					
 					break;			    
 			    
 			    
