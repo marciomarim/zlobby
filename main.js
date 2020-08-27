@@ -86,14 +86,15 @@ autoUpdater.on('update-available', (info) => {
 })
 
 autoUpdater.on('update-not-available', (info) => {
-  win.webContents.send('update_available');
   var notification = new Notification( 'Update', {
 	  body: 'not available'
 	});
 })
 
 autoUpdater.on('error', (err) => {
-	win.webContents.send('Error in auto-updater. ' + err);
+	var notification = new Notification( 'Error in auto-updater.', {
+	  body: err
+	});
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
@@ -104,17 +105,19 @@ autoUpdater.on('download-progress', (progressObj) => {
 })
 
 autoUpdater.on('update-downloaded', (info) => {  
-	win.webContents.send('update_downloaded');
+	const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  }
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+  
   var notification = new Notification( 'Update Downloaded.', {
 	  body: 'It will be installed on restart.'
 	});
-});
-
-
-ipcMain.on('app_version', (event) => {
-  event.sender.send('app_version', { version: app.getVersion() });
-});
-
-ipcMain.on('restart_app', () => {
-  autoUpdater.quitAndInstall();
 });
