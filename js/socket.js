@@ -51,13 +51,7 @@ export function login(){
 	if (username && password){
 		
 		store.set('user.username', username);
-		store.set('user.password', password );
-						
-		$('.container.active').removeClass('active');		
-		$('.tab').removeClass('active');
-		
-		$('.tab.battlelist').addClass('active');
-		$('#battlelist').addClass('active');
+		store.set('user.password', password );								
 		
 	}else{
 		return false;

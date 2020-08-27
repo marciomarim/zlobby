@@ -777,7 +777,13 @@ export default class Protocol {
 			    
 				case 'TASSERVER':
 				case 'TASServer':
-				
+					
+					$('.container.active').removeClass('active');		
+					$('.tab').removeClass('active');
+					
+					$('.tab.battlelist').addClass('active');
+					$('#battlelist').addClass('active');
+					
 					break;			    
 			    
 			    
