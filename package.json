@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -8,7 +8,7 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder -mwl",
+    "dist": "electron-builder --mac --win",
     "deploy": "electron-builder build --mac --win --publish always"
   },
   "devDependencies": {
@@ -27,6 +27,8 @@
     "fs": "0.0.1-security",
     "jquery": "^3.5.1",
     "net": "^1.0.2",
+    "node-7z": "^2.1.1",
+    "p7zip": "^5.0.1",
     "universal-analytics": "^0.4.23",
     "uuid-random": "^1.3.2",
     "yarn": "^1.22.4"
@@ -48,11 +50,11 @@
       }
     ],
     "mac": {
-	  "hardenedRuntime": true,
-	  "entitlements": "entitlements.mac.plist",
-	  "entitlementsInherit": "entitlements.mac.plist",
-	  "gatekeeperAssess": false,	 	  
-	  "category": "public.games.springrts",
+      "hardenedRuntime": true,
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
+      "gatekeeperAssess": false,
+      "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
       "target": [
         "dmg"
