@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -16,6 +16,7 @@
     "electron-builder": "^22.8.0"
   },
   "dependencies": {
+    "7zip-min": "^1.1.2",
     "bad-words": "^3.0.3",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",

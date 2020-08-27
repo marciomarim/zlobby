@@ -3,7 +3,8 @@ const os = require('os');
 var fs = require('fs');
 
 //const seven = require('node-7z');
-const p7zip = require('p7zip');
+//const p7zip = require('p7zip');
+const 7z = require('7zip-min');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -151,7 +152,15 @@ function downloadengine(fileurl){
 	
 	ipcRenderer.on("download complete", (event, progress) => {
 		console.log('Engine download: completed!');
-		p7zip.extract(enginedir + 'spring_103.0_win64_portable.7z', enginedir);
+		
+		console.log(enginedir);
+		console.log(enginedir+ 'spring_103.0_win64_portable.7z');
+		
+		7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+		    // done
+		});
+
+		//p7zip.extract(enginedir + 'spring_103.0_win64_portable.7z', enginedir);
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true
