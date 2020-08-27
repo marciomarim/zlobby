@@ -48,6 +48,11 @@
       }
     ],
     "mac": {
+	  "hardenedRuntime": true,
+	  "entitlements": "entitlements.mac.plist",
+	  "entitlementsInherit": "entitlements.mac.plist",
+	  "gatekeeperAssess": false,
+	  "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
       "target": [
         "dmg"

@@ -104,8 +104,8 @@ export function login(){
 		
 		console.log( 'Socket Error' );
 		console.log( data.toString() );		
-		socketClient.destroy();		
-		resetUI();
+		//socketClient.destroy();		
+		//resetUI();
 		
 	});
 
