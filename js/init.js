@@ -4,7 +4,7 @@ var fs = require('fs');
 
 //const seven = require('node-7z');
 //const p7zip = require('p7zip');
-const 7z = require('7zip-min');
+const _7z = require('7zip-min');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -156,7 +156,7 @@ function downloadengine(fileurl){
 		console.log(enginedir);
 		console.log(enginedir+ 'spring_103.0_win64_portable.7z');
 		
-		7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+		_7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
 		    // done
 		});
 
