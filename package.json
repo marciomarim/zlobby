@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -52,7 +52,7 @@
 	  "entitlements": "entitlements.mac.plist",
 	  "entitlementsInherit": "entitlements.mac.plist",
 	  "gatekeeperAssess": false,
-	  "CSC_LINK": "certificate.p12",
+	  "CSC_LINK": "dist/certificate.p12",
   	  "CSC_KEY_PASSWORD": "2nspYg_TdLTc?DP&",
 	  "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
