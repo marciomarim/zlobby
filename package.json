@@ -16,6 +16,7 @@
     "electron-builder": "^22.8.0"
   },
   "dependencies": {
+    "7zip-min": "^1.1.2",
     "bad-words": "^3.0.3",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
@@ -41,7 +42,8 @@
     "productName": "Elobby",
     "copyright": "Copyright @ 2020 Zorro",
     "asarUnpack": [
-      "**/node_modules/node-7z/*"
+      "**/node_modules/node-7z/*",
+      "**/node_modules/7zip-bin/*"
     ],
     "publish": [
       {

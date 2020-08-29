@@ -2,7 +2,7 @@ const os = require('os');
 
 var fs = require('fs');
 
-const seven = require('node-7z');
+//const seven = require('node-7z');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -26,8 +26,6 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	var chatlogsdir = homedir + '/.spring/chatlogs/';
 	var infologfile = homedir + '/.spring/infolog.log';
 	var scriptfile = homedir + '/.spring/e-script.txt';
-	//var enginedir = '/Applications/';
-	//var enginedir = '/Users/marcio/Downloads/';
 
 	if (os.platform() == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
@@ -167,20 +165,31 @@ function downloadengine(fileurl){
 		$('#start .engine-download .download-title').text('Extracting files...');
 		
 		console.log(enginedir);
-
+		
+		const _7z = require('7zip-min'); 
+		// unpack
+		_7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+			
+			$('#start .engine-download .download-title').text('All ready!');			
+			setTimeout( function(){
+				$('#start .engine-download').removeClass('downloading');
+			}, 3000);
+			
+		});
+/*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
 		})
 		
 		myStream.on('end', function (err) {
 			
-			$('#start .engine-download .download-title').text('All ready!');
-			
+			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
 			
 		})
+*/
 	});
 	
 }
