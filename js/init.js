@@ -5,9 +5,6 @@ var fs = require('fs');
 //const seven = require('node-7z');
 //const sevenmin = require('7zip-min'); 
 
-var Zip = require('node-7z-forall'); // Name the class as you want!
-var myTask = new Zip();
-
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -181,10 +178,18 @@ function downloadengine(fileurl){
 		
 		console.log(enginedir);
 		
-		myTask.extractFull(enginedir + 'spring_103.0_win64_portable.7z', engine103dir )
-		// When all is done
-		.then(function () {
-		  console.log('Extracting done!');
+		var ua = require('all-unpacker');
+		ua.unpack(enginedir + 'spring_103.0_win64_portable.7z', {
+		    targetDir: engine103dir
+		}, function(err, files, text) {
+		   if (err) return console.error(err);
+		   if (files) console.log('files', files);
+		   
+		   $('#start .engine-download .download-title').text('All ready!');			
+			setTimeout( function(){
+				$('#start .engine-download').removeClass('downloading');
+			}, 3000);
+			
 		});
 		
 		
