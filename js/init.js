@@ -42,11 +42,17 @@ if (platform == 'linux' || platform == 'darwin'){
 	if (platform == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
-		var engine103dir = enginedir;
+		var enginearchdir = enginedir;
+		var zipfile = 'Spring_103.0.app.7z';
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
-		var engine103dir = enginedir;
+		var enginearchdir = enginedir;
+		if (arch == 'x64' || arch == 'arm64'){
+			var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
+		}else{
+			var zipfile = 'spring_103.0_minimal-portable-linux32-static.7z';
+		}
 	}
 	
 	if (!fs.existsSync(springdir)){
@@ -86,8 +92,16 @@ if (platform == 'linux' || platform == 'darwin'){
 	var infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.log';
 	var scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
 	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
-	var engine103dir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
-	var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
+	
+	if (arch == 'x64'){
+		var enginearchdir = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win64\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win64\\spring.exe';
+		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
+	}else{
+		var enginearchdir = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win32\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win32\\spring.exe';
+		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
+	}
 	
 	if (!fs.existsSync(springdir)){
 	    fs.mkdirSync(springdir);
@@ -115,11 +129,6 @@ if (platform == 'linux' || platform == 'darwin'){
 		fs.mkdirSync(enginedir);
 	}
 	
-	if (!fs.existsSync(engine103dir)){
-		console.log('Creating engine 103.0 folder');
-		fs.mkdirSync(engine103dir);
-	}
-	
 	// not portable
 /*
 	if (!fs.existsSync(springdir)){
@@ -141,23 +150,23 @@ if (!fs.existsSync(enginepath)) {
 	if(platform == 'win32'){
 		
 		if (arch == 'x64'){
-			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';	
+			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/spring_103.0_win64_portable.7z';	
 		}else{
-			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win32/spring_103.0_win32_portable.7z';	
+			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/spring_103.0_win32_portable.7z';	
 		}
 		
 		
 	}else if (platform == 'linux'){
 		
 		if (arch == 'x64' || arch == 'arm64'){
-			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux64/spring_103.0_minimal-portable-linux64-static.7z';
+			var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/spring_103.0_minimal-portable-linux64-static.7z';
 		}else{
-			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux32/spring_103.0_minimal-portable-linux32-static.7z';
+			var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/spring_103.0_minimal-portable-linux32-static.7z';
 		}
 		
 	}else if (platform == 'darwin'){
 		
-		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
+		var engineurl = 'https://www.springfightclub.com/data/master_103/Spring_103.0.app.7z';
 	}	
 
     $.ajax({ 
@@ -201,22 +210,24 @@ function downloadengine(fileurl){
 		console.log(enginedir);
 						
 		// unpack
-/*
-		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', engine103dir, err => {
+		sevenmin.unpack(enginedir + zipfile, enginedir, err => {
 			
 			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
+			
+			console.log(enginepath);
 		});
-*/
 		
+/*
 		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir ], err => {
 		    $('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
 		});
+*/
 		
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
