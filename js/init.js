@@ -9,6 +9,8 @@ const Store = require('electron-store');
 const store = new Store();
 
 const homedir = os.homedir();
+const arch = os.arch();
+const platform = os.platform();
 
 const {ipcRenderer} = require("electron");
 
@@ -16,11 +18,18 @@ var appVersion = require('electron').remote.app.getVersion();
 
 const ua = require('universal-analytics');
 
+var remotemodsurl = 'https://springfightclub.com/data/';
+//var remotemapsdir = 'https://springfightclub.com/data/maps/';
+var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
+
+export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
+
+
 console.log('Elobby v' + appVersion);	
 $('#appVersion').text('ELobby v'+appVersion);
 
 // set default paths	
-if (os.platform() == 'linux' || os.platform() == 'darwin'){
+if (platform == 'linux' || platform == 'darwin'){
 	
 	var springdir = homedir + '/.spring/';	
 	var mapsdir = homedir + '/.spring/maps/';
@@ -30,8 +39,8 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	var infologfile = homedir + '/.spring/infolog.log';
 	var scriptfile = homedir + '/.spring/e-script.txt';
 
-	if (os.platform() == 'darwin'){
-		var enginepath = '/Applications/Spring_104.0.app/Contents/MacOS/spring';	
+	if (platform == 'darwin'){
+		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 		var engine103dir = enginedir;
 	}else{
@@ -62,7 +71,7 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	
 	
 	
-}else if(os.platform() == 'win32'){
+}else if(platform == 'win32'){
 	
 	var mygamesdir = homedir + '\\Documents\\My Games\\';
 	if (!fs.existsSync(mygamesdir)){
@@ -129,18 +138,28 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 
 if (!fs.existsSync(enginepath)) {
 	
-	if(os.platform() == 'win32'){
+	if(platform == 'win32'){
+		
+		if (arch == 'x64'){
+			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';	
+		}else{
+			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win32/spring_103.0_win32_portable.7z';	
+		}
+		
+		
+	}else if (platform == 'linux'){
+		
+		if (arch == 'x64' || arch == 'arm64'){
+			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux64/spring_103.0_minimal-portable-linux64-static.7z';
+		}else{
+			var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux32/spring_103.0_minimal-portable-linux32-static.7z';
+		}
+		
+	}else if (platform == 'darwin'){
+		
 		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
-	}else if (os.platform() == 'linux'){
-		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux64/spring_103.0_minimal-portable-linux64-static.7z';
-	}else if (os.platform() == 'darwin'){
-		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
-	}
-	
-	var zipfile = enginedir + 'spring_103.0_win64_portable.7z';
-	
+	}	
 
-	console.log('Download spring');    
     $.ajax({ 
         url: engineurl, 
         type: 'HEAD', 
@@ -182,23 +201,23 @@ function downloadengine(fileurl){
 		console.log(enginedir);
 						
 		// unpack
+/*
 		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', engine103dir, err => {
 			
 			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
-			
-			
-			console.log(err);
-		});
-		
-/*
-		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir], err => {
-		    // done
-		    console.log(err);
 		});
 */
+		
+		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir ], err => {
+		    $('#start .engine-download .download-title').text('All ready!');			
+			setTimeout( function(){
+				$('#start .engine-download').removeClass('downloading');
+			}, 3000);
+		});
+		
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
@@ -217,20 +236,8 @@ function downloadengine(fileurl){
 	
 }
 
-var remotemodsurl = 'https://springfightclub.com/data/';
-//var remotemapsdir = 'https://springfightclub.com/data/maps/';
-var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
-
-export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
 
 
-/*
-$(window).on( 'load', function(){
-	
-				
-
-});
-*/
 
 // generate uuid 
 var uuid = require('uuid-random');
