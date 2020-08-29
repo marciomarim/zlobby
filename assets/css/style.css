@@ -184,10 +184,11 @@ a{
 				
 	
 	.container{
+		position: relative;
 		width: 55%;		
 		height: 100%;
 		top:0;
-		left: 120px;		
+		left: 0;		
 		display: none;	
 	}
 	
@@ -577,22 +578,33 @@ ul.list {
 			width: 50%;
 		}
 		
+		.engine-download,
 		.game-download,
 		.map-download{
 			display: none;
 			position: relative;
 		}
 		
+		.engine-download{
+			position: absolute;
+			top:0;
+			left: 0;
+			width: 100%;	
+		}
+		
+		.engine-download .download-title,
 		.game-download .download-title,
 		.map-download .download-title{
 			padding: 1em 0;
 		}
 		
+		.engine-download.downloading,
 		.game-download.downloading,
 		.map-download.downloading{
 			display: block;
 		}
 		
+		.engine-download .progress,
 		.game-download .progress,
 		.map-download .progress{
 			position: absolute;

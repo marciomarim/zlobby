@@ -55,6 +55,8 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	    fs.mkdirSync(chatlogsdir);
 	}
 	
+	
+	
 }else if(os.platform() == 'win32'){
 	
 	var mygamesdir = homedir + '\\Documents\\My Games\\';
@@ -98,24 +100,6 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 		fs.mkdirSync(enginedir);
 	}
 	
-	if (!fs.existsSync(enginepath)) {
-		
-		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
-	    console.log('Download spring');
-	    
-	    $.ajax({ 
-            url: engineurl, 
-            type: 'HEAD', 
-            error: function()  
-            { 
-                console.log('Engine not found!');                                
-            }, 
-            success: function()  
-            {                 
-                downloadengine(engineurl);
-            } 
-        }); 
-	}
 	// not portable
 /*
 	if (!fs.existsSync(springdir)){
@@ -132,6 +116,34 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 }
 
 
+if (!fs.existsSync(enginepath)) {
+	
+	if(os.platform() == 'win32'){
+		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';	
+	}else if (os.platform() == 'linux'){
+		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux64/spring_103.0_minimal-portable-linux64-static.7z';
+	}else if (os.platform() == 'darwin'){
+		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
+	}
+		
+	
+    console.log('Download spring');
+    
+    $.ajax({ 
+        url: engineurl, 
+        type: 'HEAD', 
+        error: function()  
+        { 
+            console.log('Engine not found!');                                
+        }, 
+        success: function()  
+        {                 
+            downloadengine(engineurl);
+        } 
+    }); 
+}
+
+
 
 function downloadengine(fileurl){
     
@@ -141,20 +153,23 @@ function downloadengine(fileurl){
 	});			
 	
 	ipcRenderer.on("download progress", async (event, progress) => {		
-		//$('#battleroom .map-download').addClass('downloading');
+		
 		var w = Math.round( progress.percent*100 ) + '%';
 		console.log('Downloading engine: ' + w + ' of 100%');
-		//$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
-		//$('#battleroom .map-download .progress').css('width', w);											
+		$('#start .engine-download').addClass('downloading');
+		$('#start .engine-download .download-title').text('Downloading map: ' + w + ' of 100%');
+		$('#start .engine-download .progress').css('width', w);											
 	});
 	
 	ipcRenderer.on("download complete", (event, progress) => {
 		console.log('Engine download: completed!');
+		$('#start .engine-download .download-title').text('Extracting files...');
 		
 		console.log(enginedir);
 		console.log(enginedir+ 'spring_103.0_win64_portable.7z');
 		
 		_7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+			$('#start .engine-download .download-title').text('Extracting error:' + err);
 		    // done
 		});
 
