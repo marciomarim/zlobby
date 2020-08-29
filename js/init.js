@@ -2,9 +2,8 @@ const os = require('os');
 
 var fs = require('fs');
 
-//const seven = require('node-7z');
-const sevenmin = require('7zip-min'); 
-
+//const seven = require('node-7z'); 
+const sevenmin = require('7zip-min');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -131,7 +130,7 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 if (!fs.existsSync(enginepath)) {
 	
 	if(os.platform() == 'win32'){
-		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';	
+		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
 	}else if (os.platform() == 'linux'){
 		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/linux64/spring_103.0_minimal-portable-linux64-static.7z';
 	}else if (os.platform() == 'darwin'){
@@ -194,10 +193,12 @@ function downloadengine(fileurl){
 			console.log(err);
 		});
 		
+/*
 		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir], err => {
 		    // done
 		    console.log(err);
 		});
+*/
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
