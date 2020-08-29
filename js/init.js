@@ -3,7 +3,7 @@ const os = require('os');
 var fs = require('fs');
 
 //const seven = require('node-7z');
-//const sevenmin = require('7zip-min'); 
+const sevenmin = require('7zip-min'); 
 
 
 const Store = require('electron-store'); 
@@ -137,9 +137,11 @@ if (!fs.existsSync(enginepath)) {
 	}else if (os.platform() == 'darwin'){
 		var engineurl = 'https://springrts.com/dl/buildbot/default/master/103.0/win64/spring_103.0_win64_portable.7z';
 	}
-			
-    console.log('Download spring');
-    
+	
+	var zipfile = enginedir + 'spring_103.0_win64_portable.7z';
+	
+
+	console.log('Download spring');    
     $.ajax({ 
         url: engineurl, 
         type: 'HEAD', 
@@ -151,7 +153,9 @@ if (!fs.existsSync(enginepath)) {
         {                 
             downloadengine(engineurl);
         } 
-    }); 
+    });
+		
+     
 }
 
 
@@ -177,23 +181,7 @@ function downloadengine(fileurl){
 		$('#start .engine-download .download-title').text('Extracting files...');
 		
 		console.log(enginedir);
-		
-		var ua = require('all-unpacker');
-		ua.unpack(enginedir + 'spring_103.0_win64_portable.7z', {
-		    targetDir: engine103dir
-		}, function(err, files, text) {
-		   if (err) return console.error(err);
-		   if (files) console.log('files', files);
-		   
-		   $('#start .engine-download .download-title').text('All ready!');			
-			setTimeout( function(){
-				$('#start .engine-download').removeClass('downloading');
-			}, 3000);
-			
-		});
-		
-		
-/*
+						
 		// unpack
 		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', engine103dir, err => {
 			
@@ -202,8 +190,14 @@ function downloadengine(fileurl){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
 			
+			
+			console.log(err);
 		});
-*/
+		
+		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir], err => {
+		    // done
+		    console.log(err);
+		});
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
