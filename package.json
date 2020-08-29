@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -41,7 +41,7 @@
     "productName": "Elobby",
     "copyright": "Copyright @ 2020 Zorro",
     "asarUnpack": [
-      "**/app/node_modules/node-7z/*"
+      "**/node_modules/node-7z/*"
     ],
     "publish": [
       {

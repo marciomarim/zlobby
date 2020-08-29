@@ -30,7 +30,7 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	//var enginedir = '/Users/marcio/Downloads/';
 
 	if (os.platform() == 'darwin'){
-		var enginepath = '/Applications/Spring_104.0.app/Contents/MacOS/spring';	
+		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 	}else{
 		var enginepath = "/var/etc/spring";

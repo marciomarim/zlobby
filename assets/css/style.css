@@ -613,8 +613,12 @@ ul.list {
 			left: 0;
 			width: 0;
 			height: 4px;
-			background: #1d4cba;
-			
+			background: #1d4cba;			
+		}
+		
+		.engine-download .progress{
+			top: inherit;
+			bottom: 0;
 		}
 	
 	.battle-players{
