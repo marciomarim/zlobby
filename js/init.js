@@ -3,6 +3,11 @@ const os = require('os');
 var fs = require('fs');
 
 //const seven = require('node-7z');
+//const sevenmin = require('7zip-min'); 
+
+var Zip = require('node-7z-forall'); // Name the class as you want!
+var myTask = new Zip();
+
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -32,9 +37,11 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	if (os.platform() == 'darwin'){
 		var enginepath = '/Applications/Spring_104.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
+		var engine103dir = enginedir;
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
+		var engine103dir = enginedir;
 	}
 	
 	if (!fs.existsSync(springdir)){
@@ -74,6 +81,7 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	var infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.log';
 	var scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
 	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
+	var engine103dir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
 	var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
 	
 	if (!fs.existsSync(springdir)){
@@ -100,6 +108,11 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	if (!fs.existsSync(enginedir)){
 		console.log('Creating engine folder');
 		fs.mkdirSync(enginedir);
+	}
+	
+	if (!fs.existsSync(engine103dir)){
+		console.log('Creating engine 103.0 folder');
+		fs.mkdirSync(engine103dir);
 	}
 	
 	// not portable
@@ -168,9 +181,16 @@ function downloadengine(fileurl){
 		
 		console.log(enginedir);
 		
-		const sevenmin = require('7zip-min'); 
+		myTask.extractFull(enginedir + 'spring_103.0_win64_portable.7z', engine103dir )
+		// When all is done
+		.then(function () {
+		  console.log('Extracting done!');
+		});
+		
+		
+/*
 		// unpack
-		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', engine103dir, err => {
 			
 			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
@@ -178,6 +198,7 @@ function downloadengine(fileurl){
 			}, 3000);
 			
 		});
+*/
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
