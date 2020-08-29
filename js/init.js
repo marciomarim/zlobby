@@ -2,7 +2,7 @@ const os = require('os');
 
 var fs = require('fs');
 
-const seven = require('node-7z');
+//const seven = require('node-7z');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -30,7 +30,7 @@ if (os.platform() == 'linux' || os.platform() == 'darwin'){
 	var scriptfile = homedir + '/.spring/e-script.txt';
 
 	if (os.platform() == 'darwin'){
-		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
+		var enginepath = '/Applications/Spring_104.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 	}else{
 		var enginepath = "/var/etc/spring";
@@ -168,10 +168,9 @@ function downloadengine(fileurl){
 		
 		console.log(enginedir);
 		
-/*
-		const _7z = require('7zip-min'); 
+		const sevenmin = require('7zip-min'); 
 		// unpack
-		_7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
+		sevenmin.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
 			
 			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
@@ -179,7 +178,7 @@ function downloadengine(fileurl){
 			}, 3000);
 			
 		});
-*/
+/*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
 		})
@@ -192,6 +191,7 @@ function downloadengine(fileurl){
 			}, 3000);
 			
 		})
+*/
 	});
 	
 }
