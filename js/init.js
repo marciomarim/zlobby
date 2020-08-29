@@ -2,7 +2,7 @@ const os = require('os');
 
 var fs = require('fs');
 
-//const seven = require('node-7z');
+const seven = require('node-7z');
 
 const Store = require('electron-store'); 
 const store = new Store();
@@ -15,6 +15,8 @@ var appVersion = require('electron').remote.app.getVersion();
 
 const ua = require('universal-analytics');
 
+console.log('Elobby v' + appVersion);	
+$('#appVersion').text('ELobby v'+appVersion);
 
 // set default paths	
 if (os.platform() == 'linux' || os.platform() == 'darwin'){
@@ -166,6 +168,7 @@ function downloadengine(fileurl){
 		
 		console.log(enginedir);
 		
+/*
 		const _7z = require('7zip-min'); 
 		// unpack
 		_7z.unpack(enginedir + 'spring_103.0_win64_portable.7z', enginedir, err => {
@@ -176,7 +179,7 @@ function downloadengine(fileurl){
 			}, 3000);
 			
 		});
-/*
+*/
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
 			$progress: true,			
 		})
@@ -189,7 +192,6 @@ function downloadengine(fileurl){
 			}, 3000);
 			
 		})
-*/
 	});
 	
 }
@@ -201,12 +203,13 @@ var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
 export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
 
 
+/*
 $(window).on( 'load', function(){
 	
-	console.log('Elobby v' + appVersion);	
-	$('#appVersion').text('ELobby v'+appVersion);			
+				
 
 });
+*/
 
 // generate uuid 
 var uuid = require('uuid-random');
