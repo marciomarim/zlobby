@@ -41,7 +41,6 @@
     "appId": "com.electron.elobby",
     "productName": "Elobby",
     "copyright": "Copyright @ 2020 Zorro",
-    "afterSign": "js/notarize.js",
     "publish": [
       {
         "provider": "github",
