@@ -9,7 +9,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --mac --win",
-    "deploy": "electron-builder CSC_LINK=certificate.p12 CSC_KEY_PASSWORD=Mt_wek-3Y@jgwppv build --mac --win --publish always"
+    "deploy": "electron-builder build --mac --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.1.2",
