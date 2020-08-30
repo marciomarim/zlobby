@@ -42,12 +42,12 @@ if (platform == 'linux' || platform == 'darwin'){
 	if (platform == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
-		var enginearchdir = enginedir;
+		var engineverdir = enginedir;
 		var zipfile = 'Spring_103.0.app.7z';
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
-		var enginearchdir = enginedir;
+		var engineverdir = enginedir;
 		if (arch == 'x64' || arch == 'arm64'){
 			var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
 		}else{
@@ -94,12 +94,12 @@ if (platform == 'linux' || platform == 'darwin'){
 	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
 	
 	if (arch == 'x64'){
-		var enginearchdir = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win64\\';
-		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win64\\spring.exe';
+		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
 		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
 	}else{
-		var enginearchdir = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win32\\';
-		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\spring-103.0_win32\\spring.exe';
+		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
 		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
 	}
 	
@@ -127,6 +127,11 @@ if (platform == 'linux' || platform == 'darwin'){
 	if (!fs.existsSync(enginedir)){
 		console.log('Creating engine folder');
 		fs.mkdirSync(enginedir);
+	}
+	
+	if (!fs.existsSync(engineverdir)){
+		console.log('Creating engine version folder');
+		fs.mkdirSync(engineverdir);
 	}
 	
 	// not portable
@@ -210,7 +215,7 @@ function downloadengine(fileurl){
 		console.log(enginedir);
 						
 		// unpack
-		sevenmin.unpack(enginedir + zipfile, enginedir, err => {
+		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
 			
 			$('#start .engine-download .download-title').text('All ready!');			
 			setTimeout( function(){
