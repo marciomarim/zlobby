@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": "Zorro",
@@ -9,7 +9,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --mac --win",
-    "deploy": "electron-builder build --mac --win --publish always"
+    "deploy": "electron-builder CSC_LINK=certificate.p12 CSC_KEY_PASSWORD=Mt_wek-3Y@jgwppv build --mac --win --publish always"
   },
   "devDependencies": {
     "electron": "^9.1.2",
@@ -22,6 +22,7 @@
     "crypto": "^1.0.1",
     "electron-dl": "^3.0.2",
     "electron-log": "^4.2.4",
+    "electron-notarize": "^1.0.0",
     "electron-store": "^6.0.0",
     "electron-updater": "^4.3.4",
     "export": "^0.1.337",
@@ -40,6 +41,7 @@
     "appId": "com.electron.elobby",
     "productName": "Elobby",
     "copyright": "Copyright @ 2020 Zorro",
+    "afterSign": "js/notarize.js",
     "publish": [
       {
         "provider": "github",
