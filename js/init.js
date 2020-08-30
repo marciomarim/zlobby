@@ -150,23 +150,23 @@ if (!fs.existsSync(enginepath)) {
 	if(platform == 'win32'){
 		
 		if (arch == 'x64'){
-			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/spring_103.0_win64_portable.7z';	
+			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;	
 		}else{
-			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/spring_103.0_win32_portable.7z';	
+			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;	
 		}
 		
 		
 	}else if (platform == 'linux'){
 		
 		if (arch == 'x64' || arch == 'arm64'){
-			var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/spring_103.0_minimal-portable-linux64-static.7z';
+			var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
 		}else{
-			var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/spring_103.0_minimal-portable-linux32-static.7z';
+			var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
 		}
 		
 	}else if (platform == 'darwin'){
 		
-		var engineurl = 'https://www.springfightclub.com/data/master_103/Spring_103.0.app.7z';
+		var engineurl = 'https://www.springfightclub.com/data/master_103/' + zipfile;
 	}	
 
     $.ajax({ 
@@ -219,15 +219,6 @@ function downloadengine(fileurl){
 			
 			console.log(enginepath);
 		});
-		
-/*
-		sevenmin.cmd(['e', enginedir + 'spring_103.0_win64_portable.7z', engine103dir ], err => {
-		    $('#start .engine-download .download-title').text('All ready!');			
-			setTimeout( function(){
-				$('#start .engine-download').removeClass('downloading');
-			}, 3000);
-		});
-*/
 		
 /*
 		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
