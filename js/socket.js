@@ -131,10 +131,8 @@ function resetUI(){
 	$('#battleroom, #battle-list, #chat-list').empty();
 	$('body').removeClass();
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
-	$('#start').addClass('active');
-	//$('.lmenu .tab .status').text('');
-	$('.tab.battlelist .count').text('');
-	
+	$('#start, .lmenu .tab.start').addClass('active');
+	$('.tab.battlelist .count').text('');	
 	$('.account #loginpane').addClass('active');
 	$('.account .btn').removeClass('active');
 	$('.account #disconnectpane').removeClass('active');

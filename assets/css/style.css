@@ -89,7 +89,7 @@ a{
 		    position: relative;
 		}
 		
-		.socketlive #topbar .status.active{
+		.socketlive #topbar .status{
 			background-color: #1553da;	
 		}
 		
