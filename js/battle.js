@@ -62,20 +62,22 @@ export default class Battle {
     
     downloadgame(fileurl){
 	    
+	    $('#battleroom .game-download').addClass('downloading');
+	    
 	    ipcRenderer.send("download", {
 		    url: fileurl,
 		    properties: {directory: modsdir}
 		});
 
-		ipcRenderer.on("download progress", (event, progress) => {
-			$('#battleroom .game-download').addClass('downloading');
+		ipcRenderer.on("download progress", (event, progress) => {			
 			var w = Math.round( progress.percent*100 ) + '%';
 			$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
 			$('#battleroom .game-download .progress').css('width', w);
 		});
 		
 		ipcRenderer.on("download complete", (event, progress) => {
-			$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
+			$('#battleroom .game-download .download-title').text('Downloading game: Completed!');			
+			$('#battleroom .game-download').removeClass('downloading');
 			this.checkmap();
 		});
     }
@@ -136,13 +138,14 @@ export default class Battle {
     
     downloadmap(fileurl){
 	    
+	    $('#battleroom .map-download').addClass('downloading');
+	    
 	    ipcRenderer.send("download", {
 		    url: fileurl,
 		    properties: {directory: mapsdir}
 		});			
 		
-		ipcRenderer.on("download progress", async (event, progress) => {		
-			$('#battleroom .map-download').addClass('downloading');
+		ipcRenderer.on("download progress", async (event, progress) => {			
 			var w = Math.round( progress.percent*100 ) + '%';
 			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
 			$('#battleroom .map-download .progress').css('width', w);											
@@ -150,6 +153,9 @@ export default class Battle {
 		
 		ipcRenderer.on("download complete", (event, progress) => {
 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
+			setTimeout( function(){
+				$('#battleroom .map-download').removeClass('downloading');
+			}, 4000);
 		});
 		
     }
@@ -323,7 +329,15 @@ export default class Battle {
 			$('#battleroom .players').text(players);
 			
 			//download map if doesnt have it
-			this.checkmap();
+			
+			setTimeout( function(){
+				if ( !$('#battleroom .game-download').hasClass('downloading') ){
+					this.checkmap();	
+				}
+			}, 1000);
+			
+			
+			
 			
 		}
 		
