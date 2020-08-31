@@ -332,7 +332,7 @@ export default class Battle {
 			
 			setTimeout( function(){
 				if ( !$('#battleroom .game-download').hasClass('downloading') ){
-					this.checkmap();	
+					battle.checkmap();	
 				}
 			}, 1000);
 			
