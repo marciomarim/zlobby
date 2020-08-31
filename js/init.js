@@ -43,7 +43,7 @@ if (platform == 'linux' || platform == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 		var engineverdir = enginedir;
-		var zipfile = 'Spring_103.0.app.zip';
+		var zipfile = 'Spring_103.0.app.zip'; 
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
@@ -171,7 +171,7 @@ if (!fs.existsSync(enginepath)) {
 		
 	}else if (platform == 'darwin'){
 		
-		var engineurl = 'https://www.springfightclub.com/data/master_103/' + zipfile;
+		var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;
 	}	
 
     $.ajax({ 
@@ -204,7 +204,7 @@ function downloadengine(fileurl){
 		var w = Math.round( progress.percent*100 ) + '%';
 		console.log('Downloading engine: ' + w + ' of 100%');
 		$('#start .engine-download').addClass('downloading');
-		$('#start .engine-download .download-title').text('Downloading map: ' + w + ' of 100%');
+		$('#start .engine-download .download-title').text('Downloading engine: ' + w + ' of 100%');
 		$('#start .engine-download .progress').css('width', w);											
 	});
 	
