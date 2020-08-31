@@ -6,6 +6,7 @@ var fs = require('fs');
 
 var Filter = require('bad-words'),
     filter = new Filter();
+    
 
 //const { spawn } = require('child_process');
 	

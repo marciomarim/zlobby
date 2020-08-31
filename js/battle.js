@@ -223,6 +223,9 @@ export default class Battle {
 		parts = sentences[0].split(" ");		
 		
 		var battleid = parts[1];
+		if ( $('.battle-card[data-battleid="'+battleid+'"]').length ){
+			this.closebattle( battleid );
+		}
 		//var type = parts[2];
 		//var natType = parts[3];
 		var username = parts[4];

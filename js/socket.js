@@ -24,10 +24,10 @@ function socket_connect(){
 		
 		$('body').addClass('socketlive');
 		
-		socketClient.setKeepAlive(true, 10000 );
+		//socketClient.setKeepAlive(true, 10000 );
 		
 		//socketClient.write('STLS \n');
-		socketClient.write('LISTCOMPFLAGS \n');																	
+		//socketClient.write('LISTCOMPFLAGS \n');																	
 		
 	});				
 	
@@ -77,9 +77,12 @@ export function login(){
 	
 	socketClient.on('data', (data) => {
 		
-		clearInterval(connectInterval);
-		protocol.server( data.toString() );
+		//console.log( socketClient.bytesRead );
+		//console.log( data.toString().length );
+		protocol.server( data.toString() );		
 		console.log(data.toString() );
+		
+		clearInterval(connectInterval);
 	
 	});
 	
@@ -100,7 +103,7 @@ export function login(){
 		var err = data.toString();
 		console.log( err );		
 		//socketClient.destroy();		
-		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed'){
+		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed' || err == 'Error: read ECONNRESET'){
 			resetUI();
 		}
 		

@@ -15,24 +15,41 @@ let users = new User();
 import Battle from './battle.js';
 let battles = new Battle();
 
-
-
+//var cache = {};
+//cache.data = [];
+var cache = '';
+var waitforall = false;
+var cmd_first = '';
+var cmd_last = '';
+ 
 export default class Protocol {
     
     constructor() {}
     
+    reprocess_data( data ){
+		this.server( data );	
+	}
+	
     server( data ) {
         
         // split data into multiple line commands
         var commandlines = data.split("\n");
+		cmd_first = commandlines[0];
+		var cmd_full = cmd_last + cmd_first;
+		cmd_last = commandlines[commandlines.length-1];
 		
-		$.each(commandlines, function(key, cmd){
+			
+		commandlines.forEach( function(cmd){
+					
+		//$.each(commandlines, function(key, cmd){
 			
 			//utils.append_to_terminal(cmd);
 			
 			var parts = cmd.split(" ");
 			var command_name = parts[0];
 			var myusername = $('#myusername').text();
+			
+			
 			
 			switch(command_name) {
 			  
@@ -840,8 +857,15 @@ export default class Protocol {
 			    
 				default:
 				  	//need process
-				  	if (cmd!='')
-					  	console.log('CMD NOT FOUND!'+cmd);
+				  	if (cmd != ''){
+					  	
+					  	console.error('CMD NOT FOUND!'+cmd);
+					  	console.log("Trying to process: " + cmd_full);
+					  	protocol.reprocess_data(cmd_full);
+					  	
+					  	//console.log(cache.data);
+				  	}
+						
 			    
 			    
 			}
@@ -849,6 +873,7 @@ export default class Protocol {
 		});
         
     }
-      
-    
+          
 }
+
+let protocol = new Protocol();
