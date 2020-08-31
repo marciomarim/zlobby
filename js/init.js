@@ -43,7 +43,7 @@ if (platform == 'linux' || platform == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 		var engineverdir = enginedir;
-		var zipfile = 'Spring_103.0.app.7z';
+		var zipfile = 'Spring_103.0.app.zip';
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
@@ -225,20 +225,6 @@ function downloadengine(fileurl){
 			console.log(enginepath);
 		});
 		
-/*
-		const myStream = seven.extractFull(enginedir + 'spring_103.0_win64_portable.7z', enginedir, { 
-			$progress: true,			
-		})
-		
-		myStream.on('end', function (err) {
-			
-			$('#start .engine-download .download-title').text('All ready!');			
-			setTimeout( function(){
-				$('#start .engine-download').removeClass('downloading');
-			}, 3000);
-			
-		})
-*/
 	});
 	
 }
