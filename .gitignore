@@ -2,3 +2,7 @@ node_modules/
 dist/
 .DS_Store
 js/notarize.js
+electron-builder.yml
+certificate.p12
+yarn.lock
+yarn-error.log
