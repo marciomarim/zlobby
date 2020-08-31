@@ -209,10 +209,10 @@ function downloadengine(fileurl){
 	});
 	
 	ipcRenderer.on("download complete", (event, progress) => {
-		console.log('Engine download: completed!');
-		$('#start .engine-download .download-title').text('Extracting files...');
 		
-		console.log(enginedir);
+		console.log('Engine download: completed!');
+		
+		$('#start .engine-download .download-title').text('Extracting files...');				
 						
 		// unpack
 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
