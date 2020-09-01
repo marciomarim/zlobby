@@ -43,7 +43,7 @@ if (platform == 'linux' || platform == 'darwin'){
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 		var engineverdir = enginedir;
-		var zipfile = 'Spring_103.0.app.zip'; 
+		var zipfile = 'Spring_103.0.app.7z'; 
 	}else{
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
