@@ -1,22 +1,27 @@
 const shell = require('electron').shell;
 
+import Utils from './utils.js';
+let utils = new Utils();
+
 $('.lmenu').on('click', '.tab', function(e) {
 	
 	var tab = $(this).data('target');	
 	var id = '#' + $(this).data('target');
 	
-	$('.tab').removeClass('active');
-	$('.rcontainer').removeClass('active');
+	$('.tab, .rcontainer, .container.active').removeClass('active');
 	
 	if (tab == 'chatlist'){
 		$('#chats').addClass('active');	
+		var useractive = $('.userchat.active').data('username');
+		if( $('.userpm-select[data-username="'+useractive+'"] .unread').length )
+			$('.userpm-select[data-username="'+useractive+'"] .unread').remove();
+		utils.update_global_unread_count();
 	}
 	
 	if ( tab == 'battleroom' && !$('body').hasClass('inbattleroom') ){
 		return false;
 	}
 	
-	$('.container.active').removeClass('active');
 	$(id).addClass('active');
 	$(this).addClass('active');
 	

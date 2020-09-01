@@ -80,6 +80,8 @@ $('body').on('click', '.messages .offline', function(e) {
 		
 });
 
+
+
 $('#activechats').on('click', '.userpm-select', function(e) {
 
 	var username = $(this).data('username');

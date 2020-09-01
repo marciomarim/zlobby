@@ -730,12 +730,23 @@ export default class Protocol {
 					}					
 					utils.add_message_to_chat(username, message, false);
 					
-					$('.userchat, .userpm-select').removeClass('active');		
-					$('.userchat[data-username="'+username+'"]').addClass('active');
+					
 					
 					var notification = new Notification( username + ' said', {
 					  body: message
 					});
+					
+					notification.onclick = () => {
+						$('.tab, .rcontainer, .container.active').removeClass('active');
+						$('#chats').addClass('active');
+						$('.userchat, .userpm-select').removeClass('active');		
+						$('.userchat[data-username="'+username+'"], .userpm-select[data-username="'+username+'"]').addClass('active');
+						
+						if( $('.userpm-select[data-username="'+username+'"] .unread').length )
+							$('.userpm-select[data-username="'+username+'"] .unread').remove();
+							
+						utils.update_global_unread_count();
+					}
 					break;		    
 			    
 			    

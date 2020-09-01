@@ -125,21 +125,21 @@ export default class Utils {
 		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
 		
 		// update unread messages count if not mine
-		if (!me){
-			if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
-				var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
-				unread += 1;	
-				$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
-			}else{
-				var unread = 1;
-				$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
-			}				
-			this.update_global_unread_count();	
-		}
-		
-		// show chat 
-		// $('.rcontainer').removeClass('active');
-		// $('#chats').addClass('active');											
+		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+username+'"]').hasClass('active') ){								
+			// chat is open and active
+		}else{
+			if (!me){
+				if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
+					var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+					unread += 1;	
+					$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+				}else{
+					var unread = 1;
+					$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+				}				
+				this.update_global_unread_count();	
+			}
+		}										
 		
 	}
 	
