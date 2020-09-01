@@ -131,7 +131,7 @@ function create_account(){
 function resetUI(){
 	
 	
-	$('#battleroom, #battle-list, #chat-list').empty();
+	$('#battleroom, #battle-list, #chat-list, #channel-list').empty();
 	$('body').removeClass();
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
 	$('#start, .lmenu .tab.start').addClass('active');

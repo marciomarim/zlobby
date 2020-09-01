@@ -115,7 +115,7 @@ $('body').on('keypress','.userchat_input', function (e) {
 			return false;
 			
 		message = utils.urlify(message);  	
-		message = filter.clean(message);
+		//message = filter.clean(message);
 
 		var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
     	socketClient.write( command );

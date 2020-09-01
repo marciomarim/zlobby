@@ -15,6 +15,9 @@ let users = new User();
 import Battle from './battle.js';
 let battles = new Battle();
 
+import Channel from './channel.js';
+let channels = new Channel();
+
 //var cache = {};
 //cache.data = [];
 var cache = '';
@@ -185,7 +188,11 @@ export default class Protocol {
 			    
 			    
 				case 'CHANNEL':
-				
+					
+					var chanName = parts[1];
+					var userCount = parts[2];															
+					channels.addchannel( chanName, userCount );	
+					
 					break;			    
 			    
 			    
@@ -268,7 +275,11 @@ export default class Protocol {
 			    
 			    
 				case 'DENIED':
-				
+					
+					var reason = parts[1];
+					var notification = new Notification( 'Login denied:', {
+					  body: reason
+					});
 					break;			    
 			    
 			    
@@ -493,6 +504,10 @@ export default class Protocol {
 				case 'LOGININFOEND':
 					
 					utils.load_chats();
+					
+					var command = 'CHANNELS\n';	
+					socketClient.write(command);					
+					
 					break;			    
 			    
 			    

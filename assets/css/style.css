@@ -326,9 +326,15 @@ a{
 		width: calc(100% - 100px);
 	}
 	
+#chatlist .split{
+	display: flex;
+    height: 100%;
+}
 
-
-
+#chatlist .split .right,
+#chatlist .split .left{
+	width: 50%;
+}
 
 button {
     background: #1553da;
