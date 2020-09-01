@@ -3,6 +3,9 @@ import {socketClient} from './socket.js'
 import Battle from './battle.js';
 let battles = new Battle();
 
+import Utils from './utils.js';
+let utils = new Utils();
+
 import {trackEvent} from './init.js';
 
 export default class User {
@@ -10,12 +13,7 @@ export default class User {
     constructor() {
     }
     
-    getColor(){
-		var r = 0;
-		var g = 0;
-		var b = 0;
-		return r << 16 | g << 8 | b;
-	}	
+    	
 	
     adduser( username, country, cpu, userID, lobbyID){
 		
@@ -129,7 +127,7 @@ export default class User {
 			if (  $('.battle-playerlist li[data-username="'+myusername+'"]').length ){
 				battles.launchgame();
 				$('body').addClass('ingame');
-				this.sendstatus(); // ingame
+				utils.sendstatus(); // ingame
 				$('.readybattle').prop("checked", false);						
 				console.log('Spring should launch as player');	
 			}
@@ -137,7 +135,7 @@ export default class User {
 			if (  $('.battle-speclist li[data-username="'+myusername+'"]').length && $('.autolaunchbattle').prop("checked") == true ){
 				battles.launchgame();						
 				$('body').addClass('ingame');
-				this.sendstatus(); //ingame
+				utils.sendstatus(); //ingame
 				console.log('Spring should launch as spec');	
 			}
 			
@@ -145,8 +143,8 @@ export default class User {
 			
 			$('body').removeClass('ingame');
 			$('.readybattle').prop("checked", false);
-			this.sendstatus();
-			this.sendbattlestatus();			
+			utils.sendstatus();
+			utils.sendbattlestatus();			
 			
 		}
 
@@ -234,11 +232,11 @@ export default class User {
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 		
 		var battlesize = 'normal';
-		if (numberofplayers > 12){
+		if (numberofplayers > 10){
 			battlesize = 'big';
-		}else if(numberofplayers > 14){
+		}else if(numberofplayers > 12){
 			battlesize = 'verybig';
-		}else if(numberofplayers > 16){
+		}else if(numberofplayers > 14){
 			battlesize = 'huge';
 		}
 		$('#battleroom').data('battlesize', battlesize);
@@ -281,73 +279,7 @@ export default class User {
     }
     
     
-    // to do
-    sendstatus(){
-		/*
-	    b0 = in game (0 - normal, 1 - in game)
-		b1 = away status (0 - normal, 1 - away)
-		b2-b4 = rank (see Account class implementation for description of rank) - client is not allowed to change rank bits himself (only server may set them).
-		b5 = access status (tells us whether this client is a server moderator or not) - client is not allowed to change this bit himself (only server may set them).
-		b6 = bot mode (0 - normal user, 1 - automated bot). This bit is copied from user's account and can not be changed by the client himself. Bots differ from human 
-		players in that they are fully automated and that some anti-flood limitations do not apply to them.
-		*/
-	    var ingame = 0,
-			away = 0,
-			bot = 0;
-		
-		if ($('body').hasClass("ingame") == true){
-			ingame = 1;
-			console.log('sending ingame for me');
-		}else{
-			ingame = 0; //unspec
-		}
-		
-		/*
-		if ($('.meaway').prop("checked") == true){
-			away = 1;
-		}else{
-			away = 0; 
-		}
-		*/
-			
-		var bitcode = ingame + away*2;		
-		var command = 'MYSTATUS ' + bitcode + '\n';														
-		socketClient.write( command );
-    }
     
-    sendbattlestatus(){
-	    
-	    var ready = 0,
-			team = 0,
-			ally = 0,
-			spec = 0,
-			synced = 1,
-			faction = 0;
-		
-		
-		if ($('.specbattle').prop("checked") == true){
-			spec = 0;
-		}else{
-			spec = 1; //unspec
-		}
-		
-		if ($('.readybattle').prop("checked") == true){
-			ready = 1;
-			spec = 1; //try to unspec 
-		}
-		
-		if ($('.pickarm').hasClass("active")){
-			faction = 0;
-		}else{
-			faction = 1;
-		}
-			
-		var bitcode = ready*2 + spec*2**10 + 2**(23 - synced) + faction*2**24; //2**(25 - faction);
-		
-		var command = 'MYBATTLESTATUS ' + bitcode + ' ' + this.getColor() + '\n';										
-		socketClient.write( command );
-		
-    }
     
 }
 

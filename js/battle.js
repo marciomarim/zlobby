@@ -333,9 +333,10 @@ export default class Battle {
 			
 			//download map if doesnt have it
 			
+			var obj = this;
 			setTimeout( function(){
 				if ( !$('#battleroom .game-download').hasClass('downloading') ){
-					battle.checkmap();	
+					obj.checkmap();
 				}
 			}, 1000);
 			
@@ -398,6 +399,8 @@ export default class Battle {
 		this.checkgame();
 		utils.init_battlerrom_chat();
 		
+		// maybe this solve ingame join
+		utils.sendbattlestatus();
 		
 	}
     

@@ -38,7 +38,7 @@ $('body').on('click', '.battle-card', function(e) {
 		socketClient.write( command );
 		
 		// maybe this solve ingame join
-		users.sendbattlestatus();
+		utils.sendbattlestatus();
 		
 	// try to join	
 	}else{	
@@ -50,7 +50,7 @@ $('body').on('click', '.battle-card', function(e) {
 		socketClient.write( command );		
 		
 		// maybe this solve ingame join
-		users.sendbattlestatus();
+		utils.sendbattlestatus();
 		
 	}							
 	
@@ -73,7 +73,7 @@ $('body').on('click', '.specbattle', function(e) {
 		$('.readybattle').prop("checked", false); 
 	}
 	$(this).prop("checked");
-	users.sendbattlestatus();
+	utils.sendbattlestatus();
 	
 });
 
@@ -84,7 +84,7 @@ $('body').on('click', '.readybattle', function(e) {
 		$('.specbattle').prop("checked", false); 
 	}
 	$(this).prop("checked");
-	users.sendbattlestatus();		
+	utils.sendbattlestatus();		
 	
 });
 
@@ -131,7 +131,7 @@ $('body').on('click', '.smallnav .navbtn', function(e) {
 $('body').on('click', '.pickarm', function(e) {
 	$('.pickcore').removeClass('active');
 	$(this).addClass('active');
-	users.sendbattlestatus();
+	utils.sendbattlestatus();
 
 	//save prefered faction	
 	store.set('battleroom.faction', 1);
@@ -141,7 +141,7 @@ $('body').on('click', '.pickarm', function(e) {
 $('body').on('click', '.pickcore', function(e) {	
 	$('.pickarm').removeClass('active');
 	$(this).addClass('active');
-	users.sendbattlestatus();
+	utils.sendbattlestatus();
 
 	//save prefered faction
 	store.set('battleroom.faction', 0);
@@ -156,15 +156,15 @@ $('body').on('click', '.startbattle', function(e) {
 	if( $('.battle-players li[data-username="'+founder+'"] .ingame').hasClass('battle') ){
 						
 		if ($('.specbattle').prop("checked") == true){
-			//users.sendbattlestatus();		
+			//utils.sendbattlestatus();		
 			battles.launchgame();		
 		}else{
-			//users.sendbattlestatus();
+			//utils.sendbattlestatus();
 			battles.launchgame();			
 		}
 		
 		$('body').addClass('ingame');
-		users.sendstatus();
+		utils.sendstatus();
 			
 	}else{
 		var command = 'SAYBATTLE !start\n';

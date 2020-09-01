@@ -627,7 +627,7 @@ export default class Protocol {
 			    
 				case 'REQUESTBATTLESTATUS':
 					
-					users.sendbattlestatus();						
+					utils.sendbattlestatus();						
 					break;			    
 			    
 			    
