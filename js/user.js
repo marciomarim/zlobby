@@ -51,9 +51,10 @@ export default class User {
 	    
 	    var div = $('#battleroom li[data-username="'+username+'"] .trueskill');	    
 	    div.after('<div class="bonus"></div>');
+	    div.after('<div class="color"></div>');
 	    div.after('<div class="faction icon icon-arm"></div>');	    		
 		div.after('<div class="team">–</div>');				
-		div.after('<div class="ally">–</div>');
+		div.after('<div class="ally">-</div>');
 		div.after('<div class="ready">⚪️</div>');
 		
 	    
@@ -207,6 +208,16 @@ export default class User {
 		    return (className.match (/(^|\s)ally-\S+/g) || []).join(' ');
 		}).addClass('ally-'+newStatus.ally.toString());
 		
+		
+		var newcolor = {
+			Red :  color & 255,
+			Green : (color >> 8) & 255,
+			Blue :  (color >> 16) & 255 }
+			
+		
+		var csscolor = 'rgb(' + newcolor.Red +','+ newcolor.Green + ','+ newcolor.Blue + ')';
+		console.log(csscolor);	
+		$('#battleroom li[data-username="'+username+'"] .color').css('background-color', csscolor );
 		
 		
 		if(newStatus.bonus == 0){

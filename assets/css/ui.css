@@ -63,6 +63,12 @@
 	background-image: url(../svg/046-space-invaders.svg);
 }
 
+.icon-channel:before{	
+	background-image: url(../svg/037-walkie-talkie.svg);
+	position: relative;
+	top:-2px;
+}
+
 
 
 .icon-arm:before{
@@ -161,6 +167,7 @@
 .icon-locked:before{
 	background-image: none;
 }
+
 .icon-locked.true:before{
 	background-image: url(../svg/060-padlock.svg);
 }

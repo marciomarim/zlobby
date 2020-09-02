@@ -10,11 +10,11 @@ export default class Channel {
     addchannel( chanName, userCount ){
 		
 		var line = '<div class="icon icon-channel"></div>';
-		line += '<div class="userCount icon"></div>';					
+		line += '<div class="userCount">'+userCount+'</div>';					
 		line += '<div class="chanName">'+chanName+'</div>';		
 		line += '</div>';
 		
-		$('#channel-list').append('<li data-channame="'+chanName+'">'+line+'</li>');					
+		$('#channel-list').append('<li data-channame="'+chanName+'" style="order:'+userCount+';">'+line+'</li>');					
 				
 		
     }

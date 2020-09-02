@@ -38,7 +38,7 @@ $('body').on('click', '.battle-card', function(e) {
 		socketClient.write( command );
 		
 		// maybe this solve ingame join
-		utils.sendbattlestatus();
+		// utils.sendbattlestatus();
 		
 	// try to join	
 	}else{	
@@ -50,7 +50,7 @@ $('body').on('click', '.battle-card', function(e) {
 		socketClient.write( command );		
 		
 		// maybe this solve ingame join
-		utils.sendbattlestatus();
+		// utils.sendbattlestatus();
 		
 	}							
 	
@@ -145,6 +145,12 @@ $('body').on('click', '.pickcore', function(e) {
 
 	//save prefered faction
 	store.set('battleroom.faction', 0);
+});
+
+
+$("body").on('click', '.colorpicked', function(e) {
+    $('.colorpicker').toggleClass('active');
+    utils.sendbattlestatus();
 });
 
 

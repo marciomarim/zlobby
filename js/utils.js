@@ -284,8 +284,21 @@ export default class Utils {
 		var r = 0;
 		var g = 0;
 		var b = 0;
-		return r << 16 | g << 8 | b;
+		
+		var color = $('.colorpicked').css("background-color").replace('rgb(', '').replace(')','').split(',');
+		if(color.length == 3){
+			r = color[0];
+			g = color[1];
+			b = color[2];	
+		}
+		
+		console.log(r + ' ' + g + ' ' + b);
+				
+		return b << 16 | g << 8 | r;
 	}
+	
+	
+
 	
 	// to do
     sendstatus(){
@@ -317,7 +330,7 @@ export default class Utils {
 		*/
 			
 		var bitcode = ingame + away*2;		
-		var command = 'MYSTATUS ' + bitcode + '\n';														
+		var command = 'MYSTATUS ' + bitcode + '\n';
 		socketClient.write( command );
     }
     
@@ -354,6 +367,8 @@ export default class Utils {
 		socketClient.write( command );
 		
     }
+    
+    
 	
 	
     

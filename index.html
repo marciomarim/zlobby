@@ -9,7 +9,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/css/ui.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/fontello.css">
 		<link rel="stylesheet" type="text/css" href="assets/css/flag-icon.min.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/pretty-checkbox.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/css/pretty-checkbox.min.css">		
 		<!-- jQuery (Should be declared before other JS imports) -->
 	    <script>
 	      var $ = jQuery = require("jquery")
@@ -21,6 +21,7 @@
     	<script type="module" src="js/chat.js"></script>
     	<script type="module" src="js/battleroom.js"></script>
     	<script type="module" src="js/replays.js"></script>
+    	<script type="module" src="js/acolorpicker.js"></script>
   </head>
   
   <body>    
@@ -264,6 +265,19 @@
 					    <button class="leavebattle">Leave Battle</button>
 					    <div class="pickarm icon icon-arm active">ARM</div>
 					    <div class="pickcore icon icon-core">CORE</div>
+					    
+					    <div class="colorpicked">
+						    <div class="colorpicker" 
+							     acp-color="#5588ff" 
+							     acp-show-rgb="no"
+							     acp-show-hsl="yes"
+							     acp-show-hex="yes"
+							     acp-show-alpha>
+							</div>
+					    </div>
+					    
+					    
+						
 					    <button class="startbattle">Start</button>
 				    </div>
 				    

@@ -387,6 +387,13 @@ export default class Battle {
 		var players = $('.battle-card[data-battleid="'+battleid+'"] .playerlist').contents().clone();
 		$('#battleroom .battle-playerlist').append(players);
 		
+		AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
+			$('#battleroom .colorpicked').css('background-color', color);
+			
+		});
+		//AColorPicker.setColor("#5588ff", true);
+		
+		
 		
 		var preferedfaction = store.get('battleroom.faction');
 		if(preferedfaction == 0){

@@ -306,13 +306,12 @@ a{
 	
 	.userchat{
 		height: 100%;
-		margin-right: 100px;
+		margin-right: 130px;
 	}
 	
 	.userchat .text-scroll{
 		height: calc(100% - 100px);
 	}
-
 	
 	.bottom-input {
 		padding: 6px;
@@ -331,9 +330,12 @@ a{
     height: 100%;
 }
 
-#chatlist .split .right,
 #chatlist .split .left{
-	width: 50%;
+	width: 60%;
+}
+#chatlist .split .right{
+	width: 36%;
+	margin-left: 4%;
 }
 
 button {
@@ -690,15 +692,22 @@ ul.list {
 			position: relative;
 		}
 		
+		.battle-players li .trueskill,
+		.battle-players li .ally,
+		.battle-players li .team{
+			font-size: 11px;
+		}
+		
 		.battle-players li .ally:before{
 		    content: '';
 		    position: absolute;
-		    top: -1px;
+		    top: 1px;
 		    left: -6px;
 		    border-radius: 50%;
 		    z-index: -1;
-		    width: 20px;
-		    height: 20px;
+		    width: 17px;
+		    height: 17px;
+
 		}
 		
 		.battle-players li .ally.ally-1:before,
@@ -724,6 +733,14 @@ ul.list {
 	    .battle-players li .ally.ally-18:before{
 		    background: #2e54ab;
 	    }
+	    
+	    
+	    .battle-players li .color{
+		    width: 16px;
+		    height: 16px;
+		    border-radius: 20px;
+	        flex: inherit;
+	    }
 		
 /*
 		.battle-players li .ally:empty{
@@ -737,6 +754,7 @@ ul.list {
 			display: none;
 		}
 		
+		.battle-players .battle-speclist li .color,
 		.battle-players .battle-speclist li .ally,
 		.battle-players .battle-speclist li .team,
 		.battle-players .battle-speclist li .bonus,
@@ -863,7 +881,7 @@ ul.list {
 	    right: 0;
 	    width: calc(45% - 120px);		
 	    background: #1b1e23;
-	    padding: 0 2em 1em 2em;
+	    padding: 2em;
 	    font-size: 12px;
 	}
 	
@@ -897,6 +915,25 @@ ul.list {
 			opacity: 1;
 		}
 		
+		.colorpicked{
+			background-color: #5588ff;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			position: relative;
+		}
+		
+		.colorpicked .colorpicker{
+			position: absolute;
+			display: none;		
+			top: 0;
+			left: 0;
+		    transform: translate3d(-50%, -105%, 0);
+		}
+		
+		.colorpicked .colorpicker.active{
+			display: block;
+		}
 		
 		
 		
@@ -971,8 +1008,17 @@ span.upper{
 	opacity: 0.5;
 }
 
-#chat-list li .status{
-	
+#channel-list{
+	display: flex;
+	flex-direction: column-reverse;	
+}
+
+#channel-list li div{
+	flex: 0.1;
+}
+
+#channel-list li .chanName{
+	flex: 0.7;
 }
 
 
@@ -1092,9 +1138,17 @@ span.upper{
 		cursor: pointer;
 	}
 
+#chatlist{
+	width: 49%;
+}
+	
+#chats{
+	width: calc(51% - 130px);
+}
+
 #activechats{
 	position: absolute;
-	width: 100px;
+	width: 130px;
 	right: 0;
 	height: 100%;	
 	background: #111213;
@@ -1114,6 +1168,7 @@ span.upper{
 	    border-radius: 30px;
 	    overflow: hidden;
 	    position: relative;
+	    border: 1px solid #223;
 	}
 	
 		#activechats .userpm-select:before{
@@ -1129,7 +1184,7 @@ span.upper{
 		}
 		
 		#activechats .userpm-select.online:before{
-			background: #5588ff;			
+			background: #004dff;			
 		}
 		
 		#activechats .userpm-select .unread{
@@ -1153,7 +1208,7 @@ span.upper{
 	
 	#activechats .userpm-select:hover,
 	#activechats .userpm-select.active{
-		background: #5588ff;
+		border: 1px solid #5588ff;
 	}
 
 	
