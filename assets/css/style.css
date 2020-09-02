@@ -1122,15 +1122,16 @@ span.upper{
 	}
 	
 	.userchat .actions{
-		position: absolute;
-		top: 2px;
-		right: 100px;
+		position: relative;
+		width: 100%;
 		display: flex;
+		justify-content: center;
+		padding: 5px;
 	}
 	
 	.userchat .actions .clearchat,
 	.userchat .actions .closewin{
-		background: #223;
+		background: #474a5a;
 		border-radius: 30px;		
 		padding: 4px 15px;
 		font-size: 11px;

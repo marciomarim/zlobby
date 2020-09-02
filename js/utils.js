@@ -49,7 +49,7 @@ export default class Utils {
 		chat += '<div class="clearchat" data-username="'+username+'">CLEAR</div>';
 		chat += '<div class="closewin" data-username="'+username+'">CLOSE</div>';
 		chat += '</div>';
-		chat += '<div class="title">'+username+'</div>';
+		//chat += '<div class="title">'+username+'</div>';
 		chat += '<div class="text-scroll"><ul class="messages"></ul></div>';
 		chat += '<div class="bottom-input"><input type="text" class="userchat_input" data-username="'+username+'"/ placeholder="Message @'+username+'"></div>';
 		chat += '</div>';		
@@ -88,8 +88,11 @@ export default class Utils {
 			
 			$('#activechats').append(div);
 		}
-				
-		$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight); 
+		
+		setTimeout( function(){
+			$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight); 	
+		}, 500);
+		
 		
 	}
 	
