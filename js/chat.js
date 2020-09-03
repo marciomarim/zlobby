@@ -34,7 +34,6 @@ $('body').on('click', '.userchat .closewin', function(e) {
 	
 	$(this).closest('.userchat').removeClass('active');	
 	var username = $(this).data('username');	
-	$('#activechats .userpm-select[data-username="'+username+'"]').remove();
 	
 });
 
