@@ -678,6 +678,10 @@ ul.list {
 			flex: 0.5;	
 		}
 		
+		.battle-players li .team{
+			flex: 0.05;
+		}
+		
 		.battle-players li .trueskill{
 			position: relative;
 		}
