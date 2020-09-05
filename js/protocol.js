@@ -483,7 +483,12 @@ export default class Protocol {
 			    
 			    
 				case 'LEFT':
-				
+					
+					var chanName = parts[1];
+					var username = parts[2];
+					
+					channels.leftchannel(chanName, username);
+					
 					break;			    
 			    
 			    
@@ -701,7 +706,13 @@ export default class Protocol {
 			    
 			    
 				case 'SAID':
-				
+					
+					var chanName = parts[1];
+					var username = parts[2];					
+					var message = parts.slice(3).join(' ');					
+					
+					utils.add_message_to_channel(chanName, username, message);
+					
 					break;			    
 			    
 			    

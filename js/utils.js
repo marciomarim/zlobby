@@ -220,7 +220,7 @@ export default class Utils {
 			channel += '<div class="right">';		
 				channel += '<div class="actions">';
 				channel += '<div class="clearchannel" data-channame="'+chanName+'">CLEAR</div>';
-				channel += '<div class="closewin" data-channame="'+chanName+'">CLOSE</div>';
+				channel += '<div class="closewin" data-channame="'+chanName+'">LEAVE</div>';
 				channel += '</div>';
 				channel += '<div class="text-scroll"><ul class="messages"></ul></div>';
 				channel += '<div class="bottom-input"><input type="text" class="channelchat_input" data-channame="'+chanName+'"/ placeholder="Message @'+chanName+'"></div>';
@@ -279,10 +279,15 @@ export default class Utils {
 	}
 	
 	
-	add_message_to_channel(chanName, message, me){
+	add_message_to_channel(chanName, username, message){
 		
 		var $bubble = $('<li></li>');				
-
+		
+		var me = false;
+		if ( username == $('#myusername').text() ){
+			me = true;
+		}
+		
 		if (me){			
 			$bubble.addClass('mine');
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.timenow +'</div></div><div class="message">' +message+'</div>');

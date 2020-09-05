@@ -40,8 +40,9 @@ $('body').on('click', '.userchat .closewin', function(e) {
 $('body').on('click', '.userchat .clearchat', function(e) {
 	var username = $(this).data('username');			
 	utils.clear_user_chat(username);
-	$(this).closest('.userchat').remove();
-	$('.userpm-select[data-username="'+username+'"]').remove();
+	
+	//$(this).closest('.userchat').remove();
+	//$('.userpm-select[data-username="'+username+'"]').remove();
 });
 
 
@@ -146,7 +147,7 @@ $('#channel-list').on('click', 'li', function(e) {
 		utils.init_channel( chanName );
 	}
 	
-	//$('.channelchat, .userpm-select').removeClass('active');		
+	$('.channelchat').removeClass('active');		
 	$('.channelchat[data-channame="'+chanName+'"]').addClass('active');							
 	
 });
@@ -155,15 +156,17 @@ $('body').on('click', '.channelchat .closewin', function(e) {
 	
 	var chanName = $(this).data('channame');
 	$(this).closest('.channelchat').removeClass('active');
+	
 	var command = 'LEAVE ' + chanName + ' \n';	
-	socketClient.write( command );
+	socketClient.write( command );		
 	
 });
 
 $('body').on('click', '.channelchat .clearchannel', function(e) {
+	
 	var chanName = $(this).data('channame');			
 	utils.clear_channel_chat(chanName);
-	$(this).closest('.channelchat').remove();
+	//$(this).closest('.channelchat').remove();
 	//$('.userpm-select[data-username="'+username+'"]').remove();
 });
 
@@ -189,10 +192,10 @@ $('body').on('keypress','.channelchat_input', function (e) {
 		message = utils.urlify(message);  	
 		//message = filter.clean(message);
 
-		var command = 'SAYFROM ' + chanName + ' ' + message + '\n';
+		var command = 'SAY ' + chanName + ' ' + message + '\n';
     	socketClient.write( command );
     	
-    	utils.add_message_to_channel(chanName, message, true);
+    	//utils.add_message_to_channel(chanName, '', message, true);
     	
     	$(this).val('');
 		return false;    //<---- Add this line		

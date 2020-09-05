@@ -19,7 +19,9 @@ export default class Channel {
     }                    
   
 	removechannel( chanName ){
+		
 		$('#channel-list li[data-channame="'+chanName+'"]').remove();		
+		
 	}
     
     joinedchannel( chanName, username ){	
@@ -28,13 +30,20 @@ export default class Channel {
 				
     }
     
+    leftchannel( chanName, username ){	
+		
+		$('#channel-list li[data-channame='+chanName+'] .status').text('');
+				
+    }
+    
+    
     clients( chanName, clients ){	
 		
 		console.log(clients);
 		
 		$.each(clients, function( index, clientname ) {
 			
-			var client = $('#chat-list li[data-username='+clientname+']').clone();
+			var client = $('#chat-list li[data-username='+jQuery.escapeSelector(clientname)+']').clone();
 			$('.channelchat[data-channame='+chanName+'] .channelusers').append( client );	
 		});
 		

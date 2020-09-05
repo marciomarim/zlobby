@@ -374,6 +374,9 @@ input:focus {
     border: 1px solid #004eff;
 }
 
+li{
+	cursor:pointer;
+}
 
 ul.list {	
 	list-style-type:none;
@@ -1013,14 +1016,17 @@ span.upper{
 	display: flex;
 	flex-direction: column-reverse;	
 }
-
-#channel-list li div{
-	flex: 0.07;
-}
-
-#channel-list li .chanName{
-	flex: 0.7;
-}
+	
+	#channel-list li{
+		cursor: alias;
+	}
+	#channel-list li div{
+		flex: 0.07;
+	}
+	
+	#channel-list li .chanName{
+		flex: 0.7;
+	}
 
 
 .messages li{
@@ -1129,7 +1135,7 @@ span.upper{
 	}
 	
 	.channelchat .channelusers{
-		padding: 30px 0;
+		padding: 30px 6px;
 		width: 22%;
 		background: #181b21;
 	}
@@ -1143,7 +1149,7 @@ span.upper{
 				flex: 0.1;
 			}
 			.channelchat .channelusers li .name{
-				flex: 0.65;
+				flex: 0.6;
 			}
 			
 			.channelchat .channelusers li .country,
