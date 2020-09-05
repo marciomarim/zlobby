@@ -238,7 +238,12 @@ export default class Protocol {
 			    
 			    
 				case 'CLIENTS':
-				
+					
+					var chanName = parts[1];
+					var clients = parts.slice(2);
+					
+					channels.clients(chanName, clients);
+					
 					break;			    
 			    
 			    
@@ -420,7 +425,12 @@ export default class Protocol {
 			    
 			    
 				case 'JOINED':
-				
+					
+					var chanName = parts[1];
+					var username = parts[2];
+					
+					channels.joinedchannel(chanName, username);
+					
 					break;			    
 			    
 			    

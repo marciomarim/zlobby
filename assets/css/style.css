@@ -106,7 +106,7 @@ a{
 		position: relative;
 		left:0;
 		top:0;
-		height: 100vh;
+		height: calc(100vh - 40px);
 		width: 120px;
 		background: #111418;
 	    padding: 20px 10px;
@@ -275,6 +275,7 @@ a{
 	.rcontainer{
 		width: calc(45% - 120px);
 		position: fixed;
+		top: 30px;
 		right: 0;
 		display: none;
 		height: calc(100% - 30px);
@@ -1113,14 +1114,53 @@ span.upper{
     flex: inherit;
 }
 
+.channelchat,
 .userchat{
 	display: none;
 }
-
+	
 	.userchat.active{
 		display: block;
 	}
 	
+	.channelchat.active{
+		display: flex;
+	    height: 100%;
+	}
+	
+	.channelchat .channelusers{
+		padding: 30px 0;
+		width: 22%;
+		background: #181b21;
+	}
+	
+		.channelchat .channelusers li{
+			display: flex;
+			padding: 5px 0;
+		}
+		
+			.channelchat .channelusers li div{
+				flex: 0.1;
+			}
+			.channelchat .channelusers li .name{
+				flex: 0.65;
+			}
+			
+			.channelchat .channelusers li .country,
+			.channelchat .channelusers li .away,
+			.channelchat .channelusers li .admin,
+			.channelchat .channelusers li .bot,
+			.channelchat .channelusers li .trueskill{
+				display: none;
+			}
+	
+	.channelchat .right{
+		position: relative;
+		width: 78%;
+	}
+	
+	
+	.channelchat .actions,
 	.userchat .actions{
 		position: relative;
 		width: 100%;
@@ -1129,6 +1169,8 @@ span.upper{
 		padding: 5px;
 	}
 	
+	.channelchat .actions .clearchannel,
+	.channelchat .actions .closewin,
 	.userchat .actions .clearchat,
 	.userchat .actions .closewin{
 		background: #474a5a;
@@ -1139,9 +1181,26 @@ span.upper{
 		cursor: pointer;
 	}
 
+
 #chatlist{
 	width: 49%;
 }
+
+#channellist{
+	position: fixed;
+	width: calc(100% - 130px);	
+	height: cacl(100vh - 30px);
+	top: 30px;
+	left: 130px;
+}
+
+	#channellist .left{
+		width: 40%;
+	}
+	
+	#channels{
+		width: 60%;
+	}
 	
 #chats{
 	width: calc(51% - 130px);

@@ -18,6 +18,16 @@ $('.lmenu').on('click', '.tab', function(e) {
 		utils.update_global_unread_count();
 	}
 	
+	if (tab == 'channellist'){
+		$('#channels').addClass('active');	
+		var channelactive = $('.channelchat.active').data('channame');
+/*
+		if( $('.userpm-select[data-username="'+useractive+'"] .unread').length )
+			$('.userpm-select[data-username="'+useractive+'"] .unread').remove();
+		utils.update_global_unread_count();
+*/
+	}
+	
 	if ( tab == 'battleroom' && !$('body').hasClass('inbattleroom') ){
 		return false;
 	}

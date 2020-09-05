@@ -125,3 +125,76 @@ $('body').on('keypress','.userchat_input', function (e) {
 		return false;    //<---- Add this line		
 	}
 });
+
+
+
+
+
+
+
+
+
+$('#channel-list').on('click', 'li', function(e) {
+	
+	var chanName = $(this).data('channame');
+	
+	var command = 'JOIN ' + chanName + ' \n';	
+	socketClient.write( command );
+	
+		
+	if (!$('.channelchat[data-channame="'+chanName+'"]').length){
+		utils.init_channel( chanName );
+	}
+	
+	//$('.channelchat, .userpm-select').removeClass('active');		
+	$('.channelchat[data-channame="'+chanName+'"]').addClass('active');							
+	
+});
+
+$('body').on('click', '.channelchat .closewin', function(e) {
+	
+	var chanName = $(this).data('channame');
+	$(this).closest('.channelchat').removeClass('active');
+	var command = 'LEAVE ' + chanName + ' \n';	
+	socketClient.write( command );
+	
+});
+
+$('body').on('click', '.channelchat .clearchannel', function(e) {
+	var chanName = $(this).data('channame');			
+	utils.clear_channel_chat(chanName);
+	$(this).closest('.channelchat').remove();
+	//$('.userpm-select[data-username="'+username+'"]').remove();
+});
+
+
+$('body').on('click', '.channelchat.active', function(e) {
+	// on click on chat, clear unread message counter
+	var chanName = $(this).data('channame');			
+	//$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	//utils.update_global_unread_count();
+});
+
+//user chat
+$('body').on('keypress','.channelchat_input', function (e) {
+			
+	if (e.which == 13) {
+		
+		var chanName = $(this).data('channame');				
+		var message = $(this).val(); 
+		
+		if (message == '')
+			return false;
+			
+		message = utils.urlify(message);  	
+		//message = filter.clean(message);
+
+		var command = 'SAYFROM ' + chanName + ' ' + message + '\n';
+    	socketClient.write( command );
+    	
+    	utils.add_message_to_channel(chanName, message, true);
+    	
+    	$(this).val('');
+		return false;    //<---- Add this line		
+	}
+});

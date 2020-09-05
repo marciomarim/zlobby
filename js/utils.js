@@ -207,6 +207,133 @@ export default class Utils {
 	
 	
 	
+	create_channel_window( chanName ){
+		
+		$('.channelchat.active').removeClass('active');
+		
+		var channel = '<div class="channelchat active" data-channame="'+chanName+'">';
+			
+			channel += '<div class="channelusers">';
+			
+			channel += '</div>';	
+			
+			channel += '<div class="right">';		
+				channel += '<div class="actions">';
+				channel += '<div class="clearchannel" data-channame="'+chanName+'">CLEAR</div>';
+				channel += '<div class="closewin" data-channame="'+chanName+'">CLOSE</div>';
+				channel += '</div>';
+				channel += '<div class="text-scroll"><ul class="messages"></ul></div>';
+				channel += '<div class="bottom-input"><input type="text" class="channelchat_input" data-channame="'+chanName+'"/ placeholder="Message @'+chanName+'"></div>';
+			channel += '</div>';			
+		
+		channel += '</div>';		
+		
+		$('#channels').append(channel);
+		
+	}
+	
+	init_channel( chanName ){
+		
+		// if chat doesnt exit, create
+		if ( !$('.channelchat[data-channame="'+chanName+'"]').length ){						
+			this.create_channel_window(chanName);							
+		}else{
+			if(!$('.channelchat[data-channame="'+chanName+'"]').hasClass('active')){
+				$('.channelchat.active').removeClass('active');
+				$('.channelchat[data-channame="'+chanName+'"]').addClass('active');	
+			}							
+		}
+		$('.active .channelchat_input').focus();
+		
+		fs.readFile( chatlogsdir + 'channel-'+chanName+'.log', function (err, data) {
+			if (err) throw err;
+			if(data)
+				$('.channelchat[data-channame="'+chanName+'"] .messages').html(data.toString());
+		});
+		
+		// create active chats button
+/*
+		if (!$('#activechannels .userpm-select[data-username="'+username+'"]').length ){
+			//check if user is online
+			if ( $('#chat-list li[data-username="'+username+'"]').length ){
+				var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
+			}else{
+				var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
+			}			
+			
+			$('#activechats').append(div);
+		}
+*/
+		
+		setTimeout( function(){
+			$('.channelchat[data-channame="'+chanName+'"] .text-scroll').scrollTop($('.channelchat[data-channame="'+chanName+'"] .messages')[0].scrollHeight); 	
+		}, 500);
+				
+	}
+	
+	clear_channel_chat(chanName){
+		
+		fs.unlinkSync(chatlogsdir + 'channel-'+chanName+'.log');		
+		$('.channelchat[data-channame="'+chanName+'"] .messages').empty();
+		
+	}
+	
+	
+	add_message_to_channel(chanName, message, me){
+		
+		var $bubble = $('<li></li>');				
+
+		if (me){			
+			$bubble.addClass('mine');
+			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.timenow +'</div></div><div class="message">' +message+'</div>');
+		}else{
+			$bubble.append('<div class="messageinfo"><div class="userspeaking">'+username+'</div><div class="time">' + this.timenow +'</div></div><div class="message">' +message+'</div>');
+		}					
+					
+		$('.channelchat[data-channame="'+chanName+'"] .messages').append($bubble);    	
+    	$('.channelchat[data-channame="'+chanName+'"] .text-scroll').scrollTop($('.channelchat[data-channame="'+chanName+'"] .messages')[0].scrollHeight);    	    	
+				
+		// save chat info
+		var container = $bubble.wrap('<p/>').parent().html();
+		fs.appendFileSync( chatlogsdir + 'channel-'+chanName+'.log', container );
+		
+		//reorder active chats
+/*
+		$('#activechats .userpm-select').each(function( index ) {
+			$(this).css('order', index+1);
+		});
+		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
+*/
+		
+		// update unread messages count if not mine
+/*
+		if ( $('#channels').hasClass('active') && $('.channelchat[data-channame="'+chanName+'"]').hasClass('active') ){								
+			// chat is open and active
+		}else{
+			if (!me){
+				if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
+					var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+					unread += 1;	
+					$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+				}else{
+					var unread = 1;
+					$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+				}				
+				this.update_global_unread_count();	
+			}
+		}	
+*/									
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	init_battlerrom_chat(){
 		
 		var battleid = $('#battleroom .battleid').text();
