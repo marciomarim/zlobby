@@ -152,96 +152,100 @@
 	    
 	    <div id="battleroomtemplate" style="display:none;">
 		    
-		    <div class="title icon icon-tank">Battleroom</div>
-		    
-		    <div id="battlelabels">
-			    <div class="labels gametype">TEAMS</div>
-			    <div class="labels ffatype"></div>
-		    </div>
-			    		    		    
-		    <div class="battle-players">
-				<div class="battle-playerlist list">
-					<div class="ui-label">Players</div>
-				</div>
-				<div class="battle-speclist list">
-					<div class="ui-label">Spectators</div>
-				</div>
-				    
-		    </div>
-		    
-		    <div id="battlechatoptions">
-				
-				<div id="showhostmessages" class="pretty p-switch p-fill">
-			        <input class="showhostmessages" type="checkbox"/>
-			        <div class="state">
-			            <label>Host messages</label>
-			        </div>
+		    <div class="left">
+			    <div class="title icon icon-tank">Battleroom</div>
+			    
+			    <div id="battlelabels">
+				    <div class="labels gametype">TEAMS</div>
+				    <div class="labels ffatype"></div>
 			    </div>
-			    		    
-				<div id="autoscrollbattle" class="pretty p-switch p-fill">
-			        <input class="autoscrollbattle" type="checkbox" checked/>
-			        <div class="state">
-			            <label>Autoscroll</label>
-			        </div>
+				    		    		    
+			    <div class="battle-players">
+					<div class="battle-playerlist list">
+						<div class="ui-label">Players</div>
+					</div>
+					<div class="battle-speclist list">
+						<div class="ui-label">Spectators</div>
+					</div>
+					    
 			    </div>
-		    
-		    </div>
-		    
-		    <div class="text-scroll">			    			    			    
-				<ul id="battle-room" class="messages"></ul>	    
-		    </div>		    		    
-		    
-		    <div class="bottom-input">
-		      <input type="text" class="battleroom_input" placeholder="Battle message"/>
-		      	<div class="votes active">
-			    	<div class="vote yes icon icon-thumbs-up-2"></div>
-			    	<div class="vote no icon icon-thumbs-down-2"></div>	
-		    	</div>
+			    
+			    <div id="battlechatoptions">
+					
+					<div id="showhostmessages" class="pretty p-switch p-fill">
+				        <input class="showhostmessages" type="checkbox"/>
+				        <div class="state">
+				            <label>Host messages</label>
+				        </div>
+				    </div>
+				    		    
+					<div id="autoscrollbattle" class="pretty p-switch p-fill">
+				        <input class="autoscrollbattle" type="checkbox" checked/>
+				        <div class="state">
+				            <label>Autoscroll</label>
+				        </div>
+				    </div>
+			    
+			    </div>
+			    
+			    <div class="text-scroll">			    			    			    
+					<ul id="battle-room" class="messages"></ul>	    
+			    </div>		    		    
+			    
+			    <div class="bottom-input">
+			      <input type="text" class="battleroom_input" placeholder="Battle message"/>
+			      	<div class="votes active">
+				    	<div class="vote yes icon icon-thumbs-up-2"></div>
+				    	<div class="vote no icon icon-thumbs-down-2"></div>	
+			    	</div>
+			    </div>
 		    </div>
 		    
 		    <div id="battle-right-info">
 			    
-			    <div class="title">Battle Info</div>
-			    
-			    <div class="battle-main-info"></div>
-			    
-			    <div class="game-download">
-				    <div class="download-title">Downloading game...</div>
-				    <div class="progress"></div>
-			    </div>
-			    <div class="map-download">
-				    <div class="download-title">Downloading map...</div>
-				    <div class="progress"></div>
-			    </div>
+			    <div class="scroll" style="padding-bottom: 150px;">
+				    <div class="title">Battle Info</div>
 				    
-			    <div class="ui-label">Minimap</div>
-			    <div id="battle-minimap"></div>
-			    
-			    
-			    <div class="smallnav">				    
-				    <div class="navbtn active" data-target="battleoptions">options</div>
-				    <div class="navbtn" data-target="hostmessages">host</div>
-			    </div>
-												
-				<div id="battleoptions" class="smalltab active">    
-				    <div class="ui-label">Game</div>
-				    <div class="gameoptions"></div>
+				    <div class="battle-main-info"></div>
 				    
-				    <div class="ui-label">Map Options</div>
-				    <div class="mapoptions"></div>
-				    
-				    <div class="ui-label">Mod Options</div>
-				    <div class="modoptions"></div>
-				    
-				    <div class="ui-label">Other Options</div>
-				    <div class="otheroptions"></div>
-				</div>
-				
-			    <div id="hostmessages" class="smalltab">    
-				    <div class="text-scroll">
-					    <ul id="host-messages" class="messages"></ul>
+				    <div class="game-download">
+					    <div class="download-title">Downloading game...</div>
+					    <div class="progress"></div>
 				    </div>
-				</div>
+				    <div class="map-download">
+					    <div class="download-title">Downloading map...</div>
+					    <div class="progress"></div>
+				    </div>
+					    
+				    <div class="ui-label">Minimap</div>
+				    <div id="battle-minimap"></div>
+				    
+				    
+				    <div class="smallnav">				    
+					    <div class="navbtn active" data-target="battleoptions">options</div>
+					    <div class="navbtn" data-target="hostmessages">host</div>
+				    </div>
+													
+					<div id="battleoptions" class="smalltab active">    
+					    <div class="ui-label">Game</div>
+					    <div class="gameoptions"></div>
+					    
+					    <div class="ui-label">Map Options</div>
+					    <div class="mapoptions"></div>
+					    
+					    <div class="ui-label">Mod Options</div>
+					    <div class="modoptions"></div>
+					    
+					    <div class="ui-label">Other Options</div>
+					    <div class="otheroptions"></div>
+					</div>
+					
+				    <div id="hostmessages" class="smalltab">    
+					    <div class="text-scroll">
+						    <ul id="host-messages" class="messages"></ul>
+					    </div>
+					</div>
+			    </div>
 				
 			    <div class="battle-actions">	
 									    

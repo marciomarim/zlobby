@@ -185,15 +185,11 @@ a{
 	
 	.container{
 		position: relative;
-		width: 55%;		
+		width: 100%;		
 		height: 100%;
 		top:0;
 		left: 0;		
 		display: none;	
-	}
-	
-	.container.wide{
-		width: 100%;		
 	}
 	
 		.container.active{
@@ -284,10 +280,6 @@ a{
 		.rcontainer.active{
 			display: block;	
 		}
-	
-	#battle-right-info{
-		width: calc(45% - 120px);
-	}
 	
 	.text-scroll{
 		width: 100%;
@@ -549,7 +541,13 @@ ul.list {
 #battleroom{
 	position: relative;
 	left: 0;	
-}	
+}
+
+	#battleroom .left{
+	    position: relative;
+		width: 	55%;
+		height: 100%;
+	}	
 	
 	#battle-minimap{
 	    width: 100%;
@@ -677,7 +675,7 @@ ul.list {
 		}
 		
 		.battle-players li .name{
-			flex: 0.6;	
+			flex: 0.5;	
 		}
 		
 		.battle-players li .trueskill{
@@ -878,12 +876,17 @@ ul.list {
 				top: 4px;
 			}
 	
+	.scroll{
+	    position: relative;
+	    height: 100%;
+	    overflow: scroll;
+	}		
+	
 	.battle-actions{		
-	    padding: 6px;
-	    position: fixed;
+	    position: absolute;
 	    bottom: 0;
 	    right: 0;
-	    width: calc(45% - 120px);		
+	    width: 100%;		
 	    background: #1b1e23;
 	    padding: 2em;
 	    font-size: 12px;
@@ -950,13 +953,14 @@ ul.list {
 	
 	
 	#battle-right-info{
-		position: fixed;
+		width: 45%;
+		position: absolute;
 		right: 0;
-		top: 30px;
-		height: calc(100% - 30px);
+		top: 0;
+		height: 100%;
 		background: #111418;
 		overflow: auto;
-		padding: 2em 2em 140px 2em;
+		padding: 2em 2em 2em 2em;
 	}
 	
 	.smallnav{
@@ -1197,11 +1201,7 @@ span.upper{
 	}
 
 #channellist{
-	position: fixed;
-	width: calc(100% - 120px);	
-	height: cacl(100vh - 30px);
-	top: 30px;
-	left: 120px;
+
 }
 
 	#channellist .left{
