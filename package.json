@@ -40,7 +40,7 @@
   "build": {
     "appId": "com.electron.elobby",
     "productName": "Elobby",
-    "copyright": "Copyright @ 2020 Zorro",    
+    "copyright": "Copyright @ 2020 Zorro",
     "publish": [
       {
         "provider": "github",
@@ -51,8 +51,8 @@
     ],
     "mac": {
       "hardenedRuntime": true,
-      "entitlements": "entitlements.mac.plist",
-      "entitlementsInherit": "entitlements.mac.plist",
+      "entitlements": "dist/entitlements.mac.plist",
+      "entitlementsInherit": "dist/entitlements.mac.plist",
       "gatekeeperAssess": false,
       "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
