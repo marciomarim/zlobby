@@ -1191,6 +1191,10 @@ span.upper{
 #chatlist{
 	width: 49%;
 }
+	
+	#chatlist .left{
+		height: 100%;
+	}
 
 #channellist{
 	position: fixed;
@@ -1202,6 +1206,7 @@ span.upper{
 
 	#channellist .left{
 		width: 40%;
+		height: 100%;
 	}
 	
 	#channels{
