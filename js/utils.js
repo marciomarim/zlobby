@@ -251,20 +251,6 @@ export default class Utils {
 				$('.channelchat[data-channame="'+chanName+'"] .messages').html(data.toString());
 		});
 		
-		// create active chats button
-/*
-		if (!$('#activechannels .userpm-select[data-username="'+username+'"]').length ){
-			//check if user is online
-			if ( $('#chat-list li[data-username="'+username+'"]').length ){
-				var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
-			}else{
-				var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
-			}			
-			
-			$('#activechats').append(div);
-		}
-*/
-		
 		setTimeout( function(){
 			$('.channelchat[data-channame="'+chanName+'"] .text-scroll').scrollTop($('.channelchat[data-channame="'+chanName+'"] .messages')[0].scrollHeight); 	
 		}, 500);
