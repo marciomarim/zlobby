@@ -1135,7 +1135,7 @@ span.upper{
 	}
 	
 	.channelchat .channelusers{
-		padding: 30px 6px;
+		padding: 30px 15px;
 		width: 22%;
 		background: #181b21;
 	}
@@ -1198,10 +1198,10 @@ span.upper{
 
 #channellist{
 	position: fixed;
-	width: calc(100% - 130px);	
+	width: calc(100% - 120px);	
 	height: cacl(100vh - 30px);
 	top: 30px;
-	left: 130px;
+	left: 120px;
 }
 
 	#channellist .left{
