@@ -413,7 +413,7 @@ export default class Utils {
 			b = color[2];	
 		}
 		
-		console.log(r + ' ' + g + ' ' + b);
+		//console.log(r + ' ' + g + ' ' + b);
 				
 		return b << 16 | g << 8 | r;
 	}

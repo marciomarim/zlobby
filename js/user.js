@@ -215,8 +215,7 @@ export default class User {
 			Blue :  (color >> 16) & 255 }
 			
 		
-		var csscolor = 'rgb(' + newcolor.Red +','+ newcolor.Green + ','+ newcolor.Blue + ')';
-		console.log(csscolor);	
+		var csscolor = 'rgb(' + newcolor.Red +','+ newcolor.Green + ','+ newcolor.Blue + ')';		
 		$('#battleroom li[data-username="'+username+'"] .color').css('background-color', csscolor );
 		
 		
