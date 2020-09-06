@@ -734,8 +734,8 @@ ul.list {
 		.battle-players li .ally:before{
 			content: '';
 			position: absolute;
-			top: 1px;
-			left: -5px;
+		    top: -0.1em;
+		    left: -0.5em;
 			border-radius: 50%;
 			z-index: -1;
 			width: 18px;
@@ -1338,13 +1338,13 @@ span.upper{
 	
 #replaylist{
 	display: flex;	
-	flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
 	margin: 1%;
 }
 
 #replaylist .replayitem{
-	width: 49.4%;
-	margin: 0.3%;
+	width: 33%;
+	margin: 0.16%;
 	padding: 1%;
 	background: #33383e;
 	font-size: 12px;

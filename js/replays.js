@@ -12,26 +12,54 @@ fs.readdir(replaysdir, (err, files) => {
 		var hour = data[1];
 		var mapname = data.slice(2).join('');
 		
-		var div = '<div class="replayitem">';
+		var div = '<div class="replayitem" data-file="'+file+'">';
 				div += '<div class="infos">';
 					div += '<div class="meta">'+date+'</div>';
 					div += '<div class="meta">'+hour+'</div>';
 					div += '<div class="meta">'+mapname+'</div>';
 				div += '</div>';
-				//div += '<div class="minimap">';
-				//div += '</div>';
+				div += '<div class="minimap">';
+				div += '</div>';
 			div += '</div>';
+		
+		var $div = $(div);		
 		$('#replaylist').append(div);
 		
+		
 /*
-		if (file == '20200819_192404_Dworld Acidic_103.sdfz'){
-			var replaydata = fs.readFileSync(replaysdir + file );
-			console.log(replaydata);	
-		}
+	    var mapfilenamebase = mapname.toLowerCase().split(' ').join('_');
+	    var mapfilename1 = mapfilenamebase+'.sd7';
+	    var mapfilename2 = mapfilenamebase+'.sdz';
+		console.log(mapfilename1);
+	    
+	    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
+	    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
 */
-		
-		
-		//const contents = fs.readFileSync(replaysdir + file, {encoding: 'base64'});
+	    
+/*
+	    $.ajax({ 
+            url: url1,             
+            type: 'HEAD', 
+            error: function()  
+            {                 
+				$.ajax({ 
+		            url: url2,             
+		            type: 'HEAD', 
+		            success: function()  
+		            { 
+						var imgdiv = '<img class="map" src="'+url2+'">';
+						$div.append(imgdiv);				        
+		            } 
+		        });     
+            }, 
+            success: function()  
+            { 
+				var imgdiv = '<img class="map" src="'+url1+'">';
+				$div.append(imgdiv);
+            } 
+        });
+*/
+        
 	});
 });
 
@@ -39,7 +67,9 @@ fs.readdir(replaysdir, (err, files) => {
 
 $('body').on('click', '.replayitem', function(e) {
 	
-	var replaypath = replaysdir + $(this).text();
+	var replaypath = replaysdir + $(this).data('file');
+	
+	console.log(replaypath);
 	
 	try {
 		  if (fs.existsSync(infologfile)) {

@@ -34,7 +34,7 @@ if (platform == 'linux' || platform == 'darwin'){
 	var springdir = homedir + '/.spring/';	
 	var mapsdir = homedir + '/.spring/maps/';
 	var modsdir = homedir + '/.spring/games/';
-	var replaysdir = homedir + '/.spring/demos/';
+	var replaysdir = homedir + '/.config/spring/demos/';
 	var chatlogsdir = homedir + '/.spring/chatlogs/';
 	var infologfile = homedir + '/.spring/infolog.log';
 	var scriptfile = homedir + '/.spring/e-script.txt';
