@@ -1129,6 +1129,7 @@ span.upper{
 		border-radius: 16px;
 		max-width: 80%;
         margin: -2px 0 4px 0;
+        overflow-wrap: anywhere;
 	}
 	
 	.messages li.mine{
