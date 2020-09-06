@@ -326,6 +326,7 @@ a{
 #chatlist .split .left{
 	width: 60%;
 }
+
 #chatlist .split .right{
 	width: 36%;
 	margin-left: 4%;
@@ -342,7 +343,10 @@ button {
     font-size: 12px;
     cursor: pointer;
 }
-	
+
+button.gray{
+	background: #4e5e80;
+}	
 
 
 input[type=password], 

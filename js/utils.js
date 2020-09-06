@@ -437,7 +437,7 @@ export default class Utils {
 		
 		if ($('body').hasClass("ingame") == true){
 			ingame = 1;
-			console.log('sending ingame for me');
+			//console.log('sending ingame for me');
 		}else{
 			ingame = 0; //unspec
 		}
