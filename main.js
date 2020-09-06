@@ -11,7 +11,7 @@ function createWindow () {
 		height: 1000,
 		icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
-		//frame: false,
+		frame: false,
 		webPreferences: {
 		  nodeIntegration: true,
 		  webviewTag: true,
@@ -23,7 +23,7 @@ function createWindow () {
 	win.loadFile(__dirname + '/index.html')
 	
 	// Open the DevTools.
-	win.webContents.openDevTools()  
+	//win.webContents.openDevTools()  
 	
 	win.once('ready-to-show', () => {
 	    autoUpdater.checkForUpdatesAndNotify();
