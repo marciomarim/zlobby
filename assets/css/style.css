@@ -917,17 +917,29 @@ ul.list {
 			text-align: center;
 		}
 		
-		.pickcore,
-		.pickarm{
+		.icon.pickcore,
+		.icon.pickarm{
 			cursor: pointer;
-			filter: grayscale(100%);
+			filter: grayscale(50%);
 			opacity: 0.5;
+	        top: 0px;
+		    border: 2px solid #4a5173;
+		    padding: 6px 10px 6px 30px;
+		    border-radius: 20px;
 		}
 		
-		.pickcore.active,
-		.pickarm.active{
+		.icon.pickcore.active,
+		.icon.pickarm.active{
 			filter: grayscale(0);
 			opacity: 1;
+		}
+		
+		.icon.pickcore:before,
+		.icon.pickarm:before{
+	        position: absolute;
+		    top: 5px;
+		    left: 8px;
+		    font-size: 1.1em;
 		}
 		
 		.colorpicked{
@@ -936,6 +948,7 @@ ul.list {
 			height: 22px;
 			border-radius: 50%;
 			position: relative;
+			margin-right: 50px;
 		}
 		
 		.colorpicked .colorpicker{
@@ -948,6 +961,13 @@ ul.list {
 		
 		.colorpicked .colorpicker.active{
 			display: block;
+		}
+		
+		.colorpicked .label{
+		    position: absolute;
+		    left: 28px;
+		    color: #999;
+		    top: 2px;
 		}
 		
 		
