@@ -768,10 +768,11 @@ ul.list {
 	    
 	    
 	    .battle-players li .color{
-		    width: 16px;
-		    height: 16px;
+		    width: 18px;
+		    height: 18px;
 		    border-radius: 20px;
 	        flex: inherit;
+	        border: 2px solid #4a5173;
 	    }
 		
 /*
@@ -972,6 +973,7 @@ ul.list {
 			position: relative;
 			margin-right: 50px;
 		    border: 2px solid #4a5173;
+		    cursor: pointer;
 		}
 		
 		.colorpicked .colorpicker{
