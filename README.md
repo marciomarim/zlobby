@@ -6,17 +6,18 @@ Electron based lobby client
 
 - Cross platform
 - Auto-downloads engine, games and maps
-- View minimaps before download
 - Join, spectate and play
+- View minimaps before download
 - Bubble chat
+- Save, load and clear chats
 - Offline messages
 - List and join channels
 - Battleroom pm players
-- Save, load and clear chats
-- Notifications
+- Native notifications
 - Account creation
 - Watch replays
 - Code signing
+- Website tab
 
 ## To Do
 
