@@ -9,11 +9,14 @@ Electron based lobby client
 - View minimaps before download
 - Join, spectate and play
 - Bubble chat
+- Offline messages
+- List and join channels
 - Battleroom pm players
 - Save, load and clear chats
 - Notifications
 - Account creation
 - Watch replays
+- Code signing
 
 ## To Do
 
@@ -21,13 +24,10 @@ Electron based lobby client
 - Rename account
 - Change password
 - Sync unsync status
-- Color picking and display
 - Vote UI
 - Test on Linux
 - List "online" replays
-- List channels
-- Join/save channels
-- Code signing
+– Notarize on Mac
 - Auto-updates
 - Automate for future engine/games 
 - Read more replays info
