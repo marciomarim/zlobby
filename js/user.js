@@ -17,12 +17,12 @@ export default class User {
 	
     adduser( username, country, cpu, userID, lobbyID){
 		
-		var line = '<div class="ingame icon icon-ingame false"></div>';
+		var line = '<div class="icon icon-user"></div>';
 		line += '<div class="flag-icon flag-icon-squared flag-icon-'+country.toLowerCase()+'"></div>';
 		line += '<div class="rank icon icon-rank0"></div>';					
 		line += '<div class="name">'+username+'</div>';
 		line += '<div class="trueskill">–</div>';														
-		line += '<div class="bot icon icon-bot false"></div>';
+		//line += '<div class="bot icon icon-bot false"></div>';
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
 		
@@ -55,8 +55,7 @@ export default class User {
 	    div.after('<div class="faction icon icon-arm"></div>');	    		
 		div.after('<div class="team">–</div>');				
 		div.after('<div class="ally">-</div>');
-		div.after('<div class="ready">⚪️</div>');
-		
+		//div.after('<div class="ready">⚪️</div>');		
 	    
     }
     
@@ -71,7 +70,6 @@ export default class User {
     
     
     // update simple status on chatlist and battlelist
-    // LAUNCH GAGME ?
     updatestatus(username, status){
 	    
 	    var newStatus = {							
@@ -87,9 +85,9 @@ export default class User {
 			$('li[data-username="'+username+'"] .rank').addClass('icon-rank'+newStatus.timeRank );
 			
 		if (newStatus.inGame){
-			$('li[data-username="'+username+'"] .ingame').addClass('battle');	
+			$('li[data-username="'+username+'"] .icon-user').addClass('ingame');	
 		}else{
-			$('li[data-username="'+username+'"] .ingame').removeClass('battle');
+			$('li[data-username="'+username+'"] .icon-user').removeClass('ingame');
 		}
 			
 		
@@ -98,9 +96,14 @@ export default class User {
 			
 		if (newStatus.admin)	
 			$('li[data-username="'+username+'"] .admin').removeClass('false');
-
-		if (newStatus.lobbyBot)	
-			$('li[data-username="'+username+'"] .bot').removeClass('false');
+		
+			
+		if (newStatus.lobbyBot){
+			$('li[data-username="'+username+'"] .icon-user').addClass('bot');
+		}else{
+			$('li[data-username="'+username+'"] .icon-user').removeClass('bot');
+		}	
+			
 		
 		//console.log(username);
 		//console.log(newStatus);
@@ -170,7 +173,7 @@ export default class User {
 		b28..b31 = undefined (reserved for future use);
 		*/
 		
-		if (!$('#battleroom li[data-username="'+username+'"] .ready').length){
+		if (!$('#battleroom li[data-username="'+username+'"] .faction').length){
 			//add user battle status to players
 			this.addbattlestatusfields(username);
 		}
@@ -187,6 +190,7 @@ export default class User {
 			faction : bin2dec(status2.substring(status2.length - 28, status2.length - 24))
 		}
 		
+/*
 		if ( newStatus.sync == 2 || newStatus.sync == 0){			
 			$('#battleroom li[data-username="'+username+'"] .ready').text('🛠');
 		}else if(newStatus.spec == false){
@@ -195,6 +199,17 @@ export default class User {
 			$('#battleroom li[data-username="'+username+'"] .ready').text('🟢');
 		}else{
 			$('#battleroom li[data-username="'+username+'"] .ready').text('⚪️');
+		}
+*/
+		
+		if ( newStatus.sync == 2 || newStatus.sync == 0){			
+			$('#battleroom li[data-username="'+username+'"] .icon-user').text('🛠');
+		}else if(newStatus.spec == false){
+			//$('#battleroom li[data-username="'+username+'"] .ready').text('👁');	
+		}else if(newStatus.sync && newStatus.ready){
+			$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('ready');
+		}else{
+			$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('ready');
 		}				
 		
 		if (newStatus.spec == true){			

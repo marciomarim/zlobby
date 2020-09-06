@@ -24,6 +24,7 @@ var cache = '';
 var waitforall = false;
 var cmd_first = '';
 var cmd_last = '';
+var cmd_full = '';
  
 export default class Protocol {
     
@@ -37,9 +38,11 @@ export default class Protocol {
         
         // split data into multiple line commands
         var commandlines = data.split("\n");
+/*
 		cmd_first = commandlines[0];
-		var cmd_full = cmd_last + cmd_first;
+		cmd_full = cmd_last + cmd_first;
 		cmd_last = commandlines[commandlines.length-1];
+*/
 		
 			
 		commandlines.forEach( function(cmd){
@@ -907,9 +910,14 @@ export default class Protocol {
 				  	if (cmd != ''){
 					  	
 					  	console.error('CMD NOT FOUND!'+cmd);
-					  	console.log("Trying to process: " + cmd_full);
-					  	protocol.reprocess_data(cmd_full);
 					  	
+					  	if ( cmd_first == '' ){
+						  	cmd_first = cmd;
+					  	}else{
+						  	cmd_full = cmd_first + cmd;
+						  	console.log("Trying to process: " + cmd_full);
+						  	protocol.reprocess_data(cmd_full);
+					  	}					  						  	
 					  	//console.log(cache.data);
 				  	}
 						

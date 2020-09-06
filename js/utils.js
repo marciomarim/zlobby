@@ -334,6 +334,12 @@ export default class Utils {
 				$('#battle-room').html(data.toString());
 		});
 		
+		if ($('.showhostmessages').prop("checked") == true){			
+			$('.ishost').removeClass('hidemessage');			
+		}else{
+			$('.ishost').addClass('hidemessage');			
+		}	
+		
 	}
 	
 	

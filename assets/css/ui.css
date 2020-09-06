@@ -2,6 +2,7 @@
 	position: relative;
 }
 
+.icon:after,
 .icon:before{
 	content: '';
 	display: inline-block;		
@@ -15,6 +16,13 @@
     top: 0.1em;	
 	font-size: 1em;
 	line-height: 1em;
+}
+
+.icon:after{
+	position: absolute;
+	z-index: 1;
+	top:0;
+	left: 0;
 }
 
 .lmenu .icon:before{
@@ -77,6 +85,7 @@
     top: 0;
     font-size: 0.8em;
 }
+
 .icon-core:before{
 	background-image: url(../images/CORE.svg);
 	position: relative;
@@ -86,17 +95,41 @@
 
 
 
-.icon-ingame:before{	
-	background-image: url(../svg/020-soldier-1.svg);
+.icon-user:before{	
+	background-image: none;
 }
 
-.icon-ingame.false:before{	
- 	background-image: none;
-}
+	.icon-user.battle:before{	
+		background-image: url(../svg/020-soldier-1.svg);
+	}		
+	
+	.icon-user.ingame:after{	
+		background-image: url(../svg/036-sword.svg);
+		font-size: 0.8em;
+	    top: 0.5em;
+	    left: 0.2em;
+	}
+	
+	.battle-playerlist .icon-user:before{	
+		filter: saturate(0);
+	}
+	
+	.battle-playerlist .icon-user.ready:before{	
+		filter: none;
+	    filter: saturate(5);
+	}
+	
+	.battle-speclist .icon-user.battle:before,
+	.battle-speclist .icon-user:before{
+		background-image: url(../svg/054-preview.svg);	
+	}
+	
+	.icon-bot:before,
+	.battle-speclist .icon-user.bot:before,
+	.icon-user.bot:before{	
+		background-image: url(../svg/041-robot.svg);
+	}
 
-.icon-ingame.battle:before{	
-	background-image: url(../svg/036-sword.svg);
-}
 
 .icon-admin:before{	
 	background-image: url(../svg/044-call-center.svg);
@@ -107,13 +140,8 @@
 }
 
 
-.icon-bot:before{	
-	background-image: url(../svg/041-robot.svg);
-}
 
-.icon-bot.false:before{	
-	background-image: none;
-}
+
 
 .icon-away:before{	
 	background-image: url(../svg/056-clock.svg);

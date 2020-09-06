@@ -165,11 +165,34 @@ export default class Battle {
 	    
 	    $('#battleroom').empty();	    
 	    var battlediv = $('#battleroomtemplate').contents().clone();
-		$('#battleroom').append( battlediv );
+		$('#battleroom').append( battlediv );		
 	    
+	    this.loadbattleprefs();
     }
     
-    
+    loadbattleprefs(){
+	    
+	    var preferedfaction = store.get('user.faction');
+		if(preferedfaction == 0){
+			$('.pickarm').removeClass('active');
+			$('.pickcore').addClass('active');
+		}
+		
+		var showhostmessages = store.get('user.showhostmessages');
+		if(showhostmessages == 1){
+			$('.showhostmessages').prop("checked", true);
+		}else{
+			$('.showhostmessages').prop("checked", false);
+		}
+		
+		
+		var mycolor = store.get('user.mycolor');
+		if( mycolor ){
+			$('#battleroom .colorpicked').css('background-color', mycolor);
+			//$('.colorpicker').acp('color', mycolor);
+		}
+		
+    }
         
 
     
@@ -250,12 +273,17 @@ export default class Battle {
 					battlediv += '<div class="meta">';
 					battlediv += '<div class="battleid">'+battleid+'</div>';	
 					battlediv += '<div class="status">🟢</div>';
-					battlediv += '<div class="locked">⚪️</div>';	
+					if (passworded){
+						battlediv += '<div class="locked">️🔐</div>';	
+					}else{
+						battlediv += '<div class="locked">⚪️</div>';
+					}
+					
 					battlediv += '<div class="players icon icon-ingame">0</div>';
 					battlediv += '<div class="spectatorCount icon icon-spec">0</div>';
 					battlediv += '<div class="nUsers" style="display:none;">1</div>';
 					battlediv += '<div class="maxPlayers">'+maxPlayers+'<span class="upper">MAX</span></div>';
-					battlediv += '<div class="passworded icon icon-locked '+passworded+'"></div>';
+					//battlediv += '<div class="passworded icon icon-locked '+passworded+'"></div>';
 					battlediv += '<div class="ip">'+ip+'</div>';
 					battlediv += '<div class="port">'+port+'</div>';
 					battlediv += '<div class="maphash">'+maphash+'</div>';
@@ -340,9 +368,6 @@ export default class Battle {
 				}
 			}, 1000);
 			
-			
-			
-			
 		}
 		
 	}
@@ -389,17 +414,11 @@ export default class Battle {
 		
 		AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
 			$('#battleroom .colorpicked').css('background-color', color);
+			store.set('user.mycolor', color);
 			
 		});
 		//AColorPicker.setColor("#5588ff", true);
 		
-		
-		
-		var preferedfaction = store.get('battleroom.faction');
-		if(preferedfaction == 0){
-			$('.pickarm').removeClass('active');
-			$('.pickcore').addClass('active');
-		}				
 		
 		//check if game exist
 		// after game, check if map exist
@@ -424,7 +443,7 @@ export default class Battle {
 		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
 		
 		//update chatlist
-		$('#chat-list li[data-username="'+username+'"] .ingame').removeClass('false');
+		$('li[data-username="'+username+'"] .icon-user').addClass('battle');
 		
 		// append user to bnattle-card
 		var user = $('#chat-list li[data-username="'+username+'"]').clone();
@@ -451,10 +470,10 @@ export default class Battle {
 		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
 		
 		//update chatlist
-		$('#chat-list li[data-username="'+username+'"] .ingame').addClass('false');			
+		$('li[data-username="'+username+'"] .icon-user').removeClass('battle');			
 		
 		// remove user from bnattle-card				
-		$('.battle-card li[data-username="'+username+'"]').remove();
+		//$('.battle-card li[data-username="'+username+'"]').remove();
 		
 		// if user is in my battle
 		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){

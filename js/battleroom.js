@@ -37,9 +37,6 @@ $('body').on('click', '.battle-card', function(e) {
 		console.log(command);
 		socketClient.write( command );
 		
-		// maybe this solve ingame join
-		// utils.sendbattlestatus();
-		
 	// try to join	
 	}else{	
 
@@ -48,9 +45,6 @@ $('body').on('click', '.battle-card', function(e) {
 		
 		console.log(command);
 		socketClient.write( command );		
-		
-		// maybe this solve ingame join
-		// utils.sendbattlestatus();
 		
 	}							
 	
@@ -94,9 +88,11 @@ $('body').on('click', '.showhostmessages', function(e) {
 	if ($('.showhostmessages').prop("checked") == true){
 		//$('.showhostmessages').prop("checked", false);
 		$('.ishost').removeClass('hidemessage');
+		store.set('user.showhostmessages', 1);
 	}else{
 		$('.ishost').addClass('hidemessage');
-	}
+		store.set('user.showhostmessages', 0);
+	}		
 	//$(this).prop("checked");		
 	
 });
@@ -134,7 +130,7 @@ $('body').on('click', '.pickarm', function(e) {
 	utils.sendbattlestatus();
 
 	//save prefered faction	
-	store.set('battleroom.faction', 1);
+	store.set('user.faction', 1);
 });	
 
 
@@ -144,13 +140,15 @@ $('body').on('click', '.pickcore', function(e) {
 	utils.sendbattlestatus();
 
 	//save prefered faction
-	store.set('battleroom.faction', 0);
+	store.set('user.faction', 0);
 });
 
 
 $("body").on('click', '.colorpicked', function(e) {
+    
     $('.colorpicker').toggleClass('active');
     utils.sendbattlestatus();
+    
 });
 
 
