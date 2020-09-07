@@ -34,17 +34,19 @@ if (platform == 'linux' || platform == 'darwin'){
 	var springdir = homedir + '/.spring/';	
 	var mapsdir = homedir + '/.spring/maps/';
 	var modsdir = homedir + '/.spring/games/';
-	var replaysdir = homedir + '/.config/spring/demos/';
+	
 	var chatlogsdir = homedir + '/.spring/chatlogs/';
 	var infologfile = homedir + '/.spring/infolog.log';
 	var scriptfile = homedir + '/.spring/e-script.txt';
 
 	if (platform == 'darwin'){
+		var replaysdir = homedir + '/.config/spring/demos/';
 		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
 		var enginedir = '/Applications/';
 		var engineverdir = enginedir;
 		var zipfile = 'Spring_103.0.app.7z'; 
 	}else{
+		var replaysdir = homedir + '/.spring/demos/';
 		var enginepath = "/var/etc/spring";
 		var enginedir = '/var/etc/';
 		var engineverdir = enginedir;

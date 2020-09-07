@@ -4,6 +4,10 @@ var spawn  = require('child_process').spawn,
 import {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl} from './init.js'
 
 
+if (!fs.existsSync(replaysdir)){
+    fs.mkdirSync(replaysdir);
+}
+	
 fs.readdir(replaysdir, (err, files) => {
 	files.forEach(file => {
 		
