@@ -471,7 +471,7 @@ export default class Battle {
 		$('li[data-username="'+username+'"] .icon-user').removeClass('battle');			
 		
 		// remove user from bnattle-card				
-		//$('.battle-card li[data-username="'+username+'"]').remove();
+		$('.battle-card li[data-username="'+username+'"]').remove();
 		
 		// if user is in my battle
 		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){
