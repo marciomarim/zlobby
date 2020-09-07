@@ -917,6 +917,7 @@ export default class Protocol {
 						  	cmd_full = cmd_first + cmd;
 						  	console.log("Trying to process: " + cmd_full);
 						  	protocol.reprocess_data(cmd_full);
+						  	cmd = '';
 					  	}					  						  	
 					  	//console.log(cache.data);
 				  	}

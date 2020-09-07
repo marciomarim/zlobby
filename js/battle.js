@@ -30,10 +30,8 @@ export default class Battle {
 	    var modexist = false;	 	    	       	    
 	    
 	    if (fs.existsSync(modsdir+filename)) {
-		    console.log('Game exist');
 		    this.checkmap();
 		}else{
-			console.log('Game need download!');
 			var fileurl = remotemodsurl+filename;			
 			var battle = this;
 			
@@ -43,14 +41,12 @@ export default class Battle {
                 type: 'HEAD', 
                 error: function()  
                 { 
-                    console.log(fileurl + ' doesnt exist!');
                     $('#battleroom .game-download').addClass('downloading');
                     $('#battleroom .game-download .download-title').text('Game not found for download.');	 
                     battle.checkmap();
                 }, 
                 success: function()  
                 { 
-                    console.log(fileurl + ' exist!');
                     battle.downloadgame(fileurl);
                 } 
             });
@@ -76,7 +72,8 @@ export default class Battle {
 		});
 		
 		ipcRenderer.on("download complete", (event, progress) => {
-			$('#battleroom .game-download .download-title').text('Downloading game: Completed!');			
+			$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
+			utils.sendbattlestatus();			
 			$('#battleroom .game-download').removeClass('downloading');
 			this.checkmap();
 		});
@@ -90,15 +87,14 @@ export default class Battle {
 	    var filename = currentmap+'.sd7';
 	    var filename2 = currentmap+'.sdz';
 	    var mapexist = false;	    
-	    console.log(filename);
 	    
 	    if (fs.existsSync(mapsdir+filename) || fs.existsSync(mapsdir+filename2)) {
-		    console.log('Map exist');
+		    //console.log('Map exist');
 		}else{
 			
 			var fileurl = remotemapsurl+filename;
 			var fileurl2 = remotemapsurl+filename2;			
-			console.log('Need need download! ' + fileurl);			
+			//console.log('Need need download! ' + fileurl);			
 			var battle = this;
 			
 			// check if file exist first
@@ -107,26 +103,26 @@ export default class Battle {
                 type: 'HEAD', 
                 error: function()  
                 { 
-                    console.log(fileurl + ' doesnt exist!');
+                    //console.log(fileurl + ' doesnt exist!');
                     $.ajax({ 
 		                url: fileurl2, 
 		                type: 'HEAD', 
 		                error: function()  
 		                { 
-		                    console.log(fileurl2 + ' doesnt exist!');
+		                    //console.log(fileurl2 + ' doesnt exist!');
 		                    $('#battleroom .map-download').addClass('downloading');
 		                    $('#battleroom .map-download .download-title').text('Map not found for download.');	
 		                }, 
 		                success: function()  
 		                { 
-		                    console.log(fileurl2 + ' exist!');
+		                    //console.log(fileurl2 + ' exist!');
 		                    battle.downloadmap(fileurl2);
 		                } 
 		            }); 
                 }, 
                 success: function()  
                 { 
-                    console.log(fileurl + ' exist!');
+                    //console.log(fileurl + ' exist!');
                     battle.downloadmap(fileurl);
                 } 
             });
@@ -152,7 +148,10 @@ export default class Battle {
 		});
 		
 		ipcRenderer.on("download complete", (event, progress) => {
+			
 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
+			utils.sendbattlestatus();
+			
 			setTimeout( function(){
 				$('#battleroom .map-download').removeClass('downloading');
 			}, 4000);
@@ -414,8 +413,7 @@ export default class Battle {
 		
 		AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
 			$('#battleroom .colorpicked').css('background-color', color);
-			store.set('user.mycolor', color);
-			
+			store.set('user.mycolor', color);			
 		});
 		//AColorPicker.setColor("#5588ff", true);
 		

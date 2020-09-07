@@ -113,7 +113,7 @@ export default class User {
 			// battle is running should change status
 			$('#battleroom[data-founder="'+username+'"] .status').text('🚀');
 			$('.battle-card[data-founder="'+username+'"] .status').text('🚀');
-			console.log('battle started');
+			//console.log('battle started');
 			
 		}else if($('.battle-card[data-founder="'+username+'"]').length && !newStatus.inGame){
 			//battle ended
@@ -203,20 +203,23 @@ export default class User {
 */
 		
 		if ( newStatus.sync == 2 || newStatus.sync == 0){			
-			$('#battleroom li[data-username="'+username+'"] .icon-user').text('🛠');
-		}else if(newStatus.spec == false){
-			//$('#battleroom li[data-username="'+username+'"] .ready').text('👁');	
-		}else if(newStatus.sync && newStatus.ready){
-			$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('ready');
+			$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('unsync');
 		}else{
-			$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('ready');
-		}				
-		
-		if (newStatus.spec == true){			
+			$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('unsync');
+			if(newStatus.ready){
+				$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('ready');
+			}else{
+				$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('ready');
+			}
+		}	
+			
+		if (newStatus.spec == true){
 			$('#battleroom .battle-playerlist').append( $('#battleroom li[data-username="'+username+'"]') );
-		}else{
+		}else if (newStatus.spec == false){
 			$('#battleroom .battle-speclist').append( $('#battleroom li[data-username="'+username+'"]') );		
 		}
+		
+		
 		
 		$('#battleroom li[data-username="'+username+'"] .team').text(newStatus.team);
 		$('#battleroom li[data-username="'+username+'"] .ally').text(newStatus.ally).removeClass(function (index, className) {

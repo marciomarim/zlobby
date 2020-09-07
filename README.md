@@ -13,6 +13,7 @@ Electron based lobby client
 - Offline messages
 - List and join channels
 - Battleroom pm players
+- Sync unsync status
 - Native notifications
 - Account creation
 - Watch replays
@@ -24,7 +25,6 @@ Electron based lobby client
 - System status
 - Rename account
 - Change password
-- Sync unsync status
 - Vote UI
 - Test on Linux
 - List "online" replays

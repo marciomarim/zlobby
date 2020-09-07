@@ -149,13 +149,10 @@ export default class Utils {
 	
 	send_unsent_message(username, html){
 		
-		//var newhtml = html.replace('offline', '');
-		console.log('here');
+		//var newhtml = html.replace('offline', '');		
 		fs.readFile(chatlogsdir + 'pm-'+username+'.log', function (err, data) {
 		    if (err) throw err;
 		    var content = data.toString().replace(html, '');
-		    //console.log(content);
-		    console.log();
 		    fs.writeFileSync(chatlogsdir + 'pm-'+username+'.log', content);
 		});
 		
@@ -351,7 +348,7 @@ export default class Utils {
 		var hasvote = message.startsWith("* Vote in progress");
 		
 		if(ring && talkingabout >= 0){
-			console.log('ringing');
+			//console.log('ringing');
 			$('#ringsound')[0].play();
 		}
 		message = message.replace('\n', ' ');					
@@ -362,7 +359,7 @@ export default class Utils {
 		
 		var $bubble = $('<li></li>');
 		var last_user_msg = $('#battle-room li .userspeaking').last().text();
-		console.log(last_user_msg);
+		//console.log(last_user_msg);
 		
 		if(username == last_user_msg){
 			$bubble.append('<div class="messageinfo hidden"><div class="userspeaking">'+username + '</div><div class="time">'+this.timenow+'</div></div><div class="message">' +message+'</div>');	
@@ -417,10 +414,7 @@ export default class Utils {
 			r = color[0];
 			g = color[1];
 			b = color[2];	
-		}
-		
-		//console.log(r + ' ' + g + ' ' + b);
-				
+		}				
 		return b << 16 | g << 8 | r;
 	}
 	
@@ -443,7 +437,6 @@ export default class Utils {
 		
 		if ($('body').hasClass("ingame") == true){
 			ingame = 1;
-			//console.log('sending ingame for me');
 		}else{
 			ingame = 0; //unspec
 		}
@@ -461,6 +454,8 @@ export default class Utils {
 		socketClient.write( command );
     }
     
+    
+    
     sendbattlestatus(){
 	    
 	    var ready = 0,
@@ -470,6 +465,7 @@ export default class Utils {
 			synced = 1,
 			faction = 0;
 		
+		synced = this.getsyncstatus();
 		
 		if ($('.specbattle').prop("checked") == true){
 			spec = 0;
@@ -495,6 +491,35 @@ export default class Utils {
 		
     }
     
+    
+    
+    getsyncstatus(){
+	    
+	    var currentmod = $('#battleroom .gameName').text().toLowerCase();
+	    var index = currentmod.lastIndexOf(" ");
+	    var filename = currentmod.substring(0, index).replace(" ","_") + '-' + currentmod.substring(index).replace(" ","")+'.sdz';
+	    
+	    if (fs.existsSync(modsdir+filename)) {
+		    //console.log('STATUS: GAME OK');
+			var currentmap = $('#battleroom .mapname').text().toLowerCase();
+		    currentmap = currentmap.split(' ').join('_');
+		    var filename = currentmap+'.sd7';
+		    var filename2 = currentmap+'.sdz';		    
+		    
+		    if (fs.existsSync(mapsdir+filename) || fs.existsSync(mapsdir+filename2)) {
+			    //console.log('STATUS: MAP OK');
+			    return 1;
+			}else{
+				//console.error('STATUS: MAP MISSING');
+				return 0;	
+			}
+			        
+		}else{
+			//console.error('STATUS: GAME MISSING');
+			return 0;
+		}
+		
+    }
     
 	
 	

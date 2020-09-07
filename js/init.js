@@ -25,7 +25,7 @@ var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
 export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
 
 
-console.log('Elobby v' + appVersion);	
+//console.log('Elobby v' + appVersion);	
 $('#appVersion').text('ELobby v'+appVersion);
 
 // set default paths	
@@ -120,17 +120,17 @@ if (platform == 'linux' || platform == 'darwin'){
 	}
 	
 	if (!fs.existsSync(chatlogsdir)){
-		console.log('Creating chatlog folder');
+		//console.log('Creating chatlog folder');
 	    fs.mkdirSync(chatlogsdir);
 	}
 	
 	if (!fs.existsSync(enginedir)){
-		console.log('Creating engine folder');
+		//console.log('Creating engine folder');
 		fs.mkdirSync(enginedir);
 	}
 	
 	if (!fs.existsSync(engineverdir)){
-		console.log('Creating engine version folder');
+		//console.log('Creating engine version folder');
 		fs.mkdirSync(engineverdir);
 	}
 	
@@ -200,7 +200,6 @@ function downloadengine(fileurl){
 	});			
 	
 	ipcRenderer.on("download progress", async (event, progress) => {		
-		
 		var w = Math.round( progress.percent*100 ) + '%';
 		console.log('Downloading engine: ' + w + ' of 100%');
 		$('#start .engine-download').addClass('downloading');
@@ -210,10 +209,8 @@ function downloadengine(fileurl){
 	
 	ipcRenderer.on("download complete", (event, progress) => {
 		
-		console.log('Engine download: completed!');
-		
-		$('#start .engine-download .download-title').text('Extracting files...');				
-						
+		console.log('Engine download: completed!');		
+		$('#start .engine-download .download-title').text('Extracting files...');
 		// unpack
 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
 			

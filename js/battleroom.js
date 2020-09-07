@@ -157,20 +157,18 @@ $('body').on('click', '.startbattle', function(e) {
 	
 	var founder = $('#battleroom .founder').text();
 	
-	if( $('.battle-players li[data-username="'+founder+'"] .ingame').hasClass('battle') ){
+	if( $('.battle-players li[data-username="'+founder+'"] .icon-user').hasClass('ingame') ){
 						
 		if ($('.specbattle').prop("checked") == true){
-			//utils.sendbattlestatus();		
 			battles.launchgame();		
 		}else{
-			//utils.sendbattlestatus();
 			battles.launchgame();			
 		}
 		
 		$('body').addClass('ingame');
 		utils.sendstatus();
 			
-	}else{
+	}else{		
 		var command = 'SAYBATTLE !start\n';
     	socketClient.write( command );
 	}	
@@ -218,15 +216,19 @@ $('body').on('click', '.battle-players li', function(e) {
 	//console.log($userwin);
 	
 	// if chat doesnt exit, create
+/*
 	if ( !$('.userchat[data-username="'+username+'"]').length ){		
 		utils.create_chat_window(username);		
 	}else{
 		$('.userchat[data-username="'+username+'"]').addClass('active');
 	}
+*/
 	// 
+/*
 	if (!$('#activechats .userpm-select[data-username="'+username+'"]').length ){
 		$('#activechats').append($('#chat-list li[data-username="'+username+'"]').clone());		
-	}	
+	}
+*/	
 	
 });
 
@@ -238,24 +240,13 @@ $('body').on('keypress', '.pminput', function (e) {
 		var username = $(this).data('username');
 		message = filter.clean(message);
 		
+		if (!$('.userchat[data-username="'+username+'"]').length){
+			utils.init_chat( username );
+		}
+		
     	var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
     	socketClient.write( command );    	    	    	
     	$(this).val('');
-    	
-    	// if chat doesnt exit, create
-		if ( !$('.userchat[data-username="'+username+'"]').length ){						
-			this.create_chat_window(username);							
-		}else{
-			if(!$('.userchat[data-username="'+username+'"]').hasClass('active')){
-				$('.userchat.active').removeClass('active');
-				$('.userchat[data-username="'+username+'"]').addClass('active');	
-			}							
-		}			
-		
-		if (!$('#activechats .userpm-select[data-username="'+username+'"]').length ){			
-			var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
-			$('#activechats').append(div);
-		}
 		
     	utils.add_message_to_chat(username, message, true);
 		return false;    //<---- Add this line		

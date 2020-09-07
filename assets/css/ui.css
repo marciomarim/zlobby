@@ -129,6 +129,11 @@
 	.icon-user.bot:before{	
 		background-image: url(../svg/041-robot.svg);
 	}
+	
+	.battle-speclist .icon-user.unsync:before,
+	.battle-playerlist .icon-user.unsync:before{
+		background-image: url(../svg/001-ad-blocker.svg);
+	}
 
 
 .icon-admin:before{	
