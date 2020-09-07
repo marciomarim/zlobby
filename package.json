@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "description": "Electron based lobby",
   "main": "main.js",
-  "author": "Zorro",
+  "author": {
+	  "name": "Zorro",
+	  "email" : "marciomarim@gmail.com"	  
+	},
   "license": "ISC",
   "scripts": {
     "start": "electron .",
@@ -64,7 +67,7 @@
       "icon": "assets/icons/icon.png",
       "category": "Game",
       "target": [
-        "AppImage"
+        "deb"
       ]
     },
     "win": {
