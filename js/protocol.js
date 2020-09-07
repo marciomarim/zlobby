@@ -911,13 +911,12 @@ export default class Protocol {
 					  	
 					  	console.error('CMD NOT FOUND!'+cmd);
 					  	
-					  	if ( cmd_first == '' ){
-						  	cmd_first = cmd;
+					  	if ( cmd_last == '' ){
+						  	
 					  	}else{
-						  	cmd_full = cmd_first + cmd;
+						  	cmd_full = cmd_last + cmd;
 						  	console.log("Trying to process: " + cmd_full);
 						  	protocol.reprocess_data(cmd_full);
-						  	cmd = '';
 					  	}					  						  	
 					  	//console.log(cache.data);
 				  	}
@@ -925,6 +924,8 @@ export default class Protocol {
 			    
 			    
 			}
+			// sava last cmd
+			cmd_last = cmd;
 	
 		});
         
