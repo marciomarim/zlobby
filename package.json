@@ -61,7 +61,11 @@
       ]
     },
     "linux": {
-      "icon": "assets/icons/icon.png"
+      "icon": "assets/icons/icon.png",
+      "category": "Game",
+      "target": [
+        "AppImage"
+      ]
     },
     "win": {
       "icon": "assets/icons/icon.png"
