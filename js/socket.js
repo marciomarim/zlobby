@@ -7,6 +7,11 @@ const store = new Store();
 import Protocol from './protocol.js';
 let protocol = new Protocol();
 
+var Filter = require('bad-words'),
+    filter = new Filter();
+
+filter.addWords('FAGGOTS', 'DICKS', 'dickhead', 'pussy');
+
 export var socketClient;
 var connectInterval;
 
@@ -114,7 +119,7 @@ export function login(){
 
 function create_account(){
 	
-	var username = $('#createusername').val();
+	var username = filter.clean($('#createusername').val());
 	var password = $('#createpassword').val();
 	
 	const passwordHash = crypto

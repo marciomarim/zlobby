@@ -20,6 +20,7 @@ export default class Utils {
         return today.getHours() + ":" + (today.getMinutes()<10?'0':'') + today.getMinutes() +  ":" + (today.getSeconds()<10?'0':'') + today.getSeconds();
     }
     
+    
     urlify(string){
 	  const urls = string.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
 	  if (urls) {
@@ -30,6 +31,7 @@ export default class Utils {
 	  return string.replace("(", "<br/>(");
 	}
 	
+	
 	append_to_terminal( message ) {
 		
 		if (message == 'PONG' || message == '\n' || message == ' ' || message == '')
@@ -39,6 +41,15 @@ export default class Utils {
 	  
 	}
 	
+/*
+	filter_battles(){
+		
+		if ($('.gamefilter').prop("checked") == true){
+			var game = 'Balanced Annihilation V';
+		}
+		
+	}
+*/
 	
 	create_chat_window( username ){
 		

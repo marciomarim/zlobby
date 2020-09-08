@@ -522,6 +522,7 @@ export default class Protocol {
 				case 'LOGININFOEND':
 					
 					utils.load_chats();
+					//utils.filter_battles();
 					
 					var command = 'CHANNELS\n';	
 					socketClient.write(command);					
@@ -777,13 +778,14 @@ export default class Protocol {
 					
 					notification.onclick = () => {
 						$('.tab, .rcontainer, .container.active').removeClass('active');
-						$('#chats').addClass('active');
+						$('#chatlist, #chats').addClass('active');
 						$('.userchat, .userpm-select').removeClass('active');		
 						$('.userchat[data-username="'+username+'"], .userpm-select[data-username="'+username+'"]').addClass('active');
 						
 						if( $('.userpm-select[data-username="'+username+'"] .unread').length )
 							$('.userpm-select[data-username="'+username+'"] .unread').remove();
-							
+						
+						$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);	
 						utils.update_global_unread_count();
 					}
 					break;		    

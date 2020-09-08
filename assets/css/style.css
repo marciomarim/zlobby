@@ -424,7 +424,12 @@ ul.list {
 	flex-wrap: wrap;	
 	margin: 1%;
 }
-
+	#gamefilter{
+		position: absolute;
+		top: 20px;
+		right: 20px;
+	}
+	
 	.battle-card{
 		width: 49.4%;
 		margin: 0.3%;
