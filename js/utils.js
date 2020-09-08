@@ -335,7 +335,9 @@ export default class Utils {
 			$('.ishost').removeClass('hidemessage');			
 		}else{
 			$('.ishost').addClass('hidemessage');			
-		}	
+		}
+		
+		$('#battleroom .text-scroll').scrollTop($('#battle-room')[0].scrollHeight);		
 		
 	}
 	
