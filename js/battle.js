@@ -271,11 +271,11 @@ export default class Battle {
 				
 					battlediv += '<div class="meta">';
 					battlediv += '<div class="battleid">'+battleid+'</div>';	
-					battlediv += '<div class="status">🟢</div>';
+					battlediv += '<div class="status icon icon-user battle"></div>';
 					if (passworded){
-						battlediv += '<div class="locked">️🔐</div>';	
+						battlediv += '<div class="locked">️LOCKED</div>';
 					}else{
-						battlediv += '<div class="locked">⚪️</div>';
+						battlediv += '<div class="locked">OPEN</div>';
 					}
 					
 					battlediv += '<div class="players icon icon-ingame">0</div>';
@@ -332,9 +332,9 @@ export default class Battle {
 		this.load_remote_map_image( battleid );
 		
 		if(locked===0){
-			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('🔒');	
+			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('LOCKED');	
 		}else{
-			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('⚪️');	
+			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('OPEN');	
 		}
 						
 		var nUsers = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(), 10);
@@ -352,9 +352,9 @@ export default class Battle {
 			//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
 			
 			if(locked===0){
-				$('#battleroom .locked').text('🔒');	
+				$('#battleroom .locked').text('LOCKED');	
 			}else{
-				$('#battleroom .locked').text('⚪️');	
+				$('#battleroom .locked').text('OPEN');	
 			}
 			$('#battleroom .players').text(players);
 			

@@ -359,7 +359,7 @@ export default class Utils {
 		message = $('<div/>').text(message).html();					
 		message = this.urlify(message);					
 		message = message.replace(/<br\s*\/?>/gi,' ');					
-		//message = filter.clean(message);
+		message = filter.clean(message);
 		
 		var $bubble = $('<li></li>');
 		var last_user_msg = $('#battle-room li .userspeaking').last().text();

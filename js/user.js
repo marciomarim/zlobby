@@ -110,14 +110,14 @@ export default class User {
 		// any battle that start should update battle status
 		if ( $('.battle-card[data-founder="'+username+'"]').length && newStatus.inGame ){
 			// battle is running should change status
-			$('#battleroom[data-founder="'+username+'"] .status').text('🚀');
-			$('.battle-card[data-founder="'+username+'"] .status').text('🚀');
+			$('#battleroom[data-founder="'+username+'"] .status').addClass('ingame');
+			$('.battle-card[data-founder="'+username+'"] .status').addClass('ingame');
 			//console.log('battle started');
 			
 		}else if($('.battle-card[data-founder="'+username+'"]').length && !newStatus.inGame){
 			//battle ended
-			$('#battleroom[data-founder="'+username+'"] .status').text('🟢');
-			$('.battle-card[data-founder="'+username+'"] .status').text('🟢️');
+			$('#battleroom[data-founder="'+username+'"] .status').removeClass('ingame');
+			$('.battle-card[data-founder="'+username+'"] .status').removeClass('ingame');
 			// remove class so it can start again
 						
 		}

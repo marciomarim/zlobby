@@ -26,13 +26,13 @@ export default class Channel {
     
     joinedchannel( chanName, username ){	
 		
-		$('#channel-list li[data-channame='+chanName+'] .status').text('🟢');					
+		$('#channel-list li[data-channame='+chanName+'] .status').addClass('active');					
 				
     }
     
     leftchannel( chanName, username ){	
 		
-		$('#channel-list li[data-channame='+chanName+'] .status').text('');
+		$('#channel-list li[data-channame='+chanName+'] .status').removeClass('active');
 				
     }
     

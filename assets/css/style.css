@@ -1116,6 +1116,22 @@ span.upper{
 	#channel-list li{
 		cursor: alias;
 	}
+	
+	#channel-list li .status{
+		position: relative;
+	}
+	
+	#channel-list li .status.active:before{
+		content: '';
+		position: absolute;
+		top: 4px;
+		left: 5px;
+		width: 15px;
+		height: 15px;
+		background: #1553da;
+		border-radius: 50%;
+	}
+	
 	#channel-list li div{
 		flex: 0.07;
 	}
