@@ -55,7 +55,6 @@ export default class User {
 	    div.after('<div class="faction icon icon-arm"></div>');	    		
 		div.after('<div class="team">–</div>');				
 		div.after('<div class="ally">-</div>');
-		//div.after('<div class="ready">⚪️</div>');		
 	    
     }
     
@@ -215,8 +214,10 @@ export default class User {
 			
 		if (newStatus.spec == true){
 			$('#battleroom .battle-playerlist').append( $('#battleroom li[data-username="'+username+'"]') );
+			$('.battle-speclist li[data-username="'+username+'"]').remove();			
 		}else if (newStatus.spec == false){
 			$('#battleroom .battle-speclist').append( $('#battleroom li[data-username="'+username+'"]') );		
+			$('.battle-playerlist li[data-username="'+username+'"]').remove();
 		}
 		
 		
@@ -277,12 +278,16 @@ export default class User {
 		var anon_ffa = $('#battleroom .option.anon_ffa .val').text();			
 		if(mo_ffa == '1'){
 			
+			$('#battleroom').removeClass('teams').addClass('ffa');
+			
 			$('#battleroom .gametype').text('FFA');
 			if(anon_ffa){
 				$('#battleroom .ffatype').text('ANON');	
 			}
 			
 		}else{
+			
+			$('#battleroom').removeClass('ffa').addClass('teams');
 			
 			var numplayers = $('.battle-playerlist li').length;					
 			if (numplayers <= 2){
@@ -294,16 +299,40 @@ export default class User {
 		}
 		
 		// update script
-		this.reorderplayers();		
+		if ( $('.battle-playerlist li[data-username="'+username+'"]').length ){
+			this.reorderplayer(username, newStatus.ally);			
+		}
+		
     }
     
     
-    reorderplayers(){
-	    $('.battle-playerlist li').each(function( index ) {
-			var team = $(this).children('.team').text();
-			//var ally = $(this).children('.ally').text();
-			$(this).css('order', team);
-		});
+    reorderplayer(username, ally){
+		
+		if (ally > 0 && ally != '' && username != ''){					
+			var user = $('#battleroom .battle-players li[data-username="'+username+'"]');	    			
+		    var team = user.children('.team').text();
+			user.css('order', team);
+			
+			var teamgroup = '<div class="team-group" data-label="TEAM' + ally+'" style="order:'+ally+';"></div>';
+			if ( !$('#battleroom .team-group[data-label="TEAM' + ally+'"]').length && ally != ''){
+				$('#battleroom .battle-playerlist').append(teamgroup); 
+		    }
+			
+			//replace under team-group    	
+			if ($('#battleroom .team-group[data-label="TEAM' + ally+'"]').length){
+				var tmp = $('#battleroom .battle-playerlist li[data-username="'+username+'"]');
+				$('#battleroom li[data-username="'+username+'"]').remove();
+				$('#battleroom .team-group[data-label="TEAM' + ally+'"]').append(tmp);					
+			}							
+			
+		}else{			
+			//var ts = user.children('.trueskill').text();
+			//$('.battle-speclist li[data-username="'+username+'"]').css('order', ts);
+		}
+				
+		//jQuery.unique($('.battle-players li[data-username="'+username+'"]'));	
+		$('.team-group:empty').remove();
+		
     }
     
     

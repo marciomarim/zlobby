@@ -655,6 +655,30 @@ ul.list {
 		    flex-direction: column;
 		}
 		
+			.teams .battle-playerlist .team-group{
+				margin-top: 22px;
+				position: relative;
+				display: flex;
+			    flex-direction: column;
+			}
+			
+			.teams .battle-playerlist .team-group:before{
+				content: attr(data-label);
+			    position: absolute;
+			    top: -16px;
+			    left: 16px;
+			    font-size: 9px;
+			    background: #424e65;
+			    border-radius: 3px;
+			    padding: 0 4px;
+			    letter-spacing: 0.1em;
+			    line-height: 1.7em;
+			}
+			
+			.teams .battle-playerlist .ally{
+				display: none;
+			}	
+		
 		.battle-players .battle-speclist{
 			width: 45%;
 		}
@@ -662,9 +686,16 @@ ul.list {
 		.battle-players li{
 			justify-content: space-between;
 			position: relative;
-		    border-bottom: 1px solid #303440;
+		    padding: 0.1em 1em;		    
 		}
-		
+			.battle-players .battle-playerlist{
+				border-bottom: 1px solid #303440;	
+			}
+			
+				.battle-players .battle-playerlist li{
+					padding: 0.1em 1em 0.1em 2em;		    		
+				}			
+			
 			.battle-players li:nth-child(odd) {
 				background: none;
 			}
@@ -939,6 +970,10 @@ ul.list {
 		.battle-players .ui-label{
 			text-align: center;
 		}
+		
+		.battle-players .battle-playerlist .ui-label{
+			margin-bottom: -10px;
+		}		
 		
 		.icon.pickcore,
 		.icon.pickarm{
