@@ -47,8 +47,8 @@ if (platform == 'linux' || platform == 'darwin'){
 		var zipfile = 'Spring_103.0.app.7z'; 
 	}else{
 		var replaysdir = homedir + '/.spring/demos/';
-		var enginepath = "/var/etc/spring";
-		var enginedir = '/var/etc/';
+		var enginepath = homedir + '/.spring/engine/spring_103.0_minimal-portable-linux64-static/spring';
+		var enginedir = homedir + '/.spring/engine/spring_103.0_minimal-portable-linux64-static/';
 		var engineverdir = enginedir;
 		if (arch == 'x64' || arch == 'arm64'){
 			var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';

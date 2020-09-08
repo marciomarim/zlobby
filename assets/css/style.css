@@ -315,7 +315,7 @@ a{
 	}
 	
 	#chats .bottom-input {
-		width: calc(100% - 100px);
+		width: calc(100% - 130px);
 	}
 	
 #chatlist .split{
