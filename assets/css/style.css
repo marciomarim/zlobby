@@ -654,7 +654,7 @@ ul.list {
 			display: flex;
 		    flex-direction: column;
 		}
-		
+			
 			.teams .battle-playerlist .team-group{
 				margin-top: 22px;
 				position: relative;
@@ -673,6 +673,10 @@ ul.list {
 			    padding: 0 4px;
 			    letter-spacing: 0.1em;
 			    line-height: 1.7em;
+			}
+			
+			.battle-playerlist .team-group:empty{
+				display: none;
 			}
 			
 			.teams .battle-playerlist .ally{
