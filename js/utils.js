@@ -330,14 +330,16 @@ export default class Utils {
 			if(data)
 				$('#battle-room').html(data.toString());
 		});
+						
+		setInterval( function(){
+			if ($('.showhostmessages').prop("checked") == true){			
+				$('.ishost').removeClass('hidemessage');			
+			}else{
+				$('.ishost').addClass('hidemessage');			
+			}
+			$('#battleroom .text-scroll').scrollTop($('#battle-room')[0].scrollHeight);			
+		}, 1000 );
 		
-		if ($('.showhostmessages').prop("checked") == true){			
-			$('.ishost').removeClass('hidemessage');			
-		}else{
-			$('.ishost').addClass('hidemessage');			
-		}
-		
-		$('#battleroom .text-scroll').scrollTop($('#battle-room')[0].scrollHeight);		
 		
 	}
 	
