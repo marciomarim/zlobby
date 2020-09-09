@@ -18,7 +18,7 @@ Electron based lobby client
 - Account creation
 - Watch replays
 - Code signing
-- Website tab
+- Website and Discord tab
 
 ## To Do
 

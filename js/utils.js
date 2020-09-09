@@ -342,7 +342,7 @@ export default class Utils {
 				$('#battle-room').html(data.toString());
 		});
 						
-		setInterval( function(){
+		setTimeout( function(){
 			if ($('.showhostmessages').prop("checked") == true){			
 				$('.ishost').removeClass('hidemessage');			
 			}else{
@@ -390,7 +390,7 @@ export default class Utils {
 			if ($('.showhostmessages').prop("checked") == false){
 				setTimeout(function() {
 				  $bubble.addClass('hidemessage');
-				}, 5000);
+				}, 8000);
 			}
 		}					
 		if (talkingabout >= 0){
