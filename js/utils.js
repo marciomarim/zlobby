@@ -339,7 +339,7 @@ export default class Utils {
 		fs.readFile(chatlogsdir + 'battleroom-'+battleid+'.log', function (err, data) {
 			if (err) throw err;
 			if(data)
-				$('#battle-room').html(data.toString());
+				$('#battle-room').html(data.toString());				
 		});
 						
 		setTimeout( function(){

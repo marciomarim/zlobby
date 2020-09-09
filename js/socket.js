@@ -29,8 +29,7 @@ function socket_connect(){
 		
 		$('body').addClass('socketlive');
 		
-		//socketClient.setKeepAlive(true, 10000 );
-		
+		//socketClient.setKeepAlive(true, 10000 );		
 		//socketClient.write('STLS \n');
 		//socketClient.write('LISTCOMPFLAGS \n');																	
 		
@@ -130,7 +129,8 @@ function create_account(){
 	var loginString = 'REGISTER ' + username + ' ' + passwordHash + '\n';	
 	console.log(loginString);
 	socketClient.write(loginString);
-	$('#loginpane').addClass('active');	
+	$('#createpane').removeClass('active');
+	$('#loginpane').addClass('active');
 	
 }
 
@@ -160,7 +160,9 @@ $('body').on('click', '.createaccount', function(e) {
 	
 	socket_connect();
 	
-	create_account();
+	setTimeout( function(){
+		create_account();
+	}, 500 );
 
 });
 
