@@ -188,8 +188,9 @@ if (!fs.existsSync(enginepath)) {
             downloadengine(engineurl);
         } 
     });
-		
-     
+		 
+} else {
+	$('#enginestatus').addClass('active').text('Engine: ok');
 }
 
 
@@ -216,7 +217,8 @@ function downloadengine(fileurl){
 		// unpack
 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
 			
-			$('#start .engine-download .download-title').text('All ready!');			
+			$('#enginestatus').addClass('active');
+			$('#start .engine-download .download-title').text('All ready!');
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);

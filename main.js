@@ -45,8 +45,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   autoUpdater.checkForUpdatesAndNotify();
-  createWindow();
-	
+  createWindow();	
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -78,22 +77,19 @@ autoUpdater.logger.transports.file.level = "info"
 // github token f9b2e4397287c05311297cc51522bf28a9318458
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
+  $('#updatestatus').text('Checking for updates...');
 })
 
 autoUpdater.on('update-available', (info) => {
-  console.log('Update available.');
-  var notification = new Notification( 'Update', {
-	  body: 'available'
-	});
+	$('#updatestatus').text('Update available');
 })
 
 autoUpdater.on('update-not-available', (info) => {
-  var notification = new Notification( 'Update', {
-	  body: 'not available'
-	});
+	$('#updatestatus').text('Lobby up to date').addClass('active');
 })
 
 autoUpdater.on('error', (err) => {
+	$('#updatestatus').text(err);
 	var notification = new Notification( 'Error in auto-updater.', {
 	  body: err
 	});

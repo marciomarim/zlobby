@@ -318,6 +318,30 @@ a{
 		width: calc(100% - 130px);
 	}
 	
+	.sys-status{
+		padding: 1em 1em 0em 2em;
+		position: relative;	
+	}
+	
+	.sys-status:empty{
+		display: none;
+	}
+	
+	.sys-status:before{
+		content: '';
+		position: absolute;
+	    top: 1.1em;
+	    left: 0;
+		width: 15px;
+		height: 15px;
+		background: #bbbbbb;
+		border-radius: 50%;
+	}
+	
+	.sys-status.active:before{
+		background: #1553da;
+	}
+	
 #chatlist .split{
 	display: flex;
     height: 100%;
@@ -424,6 +448,7 @@ ul.list {
 	flex-wrap: wrap;	
 	margin: 1%;
 }
+
 	#gamefilter{
 		position: absolute;
 		top: 20px;
