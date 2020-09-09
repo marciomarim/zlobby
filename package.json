@@ -38,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marciomarim/Elobby.git"
+    "url": "https://github.com/marciomarim/elobby.git"
   },
   "build": {
     "appId": "com.electron.elobby",
@@ -49,7 +49,7 @@
         "provider": "github",
         "token": "f9b2e4397287c05311297cc51522bf28a9318458",
         "owner": "marciomarim",
-        "repo": "Elobby"
+        "repo": "elobby"
       }
     ],
     "mac": {
