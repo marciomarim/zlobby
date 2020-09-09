@@ -47,8 +47,8 @@ if (platform == 'linux' || platform == 'darwin'){
 		var zipfile = 'Spring_103.0.app.7z'; 
 	}else{
 		var replaysdir = homedir + '/.spring/demos/';
-		var enginepath = homedir + '/.spring/engine/spring_103.0_minimal-portable-linux64-static/spring';
-		var enginedir = homedir + '/.spring/engine/spring_103.0_minimal-portable-linux64-static/';
+		var enginepath = homedir + '/.spring/engine/103/spring';
+		var enginedir = homedir + '/.spring/engine/103/';
 		var engineverdir = enginedir;
 		if (arch == 'x64' || arch == 'arm64'){
 			var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
@@ -96,12 +96,12 @@ if (platform == 'linux' || platform == 'darwin'){
 	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
 	
 	if (arch == 'x64'){
-		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
-		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
+		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
 	}else{
-		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
-		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
+		var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\';
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
 	}
 	
