@@ -102,12 +102,14 @@ $('body').on('click', '.showhostmessages', function(e) {
 
 $('body').on('click', '.vote.yes', function(e) {
 	var command = 'SAYBATTLE !vote y\n';	
-	socketClient.write( command );	
+	socketClient.write( command );
+	$('#votewin').removeClass('active');	
 });
 
 $('body').on('click', '.vote.no', function(e) {
 	var command = 'SAYBATTLE !vote n\n';	
 	socketClient.write( command );	
+	$('#votewin').removeClass('active');
 });
 
 

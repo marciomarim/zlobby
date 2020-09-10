@@ -85,7 +85,7 @@ export function login(){
 		//console.log( socketClient.bytesRead );
 		//console.log( data.toString().length );
 		protocol.server( data.toString() );		
-		console.log(data.toString() );
+		console.log( data.toString() );
 		
 		clearInterval(connectInterval);
 	

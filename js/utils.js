@@ -357,10 +357,23 @@ export default class Utils {
 	
 	append_message_battleroom( username, message ){
 		
+		var username = jQuery.escapeSelector(username);
+		var myusername = jQuery.escapeSelector($('#myusername').text());
+		
 		var ring = message.startsWith("* Ringing");
-		var talkingabout = message.indexOf( myusername );					
+		var talkingabout = message.toUpperCase().indexOf( myusername.toUpperCase() );					
 		var ishost = message.startsWith("* ");
-		var hasvote = message.startsWith("* Vote in progress");
+		var winner = -1;
+		var vote = -1;
+		var endvote = -1;
+		
+		if (ishost >= 0){
+			winner = message.indexOf('won!');
+			vote = message.indexOf('called a vote for command');	
+			endvote = message.indexOf('* Vote cancelled');
+			//var endvote = message.indexOf('Vote for command');	
+		}
+		
 		
 		if(ring && talkingabout >= 0){
 			//console.log('ringing');
@@ -383,7 +396,7 @@ export default class Utils {
 		}
 		
 		
-		if( username == $('#myusername').text() ){						
+		if( username == myusername ){						
 			$bubble.addClass('mine');						
 		}else if( ishost ){
 			$bubble.addClass('ishost');												
@@ -392,10 +405,38 @@ export default class Utils {
 				  $bubble.addClass('hidemessage');
 				}, 8000);
 			}
-		}					
+		}
+							
 		if (talkingabout >= 0){
 			$bubble.addClass('talkingabout');
-		}					
+			$('#ringsound')[0].play();
+		}
+		
+		if (winner  >= 0){
+			$bubble.addClass('winner');
+		}
+		
+		if (vote >= 0){
+			$bubble.addClass('vote');
+			$('#votewin').addClass('active');
+			
+			$('#votefor').text(message.replace('[!vote y, !vote n, !vote b]', ''));
+			
+			setTimeout(function(){
+				$('#votewin').removeClass('active');	
+			}, 45000);
+		}
+		
+		if (endvote >= 0){	
+			$('#votewin').removeClass('active');
+		}	
+		
+/*
+		if (endvote >= 0){
+			$('#votewin').removeClass('active');
+		}
+*/
+		
 		$('#battle-room').append($bubble);																														
 				
 		// scroll to bottom

@@ -69,7 +69,6 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
-
 autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "info"	
 	
@@ -77,19 +76,20 @@ autoUpdater.logger.transports.file.level = "info"
 // github token f9b2e4397287c05311297cc51522bf28a9318458
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
-  $('#updatestatus').text('Checking for updates...');
+  document.getElementById('updatestatus').innerHTML = 'Checking for updates...';
 })
 
 autoUpdater.on('update-available', (info) => {
-	$('#updatestatus').text('Update available');
+	//$('#updatestatus').text('Update available');
+	document.getElementById('updatestatus').innerHTML = 'Update available';
 })
 
 autoUpdater.on('update-not-available', (info) => {
-	$('#updatestatus').text('Lobby up to date').addClass('active');
+	document.getElementById('updatestatus').innerHTML = 'Lobby updated.';
 })
 
 autoUpdater.on('error', (err) => {
-	$('#updatestatus').text('Error in auto-update: ' + err);
+	document.getElementById('updatestatus').innerHTML = 'Error in auto-update: ' + err;
 	var notification = new Notification( 'Error in auto-updater.', {
 	  body: err
 	});

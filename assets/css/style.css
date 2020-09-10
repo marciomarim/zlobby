@@ -114,8 +114,8 @@ a{
 	
 		.lmenu .tab{
 			text-align: center;
-			padding: 50px 10px 10px;
-			margin: 20px 0;
+			padding: 38px 10px 10px;
+			margin: 17px 0;
 			font-family: LatoBold;
 			text-transform: uppercase;
 			font-size: 11px;
@@ -942,21 +942,34 @@ ul.list {
 		    right: 6px;
 		    color: #ccc;
 		    font-size: 12px;
-		    z-index: 9;	
+		    z-index: 8;	
 			background: #111;
 			padding: 10px;
 			border-radius: 20px;			
 		}
 		
-			#autoscrollbattle{
-			    
-			}
-			
+		#votewin{
+	        position: absolute;
+		    top: calc(50vh + -67px);
+		    right: 6px;
+		    color: #ccc;
+		    max-width: 300px;
+		    z-index: 9;
+		    background: #6737b3;
+		    padding: 1em 1em 0 1em;
+		    border-radius: 10px;
+		    text-align: center;
+			display: none;
+		}
+		
+			#votewin.active{
+				display: block;
+			}	
+		
 		.votes{			
 			font-size: 20px;
-			position: absolute;
-			top: 0;
-			right: 6px;
+			display: flex;
+			justify-content: center;
 		}
 		
 			.votes.active{
@@ -975,9 +988,15 @@ ul.list {
 				background: #1553da;
 			}
 			
+			.votes .icon-thumbs-up-2:before{
+				position: relative;
+				top: 3px;
+			    left: -4px;
+			}
 			.votes .icon-thumbs-down-2:before{
 				position: relative;
 				top: 4px;
+			    left: -4px;
 			}
 	
 	.scroll{
@@ -1231,10 +1250,7 @@ span.upper{
 		background: #1d4cba;		 
 	}
 	
-	.messages li.talkingabout .message{
-		background: #183479;		 
-	}
-	
+		
 	.messages li.ishost{
 		opacity: 0.7;
 	}		
@@ -1243,6 +1259,18 @@ span.upper{
 		background: #222a3e;
 	}
 	
+	.messages li.talkingabout .message{
+		background: #6737b3;		 
+	}
+	
+	.messages li.winner .message{
+		background: #13d68b;		 
+	}
+	
+	.messages li.vote .message{
+		background: #d71327;		 
+	}
+		
 	.messages li.hidemessage{
 		display: none;
 	}

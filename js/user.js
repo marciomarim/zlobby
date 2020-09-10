@@ -313,8 +313,7 @@ export default class User {
 			//var ts = user.children('.trueskill').text();
 			//$('.battle-speclist li[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', ts);
 		}
-				
-		//jQuery.unique($('.battle-players li[data-username="'+jQuery.escapeSelector(username)+'"]'));	
+						
 		$('.team-group:empty').remove();
 		
     }
