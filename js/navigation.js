@@ -11,11 +11,11 @@ $('.lmenu').on('click', '.tab', function(e) {
 	if (tab == 'chatlist'){
 		$('#chats').addClass('active');	
 		var useractive = $('.userchat.active').data('username');
-		if( $('.userpm-select[data-username="'+useractive+'"] .unread').length )
-			$('.userpm-select[data-username="'+useractive+'"] .unread').remove();
+		if( $('.userpm-select[data-username="'+jQuery.escapeSelector(useractive)+'"] .unread').length )
+			$('.userpm-select[data-username="'+jQuery.escapeSelector(useractive)+'"] .unread').remove();
 		utils.update_global_unread_count();
 	}
-	
+
 	if (tab == 'channellist'){
 		$('#channels').addClass('active');	
 		var channelactive = $('.channelchat.active').data('channame');

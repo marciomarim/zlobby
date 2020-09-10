@@ -125,7 +125,7 @@ export default class User {
 		// detect is it's my battle
 		if ( username == $('#battleroom .founder').text() && newStatus.inGame ){
 		
-			var myusername = $('#myusername').text();
+			var myusername = jQuery.escapeSelector($('#myusername').text());
 			
 			if (  $('.battle-playerlist li[data-username="'+myusername+'"]').length ){
 				battles.launchgame();
@@ -188,18 +188,6 @@ export default class User {
 			sync : bin2dec(status2.substring(status2.length - 24, status2.length - 22)),
 			faction : bin2dec(status2.substring(status2.length - 28, status2.length - 24))
 		}
-		
-/*
-		if ( newStatus.sync == 2 || newStatus.sync == 0){			
-			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('🛠');
-		}else if(newStatus.spec == false){
-			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('👁');	
-		}else if(newStatus.sync && newStatus.ready){
-			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('🟢');
-		}else{
-			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('⚪️');
-		}
-*/
 		
 		if ( newStatus.sync == 2 || newStatus.sync == 0){			
 			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('unsync');
