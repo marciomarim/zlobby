@@ -76,7 +76,7 @@ export function login(){
 		
 	var socketInterval = setInterval(function(){
 		socketClient.write('PING\n');
-		trackEvent('Lobby', 'ping');	
+		trackEvent('Lobby', 'ping', appVersion);	
 	}, 20000);
 	
 	
