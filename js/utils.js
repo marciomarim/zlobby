@@ -72,12 +72,12 @@ export default class Utils {
 	init_chat( username ){
 		
 		// if chat doesnt exit, create
-		if ( !$('.userchat[data-username="'+username+'"]').length ){						
+		if ( !$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length ){						
 			this.create_chat_window(username);							
 		}else{
-			if(!$('.userchat[data-username="'+username+'"]').hasClass('active')){
+			if(!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active')){
 				$('.userchat.active').removeClass('active');
-				$('.userchat[data-username="'+username+'"]').addClass('active');	
+				$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');	
 			}							
 		}
 		$('.active .userchat_input').focus();
@@ -85,13 +85,13 @@ export default class Utils {
 		fs.readFile( chatlogsdir + 'pm-'+username+'.log', function (err, data) {
 			if (err) throw err;
 			if(data)
-				$('.userchat[data-username="'+username+'"] .messages').html(data.toString());
+				$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').html(data.toString());
 		});
 		
 		// create active chats button
-		if (!$('#activechats .userpm-select[data-username="'+username+'"]').length ){
+		if (!$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
 			//check if user is online
-			if ( $('#chat-list li[data-username="'+username+'"]').length ){
+			if ( $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
 				var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
 			}else{
 				var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
@@ -101,7 +101,7 @@ export default class Utils {
 		}
 		
 		setTimeout( function(){
-			$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight); 	
+			$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight); 	
 		}, 500);
 		
 		
@@ -111,7 +111,7 @@ export default class Utils {
 	add_message_to_chat(username, message, me){
 		
 		// if user not online, mark messages as unsent
-		var user_online = $('#chat-list li[data-username="'+username+'"]').length;		
+		var user_online = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length;		
 		var $bubble = $('<li></li>');				
 
 		if (me){			
@@ -125,8 +125,8 @@ export default class Utils {
 			$bubble.addClass('offline');
 		}
 					
-		$('.userchat[data-username="'+username+'"] .messages').append($bubble);    	
-    	$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);    	    	
+		$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').append($bubble);    	
+    	$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight);    	    	
 				
 		// save chat info
 		var container = $bubble.wrap('<p/>').parent().html();
@@ -136,20 +136,20 @@ export default class Utils {
 		$('#activechats .userpm-select').each(function( index ) {
 			$(this).css('order', index+1);
 		});
-		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
+		$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', '0').addClass('active');
 		
 		// update unread messages count if not mine
-		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+username+'"]').hasClass('active') ){								
+		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active') ){								
 			// chat is open and active
 		}else{
 			if (!me){
-				if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
-					var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+				if ($('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text()){
+					var unread = parseInt($('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text());
 					unread += 1;	
-					$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text(unread);
 				}else{
 					var unread = 1;
-					$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').append('<div class="unread">'+unread+'</div>');
 				}				
 				this.update_global_unread_count();	
 			}
@@ -184,7 +184,7 @@ export default class Utils {
 	clear_user_chat(username){
 		
 		fs.unlinkSync(chatlogsdir + 'pm-'+username+'.log');		
-		$('.userchat[data-username="'+username+'"] .messages').empty();
+		$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').empty();
 		
 	}
 	
@@ -197,8 +197,8 @@ export default class Utils {
 				if (file.startsWith("pm")){
 					var username = file.replace('pm-', '').replace('.log', '');
 					//console.log(username);
-					if ( !$('.userpm-select[data-username="'+username+'"]').length ){						
-						if ( $('#chat-list li[data-username="'+username+'"]').length ){
+					if ( !$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){						
+						if ( $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
 							var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
 						}else{
 							var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
@@ -301,7 +301,7 @@ export default class Utils {
 		$('#activechats .userpm-select').each(function( index ) {
 			$(this).css('order', index+1);
 		});
-		$('#activechats .userpm-select[data-username="'+username+'"]').css('order', '0').addClass('active');
+		$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', '0').addClass('active');
 */
 		
 		// update unread messages count if not mine
@@ -310,13 +310,13 @@ export default class Utils {
 			// chat is open and active
 		}else{
 			if (!me){
-				if ($('#activechats .userpm-select[data-username="'+username+'"] .unread').text()){
-					var unread = parseInt($('#activechats .userpm-select[data-username="'+username+'"] .unread').text());
+				if ($('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text()){
+					var unread = parseInt($('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text());
 					unread += 1;	
-					$('#activechats .userpm-select[data-username="'+username+'"] .unread').text(unread);
+					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').text(unread);
 				}else{
 					var unread = 1;
-					$('#activechats .userpm-select[data-username="'+username+'"]').append('<div class="unread">'+unread+'</div>');
+					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').append('<div class="unread">'+unread+'</div>');
 				}				
 				this.update_global_unread_count();	
 			}

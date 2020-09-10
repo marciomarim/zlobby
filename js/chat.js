@@ -22,11 +22,11 @@ $('body').on('keypress','.chat', function (e) {
 $('#chat-list').on('click', 'li', function(e) {
 	
 	var username = $(this).data('username');
-	if (!$('.userchat[data-username="'+username+'"]').length){
+	if (!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length){
 		utils.init_chat( username );
 	}
 	$('.userchat, .userpm-select').removeClass('active');		
-	$('.userchat[data-username="'+username+'"]').addClass('active');							
+	$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');							
 	
 });
 
@@ -42,14 +42,14 @@ $('body').on('click', '.userchat .clearchat', function(e) {
 	utils.clear_user_chat(username);
 	
 	//$(this).closest('.userchat').remove();
-	//$('.userpm-select[data-username="'+username+'"]').remove();
+	//$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 });
 
 
 $('body').on('click', '.userchat.active', function(e) {
 	// on click on chat, clear unread message counter
 	var username = $(this).data('username');			
-	$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').remove();
 	utils.update_global_unread_count();
 });
 
@@ -59,7 +59,7 @@ $('body').on('click', '.messages .offline', function(e) {
 	
 	var username = $('.userchat.active').data('username');
 	
-	if (!$('#chat-list li[data-username="'+username+'"]').length){
+	if (!$('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length){
 		var notification = new Notification( 'Cant send yet', {
 		  body: 'User still offline'
 		});	
@@ -87,18 +87,18 @@ $('#activechats').on('click', '.userpm-select', function(e) {
 	var username = $(this).data('username');
 				
 	$('.userchat, .userpm-select').removeClass('active');		
-	$('.userchat[data-username="'+username+'"]').addClass('active');
+	$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');
 	$(this).addClass('active');
 	
-	if (!$('.userchat[data-username="'+username+'"]').length){
+	if (!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length){
 		utils.init_chat( username );
 	}
 	
 	// if unread, remove unread count
-	$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').remove();
 	utils.update_global_unread_count();
 	
-	$('#chats .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);    	    	
+	$('#chats .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight);    	    	
 	
 });
 
@@ -167,14 +167,14 @@ $('body').on('click', '.channelchat .clearchannel', function(e) {
 	var chanName = $(this).data('channame');			
 	utils.clear_channel_chat(chanName);
 	//$(this).closest('.channelchat').remove();
-	//$('.userpm-select[data-username="'+username+'"]').remove();
+	//$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 });
 
 
 $('body').on('click', '.channelchat.active', function(e) {
 	// on click on chat, clear unread message counter
 	var chanName = $(this).data('channame');			
-	//$('.userpm-select[data-username="'+username+'"] .unread').remove();
+	//$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').remove();
 	//utils.update_global_unread_count();
 });
 

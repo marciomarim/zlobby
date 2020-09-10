@@ -441,17 +441,17 @@ export default class Battle {
 		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
 		
 		//update chatlist
-		$('li[data-username="'+username+'"] .icon-user').addClass('battle');
+		$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('battle');
 		
 		// append user to bnattle-card
-		var user = $('#chat-list li[data-username="'+username+'"]').clone();
+		var user = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').clone();
 		$('.battle-card[data-battleid="'+battleid+'"] .playerlist').append(user);
 		
 		
 		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){
 			$('#battleroom .players').text(players);
 			$('#battleroom .spectatorCount').text(spectatorCount);
-			var user = $('#chat-list li[data-username="'+username+'"]').clone();
+			var user = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').clone();
 			$('#battleroom .battle-playerlist').append(user);	
 		}				
 		
@@ -468,14 +468,14 @@ export default class Battle {
 		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
 		
 		//update chatlist
-		$('li[data-username="'+username+'"] .icon-user').removeClass('battle');			
+		$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('battle');			
 		
 		// remove user from bnattle-card				
-		$('.battle-card li[data-username="'+username+'"]').remove();
+		$('.battle-card li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 		
 		// if user is in my battle
 		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){
-			$('#battleroom li[data-username="'+username+'"]').remove();						
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();						
 		}
 		
 		// if i am leaving

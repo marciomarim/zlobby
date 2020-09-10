@@ -39,8 +39,8 @@ export default class User {
 		//$('.tab.chatlist .count').text( $('#chat-list li').length );
 		
 		// flag chat button (if chat exist) online
-		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
-			$('#activechats .userpm-select[data-username="'+username+'"]').addClass('online');
+		if ( $('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
+			$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('online');
 		}		
 		
     }
@@ -49,7 +49,7 @@ export default class User {
     
     addbattlestatusfields(username){
 	    
-	    var div = $('#battleroom li[data-username="'+username+'"] .trueskill');	    
+	    var div = $('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .trueskill');	    
 	    div.after('<div class="bonus"></div>');
 	    div.after('<div class="color"></div>');
 	    div.after('<div class="faction icon icon-arm"></div>');	    		
@@ -59,10 +59,10 @@ export default class User {
     }
     
 	removeuser( username ){
-		$('#chat-list li[data-username="'+username+'"]').remove();				
+		$('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();				
 		// flag chat button offline
-		if ( $('#activechats .userpm-select[data-username="'+username+'"]').length ){
-			$('#activechats .userpm-select[data-username="'+username+'"]').removeClass('online');
+		if ( $('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
+			$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').removeClass('online');
 		}
 		
 	}
@@ -81,26 +81,26 @@ export default class User {
 			};				
 		
 		if (newStatus.timeRank)
-			$('li[data-username="'+username+'"] .rank').addClass('icon-rank'+newStatus.timeRank );
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .rank').addClass('icon-rank'+newStatus.timeRank );
 			
 		if (newStatus.inGame){
-			$('li[data-username="'+username+'"] .icon-user').addClass('ingame');	
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('ingame');	
 		}else{
-			$('li[data-username="'+username+'"] .icon-user').removeClass('ingame');
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('ingame');
 		}
 			
 		
 		if (newStatus.away)
-			$('li[data-username="'+username+'"] .away').removeClass('false');
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .away').removeClass('false');
 			
 		if (newStatus.admin)	
-			$('li[data-username="'+username+'"] .admin').removeClass('false');
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .admin').removeClass('false');
 		
 			
 		if (newStatus.lobbyBot){
-			$('li[data-username="'+username+'"] .icon-user').addClass('bot');
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('bot');
 		}else{
-			$('li[data-username="'+username+'"] .icon-user').removeClass('bot');
+			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('bot');
 		}	
 			
 		
@@ -172,7 +172,7 @@ export default class User {
 		b28..b31 = undefined (reserved for future use);
 		*/
 		
-		if (!$('#battleroom li[data-username="'+username+'"] .faction').length){
+		if (!$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .faction').length){
 			//add user battle status to players
 			this.addbattlestatusfields(username);
 		}
@@ -191,39 +191,39 @@ export default class User {
 		
 /*
 		if ( newStatus.sync == 2 || newStatus.sync == 0){			
-			$('#battleroom li[data-username="'+username+'"] .ready').text('🛠');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('🛠');
 		}else if(newStatus.spec == false){
-			$('#battleroom li[data-username="'+username+'"] .ready').text('👁');	
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('👁');	
 		}else if(newStatus.sync && newStatus.ready){
-			$('#battleroom li[data-username="'+username+'"] .ready').text('🟢');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('🟢');
 		}else{
-			$('#battleroom li[data-username="'+username+'"] .ready').text('⚪️');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ready').text('⚪️');
 		}
 */
 		
 		if ( newStatus.sync == 2 || newStatus.sync == 0){			
-			$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('unsync');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('unsync');
 		}else{
-			$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('unsync');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('unsync');
 			if(newStatus.ready){
-				$('#battleroom li[data-username="'+username+'"] .icon-user').addClass('ready');
+				$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('ready');
 			}else{
-				$('#battleroom li[data-username="'+username+'"] .icon-user').removeClass('ready');
+				$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('ready');
 			}
 		}	
 			
 		if (newStatus.spec == true){
-			$('#battleroom .battle-playerlist').append( $('#battleroom li[data-username="'+username+'"]') );
-			$('.battle-speclist li[data-username="'+username+'"]').remove();			
+			$('#battleroom .battle-playerlist').append( $('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]') );
+			$('.battle-speclist li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();			
 		}else if (newStatus.spec == false){
-			$('#battleroom .battle-speclist').append( $('#battleroom li[data-username="'+username+'"]') );		
-			$('.battle-playerlist li[data-username="'+username+'"]').remove();
+			$('#battleroom .battle-speclist').append( $('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]') );		
+			$('.battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 		}
 		
 		
 		
-		$('#battleroom li[data-username="'+username+'"] .team').text(newStatus.team);
-		$('#battleroom li[data-username="'+username+'"] .ally').text(newStatus.ally).removeClass(function (index, className) {
+		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .team').text(newStatus.team);
+		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ally').text(newStatus.ally).removeClass(function (index, className) {
 		    return (className.match (/(^|\s)ally-\S+/g) || []).join(' ');
 		}).addClass('ally-'+newStatus.ally.toString());
 		
@@ -235,20 +235,20 @@ export default class User {
 			
 		
 		var csscolor = 'rgb(' + newcolor.Red +','+ newcolor.Green + ','+ newcolor.Blue + ')';		
-		$('#battleroom li[data-username="'+username+'"] .color').css('background-color', csscolor );
+		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .color').css('background-color', csscolor );
 		
 		
 		if(newStatus.bonus == 0){
-			$('#battleroom li[data-username="'+username+'"] .bonus').text('');
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .bonus').text('');
 		}else{
-			$('#battleroom li[data-username="'+username+'"] .bonus').text(newStatus.bonus);
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .bonus').text(newStatus.bonus);
 		}			
 			
 		
 		if(newStatus.faction == 1){
-			$('#battleroom li[data-username="'+username+'"] .faction').removeClass('icon-arm').addClass('icon-core');	
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .faction').removeClass('icon-arm').addClass('icon-core');	
 		}else{
-			$('#battleroom li[data-username="'+username+'"] .faction').removeClass('icon-core').addClass('icon-arm');	
+			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .faction').removeClass('icon-core').addClass('icon-arm');	
 		}
 		
 		//update counts
@@ -299,7 +299,7 @@ export default class User {
 		}
 		
 		// update script
-		if ( $('.battle-playerlist li[data-username="'+username+'"]').length ){
+		if ( $('.battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
 			this.reorderplayer(username, newStatus.ally);			
 		}
 		
@@ -309,7 +309,7 @@ export default class User {
     reorderplayer(username, ally){
 		
 		if (ally > 0 && ally != '' && username != ''){					
-			var user = $('#battleroom .battle-players li[data-username="'+username+'"]');	    			
+			var user = $('#battleroom .battle-players li[data-username="'+jQuery.escapeSelector(username)+'"]');	    			
 		    var team = user.children('.team').text();
 			user.css('order', team);
 			
@@ -320,17 +320,17 @@ export default class User {
 			
 			//replace under team-group    	
 			if ($('#battleroom .team-group[data-label="TEAM' + ally+'"]').length){
-				var tmp = $('#battleroom .battle-playerlist li[data-username="'+username+'"]');
-				$('#battleroom li[data-username="'+username+'"]').remove();
+				var tmp = $('#battleroom .battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]');
+				$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 				$('#battleroom .team-group[data-label="TEAM' + ally+'"]').append(tmp);					
 			}							
 			
 		}else{			
 			//var ts = user.children('.trueskill').text();
-			//$('.battle-speclist li[data-username="'+username+'"]').css('order', ts);
+			//$('.battle-speclist li[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', ts);
 		}
 				
-		//jQuery.unique($('.battle-players li[data-username="'+username+'"]'));	
+		//jQuery.unique($('.battle-players li[data-username="'+jQuery.escapeSelector(username)+'"]'));	
 		$('.team-group:empty').remove();
 		
     }

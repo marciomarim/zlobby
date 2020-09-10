@@ -765,7 +765,7 @@ export default class Protocol {
 					message = utils.urlify(message);
 					//message = filter.clean(message);
 					
-					if ( !$('.userchat[data-username="'+username+'"]').length ){													
+					if ( !$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length ){													
 						utils.init_chat(username);					
 					}					
 					utils.add_message_to_chat(username, message, false);
@@ -780,12 +780,12 @@ export default class Protocol {
 						$('.tab, .rcontainer, .container.active').removeClass('active');
 						$('#chatlist, #chats').addClass('active');
 						$('.userchat, .userpm-select').removeClass('active');		
-						$('.userchat[data-username="'+username+'"], .userpm-select[data-username="'+username+'"]').addClass('active');
+						$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"], .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');
 						
-						if( $('.userpm-select[data-username="'+username+'"] .unread').length )
-							$('.userpm-select[data-username="'+username+'"] .unread').remove();
+						if( $('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').length )
+							$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').remove();
 						
-						$('.userchat[data-username="'+username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+username+'"] .messages')[0].scrollHeight);	
+						$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight);	
 						utils.update_global_unread_count();
 					}
 					break;		    
