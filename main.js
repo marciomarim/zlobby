@@ -9,7 +9,7 @@ function createWindow () {
 	const win = new BrowserWindow({
 		width: 1800,
 		height: 1000,
-		icon: __dirname + '/assets/icons/icon.png',
+		//icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
 		//frame: false,
 		webPreferences: {

@@ -106,7 +106,7 @@ a{
 		position: relative;
 		left:0;
 		top:0;
-		height: calc(100vh - 40px);
+		height: calc(100vh - 30px);
 		width: 120px;
 		background: #111418;
 	    padding: 20px 10px;
@@ -196,15 +196,19 @@ a{
 			display: block;	
 		}
 	
-	.rcontainer .title,
 	.container .title{
-		height: 30px;
-		width: 100%;
-		text-align: center;
-		text-transform: uppercase;
-		font-family: LatoBold;
-		color: #aaa;
-		font-size: 13px;
+	    position: fixed;
+	    height: 30px;
+	    top: 0;
+        left: 120px;
+	    width: calc(100% - 120px);
+	    text-align: center;
+	    text-transform: uppercase;
+	    font-family: LatoBold;
+	    color: #aaa;
+	    font-size: 0.9em;
+	    padding: 0.4em;
+	    pointer-events: none;
 	}
 	
 	.container .account{
@@ -231,6 +235,11 @@ a{
 		
 			.account .pane.active{
 				display: block;
+			}
+			
+			.account .panetitle{
+				text-align: center;
+				font-size: 0.9em;
 			}
 		
 		.account .line{
@@ -283,7 +292,7 @@ a{
 	
 	.text-scroll{
 		width: 100%;
-		height: calc(100% - 70px);
+		height: 100%;
 	    overflow-x: hidden;
 		overflow: auto;
 	    position: relative;
@@ -415,9 +424,7 @@ ul.list {
 		background: rgba(255,255,255,0.02);
 	}
 
-#chat-list{
-	padding: 0 10px;
-}
+
 
 #battle-list li .passworded,
 #battle-list li .maxPlayers,
@@ -676,6 +683,7 @@ ul.list {
 		height: calc(50vh - 75px);
 		overflow: auto;
 		position: relative;
+		padding-top: 1em;
 	}
 	
 		.battle-players .battle-speclist,
@@ -917,7 +925,7 @@ ul.list {
 	
 	#battleroom .text-scroll {
 		width: 100%;
-    	height: calc(50vh - 35px);
+    	height: 50vh;
 	    background: #1b1e23;
 	    
 	}	
@@ -930,7 +938,7 @@ ul.list {
 		
 		#battlechatoptions{
 			position: absolute;
-		    top: calc(50vh + -30px);
+		    top: calc(50vh + -67px);
 		    right: 6px;
 		    color: #ccc;
 		    font-size: 12px;
@@ -1004,10 +1012,7 @@ ul.list {
 		.battle-players .ui-label{
 			text-align: center;
 		}
-		
-		.battle-players .battle-playerlist .ui-label{
-			margin-bottom: -10px;
-		}		
+						
 		
 		.icon.pickcore,
 		.icon.pickarm{
@@ -1338,7 +1343,12 @@ span.upper{
 */
 	
 	#chatlist .left{
+		width: 45%;
 		height: 100%;
+	}
+	
+	#chats{
+		width: 51%;
 	}
 
 #channellist{
@@ -1354,9 +1364,10 @@ span.upper{
 		width: 60%;
 	}
 	
-#chats{
-	width: calc(51% - 130px);
-}
+	#chat-list{
+		padding: 1em;
+	}
+
 
 #activechats{
 	position: absolute;

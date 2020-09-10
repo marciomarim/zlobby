@@ -8,8 +8,6 @@ $('.lmenu').on('click', '.tab', function(e) {
 	var tab = $(this).data('target');	
 	var id = '#' + $(this).data('target');
 	
-	$('.tab, .rcontainer, .container.active').removeClass('active');
-	
 	if (tab == 'chatlist'){
 		$('#chats').addClass('active');	
 		var useractive = $('.userchat.active').data('username');
@@ -21,16 +19,13 @@ $('.lmenu').on('click', '.tab', function(e) {
 	if (tab == 'channellist'){
 		$('#channels').addClass('active');	
 		var channelactive = $('.channelchat.active').data('channame');
-/*
-		if( $('.userpm-select[data-username="'+useractive+'"] .unread').length )
-			$('.userpm-select[data-username="'+useractive+'"] .unread').remove();
-		utils.update_global_unread_count();
-*/
 	}
 	
 	if ( tab == 'battleroom' && !$('body').hasClass('inbattleroom') ){
 		return false;
 	}
+			
+	$('.tab, .rcontainer, .container.active').removeClass('active');
 	
 	$(id).addClass('active');
 	$(this).addClass('active');

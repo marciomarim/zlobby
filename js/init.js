@@ -26,7 +26,7 @@ export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infolo
 
 
 //console.log('Elobby v' + appVersion);	
-$('#appVersion').text('ELobby v'+appVersion);
+$('#appVersion').text('Elobby v'+appVersion);
 
 // set default paths	
 if (platform == 'linux' || platform == 'darwin'){
