@@ -217,7 +217,7 @@ function downloadengine(fileurl){
 		// unpack
 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
 			
-			$('#enginestatus').addClass('active');
+			$('#enginestatus').addClass('active').text('Engine: ok');
 			$('#start .engine-download .download-title').text('All ready!');
 			setTimeout( function(){
 				$('#start .engine-download').removeClass('downloading');

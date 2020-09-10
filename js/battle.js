@@ -65,17 +65,22 @@ export default class Battle {
 		    properties: {directory: modsdir}
 		});
 
-		ipcRenderer.on("download progress", (event, progress) => {			
-			var w = Math.round( progress.percent*100 ) + '%';
-			$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
-			$('#battleroom .game-download .progress').css('width', w);
+		ipcRenderer.on("download progress", (event, progress) => {
+			if ($('#battleroom .game-download .download-title').text()=='Game not found for download.'){
+				var w = Math.round( progress.percent*100 ) + '%';
+				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
+				$('#battleroom .game-download .progress').css('width', w);	
+			}			
+			
 		});
 		
 		ipcRenderer.on("download complete", (event, progress) => {
-			$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
-			utils.sendbattlestatus();			
-			$('#battleroom .game-download').removeClass('downloading');
-			this.checkmap();
+			if ($('#battleroom .game-download .download-title').text()=='Game not found for download.'){
+				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
+				utils.sendbattlestatus();			
+				$('#battleroom .game-download').removeClass('downloading');
+				this.checkmap();
+			}
 		});
     }
     
@@ -178,10 +183,10 @@ export default class Battle {
 		}
 		
 		var showhostmessages = store.get('user.showhostmessages');
-		if(showhostmessages == 1){
-			$('.showhostmessages').prop("checked", true);
-		}else{
+		if(showhostmessages == 0){
 			$('.showhostmessages').prop("checked", false);
+		}else{
+			$('.showhostmessages').prop("checked", true);
 		}
 		
 		
