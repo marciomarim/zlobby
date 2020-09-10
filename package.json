@@ -64,7 +64,7 @@
       ]
     },
     "linux": {
-      "icon": "assets/icons/icon.png",
+      "icon": "assets/icons/icon_512x512@2x.png",
       "category": "Game",
       "target": [
         "deb"
