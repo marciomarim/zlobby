@@ -1336,33 +1336,25 @@ span.upper{
 	}
 
 
-/*
-#chatlist{
-	width: 49%;
-}
-*/
-	
+	#channellist .left,
 	#chatlist .left{
 		width: 45%;
 		height: 100%;
 	}
 	
+	#channels,
 	#chats{
-		width: 51%;
+	    width: 55%;
+	    position: absolute;
+	    top: 0;
+	    right: 0;
+	    height: 100%;
+	    background: #1d2229;
 	}
 
 #channellist{
 
-}
-
-	#channellist .left{
-		width: 40%;
-		height: 100%;
-	}
-	
-	#channels{
-		width: 60%;
-	}
+}	
 	
 	#chat-list{
 		padding: 1em;
