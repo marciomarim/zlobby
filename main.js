@@ -89,7 +89,7 @@ autoUpdater.on('update-not-available', (info) => {
 })
 
 autoUpdater.on('error', (err) => {
-	$('#updatestatus').text(err);
+	$('#updatestatus').text('Error in auto-update: ' + err);
 	var notification = new Notification( 'Error in auto-updater.', {
 	  body: err
 	});
