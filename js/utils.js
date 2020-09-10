@@ -97,7 +97,7 @@ export default class Utils {
 				var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
 			}			
 			
-			$('#activechats').append(div);
+			$('#activechats .buttons').append(div);
 		}
 		
 		setTimeout( function(){
@@ -203,7 +203,7 @@ export default class Utils {
 						}else{
 							var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
 						}
-						$('#activechats').append(div);	
+						$('#activechats .buttons').append(div);	
 					}
 					
 				}

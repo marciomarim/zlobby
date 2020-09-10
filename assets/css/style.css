@@ -1367,11 +1367,15 @@ span.upper{
 	right: 0;
 	height: 100%;	
 	background: #111213;
-	overflow: hidden;
-	font-size: 12px;
-    display: flex;
-    flex-direction: column;
+	overflow: auto;
+	font-size: 12px;    
 }	
+
+	#activechats .buttons{
+		display: flex;
+	    flex-direction: column;	  
+	    height: auto;  
+	}
 	
 	#activechats .userpm-select{
 		text-decoration: none;

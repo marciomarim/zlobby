@@ -213,23 +213,6 @@ $('body').on('click', '.battle-players li', function(e) {
 	$(this).append($userwin);
 	$('.pminput').focus();
 	
-	//console.log($userwin);
-	
-	// if chat doesnt exit, create
-/*
-	if ( !$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length ){		
-		utils.create_chat_window(username);		
-	}else{
-		$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');
-	}
-*/
-	// 
-/*
-	if (!$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
-		$('#activechats').append($('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').clone());		
-	}
-*/	
-	
 });
 
 $('body').on('keypress', '.pminput', function (e) {
