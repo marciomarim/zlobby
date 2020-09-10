@@ -57,9 +57,6 @@ $('body').on('click', '.leavebattle', function(e) {
 	var command = 'LEAVEBATTLE \n';	
 	socketClient.write( command );
 	
-	$('#battleroom .battle-playerlist li').remove();
-	$('#battleroom .battle-speclist li').remove();
-	
 });
 
 

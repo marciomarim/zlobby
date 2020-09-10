@@ -484,8 +484,7 @@ export default class Battle {
 			$('.tab.battleroom .status').removeClass('active');	
 			$('.container').removeClass('active');
 			$('#battlelist').addClass('active');
-			
-			
+						
 			$('#battleroom').empty();
 			
 			$('body').removeClass('inbattleroom');
