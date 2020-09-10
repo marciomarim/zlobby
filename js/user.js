@@ -21,8 +21,7 @@ export default class User {
 		line += '<div class="flag-icon flag-icon-squared flag-icon-'+country.toLowerCase()+'"></div>';
 		line += '<div class="rank icon icon-rank0"></div>';					
 		line += '<div class="name">'+username+'</div>';
-		line += '<div class="trueskill">–</div>';														
-		//line += '<div class="bot icon icon-bot false"></div>';
+		line += '<div class="trueskill">–</div>';
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
 		
@@ -102,10 +101,7 @@ export default class User {
 		}else{
 			$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('bot');
 		}	
-			
-		
-		//console.log(username);
-		//console.log(newStatus);
+					
 		
 		// any battle that start should update battle status
 		if ( $('.battle-card[data-founder="'+username+'"]').length && newStatus.inGame ){
