@@ -142,7 +142,7 @@ export default class Utils {
 		$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', '0').addClass('active');
 		
 		// update unread messages count if not mine
-		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active') ){								
+		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active') && $('body').hasClass('focus') ){								
 			// chat is open and active
 		}else{
 			if (!me){
@@ -154,7 +154,24 @@ export default class Utils {
 					var unread = 1;
 					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').append('<div class="unread">'+unread+'</div>');
 				}				
-				this.update_global_unread_count();	
+				this.update_global_unread_count();
+				
+				var notification = new Notification( username + ' said', {
+				  body: message
+				});
+				
+				notification.onclick = () => {
+					$('.tab, .rcontainer, .container.active').removeClass('active');
+					$('#chatlist, #chats').addClass('active');
+					$('.userchat, .userpm-select').removeClass('active');		
+					$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"], .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');
+					
+					if( $('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').length )
+						$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"] .unread').remove();
+					
+					$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight);	
+					this.update_global_unread_count();
+				}	
 			}
 		}										
 		

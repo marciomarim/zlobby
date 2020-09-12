@@ -53,5 +53,12 @@ $('body').on('click', '.account .btn', function(e) {
 		
 });
 
+$(window).focus(function() {
+    $('body').addClass('focus');
+});
+
+$(window).blur(function() {
+    $('body').removeClass('focus');
+});
 
 
