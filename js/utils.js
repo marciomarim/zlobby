@@ -411,7 +411,8 @@ export default class Utils {
 							
 		if (talkingabout >= 0){
 			$bubble.addClass('talkingabout');
-			$('#ringsound')[0].play();
+			if( !$('body').hasClass('ingame') )
+				$('#ringsound')[0].play();
 		}
 		
 		if (winner  >= 0){
