@@ -1353,6 +1353,7 @@ span.upper{
 	
 	.channelchat .actions .clearchannel,
 	.channelchat .actions .closewin,
+	.userchat .actions .deletechat,
 	.userchat .actions .clearchat,
 	.userchat .actions .closewin{
 		background: #474a5a;

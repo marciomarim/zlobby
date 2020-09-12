@@ -40,9 +40,13 @@ $('body').on('click', '.userchat .closewin', function(e) {
 $('body').on('click', '.userchat .clearchat', function(e) {
 	var username = $(this).data('username');			
 	utils.clear_user_chat(username);
-	
-	//$(this).closest('.userchat').remove();
-	//$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
+});
+
+$('body').on('click', '.userchat .deletechat', function(e) {	
+	var username = $(this).data('username');					
+	$(this).closest('.userchat').remove();
+	$('.userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
+	utils.clear_user_chat(username);
 });
 
 
