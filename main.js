@@ -76,20 +76,21 @@ autoUpdater.logger.transports.file.level = "info"
 // github token f9b2e4397287c05311297cc51522bf28a9318458
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
-  document.getElementById('updatestatus').innerHTML = 'Checking for updates...';
+  //document.getElementById('updatestatus').innerHTML = 'Checking for updates...';
 })
 
 autoUpdater.on('update-available', (info) => {
+	console.log('update-available...');
 	//$('#updatestatus').text('Update available');
-	document.getElementById('updatestatus').innerHTML = 'Update available';
+	//document.getElementById('updatestatus').innerHTML = 'Update available';
 })
 
 autoUpdater.on('update-not-available', (info) => {
-	document.getElementById('updatestatus').innerHTML = 'Lobby updated.';
+	//document.getElementById('updatestatus').innerHTML = 'Lobby updated.';
 })
 
 autoUpdater.on('error', (err) => {
-	document.getElementById('updatestatus').innerHTML = 'Error in auto-update: ' + err;
+	//document.getElementById('updatestatus').innerHTML = 'Error in auto-update: ' + err;
 	var notification = new Notification( 'Error in auto-updater.', {
 	  body: err
 	});
