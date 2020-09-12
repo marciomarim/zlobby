@@ -53,16 +53,17 @@ export default class Utils {
 	
 	create_chat_window( username ){
 		
+		var safe_username = jQuery.escapeSelector( username );
 		$('.userchat.active').removeClass('active');
 		
-		var chat = '<div class="userchat active" data-username="'+username+'">';
+		var chat = '<div class="userchat active" data-username="'+safe_username+'">';
 		chat += '<div class="actions">';
-		chat += '<div class="clearchat" data-username="'+username+'">CLEAR</div>';
-		chat += '<div class="closewin" data-username="'+username+'">CLOSE</div>';
+		chat += '<div class="clearchat" data-username="'+safe_username+'">CLEAR</div>';
+		chat += '<div class="closewin" data-username="'+safe_username+'">CLOSE</div>';
 		chat += '</div>';
 		//chat += '<div class="title">'+username+'</div>';
 		chat += '<div class="text-scroll"><ul class="messages"></ul></div>';
-		chat += '<div class="bottom-input"><input type="text" class="userchat_input" data-username="'+username+'"/ placeholder="Message @'+username+'"></div>';
+		chat += '<div class="bottom-input"><input type="text" class="userchat_input" data-username="'+safe_username+'"/ placeholder="Message @'+safe_username+'"></div>';
 		chat += '</div>';		
 		
 		$('#chats').append(chat);
@@ -71,13 +72,15 @@ export default class Utils {
 	
 	init_chat( username ){
 		
+		var safe_username = jQuery.escapeSelector( username );
+		
 		// if chat doesnt exit, create
-		if ( !$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length ){						
+		if ( !$('.userchat[data-username="'+safe_username+'"]').length ){						
 			this.create_chat_window(username);							
 		}else{
-			if(!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active')){
+			if(!$('.userchat[data-username="'+safe_username+'"]').hasClass('active')){
 				$('.userchat.active').removeClass('active');
-				$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').addClass('active');	
+				$('.userchat[data-username="'+safe_username+'"]').addClass('active');	
 			}							
 		}
 		$('.active .userchat_input').focus();
@@ -85,13 +88,13 @@ export default class Utils {
 		fs.readFile( chatlogsdir + 'pm-'+username+'.log', function (err, data) {
 			if (err) throw err;
 			if(data)
-				$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').html(data.toString());
+				$('.userchat[data-username="'+safe_username+'"] .messages').html(data.toString());
 		});
 		
 		// create active chats button
-		if (!$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
+		if (!$('#activechats .userpm-select[data-username="'+safe_username+'"]').length ){
 			//check if user is online
-			if ( $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){
+			if ( $('#chat-list li[data-username="'+safe_username+'"]').length ){
 				var div = '<div class="userpm-select online" data-username="'+username+'">'+username+'</div>';
 			}else{
 				var div = '<div class="userpm-select" data-username="'+username+'">'+username+'</div>';
@@ -101,7 +104,7 @@ export default class Utils {
 		}
 		
 		setTimeout( function(){
-			$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight); 	
+			$('.userchat[data-username="'+safe_username+'"] .text-scroll').scrollTop($('.userchat[data-username="'+safe_username+'"] .messages')[0].scrollHeight); 	
 		}, 500);
 		
 		
@@ -357,8 +360,7 @@ export default class Utils {
 	
 	append_message_battleroom( username, message ){
 		
-		var username = jQuery.escapeSelector(username);
-		var myusername = jQuery.escapeSelector($('#myusername').text());
+		var myusername = $('#myusername').text();
 		
 		var ring = message.startsWith("* Ringing");
 		var talkingabout = message.toUpperCase().indexOf( myusername.toUpperCase() );					
