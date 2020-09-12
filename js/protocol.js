@@ -409,7 +409,7 @@ export default class Protocol {
 			    
 				case 'JOINBATTLEFAILED':
 					
-					var reason = parts[1];		
+					var reason = parts.slice(1).join(' ');		
 					var notification = new Notification( 'Join battle failed:', {
 					  body: reason
 					});
