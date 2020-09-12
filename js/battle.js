@@ -580,6 +580,9 @@ export default class Battle {
 			if (parts[2] == 'mo_ffa' && val == 1){
 				$('#battleroom').removeClass('teams').addClass('ffa');			
 				$('#battleroom .gametype').text('FFA');
+			}else if(parts[2] == 'mo_ffa' && val == 0){
+				$('#battleroom').removeClass('ffa').addClass('teams');			
+				$('#battleroom .gametype').text('TEAMS');
 			}
 			
 		});
