@@ -143,7 +143,7 @@ export default class Utils {
 		$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').css('order', '0').addClass('active');
 		
 		// update unread messages count if not mine
-		if ( $('#chats').hasClass('active') && $('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active') && $('body').hasClass('focus') ){								
+		if ( $('#chatlist').hasClass('active') && $('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').hasClass('active') && $('body').hasClass('focus') ){								
 			// chat is open and active
 		}else{
 			if (!me){
@@ -156,6 +156,8 @@ export default class Utils {
 					$('#activechats .userpm-select[data-username="'+jQuery.escapeSelector(username)+'"]').append('<div class="unread">'+unread+'</div>');
 				}				
 				this.update_global_unread_count();
+				
+				$('#messagesound')[0].play();
 				
 				var notification = new Notification( username + ' said', {
 				  body: message
@@ -186,8 +188,7 @@ export default class Utils {
 		    if (err) throw err;
 		    var content = data.toString().replace(html, '');
 		    fs.writeFileSync(chatlogsdir + 'pm-'+username+'.log', content);
-		});
-		
+		});		
 				
 	}
 	
@@ -430,7 +431,7 @@ export default class Utils {
 		if (talkingabout >= 0){
 			$bubble.addClass('talkingabout');
 			if( !$('body').hasClass('ingame') )
-				$('#ringsound')[0].play();
+				$('#messagesound')[0].play();
 		}
 		
 		if (winner  >= 0){
@@ -438,6 +439,7 @@ export default class Utils {
 		}
 		
 		if (vote >= 0){
+			$('#messagesound')[0].play();
 			$bubble.addClass('vote');
 			$('#votewin').addClass('active');
 			
