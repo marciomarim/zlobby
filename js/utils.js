@@ -28,7 +28,7 @@ export default class Utils {
 	      string = string.replace(url, '<a class="open-in-browser" target="_blank" href="' + url + '">' + url + "</a>");
 	    });
 	  }
-	  return string.replace("(", "<br/>(");
+	  return string.replace("<br/>", "");
 	}
 	
 	

@@ -284,7 +284,7 @@ export default class Protocol {
 			    
 				case 'DENIED':
 					
-					var reason = parts[1];
+					var reason = parts.slice(1).join(" ");
 					var notification = new Notification( 'Login denied:', {
 					  body: reason
 					});
