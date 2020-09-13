@@ -91,9 +91,11 @@ autoUpdater.on('update-not-available', (info) => {
 
 autoUpdater.on('error', (err) => {
 	//document.getElementById('updatestatus').innerHTML = 'Error in auto-update: ' + err;
+/*
 	var notification = new Notification( 'Error in auto-updater.', {
 	  body: err
 	});
+*/
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
@@ -116,7 +118,4 @@ autoUpdater.on('update-downloaded', (info) => {
     if (returnValue.response === 0) autoUpdater.quitAndInstall()
   })
   
-  var notification = new Notification( 'Update Downloaded.', {
-	  body: 'It will be installed on restart.'
-	});
 });
