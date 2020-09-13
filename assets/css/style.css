@@ -734,7 +734,7 @@ ul.list {
 		height: calc(50vh - 75px);
 		overflow: auto;
 		position: relative;
-		padding-top: 2em;
+		padding-top: 1.5em;
 	}
 	
 		.battle-players .battle-speclist,
