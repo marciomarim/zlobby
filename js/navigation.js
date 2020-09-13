@@ -44,13 +44,17 @@ $('body').on('click', 'a', (event) => {
 });
 
 
+$('body').on('click', '.serverhosturl', function(e) {
+	$('.serverhosturl').removeClass('active');
+	$(this).addClass('active');
+});
+
 
 $('body').on('click', '.account .btn', function(e) {
 	var target = '#' + $(this).data('target');
 	$('.account .pane.active, .account .btn').removeClass('active');
 	$(target).addClass('active');
-	$(this).addClass('active');
-		
+	$(this).addClass('active');		
 });
 
 $(window).focus(function() {

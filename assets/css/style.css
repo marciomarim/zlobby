@@ -276,6 +276,19 @@ a{
 			display: none;
 		}
 		
+		#serverhosts{
+			display: flex;
+		}
+		
+			.serverhosturl{
+				opacity: 0.5;	
+				margin: 6px;
+			}
+			
+			.serverhosturl.active{
+				opacity: 1;	
+			}
+		
 		
 	.rcontainer{
 		width: calc(45% - 120px);
@@ -434,15 +447,28 @@ ul.list {
 
 #battle-list li .gameName,
 #battle-list li .title,
-#battle-list li .map,
-#chat-list li .name{
+#battle-list li .map{
 	flex: 0.7;
 	max-width: none;
 }
 
+#chat-list li .name{
+	flex: 0.4;
+	max-width: none;
+}
+		
+	#chat-list li .userID{
+		flex: 0.2;
+	}
+
 	#chat-list li div{
 		flex: 0.07;
-		max-width: 32px;
+		max-width: 32px;		
+	}
+	
+	#chat-list li .lobbyID,
+	#chat-list li .cpu{
+		display: none;
 	}
 
 #battle-list li .engine,

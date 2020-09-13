@@ -21,8 +21,9 @@ import {trackEvent} from './init.js';
 
 function socket_connect(){
 	
-	socketClient = net.connect({host:'springfightclub.com', port:8200},  () => {
-	//socketClient = net.connect({host:'springrts.com', port:8200},  () => {
+	var hostselected = $('.serverhosturl.active').data('url');
+	
+	socketClient = net.connect({host:hostselected, port:8200},  () => {	
 		
 		// 'connect' listener
 		console.log('Connected to server!');

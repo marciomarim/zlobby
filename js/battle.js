@@ -246,13 +246,13 @@ export default class Battle {
     
     openbattle( cmd, parts ){
 		
-		var sentences = cmd.split('\t');					 
-		parts = sentences[0].split(" ");		
-		
+		var sentences = cmd.split('\t');			 
+		parts = sentences[0].split(" ");				
 		var battleid = parts[1];
+		
 		if ( $('.battle-card[data-battleid="'+battleid+'"]').length ){
 			this.closebattle( battleid );
-		}
+		}				
 		//var type = parts[2];
 		//var natType = parts[3];
 		var username = parts[4];
@@ -263,12 +263,17 @@ export default class Battle {
 		var rank = parts[9];
 		var maphash = parts[10];
 		
-		var mapname = parts.slice(11).join(' ');
-		
-		var title = sentences[1].split(')').slice(1);
-		var gameName = sentences[2];
-		
-		var engine = sentences[1].slice(sentences[1].indexOf("(") + 1, sentences[1].indexOf(")"));					    	    	    	    
+		if (sentences.length == 3){
+			var mapname = parts.slice(11).join(' ');		
+			var title = sentences[1].split(')').slice(1);
+			var gameName = sentences[2];
+			var engine = sentences[1].slice(sentences[1].indexOf("(") + 1, sentences[1].indexOf(")"));
+		}else{
+			var mapname = sentences[2];
+			var title = sentences[3];
+			var gameName = sentences[4];
+			var engine = sentences[1];
+		}							    	    	    	    
 	    	
 		var battlediv = '<div class="header">';
 				
