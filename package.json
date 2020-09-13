@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": {
@@ -72,7 +72,9 @@
       ]
     },
     "win": {
-      "icon": "assets/icons/icon.png"
+      "icon": "assets/icons/icon.png",
+      "publisherName": ["Zorro"],
+	  "target": ["nsis"]
     }
   }
 }

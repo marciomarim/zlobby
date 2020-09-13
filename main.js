@@ -81,21 +81,31 @@ autoUpdater.on('checking-for-update', () => {
 
 autoUpdater.on('update-available', (info) => {
 	console.log('update-available...');
-	//$('#updatestatus').text('Update available');
-	//document.getElementById('updatestatus').innerHTML = 'Update available';
+	
+	const dialogOpts = {
+	    type: 'info',
+	    title: 'Application Update',
+	    message: 'Message: new version',
+	    detail: 'A new version is available.'
+	  }
+	
+	dialog.showMessageBox(dialogOpts);
 })
 
 autoUpdater.on('update-not-available', (info) => {
-	//document.getElementById('updatestatus').innerHTML = 'Lobby updated.';
+
+	const dialogOpts = {
+	    type: 'info',
+	    title: 'Application Update',
+	    message: 'Message: no updates',
+	    detail: 'No updates available.'
+	  }
+	
+	dialog.showMessageBox(dialogOpts);
 })
 
 autoUpdater.on('error', (err) => {
-	//document.getElementById('updatestatus').innerHTML = 'Error in auto-update: ' + err;
-/*
-	var notification = new Notification( 'Error in auto-updater.', {
-	  body: err
-	});
-*/
+
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
