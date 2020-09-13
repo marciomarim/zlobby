@@ -380,7 +380,11 @@ export default class Utils {
 	append_message_battleroom( username, message ){
 		
 		var myusername = $('#myusername').text();
+		var amiplaying = false;
 		
+		if ( $('.battle-playerlist li[data-username="'+jQuery.escapeSelector(myusername)+'"]').length )
+			amiplaying = true;
+			
 		var ring = message.startsWith("* Ringing");
 		var talkingabout = message.toUpperCase().indexOf( myusername.toUpperCase() );					
 		var ishost = message.startsWith("* ");
@@ -438,7 +442,7 @@ export default class Utils {
 			$bubble.addClass('winner');
 		}
 		
-		if (vote >= 0){
+		if (vote >= 0 && amiplaying){
 			$('#messagesound')[0].play();
 			$bubble.addClass('vote');
 			$('#votewin').addClass('active');
