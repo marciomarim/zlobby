@@ -121,7 +121,7 @@ autoUpdater.on('update-downloaded', (info) => {
 	    type: 'info',
 	    buttons: ['Restart', 'Later'],
 	    title: 'Application Update',
-	    message: 'A new version has been downloaded. Restart the application to apply the updates.',
+	    message: 'Application Update.',
 	    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
 	  }
 
