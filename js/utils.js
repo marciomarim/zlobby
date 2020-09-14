@@ -114,6 +114,7 @@ export default class Utils {
 	
 	add_message_to_chat(username, message, me){
 		
+		
 		// if user not online, mark messages as unsent
 		var user_online = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').length;		
 		var $bubble = $('<li></li>');				
@@ -134,7 +135,10 @@ export default class Utils {
 				
 		// save chat info
 		var container = $bubble.wrap('<p/>').parent().html();
-		fs.appendFileSync( chatlogsdir + 'pm-'+username+'.log', container );
+
+		// save if not bot
+		if ( !$('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').hasClass('bot') )
+			fs.appendFileSync( chatlogsdir + 'pm-'+username+'.log', container );
 		
 		//reorder active chats
 		$('#activechats .userpm-select').each(function( index ) {
