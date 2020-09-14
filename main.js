@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 
 const { autoUpdater } = require("electron-updater")
 
@@ -45,7 +45,7 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   autoUpdater.checkForUpdatesAndNotify();
-  createWindow();	
+  createWindow();		
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
