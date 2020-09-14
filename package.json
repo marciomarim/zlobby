@@ -73,7 +73,7 @@
     },
     "win": {
       "icon": "assets/icons/icon.png",
-      "publisherName": ["Zorro"],
+      "publisherName": ["marcio@yhello.co"],
 	  "target": ["nsis"]
     }
   }
