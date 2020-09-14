@@ -73,39 +73,20 @@ autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "info"	
 	
 	
-// github token f9b2e4397287c05311297cc51522bf28a9318458
 autoUpdater.on('checking-for-update', () => {
   console.log('Checking for update...');
-  //document.getElementById('updatestatus').innerHTML = 'Checking for updates...';
 })
 
 autoUpdater.on('update-available', (info) => {
 	console.log('update-available...');
-	
-	const dialogOpts = {
-	    type: 'info',
-	    title: 'Application Update',
-	    message: 'Message: new version',
-	    detail: 'A new version is available.'
-	  }
-	
-	dialog.showMessageBox(dialogOpts);
 })
 
 autoUpdater.on('update-not-available', (info) => {
-
-	const dialogOpts = {
-	    type: 'info',
-	    title: 'Application Update',
-	    message: 'Message: no updates',
-	    detail: 'No updates available.'
-	  }
 	
-	dialog.showMessageBox(dialogOpts);
 })
 
 autoUpdater.on('error', (err) => {
-
+	
 })
 
 autoUpdater.on('download-progress', (progressObj) => {
