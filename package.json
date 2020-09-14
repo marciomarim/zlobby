@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": {
