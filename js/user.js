@@ -245,12 +245,12 @@ export default class User {
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 		
 		var battlesize = 'normal';
-		if (numberofplayers > 10){
-			battlesize = 'big';
+		if (numberofplayers > 14){
+			battlesize = 'huge';
 		}else if(numberofplayers > 12){
 			battlesize = 'verybig';
-		}else if(numberofplayers > 14){
-			battlesize = 'huge';
+		}else if(numberofplayers > 10){
+			battlesize = 'big';
 		}
 		$('#battleroom').data('battlesize', battlesize);
 		$('#battleroom').attr('data-battlesize', battlesize);	
@@ -258,6 +258,7 @@ export default class User {
 		
 		
 		// update gametype in battleroom				
+/*
 		var mo_ffa = $('#battleroom .option.mo_ffa .val').text();
 		var anon_ffa = $('#battleroom .option.anon_ffa .val').text();			
 		if(mo_ffa == '1'){
@@ -281,6 +282,7 @@ export default class User {
 				$('#battleroom .gametype').text('TEAMS');
 			}	
 		}
+*/
 		
 		// update script
 		if ( $('.battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){

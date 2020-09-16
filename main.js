@@ -68,21 +68,15 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-
 autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "info"	
 	
-	
 autoUpdater.on('checking-for-update', () => {
-  console.log('Checking for update...');
+	console.log('Checking for update...');
 })
 
 autoUpdater.on('update-available', (info) => {
 	console.log('update-available...');
-})
-
-autoUpdater.on('update-not-available', (info) => {
-	
 })
 
 autoUpdater.on('error', (err) => {
@@ -101,13 +95,13 @@ autoUpdater.on('update-downloaded', (info) => {
 	const dialogOpts = {
 	    type: 'info',
 	    buttons: ['Restart', 'Later'],
-	    title: 'Application Update',
-	    message: 'Application Update.',
-	    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
-	  }
+	    title: 'Update is ready',
+	    message: 'Update is ready',
+	    detail: 'A new version has been downloaded. Restart to apply the updates.'
+	}
 
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall()
-  })
+	dialog.showMessageBox(dialogOpts).then((returnValue) => {
+		if (returnValue.response === 0) autoUpdater.quitAndInstall()
+	})
   
 });

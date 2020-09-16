@@ -583,11 +583,22 @@ export default class Battle {
 			}
 			
 			if (parts[2] == 'mo_ffa' && val == 1){
+				
 				$('#battleroom').removeClass('teams').addClass('ffa');			
 				$('#battleroom .gametype').text('FFA');
+				
 			}else if(parts[2] == 'mo_ffa' && val == 0){
-				$('#battleroom').removeClass('ffa').addClass('teams');			
-				$('#battleroom .gametype').text('TEAMS');
+				
+				$('#battleroom').removeClass('ffa').addClass('teams');
+				var numplayers = $('.battle-playerlist li').length;					
+				
+				if (numplayers <= 2){
+					$('#battleroom .gametype').text('1v1');
+				}else if (numplayers > 2){
+					$('#battleroom .gametype').text('TEAMS');
+				}
+								
+				
 			}
 			
 		});

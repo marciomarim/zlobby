@@ -734,7 +734,7 @@ ul.list {
 		height: calc(50vh - 75px);
 		overflow: auto;
 		position: relative;
-		padding-top: 1.5em;
+		padding-top: 1.3em;
 	}
 	
 		.battle-players .battle-speclist,
@@ -745,7 +745,7 @@ ul.list {
 		}
 			
 			.teams .battle-playerlist .team-group{
-				margin-top: 22px;
+				margin-top: 20px;
 				position: relative;
 				display: flex;
 			    flex-direction: column;
@@ -795,17 +795,17 @@ ul.list {
 		
 			#battleroom[data-battlesize="big"] .battle-players li{
 				font-size: 12px;
-				line-height: 1.3em;
+				line-height: 1.2em;
 			}
 			
 			#battleroom[data-battlesize="verybig"] .battle-players li{
-				font-size: 11px;
-				line-height: 1.2em;
+				font-size: 11.5px;
+				line-height: 1.1em;
 			}
 			
 			#battleroom[data-battlesize="huge"] .battle-players li{
-				font-size: 10px;
-				line-height: 1.2em;
+				font-size: 11px;
+				line-height: 1em;
 			}
 		
 		.battle-players li .name{
