@@ -271,6 +271,14 @@ a{
 			margin-top:20px;
 		}
 		
+		#loginmessage{
+			color: red;
+		}
+		
+			#loginmessage:empty{
+				display: none;
+			}
+		
 		.account .center{
 			display: flex;
 			justify-content: center;

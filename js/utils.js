@@ -395,16 +395,17 @@ export default class Utils {
 		var winner = -1;
 		var vote = -1;
 		var endvote = -1;
+		var myvote = -1;
 		
 		if (ishost >= 0){
 			winner = message.indexOf('won!');
 			vote = message.indexOf('called a vote for command');	
 			endvote = message.indexOf('* Vote cancelled');
+			myvote = message.indexOf('by '+myusername);
 			//var endvote = message.indexOf('Vote for command');	
-		}
+		}		
 		
-		
-		if(ring && talkingabout >= 0){
+		if(ring && talkingabout >= 0 && myvote < 1){
 			//console.log('ringing');
 			$('#ringsound')[0].play();
 		}

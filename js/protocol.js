@@ -65,6 +65,11 @@ export default class Protocol {
 					$('.account #disconnectpane').addClass('active');
 					$('.account #loginpane, .account #createpane').removeClass('active');
 					$('.account .btn').addClass('active');
+					
+					$('.container.active').removeClass('active');		
+					$('.tab').removeClass('active');					
+					$('.tab.battlelist').addClass('active');
+					$('#battlelist').addClass('active');
 															
 					break;			    
 			    
@@ -283,8 +288,11 @@ export default class Protocol {
 			    
 			    
 				case 'DENIED':
+															
+					var reason = parts.slice(1).join(" ");					
 					
-					var reason = parts.slice(1).join(" ");
+					$('#loginmessage').text(reason);
+					
 					var notification = new Notification( 'Login denied:', {
 					  body: reason
 					});
@@ -827,13 +835,7 @@ export default class Protocol {
 			    
 			    
 				case 'TASSERVER':
-				case 'TASServer':
-					
-					$('.container.active').removeClass('active');		
-					$('.tab').removeClass('active');
-					
-					$('.tab.battlelist').addClass('active');
-					$('#battlelist').addClass('active');
+				case 'TASServer':										
 					
 					break;			    
 			    
