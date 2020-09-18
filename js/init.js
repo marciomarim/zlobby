@@ -29,64 +29,10 @@ export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infolo
 $('#appVersion').text('Elobby v'+appVersion);
 
 // set default paths	
-if (platform == 'linux' || platform == 'darwin'){
-	
-	var springdir = homedir + '/.spring/';	
-	var mapsdir = homedir + '/.spring/maps/';
-	var modsdir = homedir + '/.spring/games/';
-	
-	var chatlogsdir = homedir + '/.spring/chatlogs/';
-	var infologfile = homedir + '/.spring/infolog.log';
-	var scriptfile = homedir + '/.spring/e-script.txt';
 
-	if (platform == 'darwin'){
-		var replaysdir = homedir + '/.config/spring/demos/';
-		var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';	
-		var enginepath2 = enginepath;	
-		var enginedir = '/Applications/';
-		var engineverdir = enginedir;
-		var zipfile = 'Spring_103.0.app.7z'; 
-	}else{
-		var replaysdir = homedir + '/.spring/demos/';
-		var enginepath = homedir + '/.spring/engine/103/spring';
-		var enginepath2 = enginepath;
-		var enginedir = homedir + '/.spring/engine/103/';
-		var engineverdir = enginedir;
-		if (arch == 'x64' || arch == 'arm64'){
-			var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
-		}else{
-			var zipfile = 'spring_103.0_minimal-portable-linux32-static.7z';
-		}
-	}
-	
-	if (!fs.existsSync(springdir)){
-	    fs.mkdirSync(springdir);
-	}
-	
-	if (!fs.existsSync(mapsdir)){
-	    fs.mkdirSync(mapsdir);
-	}
-	
-	if (!fs.existsSync(modsdir)){
-	    fs.mkdirSync(modsdir);
-	}
-	
-	if (!fs.existsSync(replaysdir)){
-	    fs.mkdirSync(replaysdir);
-	}
-	
-	if (!fs.existsSync(chatlogsdir)){
-	    fs.mkdirSync(chatlogsdir);
-	}
+if(platform == 'win32'){
 	
 	
-	
-}else if(platform == 'win32'){
-	
-	var mygamesdir = homedir + '\\Documents\\My Games\\';
-	if (!fs.existsSync(mygamesdir)){
-	    fs.mkdirSync(mygamesdir);
-	}
 	
 	var springdir = homedir + '\\Documents\\My Games\\Spring\\';
 	var mapsdir = homedir + '\\Documents\\My Games\\Spring\\maps\\';
@@ -105,38 +51,7 @@ if (platform == 'linux' || platform == 'darwin'){
 		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
 	}else{		
 		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
-	}
-	
-	if (!fs.existsSync(springdir)){
-	    fs.mkdirSync(springdir);
-	}
-	
-	if (!fs.existsSync(mapsdir)){
-	    fs.mkdirSync(mapsdir);
-	}
-	
-	if (!fs.existsSync(modsdir)){
-	    fs.mkdirSync(modsdir);
-	}
-	
-	if (!fs.existsSync(replaysdir)){
-	    fs.mkdirSync(replaysdir);
-	}
-	
-	if (!fs.existsSync(chatlogsdir)){
-		//console.log('Creating chatlog folder');
-	    fs.mkdirSync(chatlogsdir);
-	}
-	
-	if (!fs.existsSync(enginedir)){
-		//console.log('Creating engine folder');
-		fs.mkdirSync(enginedir);
-	}
-	
-	if (!fs.existsSync(engineverdir)){
-		//console.log('Creating engine version folder');
-		fs.mkdirSync(engineverdir);
-	}
+	}			
 	
 	// not portable
 /*
@@ -151,34 +66,136 @@ if (platform == 'linux' || platform == 'darwin'){
 		var enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
 	}	
 */	
+}else if( platform == 'darwin' ){
+	
+	var springdir = homedir + '/.spring/';	
+	var mapsdir = homedir + '/.spring/maps/';
+	var modsdir = homedir + '/.spring/games/';	
+	var chatlogsdir = homedir + '/.spring/chatlogs/';
+	var infologfile = homedir + '/.spring/infolog.log';
+	var scriptfile = homedir + '/.spring/e-script.txt';	
+	var replaysdir = homedir + '/.config/spring/demos/';
+	var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';			
+	var enginedir = '/Applications/';
+	var engineverdir = enginedir;
+	var zipfile = 'Spring_103.0.app.7z'; 
+	
+	
+}else if( platform == 'linux' ){
+	
+	var springdir = homedir + '/.spring/';	
+	var mapsdir = homedir + '/.spring/maps/';
+	var modsdir = homedir + '/.spring/games/';	
+	var chatlogsdir = homedir + '/.spring/chatlogs/';
+	var infologfile = homedir + '/.spring/infolog.log';
+	var scriptfile = homedir + '/.spring/e-script.txt';
+	var replaysdir = homedir + '/.spring/demos/';
+	var enginepath = homedir + '/.spring/engine/103/spring';
+	var enginedir = homedir + '/.spring/engine/103/';
+	var engineverdir = enginedir;
+	if (arch == 'x64' || arch == 'arm64'){
+		var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
+	}else{
+		var zipfile = 'spring_103.0_minimal-portable-linux32-static.7z';
+	}
+	
+}else{
+	$('#enginestatus').addClass('active').text('Your OS is not supported');
 }
 
 
-if (!fs.existsSync(enginepath) && !fs.existsSync(enginepath2)) {
-	
-	if(platform == 'win32'){
-		
-		if (arch == 'x64'){
-			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;	
-		}else{
-			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;	
-		}
-		
-		
-	}else if (platform == 'linux'){
-		
-		if (arch == 'x64' || arch == 'arm64'){
-			var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
-		}else{
-			var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
-		}
-		
-	}else if (platform == 'darwin'){
-		
-		var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;
-	}	
+if (!fs.existsSync(springdir)){
+    fs.mkdirSync(springdir);
+}
 
-    $.ajax({ 
+if (!fs.existsSync(mapsdir)){
+    fs.mkdirSync(mapsdir);
+}
+
+if (!fs.existsSync(modsdir)){
+    fs.mkdirSync(modsdir);
+}
+
+if (!fs.existsSync(replaysdir)){
+    fs.mkdirSync(replaysdir);
+}
+
+if (!fs.existsSync(chatlogsdir)){
+    fs.mkdirSync(chatlogsdir);
+}
+
+// additional checks for win
+if (platform == 'win32'){
+	
+	var mygamesdir = homedir + '\\Documents\\My Games\\';
+	if (!fs.existsSync(mygamesdir)){
+	    fs.mkdirSync(mygamesdir);
+	}
+	
+	if (!fs.existsSync(enginedir)){
+		//console.log('Creating engine folder');
+		fs.mkdirSync(enginedir);
+	}
+	
+	if (!fs.existsSync(engineverdir)){
+		//console.log('Creating engine version folder');
+		fs.mkdirSync(engineverdir);
+	}
+}
+
+
+
+
+var enginefound = 0;
+	
+if(platform == 'win32'){
+	
+	if (arch == 'x64'){
+		var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;	
+	}else{
+		var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;	
+	}
+	
+	var enginepath3 = 'C:\\Program Files (x86)\\Spring\\spring.exe';
+	
+	if (!fs.existsSync(enginepath) && !fs.existsSync(enginepath2)) {
+		enginefound = 1;
+	}
+	
+}else if (platform == 'linux'){
+	
+	if (arch == 'x64' || arch == 'arm64'){
+		var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
+	}else{
+		var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
+	}
+	
+	if (!fs.existsSync(enginepath)) {
+		enginefound = 1;
+	}
+	
+}else if (platform == 'darwin'){
+	
+	var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;		
+	
+	if (!fs.existsSync(enginepath)) {
+		enginefound = 1;
+	}
+	
+}	
+
+  
+		 
+if (!enginefound) {
+	prepareenginedownload(engineurl);
+} else {
+	$('#enginestatus').addClass('active').text('Engine: ok');
+}
+
+
+function prepareenginedownload(engineurl){
+	
+	$.ajax({ 
         url: engineurl, 
         type: 'HEAD', 
         error: function()  
@@ -190,11 +207,8 @@ if (!fs.existsSync(enginepath) && !fs.existsSync(enginepath2)) {
             downloadengine(engineurl);
         } 
     });
-		 
-} else {
-	$('#enginestatus').addClass('active').text('Engine: ok');
+    
 }
-
 
 
 function downloadengine(fileurl){
