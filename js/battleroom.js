@@ -98,6 +98,25 @@ $('body').on('click', '.showhostmessages', function(e) {
 });
 
 
+$('body').on('click', '.mutebattleroom', function(e) {
+	
+	if ($('.mutebattleroom').prop("checked") == true){
+		store.set('user.mutebattleroom', 1);
+		var sound = document.getElementById("messagesound");
+		sound.volume = 0;
+		var ring = document.getElementById("ringsound");
+		ring.volume = 0;
+	}else{
+		store.set('user.mutebattleroom', 0);
+		var sound = document.getElementById("messagesound");
+		sound.volume = 1;
+		var ring = document.getElementById("ringsound");
+		ring.volume = 1;
+	}		
+	
+});
+
+
 
 
 $('body').on('click', '.vote.yes', function(e) {

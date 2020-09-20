@@ -1007,6 +1007,18 @@ ul.list {
 			border-radius: 20px;			
 		}
 		
+		#battlechatoptions .option{
+			display: none;
+		}
+		
+		#battlechatoptions:hover > .option{
+			display: inline-block;
+		}
+		
+		#battlechatoptions:hover > .label{
+			display: none;
+		}
+		
 		#votewin{
 	        position: absolute;
 		    top: calc(50vh + -67px);

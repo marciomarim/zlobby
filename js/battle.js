@@ -190,6 +190,22 @@ export default class Battle {
 		}
 		
 		
+		var mutebattleroom = store.get('user.mutebattleroom');
+		if(mutebattleroom == 0){
+			$('.mutebattleroom').prop("checked", false);
+			var sound = document.getElementById("messagesound");
+			sound.volume = 1;
+			var ring = document.getElementById("ringsound");
+			ring.volume = 1;
+		}else{
+			var sound = document.getElementById("messagesound");
+			sound.volume = 0;
+			var ring = document.getElementById("ringsound");
+			ring.volume = 0;
+			$('.mutebattleroom').prop("checked", true);
+		}
+		
+		
 		var mycolor = store.get('user.mycolor');
 		if( mycolor ){
 			$('#battleroom .colorpicked').css('background-color', mycolor);

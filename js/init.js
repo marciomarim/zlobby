@@ -29,10 +29,8 @@ export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infolo
 $('#appVersion').text('Elobby v'+appVersion);
 
 // set default paths	
-
-if(platform == 'win32'){
-	
-	
+var enginefound = 0;
+if(platform == 'win32'){		
 	
 	var springdir = homedir + '\\Documents\\My Games\\Spring\\';
 	var mapsdir = homedir + '\\Documents\\My Games\\Spring\\maps\\';
@@ -41,17 +39,35 @@ if(platform == 'win32'){
 	var chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
 	var infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.log';
 	var scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
-	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
-	
+	var enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';	
 	var engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\';
-	var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
-	var enginepath2 = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
 	
 	if (arch == 'x64'){
 		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
 	}else{		
 		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
-	}			
+	}	
+	
+	if ( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe' ) ) {
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\spring.exe';
+		enginefound = 1;
+	}else if( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe' ) ){
+		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
+		enginefound = 1;
+	}else if( fs.existsSync( 'C:\\Program Files (x86)\\Spring\\spring.exe' ) ){
+		var enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
+		enginefound = 1;
+	}else{
+		enginefound = 0;
+	}
+	
+	if (arch == 'x64'){
+		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
+		var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;
+	}else{
+		var zipfile = 'spring_103.0_win32-minimal-portable.7z';
+		var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;	
+	}		
 	
 	// not portable
 /*
@@ -78,8 +94,12 @@ if(platform == 'win32'){
 	var enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';			
 	var enginedir = '/Applications/';
 	var engineverdir = enginedir;
-	var zipfile = 'Spring_103.0.app.7z'; 
+	var zipfile = 'Spring_103.0.app.7z'; 	
+	var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;
 	
+	if ( fs.existsSync(enginepath) ){
+		enginefound = 1;
+	}
 	
 }else if( platform == 'linux' ){
 	
@@ -93,16 +113,30 @@ if(platform == 'win32'){
 	var enginepath = homedir + '/.spring/engine/103/spring';
 	var enginedir = homedir + '/.spring/engine/103/';
 	var engineverdir = enginedir;
+	
+	if ( fs.existsSync(enginepath) ){
+		enginefound = 1;
+	}
+	
 	if (arch == 'x64' || arch == 'arm64'){
-		var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
+		var zipfile = 'spring_103.0_minimal-portable-linux64-static.7z'
+		var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
 	}else{
-		var zipfile = 'spring_103.0_minimal-portable-linux32-static.7z';
+		var zipfile = 'spring_103.0_minimal-portable-linux32-static.7z'
+		var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
 	}
 	
 }else{
 	$('#enginestatus').addClass('active').text('Your OS is not supported');
 }
 
+// additional checks for win
+if (platform == 'win32'){	
+	var mygamesdir = homedir + '\\Documents\\My Games\\';
+	if (!fs.existsSync(mygamesdir)){
+	    fs.mkdirSync(mygamesdir);
+	}
+}
 
 if (!fs.existsSync(springdir)){
     fs.mkdirSync(springdir);
@@ -127,11 +161,6 @@ if (!fs.existsSync(chatlogsdir)){
 // additional checks for win
 if (platform == 'win32'){
 	
-	var mygamesdir = homedir + '\\Documents\\My Games\\';
-	if (!fs.existsSync(mygamesdir)){
-	    fs.mkdirSync(mygamesdir);
-	}
-	
 	if (!fs.existsSync(enginedir)){
 		//console.log('Creating engine folder');
 		fs.mkdirSync(enginedir);
@@ -142,48 +171,6 @@ if (platform == 'win32'){
 		fs.mkdirSync(engineverdir);
 	}
 }
-
-
-
-
-var enginefound = 0;
-	
-if(platform == 'win32'){
-	
-	if (arch == 'x64'){
-		var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;	
-	}else{
-		var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;	
-	}
-	
-	var enginepath3 = 'C:\\Program Files (x86)\\Spring\\spring.exe';
-	
-	if (!fs.existsSync(enginepath) && !fs.existsSync(enginepath2)) {
-		enginefound = 1;
-	}
-	
-}else if (platform == 'linux'){
-	
-	if (arch == 'x64' || arch == 'arm64'){
-		var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
-	}else{
-		var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
-	}
-	
-	if (!fs.existsSync(enginepath)) {
-		enginefound = 1;
-	}
-	
-}else if (platform == 'darwin'){
-	
-	var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;		
-	
-	if (!fs.existsSync(enginepath)) {
-		enginefound = 1;
-	}
-	
-}	
-
   
 		 
 if (!enginefound) {

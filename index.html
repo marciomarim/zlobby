@@ -198,14 +198,23 @@
 			    
 			    <div id="battlechatoptions">
 					
-					<div id="showhostmessages" class="pretty p-switch p-fill">
+					<div class="label">Options</div>
+					
+					<div id="mutebattleroom" class="pretty p-switch p-fill option">
+				        <input class="mutebattleroom" type="checkbox"/>
+				        <div class="state">
+				            <label>Mute</label>
+				        </div>
+				    </div>
+				    
+					<div id="showhostmessages" class="pretty p-switch p-fill option">
 				        <input class="showhostmessages" type="checkbox" checked/>
 				        <div class="state">
 				            <label>Host messages</label>
 				        </div>
 				    </div>
 				    		    
-					<div id="autoscrollbattle" class="pretty p-switch p-fill">
+					<div id="autoscrollbattle" class="pretty p-switch p-fill option">
 				        <input class="autoscrollbattle" type="checkbox" checked/>
 				        <div class="state">
 				            <label>Autoscroll</label>
@@ -332,9 +341,7 @@
 							     acp-show-alpha>
 							</div>
 							<div class="label">COLOR</div>
-					    </div>
-					    
-					    
+					    </div>					    					    
 						
 					    <button class="startbattle">Start</button>
 				    </div>
@@ -423,7 +430,7 @@
 		
 	    
 	    <div id="sounds">
-		    <audio id="ringsound"><source src="assets/sounds/ringing.mp3" type="audio/mp3"></audio>
+		    <audio id="ringsound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
 		    <audio id="messagesound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
 	    </div>
 	    	    
