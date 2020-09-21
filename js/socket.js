@@ -202,6 +202,14 @@ $(document).ready(function() {
 	$('#password').val(password);
 	$('#password').focus();
 	
+	var autoconnect = store.get('prefs.autoconnect');
+	if (autoconnect){
+		
+		socket_connect();
+		login();
+		
+	}
+	
 });
 
 

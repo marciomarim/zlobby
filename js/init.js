@@ -248,6 +248,32 @@ function downloadengine(fileurl){
 
 
 
+// preferences
+// load preferences
+$(document).ready(function() {
+	
+	var autoconnect = store.get('prefs.autoconnect');
+	if(autoconnect == 0){
+		$('.autoconnect').prop("checked", false);
+	}else{
+		$('.autoconnect').prop("checked", true);
+	}
+		
+});
+
+
+
+// save preferences
+$('body').on('click', '.autoconnect', function(e) {
+	
+	if ($('.autoconnect').prop("checked") == true){
+		store.set('prefs.autoconnect', 1);		
+	}else{
+		store.set('prefs.autoconnect', 0);
+	}		
+	
+});
+
 
 // generate uuid 
 var uuid = require('uuid-random');

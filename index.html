@@ -414,31 +414,56 @@
 					
 					<div class="column">
 						
-						<div class="line">
-					    	<label for="enginepath">Engine path:</label>
-						    <input type="text" id="enginepath" name="enginepath" value="">
+						<div class="section">
+					    	<div class="section-title">Startup options</div>
+					    	
+					    	<div class="line">					    	
+						    	
+						    	<div id="autoconnect" class="pretty p-switch p-fill option">
+							        <input class="autoconnect" type="checkbox" />
+							        <div class="state">
+							            <label>Autoconnect</label>
+							        </div>
+							    </div>
+							    
+					    	</div>
 				    	</div>
 				    	
-				    	<div class="line">
-					    	<label for="springdir">Spring files path:</label>
-						    <input type="text" id="springdir" name="springdir" value="">
+						<div class="section">
+							<div class="section-title">Paths</div>
+								
+							<div class="line">
+						    	<label for="enginepath">Engine executable:</label>
+							    <input type="text" id="enginepath" name="enginepath" value="">
+					    	</div>
+					    	
+					    	<div class="line">
+						    	<label for="springdir">Spring files path:</label>
+							    <input type="text" id="springdir" name="springdir" value="">
+					    	</div>
+						</div>
+				    	
+				    	<div class="section">
+					    	<div class="section-title">Battleroom options</div>
+					    	
+					    	<div class="line">					    	
+						    	
+						    	<div id="savechats" class="pretty p-switch p-fill option">
+							        <input class="savechats" type="checkbox"/>
+							        <div class="state">
+							            <label>Save battleroom chats</label>
+							        </div>
+							    </div>
+							    
+							    <div id="rudechat" class="pretty p-switch p-fill option">
+							        <input class="rudechat" type="checkbox" checked />
+							        <div class="state">
+							            <label>Rude chat filter</label>
+							        </div>
+							    </div>
+					    	</div>
 				    	</div>
 				    	
-				    	<div class="line">
-					    	<div id="savechats" class="pretty p-switch p-fill option">
-						        <input class="savechats" type="checkbox"/>
-						        <div class="state">
-						            <label>Save battleroom chats</label>
-						        </div>
-						    </div>
-						    
-						    <div id="rudechat" class="pretty p-switch p-fill option">
-						        <input class="rudechat" type="checkbox"/ checked>
-						        <div class="state">
-						            <label>Rude chat filter</label>
-						        </div>
-						    </div>
-				    	</div>
 					</div>
 					
 					

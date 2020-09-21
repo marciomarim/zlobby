@@ -1557,7 +1557,16 @@ span.upper{
 	padding: 2em;
 }
 
+#prefs .column .section{
+	margin-bottom: 1em;
+}
+
 #prefs .column .line{
 	padding: 1em 0;
+}
+
+#prefs .section-title{
+	text-transform: uppercase;
+	font-size: 0.8em;
 }
 	
