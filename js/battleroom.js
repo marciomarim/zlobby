@@ -98,6 +98,17 @@ $('body').on('click', '.showhostmessages', function(e) {
 });
 
 
+$('body').on('click', '.autoscrollbattle', function(e) {
+	
+	if ($('.autoscrollbattle').prop("checked") == true){
+		store.set('user.autoscrollbattle', 1);		
+	}else{
+		store.set('user.autoscrollbattle', 0);
+	}		
+	
+});
+
+
 $('body').on('click', '.mutebattleroom', function(e) {
 	
 	if ($('.mutebattleroom').prop("checked") == true){
@@ -116,6 +127,15 @@ $('body').on('click', '.mutebattleroom', function(e) {
 	
 });
 
+$('body').on('click', '.savechats', function(e) {
+	
+	if ($('.savechats').prop("checked") == true){
+		store.set('user.savechats', 1);		
+	}else{
+		store.set('user.savechats', 0);
+	}		
+	
+});
 
 
 

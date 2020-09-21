@@ -189,6 +189,20 @@ export default class Battle {
 			$('.showhostmessages').prop("checked", true);
 		}
 		
+		var autoscrollbattle = store.get('user.autoscrollbattle');
+		if(autoscrollbattle == 0){
+			$('.autoscrollbattle').prop("checked", false);
+		}else{
+			$('.autoscrollbattle').prop("checked", true);
+		}
+		
+		var savechats = store.get('user.savechats');
+		if(savechats == 0){
+			$('.savechats').prop("checked", false);
+		}else{
+			$('.savechats').prop("checked", true);
+		}
+		
 		
 		var mutebattleroom = store.get('user.mutebattleroom');
 		if(mutebattleroom == 0){

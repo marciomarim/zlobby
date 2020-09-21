@@ -109,7 +109,7 @@ export function login(){
 		var err = data.toString();
 		console.log( err );		
 		//socketClient.destroy();		
-		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed' || err == 'Error: read ECONNRESET'){
+		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed'){
 			resetUI();
 		}
 		

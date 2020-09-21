@@ -361,7 +361,6 @@ export default class Utils {
 	
 	init_battlerrom_chat(){
 		
-/*
 		var battleid = $('#battleroom .battleid').text();
 		fs.readFile(chatlogsdir + 'battleroom-'+battleid+'.log', function (err, data) {
 			if (err) throw err;
@@ -377,7 +376,6 @@ export default class Utils {
 			}
 			$('#battleroom .text-scroll').scrollTop($('#battle-room')[0].scrollHeight);			
 		}, 1000 );
-*/
 		
 		
 	}
@@ -479,18 +477,22 @@ export default class Utils {
 		}
 		
 		// save battle log
-		//var battleid = $('#battleroom .battleid').text();
-		//var container = $bubble.wrap('<p/>').parent().html();
-		//fs.appendFileSync(chatlogsdir + 'battleroom-'+battleid+'.log', container );
+		if ($('.savechats').prop("checked") == true){
+			var battleid = $('#battleroom .battleid').text();
+			var container = $bubble.wrap('<p/>').parent().html();
+			fs.appendFileSync(chatlogsdir + 'battleroom-'+battleid+'.log', container );
+		}
 		
 					
 	}
 	
 	
 	clear_battleroom_chat(){
-		//var battleid = $('#battleroom .battleid').text();
-		//fs.unlinkSync(chatlogsdir + 'battleroom-'+battleid+'.log');		
+		
+		var battleid = $('#battleroom .battleid').text();
+		fs.unlinkSync(chatlogsdir + 'battleroom-'+battleid+'.log');		
 		$('#battle-room').empty();
+		
 	}
 	
 	

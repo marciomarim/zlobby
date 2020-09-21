@@ -16,6 +16,8 @@ const {ipcRenderer} = require("electron");
 
 var appVersion = require('electron').remote.app.getVersion();
 
+const { dialog } = require('electron').remote;
+
 const ua = require('universal-analytics');
 
 var remotemodsurl = 'https://springfightclub.com/data/';
@@ -26,7 +28,14 @@ export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infolo
 
 
 //console.log('Elobby v' + appVersion);	
-$('#appVersion').text('Elobby v'+appVersion);
+$('#appVersion').text('Elobby v' + appVersion);
+
+/*
+var enginefound = store.get('engine.enginefound');
+if (enginefound){
+	
+}
+*/
 
 // set default paths	
 var enginefound = 0;
@@ -51,6 +60,7 @@ if(platform == 'win32'){
 	if ( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe' ) ) {
 		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\spring.exe';
 		enginefound = 1;
+		
 	}else if( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe' ) ){
 		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 		enginefound = 1;
