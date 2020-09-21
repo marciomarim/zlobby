@@ -59,8 +59,7 @@ if(platform == 'win32'){
 	
 	if ( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe' ) ) {
 		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\spring.exe';
-		enginefound = 1;
-		
+		enginefound = 1;		
 	}else if( fs.existsSync( homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe' ) ){
 		var enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 		enginefound = 1;
@@ -69,7 +68,7 @@ if(platform == 'win32'){
 		enginefound = 1;
 	}else{
 		enginefound = 0;
-	}
+	}			
 	
 	if (arch == 'x64'){
 		var zipfile = 'spring_103.0_win64-minimal-portable.7z';
@@ -139,6 +138,10 @@ if(platform == 'win32'){
 }else{
 	$('#enginestatus').addClass('active').text('Your OS is not supported');
 }
+
+// add it to preferences tab
+$('#enginepath').val(enginepath);
+$('#springdir').val(springdir);
 
 // additional checks for win
 if (platform == 'win32'){	

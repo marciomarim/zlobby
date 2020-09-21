@@ -1546,4 +1546,18 @@ span.upper{
 	cursor: alias;
 	position: relative;
 }
+
+
+#prefs{
+	display: flex;			
+}
+
+#prefs .column{
+	flex: 1;
+	padding: 2em;
+}
+
+#prefs .column .line{
+	padding: 1em 0;
+}
 	
