@@ -669,17 +669,6 @@ ul.list {
 			margin: 0 auto;
 		}
 		
-		#battle-minimap .image:after,
-		#battle-minimap .image:before{
-			content: '';
-			position: absolute;
-			background: rgba(255, 63, 63, 0.3);
-		}
-				
-		#battle-minimap .image:after{
-			background: rgba(63, 63, 255, 0.3);
-		}
-		
 		#battle-minimap .startbox{
 			position: absolute;
 			background: rgba(255, 63, 63, 0.3);
@@ -687,6 +676,26 @@ ul.list {
 		
 		#battle-minimap .startbox.box1{
 			background: rgba(63, 63, 255, 0.3);
+		}
+		
+		#battle-minimap .startbox.box0:before,
+		#battle-minimap .startbox.box1:before{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate3d(-50%, -50%, 0);
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: #232332;
+			font-size: 0.8em;						
+		}
+		
+		#battle-minimap .startbox.box0:before{
+			content: '1';
+		}
+		#battle-minimap .startbox.box1:before{
+			content: '2';
 		}
 	
 		#battle-minimap img{
