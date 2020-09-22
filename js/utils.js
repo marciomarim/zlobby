@@ -552,6 +552,11 @@ export default class Utils {
     
     sendbattlestatus(){
 	    
+	    var myusername = $('#myusername').text();
+	    //b2..b5 = team no. (from 0 to 15. b2 is LSB, b5 is MSB)
+		//b6..b9 = ally team no. (from 0 to 15. b6 is LSB, b9 is MSB)						
+		
+		
 	    var ready = 0,
 			team = 0,
 			ally = 0,
@@ -560,6 +565,13 @@ export default class Utils {
 			faction = 0;
 		
 		synced = this.getsyncstatus();
+		
+		ally = $('#battleroom li[data-username="'+jQuery.escapeSelector(myusername)+'"] .ally').text();
+		if (ally==NaN)
+			ally= 0;
+		team = $('#battleroom li[data-username="'+jQuery.escapeSelector(myusername)+'"] .team').text();
+		if (team==NaN)
+			team= 0;
 		
 		if ($('.specbattle').prop("checked") == true){
 			spec = 0;
@@ -577,9 +589,9 @@ export default class Utils {
 		}else{
 			faction = 1;
 		}
-			
-		var bitcode = ready*2 + spec*2**10 + 2**(23 - synced) + faction*2**24; //2**(25 - faction);
-		
+
+
+		var bitcode = ready*2  + team*2**2 + ally*2**6 + spec*2**10 + 2**(23 - synced) + faction*2**24 ; //2**(25 - faction);			
 		var command = 'MYBATTLESTATUS ' + bitcode + ' ' + this.getColor() + '\n';										
 		socketClient.write( command );
 		
@@ -620,3 +632,6 @@ export default class Utils {
     
 }
 
+function dec2bin(dec){
+    return (dec >>> 0).toString(2);
+}

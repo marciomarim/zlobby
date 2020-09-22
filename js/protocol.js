@@ -86,6 +86,17 @@ export default class Protocol {
 			    
 				case 'ADDSTARTRECT':
 				
+					var allyNo = parts[1];
+					var left = parts[2];
+					var top = parts[3];
+					var right = parts[4];
+					var bottom = parts[5];
+					
+					setTimeout(
+						battles.addstartrect(allyNo, left, top, right, bottom)
+					, 3000);
+					
+					
 					break;			    
 			    
 			    

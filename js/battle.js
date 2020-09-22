@@ -259,35 +259,84 @@ export default class Battle {
 		            success: function()  
 		            { 
 						var imgdiv = '<img class="map" src="'+url2+'">';
-						var mimgdiv = '<img class="map" src="'+murl2+'">';
-						var himgdiv = '<img class="map" src="'+hurl2+'">';
 						
 						$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
 				        if ( $('#battleroom .battleid').text() == battleid ){
-				        	$('#battleroom #battle-minimap').html(imgdiv);
-				        	$('#battleroom #battle-metalmap').html(mimgdiv);
-				        	$('#battleroom #battle-heightmap').html(himgdiv);
+					        
+					        var startbox1 = $('.startbox.box0');
+					        var startbox2 = $('.startbox.box1');
+					        
+				        	$('#battleroom #battle-minimap .image').html(imgdiv);
+				        	$('#battleroom #battle-minimap .image').append(startbox1);
+				        	$('#battleroom #battle-minimap .image').append(startbox2);
+				        	
+				        	
+				        	const metalmap = new Image();
+				        	metalmap.src = murl2;
+				        	$('#battleroom #battle-metalmap').html(metalmap);
+				        			        	
+				        	const heightmap = new Image();
+							heightmap.onload = function() {
+								var w = this.width ;
+								var h = this.height;
+								var ratio = w/h
+								$('#battleroom #battle-minimap .image img').css('width', 300*ratio + 'px'); 
+								$('#battleroom #battle-minimap .image').css('width', 300*ratio + 'px');
+							}
+							heightmap.src = hurl2;
+				        	$('#battleroom #battle-heightmap').html(heightmap);
+				        	
+				        	
+		        	
 				        }
 		            } 
 		        });     
             }, 
             success: function()  
             { 
-				var imgdiv = '<img class="map" src="'+url1+'">';
-				var mimgdiv = '<img class="map" src="'+murl1+'">';
-				var himgdiv = '<img class="map" src="'+hurl1+'">';
-				console.log(mimgdiv);
+				var imgdiv = '<img class="map" src="'+url1+'">';			
 				
 				$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
 				
 		        if ( $('#battleroom .battleid').text() == battleid ){
-		        	$('#battleroom #battle-minimap').html(imgdiv);
-		        	$('#battleroom #battle-metalmap').html(mimgdiv);
-		        	$('#battleroom #battle-heightmap').html(himgdiv);
+			        
+			        var startbox1 = $('.startbox.box0');
+					var startbox2 = $('.startbox.box1');
+					        
+		        	$('#battleroom #battle-minimap .image').html(imgdiv);
+		        	$('#battleroom #battle-minimap .image').append(startbox1);
+		        	$('#battleroom #battle-minimap .image').append(startbox2);
+		        			        	
+		        	const metalmap = new Image();
+		        	metalmap.src = murl1;
+		        	$('#battleroom #battle-metalmap').html(metalmap);
+		        			        	
+		        	const heightmap = new Image();
+					heightmap.onload = function() {
+						var w = this.width ;
+						var h = this.height;
+						var ratio = w/h
+						$('#battleroom #battle-minimap .image img').css('width', 300*ratio + 'px'); 
+						$('#battleroom #battle-minimap .image').css('width', 300*ratio + 'px'); 
+					}
+					heightmap.src = hurl1;
+		        	$('#battleroom #battle-heightmap').html(heightmap);
+		        	
 		        }		
             } 
         });
 		
+    }
+    
+    
+    addstartrect(allyNo, left, top, right, bottom){
+	    
+	    var width = right/2 - left/2;
+	    var height = bottom/2 - top/2;
+	    	    
+	    var startbox = '<div class="startbox box'+allyNo+'" style="left:' +left/2 +'%; top:'+top/2+'%; width:'+width+'%; height:'+height+'%;"></div>';	    
+	    $('#battleroom #battle-minimap .image').append(startbox);
+	    	    
     }
     
     
@@ -452,7 +501,7 @@ export default class Battle {
 		$('#battleroom .title').text($('.battle-card[data-battleid="'+battleid+'"] .battletitle').text());
 		
 
-		$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
+		//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
 		
 		var meta = $('.battle-card[data-battleid="'+battleid+'"] .meta').clone();
 		$('#battleroom .battle-main-info').append(meta);
@@ -551,6 +600,9 @@ export default class Battle {
 			$('.activebattle').removeClass('activebattle');
 		}
     }
+    
+    
+    
     
 	// when client get kicked    
     got_kicked(){
