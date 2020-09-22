@@ -412,8 +412,10 @@ export default class Utils {
 		message = message.replace('\n', ' ');					
 		message = $('<div/>').text(message).html();					
 		message = this.urlify(message);					
-		message = message.replace(/<br\s*\/?>/gi,' ');					
-		message = filter.clean(message);
+		message = message.replace(/<br\s*\/?>/gi,' ');	
+		if ($('.rudechat').prop("checked") == true){				
+			message = filter.clean(message);
+		}
 		
 		var $bubble = $('<li></li>');
 		var last_user_msg = $('#battle-room li .userspeaking').last().text();

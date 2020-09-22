@@ -127,15 +127,7 @@ $('body').on('click', '.mutebattleroom', function(e) {
 	
 });
 
-$('body').on('click', '.savechats', function(e) {
-	
-	if ($('.savechats').prop("checked") == true){
-		store.set('user.savechats', 1);		
-	}else{
-		store.set('user.savechats', 0);
-	}		
-	
-});
+
 
 
 
@@ -228,7 +220,9 @@ $('body').on('keypress', '.battleroom_input', function (e) {
 		if(message == '/clear'){
 			utils.clear_battleroom_chat();	
 		}else{
-			message = filter.clean(message);
+			if ($('.rudechat').prop("checked") == true){				
+				message = filter.clean(message);
+			}
 	    	var command = 'SAYBATTLE ' + message + '\n';
 	    	//console.log(command);
 	    	socketClient.write( command );	
@@ -262,7 +256,9 @@ $('body').on('keypress', '.pminput', function (e) {
 		
 		var message = $(this).val();
 		var username = $(this).data('username');
-		message = filter.clean(message);
+		if ($('.rudechat').prop("checked") == true){				
+			message = filter.clean(message);
+		}
 		
 		if (!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length){
 			utils.init_chat( username );

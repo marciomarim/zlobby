@@ -258,6 +258,20 @@ $(document).ready(function() {
 	}else{
 		$('.autoconnect').prop("checked", true);
 	}
+	
+	var rudechat = store.get('prefs.rudechat');
+	if(rudechat == 0){
+		$('.rudechat').prop("checked", false);
+	}else{
+		$('.rudechat').prop("checked", true);
+	}
+	
+	var savechats = store.get('prefs.savechats');
+	if(savechats == 0){
+		$('.savechats').prop("checked", false);
+	}else{
+		$('.savechats').prop("checked", true);
+	}
 		
 });
 
@@ -270,6 +284,26 @@ $('body').on('click', '.autoconnect', function(e) {
 		store.set('prefs.autoconnect', 1);		
 	}else{
 		store.set('prefs.autoconnect', 0);
+	}		
+	
+});
+
+$('body').on('click', '.rudechat', function(e) {
+	
+	if ($('.rudechat').prop("checked") == true){
+		store.set('prefs.rudechat', 1);		
+	}else{
+		store.set('prefs.rudechat', 0);
+	}		
+	
+});
+
+$('body').on('click', '.savechats', function(e) {
+	
+	if ($('.savechats').prop("checked") == true){
+		store.set('prefs.savechats', 1);		
+	}else{
+		store.set('prefs.savechats', 0);
 	}		
 	
 });
