@@ -242,6 +242,12 @@ export default class Battle {
 	    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
 	    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
 	    
+	    var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
+	    var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
+	    
+	    var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
+	    var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
+	    
 	    $.ajax({ 
             url: url1,             
             type: 'HEAD', 
@@ -253,9 +259,14 @@ export default class Battle {
 		            success: function()  
 		            { 
 						var imgdiv = '<img class="map" src="'+url2+'">';
+						var mimgdiv = '<img class="map" src="'+murl2+'">';
+						var himgdiv = '<img class="map" src="'+hurl2+'">';
+						
 						$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
 				        if ( $('#battleroom .battleid').text() == battleid ){
 				        	$('#battleroom #battle-minimap').html(imgdiv);
+				        	$('#battleroom #battle-metalmap').html(mimgdiv);
+				        	$('#battleroom #battle-heightmap').html(himgdiv);
 				        }
 		            } 
 		        });     
@@ -263,16 +274,24 @@ export default class Battle {
             success: function()  
             { 
 				var imgdiv = '<img class="map" src="'+url1+'">';
+				var mimgdiv = '<img class="map" src="'+murl1+'">';
+				var himgdiv = '<img class="map" src="'+hurl1+'">';
+				console.log(mimgdiv);
+				
 				$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
+				
 		        if ( $('#battleroom .battleid').text() == battleid ){
 		        	$('#battleroom #battle-minimap').html(imgdiv);
+		        	$('#battleroom #battle-metalmap').html(mimgdiv);
+		        	$('#battleroom #battle-heightmap').html(himgdiv);
 		        }		
             } 
         });
-        
-        
-        		
+		
     }
+    
+    
+    
     
     openbattle( cmd, parts ){
 		
@@ -417,7 +436,8 @@ export default class Battle {
 	joinbattle( battleid, hashCode, channelName ){
 		
 		trackEvent('User', 'joinbattle');
-		this.createbattleroom();		
+		this.createbattleroom();	
+		this.load_remote_map_image( battleid );	
 		
 		$('body').addClass('inbattleroom');
 		$('.battle-card[data-battleid="'+battleid+'"]').addClass('activebattle');

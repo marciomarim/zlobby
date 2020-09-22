@@ -667,7 +667,27 @@ ul.list {
 			height: 100%;
 			width: auto;
 		}
-		
+	
+	.othermaps{
+		width: 100%;
+	    height: 200px;
+	    background: #000;
+	    position: relative;
+	    text-align: center;
+		display: flex;
+	}
+	
+	.othermaps .mapdiv{
+		flex: 0.5;
+		height: 100%;
+		padding: 0.5em;
+	}	
+	
+	.othermaps .mapdiv img{
+		height: 100%;
+		width: auto;
+	}
+	
 	.battle-main-info{
 		width: 100%;
 		padding: 1em;
@@ -1192,6 +1212,7 @@ ul.list {
 	    margin-right: 5px;
 	    padding: 2px 5px;
 	    background: #0b0d0f;
+	    cursor: pointer;
 	}
 	
 	.smallnav .navbtn.active{
