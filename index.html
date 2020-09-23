@@ -261,23 +261,25 @@
 					    <div class="progress"></div>
 				    </div>
 					    
-				    <div class="ui-label">Minimap</div>
-				    <div id="battle-minimap">
-					    <div class="image"></div>
-				    </div>
-				    
-				    <div class="othermaps">
-					    <div id="battle-metalmap" class="mapdiv"></div>
-					    <div id="battle-heightmap" class="mapdiv"></div>
-				    </div>
 				    
 				    
 				    <div class="smallnav">				    
-					    <div class="navbtn active" data-target="battleoptions">options</div>
-					    <div class="navbtn" data-target="hostmessages">host</div>
+					    <div class="navbtn active" data-target="battle-minimap" data-class="map">Map</div>
+					    <div class="navbtn" data-target="battle-metalmap" data-class="map">metalmap</div>
+					    <div class="navbtn" data-target="battle-heightmap" data-class="map">heightmap</div>
 				    </div>
+				    
+				    <div class="minimaps">
+						<div id="battle-minimap" class="map smalltab active"></div>				    
+					    <div id="battle-metalmap" class="map smalltab"></div>
+					    <div id="battle-heightmap" class="map smalltab"></div>    
+				    </div>				    				   
+				    
+				    
+					
+					<div class="ui-label">Options</div>
 													
-					<div id="battleoptions" class="smalltab active">    
+					<div id="battleoptions" class="options">    
 					    <div class="ui-label">Game</div>
 					    <div class="gameoptions"></div>
 					    
@@ -290,12 +292,7 @@
 					    <div class="ui-label">Other Options</div>
 					    <div class="otheroptions"></div>
 					</div>
-					
-				    <div id="hostmessages" class="smalltab">    
-					    <div class="text-scroll">
-						    <ul id="host-messages" class="messages"></ul>
-					    </div>
-					</div>
+									    
 			    </div>
 				
 			    <div class="battle-actions">	

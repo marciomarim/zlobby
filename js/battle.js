@@ -248,6 +248,8 @@ export default class Battle {
 	    var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
 	    var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
 	    
+	    var battles = this;
+	    
 	    $.ajax({ 
             url: url1,             
             type: 'HEAD', 
@@ -266,22 +268,22 @@ export default class Battle {
 					        var startbox1 = $('.startbox.box0');
 					        var startbox2 = $('.startbox.box1');
 					        
-				        	$('#battleroom #battle-minimap .image').html(imgdiv);
-				        	$('#battleroom #battle-minimap .image').append(startbox1);
-				        	$('#battleroom #battle-minimap .image').append(startbox2);
+				        	$('#battleroom #battle-minimap').html(imgdiv);
+				        	$('#battleroom .minimaps').append(startbox1);
+				        	$('#battleroom .minimaps').append(startbox2);
 				        	
 				        	
 				        	const metalmap = new Image();
 				        	metalmap.src = murl2;
 				        	$('#battleroom #battle-metalmap').html(metalmap);
+				        	
+				        	// load heightmap to get sizes
 				        			        	
 				        	const heightmap = new Image();
 							heightmap.onload = function() {
 								var w = this.width ;
-								var h = this.height;
-								var ratio = w/h
-								$('#battleroom #battle-minimap .image img').css('width', 300*ratio + 'px'); 
-								$('#battleroom #battle-minimap .image').css('width', 300*ratio + 'px');
+								var h = this.height;	
+								battles.fitmapsize(w, h);							
 							}
 							heightmap.src = hurl2;
 				        	$('#battleroom #battle-heightmap').html(heightmap);
@@ -303,9 +305,9 @@ export default class Battle {
 			        var startbox1 = $('.startbox.box0');
 					var startbox2 = $('.startbox.box1');
 					        
-		        	$('#battleroom #battle-minimap .image').html(imgdiv);
-		        	$('#battleroom #battle-minimap .image').append(startbox1);
-		        	$('#battleroom #battle-minimap .image').append(startbox2);
+		        	$('#battleroom #battle-minimap').html(imgdiv);
+		        	$('#battleroom .minimaps').append(startbox1);
+		        	$('#battleroom .minimaps').append(startbox2);
 		        			        	
 		        	const metalmap = new Image();
 		        	metalmap.src = murl1;
@@ -315,9 +317,7 @@ export default class Battle {
 					heightmap.onload = function() {
 						var w = this.width ;
 						var h = this.height;
-						var ratio = w/h
-						$('#battleroom #battle-minimap .image img').css('width', 300*ratio + 'px'); 
-						$('#battleroom #battle-minimap .image').css('width', 300*ratio + 'px'); 
+						battles.fitmapsize(w, h);
 					}
 					heightmap.src = hurl1;
 		        	$('#battleroom #battle-heightmap').html(heightmap);
@@ -329,13 +329,29 @@ export default class Battle {
     }
     
     
+    fitmapsize(w, h){
+	    
+	    var ratio = w/h;
+	    var divwidth = $('#battleroom .minimaps').width();
+		var ratiodiv = divwidth / 400;
+		
+		if (ratio > ratiodiv){						
+			$('#battleroom .minimaps').css('height', divwidth/ratio );			
+		}else{
+			$('#battleroom .minimaps').css('height', '400px' );			
+			$('#battleroom .minimaps').css('width', ratio*400+'px' );			
+		}		
+		
+    }
+    
+    
     addstartrect(allyNo, left, top, right, bottom){
 	    
 	    var width = right/2 - left/2;
 	    var height = bottom/2 - top/2;
 	    	    
 	    var startbox = '<div class="startbox box'+allyNo+'" style="left:' +left/2 +'%; top:'+top/2+'%; width:'+width+'%; height:'+height+'%;"></div>';	    
-	    $('#battleroom #battle-minimap .image').append(startbox);
+	    $('#battleroom .minimaps').append(startbox);
 	    	    
     }
     
@@ -684,13 +700,14 @@ export default class Battle {
 				
 			}
 			
-			if (parts[2] == 'mo_ffa' && val == 1){
+			if (parts[2] == 'mo_ffa' && val == '1'){
 				
 				$('#battleroom').removeClass('teams').addClass('ffa');			
 				$('#battleroom .gametype').text('FFA');
 				
-			}else if(parts[2] == 'mo_ffa' && val == 0){
+			}else if(parts[2] == 'mo_ffa' && val == '0'){
 				
+				$('#battleroom .ffatype').text('');	
 				$('#battleroom').removeClass('ffa').addClass('teams');
 				var numplayers = $('.battle-playerlist li').length;					
 				
@@ -698,9 +715,13 @@ export default class Battle {
 					$('#battleroom .gametype').text('1v1');
 				}else if (numplayers > 2){
 					$('#battleroom .gametype').text('TEAMS');
-				}
-								
-				
+				}												
+			}
+			
+			if (parts[2] == 'anon_ffa' && val == '1'){
+				$('#battleroom .ffatype').text('ANON');	
+			}else if (parts[2] == 'anon_ffa' && val == '0'){
+				$('#battleroom .ffatype').text('');	
 			}
 			
 		});

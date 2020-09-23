@@ -655,31 +655,36 @@ ul.list {
 		height: 100%;
 	}	
 	
-	#battle-minimap{
-	    width: 100%;
-	    height: 300px;
+	#battleroom .minimaps{
+		width: 100%;
+	    height: 400px;
 	    background: #000;
 	    position: relative;
 	    text-align: center;
+	    margin: 0 auto;
 	}
-		#battle-minimap .image{
-			width: 100%;
-			height: 100%;
-			position: relative;
-			margin: 0 auto;
-		}
+	
+	#battle-metalmap,
+	#battle-heightmap,
+	#battle-minimap{
+	    width: 100%;
+	    height: 100%;
+	    background: #000;
+	    position: relative;	    
+	}
+				
 		
-		#battle-minimap .startbox{
+		#battleroom .minimaps .startbox{
 			position: absolute;
 			background: rgba(255, 63, 63, 0.3);
 		}	
 		
-		#battle-minimap .startbox.box1{
+		#battleroom .minimaps .startbox.box1{
 			background: rgba(63, 63, 255, 0.3);
 		}
 		
-		#battle-minimap .startbox.box0:before,
-		#battle-minimap .startbox.box1:before{
+		#battleroom .minimaps .startbox.box0:before,
+		#battleroom .minimaps .startbox.box1:before{
 			position: absolute;
 			top: 50%;
 			left: 50%;
@@ -691,17 +696,18 @@ ul.list {
 			font-size: 0.8em;						
 		}
 		
-		#battle-minimap .startbox.box0:before{
+		#battleroom .minimaps .startbox.box0:before{
 			content: '1';
 		}
-		#battle-minimap .startbox.box1:before{
+		#battleroom .minimaps .startbox.box1:before{
 			content: '2';
 		}
 	
+		#battle-metalmap img,
+		#battle-heightmap img,
 		#battle-minimap img{
 			height: 100%;
-			width: auto;
-		    max-width: 100%;
+			width: 100%;
 		}
 	
 	.othermaps{

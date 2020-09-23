@@ -51,7 +51,6 @@ $('body').on('click', '.battle-card', function(e) {
 });
 
 
-
 $('body').on('click', '.leavebattle', function(e) {
 	
 	var command = 'LEAVEBATTLE \n';	
@@ -145,9 +144,9 @@ $('body').on('click', '.vote.no', function(e) {
 
 
 
-$('body').on('click', '.smallnav .navbtn', function(e) {
+$('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
 	
-	$('.smallnav .navbtn, .smalltab').removeClass('active');
+	$('#battleroom .smallnav .navbtn, #battleroom .smalltab').removeClass('active');
 	$(this).addClass('active');
 	
 	var target = '#'+$(this).data('target');
