@@ -310,11 +310,33 @@ $('body').on('click', '.savechats', function(e) {
 
 
 $('body').on('click', '.deletechats', function(e) {	
-	
+	fs.readdir(chatlogsdir, (err, files) => {
+		files.forEach(file => {
+			if ( file.startsWith("pm") ){
+				fs.unlinkSync(chatlogsdir + file);
+			}
+		});
+	});
 });
 
 $('body').on('click', '.deletebattlechats', function(e) {	
-	
+	fs.readdir(chatlogsdir, (err, files) => {
+		files.forEach(file => {
+			if (file.startsWith("battleroom") ){
+				fs.unlinkSync(chatlogsdir + file);
+			}
+		});
+	});
+});
+
+$('body').on('click', '.deletechannelchats', function(e) {	
+	fs.readdir(chatlogsdir, (err, files) => {
+		files.forEach(file => {
+			if (file.startsWith("channel") ){
+				fs.unlinkSync(chatlogsdir + file);
+			}
+		});
+	});
 });
 
 
