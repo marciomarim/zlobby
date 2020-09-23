@@ -567,12 +567,20 @@ export default class Utils {
 		synced = this.getsyncstatus();
 		
 		ally = $('#battleroom li[data-username="'+jQuery.escapeSelector(myusername)+'"] .ally').text();		
-		if (ally==NaN)
-			ally=0;
+		if (ally >= 1){
+			ally = ally - 1;
+		}else{
+			ally = 0;
+		}
+			
 		
 		team = $('#battleroom li[data-username="'+jQuery.escapeSelector(myusername)+'"] .team').text();		
-		if (team==NaN)
-			team=0;
+		if (team >= 1){
+			team = team -1;
+		}else{
+			team = 0;
+		}
+			
 		
 		if ($('.specbattle').prop("checked") == true){
 			spec = 0;
@@ -592,7 +600,7 @@ export default class Utils {
 		}
 
 		// team*2**3  + ally*2**7
-		var bitcode = ready*2   + spec*2**10 + 2**(23 - synced) + faction*2**24 ; //2**(25 - faction);			
+		var bitcode = ready*2 + 2**2*(team) + 2**6*(ally) + spec*2**10 + 2**(23 - synced) + faction*2**24 ; //2**(25 - faction);			
 		var command = 'MYBATTLESTATUS ' + bitcode + ' ' + this.getColor() + '\n';										
 		socketClient.write( command );
 		
