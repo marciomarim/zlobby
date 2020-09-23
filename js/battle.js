@@ -349,7 +349,8 @@ export default class Battle {
 	    
 	    var width = right/2 - left/2;
 	    var height = bottom/2 - top/2;
-	    	    
+	    
+	    $('.startbox.box'+allyNo).remove();	    
 	    var startbox = '<div class="startbox box'+allyNo+'" style="left:' +left/2 +'%; top:'+top/2+'%; width:'+width+'%; height:'+height+'%;"></div>';	    
 	    $('#battleroom .minimaps').append(startbox);
 	    	    
