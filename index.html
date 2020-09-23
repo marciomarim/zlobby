@@ -247,7 +247,7 @@
 		    
 		    <div id="battle-right-info">
 			    
-			    <div class="scroll" style="padding-bottom: 150px;">
+			    <div class="scroll" style="padding-bottom: 150px; padding-right: 0.6em;">
 				    <div class="title">Battle Info</div>
 				    
 				    <div class="battle-main-info"></div>
@@ -306,8 +306,48 @@
 					        </div>
 					    </div>
 -->
-					    			    
-					    <div class="pretty p-switch p-fill">
+					    <div class="item">
+						    <label for="pickteam">TEAM </label>
+						    <select id="pickteam" name="pickteam">
+							  <option value="1">1</option>
+							  <option value="2">2</option>
+							  <option value="3">3</option>
+							  <option value="4">4</option>
+							</select>
+					    </div>
+						
+						<div class="item">
+							<label for="pickally">ALLY </label>
+						    <select id="pickally" name="pickally">
+							  <option value="1">1</option>
+							  <option value="2">2</option>
+							  <option value="3">3</option>
+							  <option value="4">4</option>
+							</select>
+						</div>			    
+						
+						<div class="pickarm icon icon-arm active">ARM</div>
+					    <div class="pickcore icon icon-core">CORE</div>
+					    
+					    <div class="colorpicked">						    
+						    <div class="colorpicker" 
+							     acp-color="#5588ff" 
+							     acp-show-rgb="no"
+							     acp-show-hsl="yes"
+							     acp-show-hex="yes"
+							     acp-show-alpha>
+							</div>
+							<div class="label">COLOR</div>
+					    </div>
+					   
+				    </div>
+				    
+				    				    
+			    	<div class="line">
+				    					    
+					    <button class="leavebattle gray">Leave Battle</button>
+					    
+					     <div class="pretty p-switch p-fill">
 					        <input class="autolaunchbattle" type="checkbox" checked/>
 					        <div class="state">
 					            <label>Autolaunch</label>
@@ -327,24 +367,9 @@
 					            <label>Ready</label>
 					        </div>
 					    </div>
-				    </div>
-				    
-				    				    
-			    	<div class="line">				    
-					    <button class="leavebattle gray">Leave Battle</button>
-					    <div class="pickarm icon icon-arm active">ARM</div>
-					    <div class="pickcore icon icon-core">CORE</div>
 					    
-					    <div class="colorpicked">						    
-						    <div class="colorpicker" 
-							     acp-color="#5588ff" 
-							     acp-show-rgb="no"
-							     acp-show-hsl="yes"
-							     acp-show-hex="yes"
-							     acp-show-alpha>
-							</div>
-							<div class="label">COLOR</div>
-					    </div>					    					    
+					    
+					    					    					    
 						
 					    <button class="startbattle">Start</button>
 				    </div>

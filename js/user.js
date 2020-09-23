@@ -155,18 +155,8 @@ export default class User {
     
     
     updatebattlestatus(username, status, color){
-	    /*
-		b0 = undefined (reserved for future use)
-		b1 = ready (0=not ready, 1=ready)
-		b2..b5 = team no. (from 0 to 15. b2 is LSB, b5 is MSB)
-		b6..b9 = ally team no. (from 0 to 15. b6 is LSB, b9 is MSB)
-		b10 = mode (0 = spectator, 1 = normal player)
-		b11..b17 = handicap (7-bit number. Must be in range 0..100). Note: Only host can change handicap values of the players in the battle (with HANDICAP command). These 7 bits are always ignored in this command. They can only be changed using HANDICAP command.
-		b18..b21 = reserved for future use (with pre 0.71 versions these bits were used for team color index)
-		b22..b23 = sync status (0 = unknown, 1 = synced, 2 = unsynced)
-		b24..b27 = side (e.g.: arm, core, tll, ... Side index can be between 0 and 15, inclusive)
-		b28..b31 = undefined (reserved for future use);
-		*/
+		
+		var myusername = $('#myusername').text();
 		
 		if (!$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .faction').length){
 			//add user battle status to players
@@ -202,15 +192,7 @@ export default class User {
 		}else if (newStatus.spec == false){
 			$('#battleroom .battle-speclist').append( $('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]') );		
 			$('.battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
-		}
-		
-		
-		
-		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .team').text(newStatus.team);
-		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ally').text(newStatus.ally).removeClass(function (index, className) {
-		    return (className.match (/(^|\s)ally-\S+/g) || []).join(' ');
-		}).addClass('ally-'+newStatus.ally.toString());
-		
+		}						
 		
 		var newcolor = {
 			Red :  color & 255,
@@ -220,6 +202,34 @@ export default class User {
 		
 		var csscolor = 'rgb(' + newcolor.Red +','+ newcolor.Green + ','+ newcolor.Blue + ')';		
 		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .color').css('background-color', csscolor );
+		
+		// it's my status
+		if (myusername == username){
+			
+			$('select#pickteam').val(newStatus.team).change();
+			$('select#pickally').val(newStatus.ally).change();
+			
+/*
+			var current_team = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .team').text();
+			if (current_team != newStatus.team && newStatus.team > 1){
+				$('select#pickteam').val(newStatus.team).change();
+			}						
+				
+			
+			var current_ally = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .ally').text();
+			if (current_ally != newStatus.ally && newStatus.ally > 1){				
+				$('select#pickally').val(newStatus.ally).change();
+			}
+*/
+							
+			$('#battleroom .colorpicked').css('background-color', csscolor);
+						
+		}
+		
+		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .team').text(newStatus.team);
+		$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .ally').text(newStatus.ally).removeClass(function (index, className) {
+		    return (className.match (/(^|\s)ally-\S+/g) || []).join(' ');
+		}).addClass('ally-'+newStatus.ally.toString());
 		
 		
 		if(newStatus.bonus == 0){
@@ -254,35 +264,6 @@ export default class User {
 		}
 		$('#battleroom').data('battlesize', battlesize);
 		$('#battleroom').attr('data-battlesize', battlesize);	
-		
-		
-		
-		// update gametype in battleroom				
-/*
-		var mo_ffa = $('#battleroom .option.mo_ffa .val').text();
-		var anon_ffa = $('#battleroom .option.anon_ffa .val').text();			
-		if(mo_ffa == '1'){
-			
-			$('#battleroom').removeClass('teams').addClass('ffa');
-			
-			$('#battleroom .gametype').text('FFA');
-			if(anon_ffa){
-				$('#battleroom .ffatype').text('ANON');	
-			}
-			
-		}else{
-			
-			$('#battleroom').removeClass('ffa').addClass('teams');
-			
-			var numplayers = $('.battle-playerlist li').length;					
-			if (numplayers <= 2){
-				$('#battleroom .gametype').text('1v1');
-			}			
-			if (numplayers > 2){
-				$('#battleroom .gametype').text('TEAMS');
-			}	
-		}
-*/
 		
 		// update script
 		if ( $('.battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').length ){

@@ -550,7 +550,7 @@ export default class Battle {
 		utils.init_battlerrom_chat();
 		
 		// maybe this solve ingame join
-		utils.sendbattlestatus();
+		//utils.sendbattlestatus();
 		
 	}
     

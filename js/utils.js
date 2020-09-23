@@ -552,10 +552,7 @@ export default class Utils {
     
     sendbattlestatus(){
 	    
-	    var myusername = $('#myusername').text();
-	    //b2..b5 = team no. (from 0 to 15. b2 is LSB, b5 is MSB)
-		//b6..b9 = ally team no. (from 0 to 15. b6 is LSB, b9 is MSB)						
-		
+	    var myusername = $('#myusername').text();								
 		
 	    var ready = 0,
 			team = 0,
@@ -599,8 +596,7 @@ export default class Utils {
 			faction = 1;
 		}
 
-		// team*2**3  + ally*2**7
-		var bitcode = ready*2 + 2**2*(team) + 2**6*(ally) + spec*2**10 + 2**(23 - synced) + faction*2**24 ; //2**(25 - faction);			
+		var bitcode = ready*2 + 2**2*(team) + 2**6*(ally) + spec*2**10 + 2**(23 - synced) + faction*2**24 ; 		
 		var command = 'MYBATTLESTATUS ' + bitcode + ' ' + this.getColor() + '\n';										
 		socketClient.write( command );
 		

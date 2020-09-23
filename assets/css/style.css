@@ -1132,6 +1132,23 @@ ul.list {
 				top: 4px;
 			    left: -4px;
 			}
+	select {
+	    background: #253340;
+	    color: #fff;
+	    border: 2px solid #4a5173;
+	    padding: 6px 10px 6px 10px;
+    	border-radius: 20px;
+	}
+	
+	select:active,
+	select:focus{
+		border: none;
+	}
+	
+	label.pickteam,
+	label.pickally{
+		color: #aaa;
+	}
 	
 	.scroll{
 	    position: relative;
@@ -1240,7 +1257,7 @@ ul.list {
 		height: 100%;
 		background: #111418;
 		overflow: auto;
-		padding: 1em;
+		padding: 1em 0.5em 1em 1em;
 	}
 	
 	.smallnav{
@@ -1254,13 +1271,13 @@ ul.list {
 	    color: #889;	
 	    margin-right: 5px;
 	    padding: 2px 5px;
-	    background: #0b0d0f;
+	    background: #1b1e23;
 	    cursor: pointer;
 	}
 	
 	.smallnav .navbtn.active{
 		color: #1d4cba;
-		background: #1b1e23;
+		background: #0b0d0f;
 	}
 	
 	.smalltab{
@@ -1272,7 +1289,7 @@ ul.list {
 	}
 	
 	#battleoptions{
-		background: #1b1e23;
+		background: #191d24;
 	    padding: 1em;
 	}
 	

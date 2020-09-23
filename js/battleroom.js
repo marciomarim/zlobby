@@ -184,12 +184,41 @@ $("body").on('click', '.colorpicked', function(e) {
 });
 
 
+$("body").on('change', '#pickteam', function(e) {
+	
+	var teamNo = $(this).val();
+	var myusername = $('#myusername').text();		
+	var current_team = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .team').text();
+	
+	if (teamNo != current_team && teamNo >= 1){
+		$('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .team').text( teamNo );		
+		utils.sendbattlestatus();	
+	}
+	
+});
+
+
+$("body").on('change', '#pickally', function(e) {
+	
+	var allyNo = $(this).val();	
+	var myusername = $('#myusername').text();	
+	var current_ally = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .ally').text();
+	
+	if (allyNo != current_ally && allyNo >= 1){
+		$('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .ally').text( allyNo );
+		utils.sendbattlestatus();
+	}
+	
+});
+
+
+
 
 $('body').on('click', '.startbattle', function(e) {
 	
 	var founder = $('#battleroom .founder').text();
 	
-	if( $('.battle-players li[data-username="'+founder+'"] .icon-user').hasClass('ingame') ){
+	if( $('.battle-players li[data-username="'+jQuery.escapeSelector(founder)+'"] .icon-user').hasClass('ingame') ){
 						
 		if ($('.specbattle').prop("checked") == true){
 			battles.launchgame();		
