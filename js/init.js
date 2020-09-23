@@ -309,6 +309,15 @@ $('body').on('click', '.savechats', function(e) {
 });
 
 
+$('body').on('click', '.deletechats', function(e) {	
+	
+});
+
+$('body').on('click', '.deletebattlechats', function(e) {	
+	
+});
+
+
 // generate uuid 
 var uuid = require('uuid-random');
 var useruuid = store.get('user.uuid');	
