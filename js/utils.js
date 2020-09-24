@@ -130,8 +130,11 @@ export default class Utils {
 			$bubble.addClass('offline');
 		}
 					
-		$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').append($bubble);    	
-    	$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight);    	    	
+		$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages').append($bubble);
+		setTimeout(
+			$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .text-scroll').scrollTop($('.userchat[data-username="'+jQuery.escapeSelector(username)+'"] .messages')[0].scrollHeight)
+		, 300);    	
+    	    	    	
 				
 		// save chat info
 		var container = $bubble.wrap('<p/>').parent().html();

@@ -291,11 +291,10 @@ export default class User {
 				var tmp = $('#battleroom .battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]');
 				$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
 				$('#battleroom .team-group[data-label="TEAM' + ally+'"]').append(tmp);					
-			}
-			
+			}			
 			
 			var seen = false;
-			$('#battleroom .battle-playerlist li[data-username="'+jQuery.escapeSelector(username)+'"]').each(function() {
+			$('#battleroom .battle-players li[data-username="'+jQuery.escapeSelector(username)+'"]').each(function() {
 			    if (seen)
 			        $(this).remove();
 			    else
