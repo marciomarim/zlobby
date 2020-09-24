@@ -45,7 +45,7 @@ export default class User {
     }
     
     
-    
+    // add battle additional fields
     addbattlestatusfields(username){
 	    
 	    var div = $('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"] .trueskill');	    
@@ -57,6 +57,7 @@ export default class User {
 	    
     }
     
+	// user disconnected
 	removeuser( username ){
 		$('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();				
 		// flag chat button offline
