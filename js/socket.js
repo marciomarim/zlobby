@@ -96,7 +96,7 @@ export function login() {
 }
 
 function create_account() {
-	var username = filter.clean($('#createusername').val());
+	var username = $('#createusername').val();
 	var password = $('#createpassword').val();
 
 	const passwordHash = crypto
@@ -107,8 +107,14 @@ function create_account() {
 	var loginString = 'REGISTER ' + username + ' ' + passwordHash + '\n';
 	console.log(loginString);
 	socketClient.write(loginString);
+
+	$('#username').val(username);
+	$('#password').val(password);
+	$('#password').focus();
 	$('#createpane').removeClass('active');
 	$('#loginpane').addClass('active');
+
+	login();
 }
 
 function resetUI() {

@@ -82,13 +82,21 @@ export default class Protocol {
 					break;
 
 				case 'AGREEMENT':
-					// send first time after account creation
-					var command = 'CONFIRMAGREEMENT\n';
-					socketClient.write(command);
-					login();
 					break;
 
 				case 'AGREEMENTEND':
+					// send first time after account creation
+					var command = 'CONFIRMAGREEMENT\n';
+					setTimeout(socketClient.write(command), 1500);
+
+					// show login pane
+					// var username = $('#createusername').val();
+					// var password = $('#createpassword').val();
+					// $('#username').val(username);
+					// $('#password').val(password);
+					// $('#password').focus();
+					// $('#createpane').removeClass('active');
+					// $('#loginpane').addClass('active');
 					break;
 
 				case 'BATTLECLOSED':
@@ -299,11 +307,6 @@ export default class Protocol {
 					break;
 
 				case 'REGISTRATIONACCEPTED':
-					var notification = new Notification('REGISTRATION ACCEPTED', {
-						body: 'Trying to login.',
-					});
-					//login();
-					$('#loginpane').addClass('active');
 					break;
 
 				case 'REGISTRATIONDENIED':
