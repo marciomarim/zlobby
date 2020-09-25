@@ -231,9 +231,10 @@ export default class Battle {
 
     
     load_remote_map_image( battleid ){
-	    
-	    //console.log(mapname);
-	    
+	    	    
+		//clear startboxes
+	    $('.startbox').remove();
+		
 	    var mapname = $('.battle-card[data-battleid="'+battleid+'"] .mapname').text();
 	    var mapfilenamebase = mapname.toLowerCase().split(' ').join('_');
 	    var mapfilename1 = mapfilenamebase+'.sd7';
