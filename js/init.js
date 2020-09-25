@@ -18,7 +18,7 @@ var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
 $('#appVersion').text('Elobby v' + appVersion);
 
 export {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl}
-var springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile , zipfile;
+var springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile , zipfile;
 
 function initial_check(){
 	
@@ -29,14 +29,11 @@ function initial_check(){
 	
 	// check if already looked for
 	if (enginepath_saved && fs.existsSync( enginepath_saved ) ) {
-		
 		$('#enginestatus').addClass('active').text('Engine: ok');
-		
 	}else{
-				
 		lookforengine();
-		
-	}			
+	}
+				
 }
 initial_check();
 
