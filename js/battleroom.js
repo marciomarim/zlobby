@@ -1,4 +1,4 @@
-import {socketClient} from './socket.js'
+import { socketClient } from './socket.js';
 
 import Utils from './utils.js';
 let utils = new Utils();
@@ -10,163 +10,132 @@ import Battle from './battle.js';
 let battles = new Battle();
 
 var Filter = require('bad-words'),
-    filter = new Filter();
+	filter = new Filter();
 
-const Store = require('electron-store'); 
+const Store = require('electron-store');
 const store = new Store();
 
 $('body').on('click', '.battle-card', function(e) {
-	
 	var username = $('#myusername').text();
-	
+
 	//if I'm in, just go to battleroom
-	if ($(this).hasClass('activebattle')){
-		
+	if ($(this).hasClass('activebattle')) {
 		$('.container').removeClass('active');
 		$('#battleroom').addClass('active');
-	
-	// need to leave another battle	
-	}else if( $('.activebattle').length ){
-		
-		var command = 'LEAVEBATTLE \n';	
-		socketClient.write( command );
-				
-		var battleid = $(this).data('battleid');	
-		
-		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';	
-		console.log(command);
-		socketClient.write( command );
-		
-	// try to join	
-	}else{	
 
-		var battleid = $(this).data('battleid');				
-		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';			
-		
+		// need to leave another battle
+	} else if ($('.activebattle').length) {
+		var command = 'LEAVEBATTLE \n';
+		socketClient.write(command);
+
+		var battleid = $(this).data('battleid');
+
+		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
 		console.log(command);
-		socketClient.write( command );		
-		
-	}							
-	
+		socketClient.write(command);
+
+		// try to join
+	} else {
+		var battleid = $(this).data('battleid');
+		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+
+		console.log(command);
+		socketClient.write(command);
+	}
 });
-
 
 $('body').on('click', '.leavebattle', function(e) {
-	
-	var command = 'LEAVEBATTLE \n';	
-	socketClient.write( command );
-	
+	var command = 'LEAVEBATTLE \n';
+	socketClient.write(command);
 });
-
-
 
 $('body').on('click', '.specbattle', function(e) {
-	
-	if ($('.readybattle').prop("checked") == true){
-		$('.readybattle').prop("checked", false); 
+	if ($('.readybattle').prop('checked') == true) {
+		$('.readybattle').prop('checked', false);
 	}
-	$(this).prop("checked");
+	$(this).prop('checked');
 	utils.sendbattlestatus();
-	
 });
-
 
 $('body').on('click', '.readybattle', function(e) {
-	
-	if ($('.specbattle').prop("checked") == true){
-		$('.specbattle').prop("checked", false); 
+	if ($('.specbattle').prop('checked') == true) {
+		$('.specbattle').prop('checked', false);
 	}
-	$(this).prop("checked");
-	utils.sendbattlestatus();		
-	
+	$(this).prop('checked');
+	utils.sendbattlestatus();
 });
 
-
 $('body').on('click', '.showhostmessages', function(e) {
-	
-	if ($('.showhostmessages').prop("checked") == true){
+	if ($('.showhostmessages').prop('checked') == true) {
 		//$('.showhostmessages').prop("checked", false);
 		$('.ishost').removeClass('hidemessage');
 		store.set('user.showhostmessages', 1);
-	}else{
+	} else {
 		$('.ishost').addClass('hidemessage');
 		store.set('user.showhostmessages', 0);
-	}		
-	//$(this).prop("checked");		
-	
+	}
+	//$(this).prop("checked");
 });
-
 
 $('body').on('click', '.autoscrollbattle', function(e) {
-	
-	if ($('.autoscrollbattle').prop("checked") == true){
-		store.set('user.autoscrollbattle', 1);		
-	}else{
+	if ($('.autoscrollbattle').prop('checked') == true) {
+		store.set('user.autoscrollbattle', 1);
+	} else {
 		store.set('user.autoscrollbattle', 0);
-	}		
-	
+	}
 });
-
 
 $('body').on('click', '.mutebattleroom', function(e) {
-	
-	if ($('.mutebattleroom').prop("checked") == true){
+	if ($('.mutebattleroom').prop('checked') == true) {
 		store.set('user.mutebattleroom', 1);
-		var sound = document.getElementById("messagesound");
+		var sound = document.getElementById('messagesound');
 		sound.volume = 0;
-		var ring = document.getElementById("ringsound");
+		var ring = document.getElementById('ringsound');
 		ring.volume = 0;
-	}else{
+	} else {
 		store.set('user.mutebattleroom', 0);
-		var sound = document.getElementById("messagesound");
+		var sound = document.getElementById('messagesound');
 		sound.volume = 1;
-		var ring = document.getElementById("ringsound");
+		var ring = document.getElementById('ringsound');
 		ring.volume = 1;
-	}		
-	
+	}
 });
 
-
-
-
+$('body').on('click', '.command', function(e) {
+	var command = 'SAYBATTLE ' + $(this).text() + '\n';
+	socketClient.write(command);
+});
 
 $('body').on('click', '.vote.yes', function(e) {
-	var command = 'SAYBATTLE !vote y\n';	
-	socketClient.write( command );
-	$('#votewin').removeClass('active');	
-});
-
-$('body').on('click', '.vote.no', function(e) {
-	var command = 'SAYBATTLE !vote n\n';	
-	socketClient.write( command );	
+	var command = 'SAYBATTLE !vote y\n';
+	socketClient.write(command);
 	$('#votewin').removeClass('active');
 });
 
-
-
-$('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
-	
-	$('#battleroom .smallnav .navbtn, #battleroom .smalltab').removeClass('active');
-	$(this).addClass('active');
-	
-	var target = '#'+$(this).data('target');
-	$(target).addClass('active')
-
+$('body').on('click', '.vote.no', function(e) {
+	var command = 'SAYBATTLE !vote n\n';
+	socketClient.write(command);
+	$('#votewin').removeClass('active');
 });
 
+$('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
+	$('#battleroom .smallnav .navbtn, #battleroom .smalltab').removeClass('active');
+	$(this).addClass('active');
 
+	var target = '#' + $(this).data('target');
+	$(target).addClass('active');
+});
 
 $('body').on('click', '.pickarm', function(e) {
 	$('.pickcore').removeClass('active');
 	$(this).addClass('active');
 	utils.sendbattlestatus();
 
-	//save prefered faction	
+	//save prefered faction
 	store.set('user.faction', 1);
-});	
+});
 
-
-$('body').on('click', '.pickcore', function(e) {	
+$('body').on('click', '.pickcore', function(e) {
 	$('.pickarm').removeClass('active');
 	$(this).addClass('active');
 	utils.sendbattlestatus();
@@ -175,151 +144,121 @@ $('body').on('click', '.pickcore', function(e) {
 	store.set('user.faction', 0);
 });
 
-
-$("body").on('click', '.colorpicked', function(e) {
-    
-    $('.colorpicker').toggleClass('active');
-    utils.sendbattlestatus();
-    
+$('body').on('click', '.colorpicked', function(e) {
+	$('.colorpicker').toggleClass('active');
+	utils.sendbattlestatus();
 });
 
-$("body").on('click', '#pickteam, #pickally', function(e) {
+$('body').on('click', '#pickteam, #pickally', function(e) {
 	$('body').addClass('picking');
 });
 
-$("body").on('change', '#pickteam', function(e) {
-	
+$('body').on('change', '#pickteam', function(e) {
 	var teamNo = $(this).val();
-	var myusername = $('#myusername').text();		
-	var current_team = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .team').text();
-	
-	if (teamNo != current_team && teamNo >= 1 && $('body').hasClass('picking') ){
-		$('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .team').text( teamNo );		
-		$('body').removeClass('picking');
-		utils.sendbattlestatus();	
-	}
-	
-});
+	var myusername = $('#myusername').text();
+	var current_team = $('.battle-players li[data-username="' + jQuery.escapeSelector(myusername) + '"] .team').text();
 
-
-$("body").on('change', '#pickally', function(e) {
-	
-	var allyNo = $(this).val();	
-	var myusername = $('#myusername').text();	
-	var current_ally = $('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .ally').text();
-	
-	if (allyNo != current_ally && allyNo >= 1 && $('body').hasClass('picking') ){
-		$('.battle-players li[data-username="'+ jQuery.escapeSelector(myusername) +'"] .ally').text( allyNo );
+	if (teamNo != current_team && teamNo >= 1 && $('body').hasClass('picking')) {
+		$('.battle-players li[data-username="' + jQuery.escapeSelector(myusername) + '"] .team').text(teamNo);
 		$('body').removeClass('picking');
 		utils.sendbattlestatus();
 	}
-	
 });
 
+$('body').on('change', '#pickally', function(e) {
+	var allyNo = $(this).val();
+	var myusername = $('#myusername').text();
+	var current_ally = $('.battle-players li[data-username="' + jQuery.escapeSelector(myusername) + '"] .ally').text();
 
-
-
-$('body').on('click', '.startbattle', function(e) {
-	
-	var founder = $('#battleroom .founder').text();
-	
-	if( $('.battle-players li[data-username="'+jQuery.escapeSelector(founder)+'"] .icon-user').hasClass('ingame') ){
-						
-		if ($('.specbattle').prop("checked") == true){
-			battles.launchgame();		
-		}else{
-			battles.launchgame();			
-		}
-		
-		$('body').addClass('ingame');
-		utils.sendstatus();
-			
-	}else{		
-		var command = 'SAYBATTLE !start\n';
-    	socketClient.write( command );
-	}	
-	
-});
-
-
-
-// battleroom chat
-$('body').on('keypress', '.battleroom_input', function (e) {
-			
-	if (e.which == 13) {
-		
-		var message = $(this).val();
-		
-		if(message == '/clear'){
-			utils.clear_battleroom_chat();	
-		}else{
-			if ($('.rudechat').prop("checked") == true){				
-				message = filter.clean(message);
-			}
-	    	var command = 'SAYBATTLE ' + message + '\n';
-	    	//console.log(command);
-	    	socketClient.write( command );	
-		}		    	    	    	
-    	$(this).val('');
-		return false;    //<---- Add this line		
+	if (allyNo != current_ally && allyNo >= 1 && $('body').hasClass('picking')) {
+		$('.battle-players li[data-username="' + jQuery.escapeSelector(myusername) + '"] .ally').text(allyNo);
+		$('body').removeClass('picking');
+		utils.sendbattlestatus();
 	}
 });
 
+$('body').on('click', '.startbattle', function(e) {
+	var founder = $('#battleroom .founder').text();
 
+	if ($('.battle-players li[data-username="' + jQuery.escapeSelector(founder) + '"] .icon-user').hasClass('ingame')) {
+		if ($('.specbattle').prop('checked') == true) {
+			battles.launchgame();
+		} else {
+			battles.launchgame();
+		}
+
+		$('body').addClass('ingame');
+		utils.sendstatus();
+	} else {
+		var command = 'SAYBATTLE !start\n';
+		socketClient.write(command);
+	}
+});
+
+// battleroom chat
+$('body').on('keypress', '.battleroom_input', function(e) {
+	if (e.which == 13) {
+		var message = $(this).val();
+
+		if (message == '/clear') {
+			utils.clear_battleroom_chat();
+		} else {
+			if ($('.rudechat').prop('checked') == true) {
+				message = filter.clean(message);
+			}
+			var command = 'SAYBATTLE ' + message + '\n';
+			//console.log(command);
+			socketClient.write(command);
+		}
+		$(this).val('');
+		return false; //<---- Add this line
+	}
+});
 
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li', function(e) {
-				
 	var username = $(this).data('username');
-	
-	// create popoup	
-	var $userwin = $('<div class="userwin active" data-username="'+username+'"><div class="title">'+username+'</div></div>');
-	var commands = '<div class="usercommands"><div class="usercommand" data-username="'+username+'" data-command="!ring">!ring</div>';
-		commands +=	'<div class="usercommand" data-username="'+username+'" data-command="!spec">!spec</div></div>';
+
+	// create popoup
+	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
+	var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
+	commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div></div>';
 	$userwin.append(commands);
-	$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="'+username+'" placeholder="Message @'+username+'"></div>');
+	$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>');
 	$(this).append($userwin);
 	$('.pminput').focus();
-	
 });
 
-$('body').on('keypress', '.pminput', function (e) {
-			
+$('body').on('keypress', '.pminput', function(e) {
 	if (e.which == 13) {
-		
 		var message = $(this).val();
 		var username = $(this).data('username');
-		if ($('.rudechat').prop("checked") == true){				
+		if ($('.rudechat').prop('checked') == true) {
 			message = filter.clean(message);
 		}
-		
-		if (!$('.userchat[data-username="'+jQuery.escapeSelector(username)+'"]').length){
-			utils.init_chat( username );
+
+		if (!$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
+			utils.init_chat(username);
 		}
-		
-    	var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
-    	socketClient.write( command );    	    	    	
-    	$(this).val('');
-		
-    	utils.add_message_to_chat(username, message, true);
-		return false;    //<---- Add this line		
+
+		var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
+		socketClient.write(command);
+		$(this).val('');
+
+		utils.add_message_to_chat(username, message, true);
+		return false; //<---- Add this line
 	}
 });
 
-$('body').on('click', '.usercommand', function (e) {
-	var username = $(this).data('username');		
-	var command = $(this).data('command');		
-	socketClient.write( 'SAYBATTLE ' + command + ' ' + username + '\n');
+$('body').on('click', '.usercommand', function(e) {
+	var username = $(this).data('username');
+	var command = $(this).data('command');
+	socketClient.write('SAYBATTLE ' + command + ' ' + username + '\n');
 });
 
-
-$(document).mouseup(function(e) 
-{
-    var container = $(".userwin.active");
-    if (!container.is(e.target) && container.has(e.target).length === 0) 
-    {
-        container.remove();
-    }
+$(document).mouseup(function(e) {
+	var container = $('.userwin.active');
+	if (!container.is(e.target) && container.has(e.target).length === 0) {
+		container.remove();
+	}
 });
-
-

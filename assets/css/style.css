@@ -423,6 +423,14 @@ button {
     cursor: pointer;
 }
 
+button.command{
+	text-transform: lowercase;
+	font-size: 11px;
+	border-radius: 3px;
+	padding: 0.7em 1.2em;
+	background: #202427;
+}	
+
 button.gray{
 	background: #4e5e80;
 }	
@@ -1133,7 +1141,7 @@ ul.list {
 			    left: -4px;
 			}
 	select {
-	    background: #253340;
+	    background: #202427;
 	    color: #fff;
 	    border: 2px solid #4a5173;
 	    padding: 6px 10px 6px 10px;
