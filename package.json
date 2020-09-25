@@ -4,9 +4,9 @@
   "description": "Electron based lobby",
   "main": "main.js",
   "author": {
-	  "name": "Zorro",
-	  "email" : "marciomarim@gmail.com"	  
-	},
+    "name": "Zorro",
+    "email": "marciomarim@gmail.com"
+  },
   "license": "ISC",
   "scripts": {
     "start": "electron .",
@@ -73,8 +73,12 @@
     },
     "win": {
       "icon": "assets/icons/icon.png",
-      "publisherName": ["marcio@yhello.co"],
-	  "target": ["nsis"]
+      "publisherName": [
+        "marcio@yhello.co"
+      ],
+      "target": [
+        "nsis"
+      ]
     }
   }
 }
