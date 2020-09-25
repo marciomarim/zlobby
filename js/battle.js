@@ -1,374 +1,329 @@
-var spawn  = require('child_process').spawn,
+var spawn = require('child_process').spawn,
 	fs = require('fs');
 
-import {socketClient} from './socket.js';
+import { socketClient } from './socket.js';
 
 import Utils from './utils.js';
 let utils = new Utils();
 
-const Store = require('electron-store'); 
+const Store = require('electron-store');
 const store = new Store();
-    
-const crypto = require("crypto");
-const {ipcRenderer} = require("electron");
 
-import {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl} from './init.js'
+const crypto = require('crypto');
+const { ipcRenderer } = require('electron');
 
-import {trackEvent} from './init.js';
+import { springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+
+import { trackEvent } from './init.js';
 
 export default class Battle {
-    
-    constructor() {
-	    
-    }
+	constructor() {}
 
-    checkgame(){
-	    
-	    var currentmod = $('#battleroom .gameName').text().toLowerCase();
-	    var index = currentmod.lastIndexOf(" ");
-	    var filename = currentmod.substring(0, index).replace(" ","_") + '-' + currentmod.substring(index).replace(" ","")+'.sdz';
-	    var modexist = false;	 	    	       	    
-	    
-	    if (fs.existsSync(modsdir+filename)) {
-		    this.checkmap();
-		}else{
-			var fileurl = remotemodsurl+filename;			
+	checkgame() {
+		var currentmod = $('#battleroom .gameName')
+			.text()
+			.toLowerCase();
+		var index = currentmod.lastIndexOf(' ');
+		var filename = currentmod.substring(0, index).replace(' ', '_') + '-' + currentmod.substring(index).replace(' ', '') + '.sdz';
+		var modexist = false;
+
+		if (fs.existsSync(modsdir + filename)) {
+			this.checkmap();
+		} else {
+			var fileurl = remotemodsurl + filename;
 			var battle = this;
-			
+
 			// check if file exist first
-			$.ajax({ 
-                url: fileurl, 
-                type: 'HEAD', 
-                error: function()  
-                { 
-                    $('#battleroom .game-download').addClass('downloading');
-                    $('#battleroom .game-download .download-title').text('Game not found for download.');	 
-                    battle.checkmap();
-                }, 
-                success: function()  
-                { 
-                    battle.downloadgame(fileurl);
-                } 
-            });
-			
+			$.ajax({
+				url: fileurl,
+				type: 'HEAD',
+				error: function() {
+					$('#battleroom .game-download').addClass('downloading');
+					$('#battleroom .game-download .download-title').text('Game not found for download.');
+					battle.checkmap();
+				},
+				success: function() {
+					battle.downloadgame(fileurl);
+				},
+			});
 		}
-		
-    }
-    
-    
-    downloadgame(fileurl){
-	    
-	    $('#battleroom .game-download').addClass('downloading');
-	    
-	    ipcRenderer.send("download", {
-		    url: fileurl,
-		    properties: {directory: modsdir}
+	}
+
+	downloadgame(fileurl) {
+		$('#battleroom .game-download').addClass('downloading');
+
+		ipcRenderer.send('download', {
+			url: fileurl,
+			properties: { directory: modsdir },
 		});
 
-		ipcRenderer.on("download progress", (event, progress) => {
-			if ($('#battleroom .game-download .download-title').text()=='Game not found for download.'){
-				var w = Math.round( progress.percent*100 ) + '%';
+		ipcRenderer.on('download progress', (event, progress) => {
+			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
+				var w = Math.round(progress.percent * 100) + '%';
 				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
-				$('#battleroom .game-download .progress').css('width', w);	
-			}			
-			
+				$('#battleroom .game-download .progress').css('width', w);
+			}
 		});
-		
-		ipcRenderer.on("download complete", (event, progress) => {
-			if ($('#battleroom .game-download .download-title').text()=='Game not found for download.'){
+
+		ipcRenderer.on('download complete', (event, progress) => {
+			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
-				utils.sendbattlestatus();			
+				utils.sendbattlestatus();
 				$('#battleroom .game-download').removeClass('downloading');
 				this.checkmap();
 			}
 		});
-    }
-    
-    
-    checkmap(){
-	    
-	    var currentmap = $('#battleroom .mapname').text().toLowerCase();
-	    currentmap = currentmap.split(' ').join('_');
-	    var filename = currentmap+'.sd7';
-	    var filename2 = currentmap+'.sdz';
-	    var mapexist = false;	    
-	    
-	    if (fs.existsSync(mapsdir+filename) || fs.existsSync(mapsdir+filename2)) {
-		    //console.log('Map exist');
-		}else{
-			
-			var fileurl = remotemapsurl+filename;
-			var fileurl2 = remotemapsurl+filename2;			
-			//console.log('Need need download! ' + fileurl);			
+	}
+
+	checkmap() {
+		var currentmap = $('#battleroom .mapname')
+			.text()
+			.toLowerCase();
+		currentmap = currentmap.split(' ').join('_');
+		var filename = currentmap + '.sd7';
+		var filename2 = currentmap + '.sdz';
+		var mapexist = false;
+
+		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
+			//console.log('Map exist');
+		} else {
+			var fileurl = remotemapsurl + filename;
+			var fileurl2 = remotemapsurl + filename2;
+			//console.log('Need need download! ' + fileurl);
 			var battle = this;
-			
+
 			// check if file exist first
-			$.ajax({ 
-                url: fileurl, 
-                type: 'HEAD', 
-                error: function()  
-                { 
-                    //console.log(fileurl + ' doesnt exist!');
-                    $.ajax({ 
-		                url: fileurl2, 
-		                type: 'HEAD', 
-		                error: function()  
-		                { 
-		                    //console.log(fileurl2 + ' doesnt exist!');
-		                    $('#battleroom .map-download').addClass('downloading');
-		                    $('#battleroom .map-download .download-title').text('Map not found for download.');	
-		                }, 
-		                success: function()  
-		                { 
-		                    //console.log(fileurl2 + ' exist!');
-		                    battle.downloadmap(fileurl2);
-		                } 
-		            }); 
-                }, 
-                success: function()  
-                { 
-                    //console.log(fileurl + ' exist!');
-                    battle.downloadmap(fileurl);
-                } 
-            });
-                                 
-			
+			$.ajax({
+				url: fileurl,
+				type: 'HEAD',
+				error: function() {
+					//console.log(fileurl + ' doesnt exist!');
+					$.ajax({
+						url: fileurl2,
+						type: 'HEAD',
+						error: function() {
+							//console.log(fileurl2 + ' doesnt exist!');
+							$('#battleroom .map-download').addClass('downloading');
+							$('#battleroom .map-download .download-title').text('Map not found for download.');
+						},
+						success: function() {
+							//console.log(fileurl2 + ' exist!');
+							battle.downloadmap(fileurl2);
+						},
+					});
+				},
+				success: function() {
+					//console.log(fileurl + ' exist!');
+					battle.downloadmap(fileurl);
+				},
+			});
 		}
-		
-    }
-    
-    downloadmap(fileurl){
-	    
-	    $('#battleroom .map-download').addClass('downloading');
-	    
-	    ipcRenderer.send("download", {
-		    url: fileurl,
-		    properties: {directory: mapsdir}
-		});			
-		
-		ipcRenderer.on("download progress", async (event, progress) => {			
-			var w = Math.round( progress.percent*100 ) + '%';
-			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
-			$('#battleroom .map-download .progress').css('width', w);											
+	}
+
+	downloadmap(fileurl) {
+		$('#battleroom .map-download').addClass('downloading');
+
+		ipcRenderer.send('download', {
+			url: fileurl,
+			properties: { directory: mapsdir },
 		});
-		
-		ipcRenderer.on("download complete", (event, progress) => {
-			
+
+		ipcRenderer.on('download progress', async (event, progress) => {
+			var w = Math.round(progress.percent * 100) + '%';
+			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
+			$('#battleroom .map-download .progress').css('width', w);
+		});
+
+		ipcRenderer.on('download complete', (event, progress) => {
 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 			utils.sendbattlestatus();
-			
-			setTimeout( function(){
+
+			setTimeout(function() {
 				$('#battleroom .map-download').removeClass('downloading');
 			}, 4000);
 		});
-		
-    }
-    
-    
-    createbattleroom(){
-	    
-	    $('#battleroom').empty();	    
-	    var battlediv = $('#battleroomtemplate').contents().clone();
-		$('#battleroom').append( battlediv );		
-	    
-	    this.loadbattleprefs();
-    }
-    
-    loadbattleprefs(){
-	    
-	    var preferedfaction = store.get('user.faction');
-		if(preferedfaction == 0){
+	}
+
+	createbattleroom() {
+		$('#battleroom').empty();
+		var battlediv = $('#battleroomtemplate')
+			.contents()
+			.clone();
+		$('#battleroom').append(battlediv);
+
+		this.loadbattleprefs();
+	}
+
+	loadbattleprefs() {
+		var preferedfaction = store.get('user.faction');
+		if (preferedfaction == 0) {
 			$('.pickarm').removeClass('active');
 			$('.pickcore').addClass('active');
 		}
-		
+
 		var showhostmessages = store.get('user.showhostmessages');
-		if(showhostmessages == 0){
-			$('.showhostmessages').prop("checked", false);
-		}else{
-			$('.showhostmessages').prop("checked", true);
+		if (showhostmessages == 0) {
+			$('.showhostmessages').prop('checked', false);
+		} else {
+			$('.showhostmessages').prop('checked', true);
 		}
-		
+
 		var autoscrollbattle = store.get('user.autoscrollbattle');
-		if(autoscrollbattle == 0){
-			$('.autoscrollbattle').prop("checked", false);
-		}else{
-			$('.autoscrollbattle').prop("checked", true);
+		if (autoscrollbattle == 0) {
+			$('.autoscrollbattle').prop('checked', false);
+		} else {
+			$('.autoscrollbattle').prop('checked', true);
 		}
-		
+
 		var savechats = store.get('user.savechats');
-		if(savechats == 0){
-			$('.savechats').prop("checked", false);
-		}else{
-			$('.savechats').prop("checked", true);
+		if (savechats == 0) {
+			$('.savechats').prop('checked', false);
+		} else {
+			$('.savechats').prop('checked', true);
 		}
-		
-		
+
 		var mutebattleroom = store.get('user.mutebattleroom');
-		if(mutebattleroom == 0){
-			$('.mutebattleroom').prop("checked", false);
-			var sound = document.getElementById("messagesound");
+		if (mutebattleroom == 0) {
+			$('.mutebattleroom').prop('checked', false);
+			var sound = document.getElementById('messagesound');
 			sound.volume = 1;
-			var ring = document.getElementById("ringsound");
+			var ring = document.getElementById('ringsound');
 			ring.volume = 1;
-		}else{
-			var sound = document.getElementById("messagesound");
+		} else {
+			var sound = document.getElementById('messagesound');
 			sound.volume = 0;
-			var ring = document.getElementById("ringsound");
+			var ring = document.getElementById('ringsound');
 			ring.volume = 0;
-			$('.mutebattleroom').prop("checked", true);
+			$('.mutebattleroom').prop('checked', true);
 		}
-		
-		
+
 		var mycolor = store.get('user.mycolor');
-		if( mycolor ){
+		if (mycolor) {
 			$('#battleroom .colorpicked').css('background-color', mycolor);
 			//$('.colorpicker').acp('color', mycolor);
 		}
-		
-    }
-        
+	}
 
-    
-    load_remote_map_image( battleid ){
-	    	    
+	load_remote_map_image(battleid) {
 		//clear startboxes
-	    $('.startbox').remove();
-		
-	    var mapname = $('.battle-card[data-battleid="'+battleid+'"] .mapname').text();
-	    var mapfilenamebase = mapname.toLowerCase().split(' ').join('_');
-	    var mapfilename1 = mapfilenamebase+'.sd7';
-	    var mapfilename2 = mapfilenamebase+'.sdz';
-	    
-	    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
-	    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
-	    
-	    var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
-	    var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
-	    
-	    var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
-	    var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
-	    
-	    var battles = this;
-	    
-	    $.ajax({ 
-            url: url1,             
-            type: 'HEAD', 
-            error: function()  
-            {                 
-				$.ajax({ 
-		            url: url2,             
-		            type: 'HEAD', 
-		            success: function()  
-		            { 
-						var imgdiv = '<img class="map" src="'+url2+'">';
-						
-						$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
-				        if ( $('#battleroom .battleid').text() == battleid ){
-					        
-					        var startbox1 = $('.startbox.box0');
-					        var startbox2 = $('.startbox.box1');
-					        
-				        	$('#battleroom #battle-minimap').html(imgdiv);
-				        	$('#battleroom .minimaps').append(startbox1);
-				        	$('#battleroom .minimaps').append(startbox2);
-				        	
-				        	
-				        	const metalmap = new Image();
-				        	metalmap.src = murl2;
-				        	$('#battleroom #battle-metalmap').html(metalmap);
-				        	
-				        	// load heightmap to get sizes
-				        			        	
-				        	const heightmap = new Image();
+		$('.startbox').remove();
+
+		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+		var mapfilenamebase = mapname
+			.toLowerCase()
+			.split(' ')
+			.join('_');
+		var mapfilename1 = mapfilenamebase + '.sd7';
+		var mapfilename2 = mapfilenamebase + '.sdz';
+
+		var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
+		var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
+
+		var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
+		var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
+
+		var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
+		var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
+
+		var battles = this;
+
+		$.ajax({
+			url: url1,
+			type: 'HEAD',
+			error: function() {
+				$.ajax({
+					url: url2,
+					type: 'HEAD',
+					success: function() {
+						var imgdiv = '<img class="map" src="' + url2 + '">';
+
+						$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
+						if ($('#battleroom .battleid').text() == battleid) {
+							var startbox1 = $('.startbox.box0');
+							var startbox2 = $('.startbox.box1');
+
+							$('#battleroom #battle-minimap').html(imgdiv);
+							$('#battleroom .minimaps').append(startbox1);
+							$('#battleroom .minimaps').append(startbox2);
+
+							const metalmap = new Image();
+							metalmap.src = murl2;
+							$('#battleroom #battle-metalmap').html(metalmap);
+
+							// load heightmap to get sizes
+
+							const heightmap = new Image();
 							heightmap.onload = function() {
-								var w = this.width ;
-								var h = this.height;	
-								battles.fitmapsize(w, h);							
-							}
+								var w = this.width;
+								var h = this.height;
+								battles.fitmapsize(w, h);
+							};
 							heightmap.src = hurl2;
-				        	$('#battleroom #battle-heightmap').html(heightmap);
-				        	
-				        	
-		        	
-				        }
-		            } 
-		        });     
-            }, 
-            success: function()  
-            { 
-				var imgdiv = '<img class="map" src="'+url1+'">';			
-				
-				$('.battle-card[data-battleid="'+battleid+'"] .minimap').html(imgdiv);
-				
-		        if ( $('#battleroom .battleid').text() == battleid ){
-			        
-			        var startbox1 = $('.startbox.box0');
+							$('#battleroom #battle-heightmap').html(heightmap);
+						}
+					},
+				});
+			},
+			success: function() {
+				var imgdiv = '<img class="map" src="' + url1 + '">';
+
+				$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
+
+				if ($('#battleroom .battleid').text() == battleid) {
+					var startbox1 = $('.startbox.box0');
 					var startbox2 = $('.startbox.box1');
-					        
-		        	$('#battleroom #battle-minimap').html(imgdiv);
-		        	$('#battleroom .minimaps').append(startbox1);
-		        	$('#battleroom .minimaps').append(startbox2);
-		        			        	
-		        	const metalmap = new Image();
-		        	metalmap.src = murl1;
-		        	$('#battleroom #battle-metalmap').html(metalmap);
-		        			        	
-		        	const heightmap = new Image();
+
+					$('#battleroom #battle-minimap').html(imgdiv);
+					$('#battleroom .minimaps').append(startbox1);
+					$('#battleroom .minimaps').append(startbox2);
+
+					const metalmap = new Image();
+					metalmap.src = murl1;
+					$('#battleroom #battle-metalmap').html(metalmap);
+
+					const heightmap = new Image();
 					heightmap.onload = function() {
-						var w = this.width ;
+						var w = this.width;
 						var h = this.height;
 						battles.fitmapsize(w, h);
-					}
+					};
 					heightmap.src = hurl1;
-		        	$('#battleroom #battle-heightmap').html(heightmap);
-		        	
-		        }		
-            } 
-        });
-		
-    }
-    
-    
-    fitmapsize(w, h){
-	    
-	    var ratio = w/h;
-	    var divwidth = $('#battleroom .minimaps').width();
+					$('#battleroom #battle-heightmap').html(heightmap);
+				}
+			},
+		});
+	}
+
+	fitmapsize(w, h) {
+		var ratio = w / h;
+		var divwidth = $('#battleroom .minimaps').width();
 		var ratiodiv = divwidth / 400;
-		
-		if (ratio > ratiodiv){						
-			$('#battleroom .minimaps').css('height', divwidth/ratio );			
-		}else{
-			$('#battleroom .minimaps').css('height', '400px' );			
-			$('#battleroom .minimaps').css('width', ratio*400+'px' );			
-		}		
-		
-    }
-    
-    
-    addstartrect(allyNo, left, top, right, bottom){
-	    
-	    var width = right/2 - left/2;
-	    var height = bottom/2 - top/2;
-	    
-	    $('.startbox.box'+allyNo).remove();	    
-	    var startbox = '<div class="startbox box'+allyNo+'" style="left:' +left/2 +'%; top:'+top/2+'%; width:'+width+'%; height:'+height+'%;"></div>';	    
-	    $('#battleroom .minimaps').append(startbox);
-	    	    
-    }
-    
-    
-    
-    
-    openbattle( cmd, parts ){
-		
-		var sentences = cmd.split('\t');			 
-		parts = sentences[0].split(" ");				
+
+		if (ratio > ratiodiv) {
+			$('#battleroom .minimaps').css('height', divwidth / ratio);
+		} else {
+			$('#battleroom .minimaps').css('height', '400px');
+			$('#battleroom .minimaps').css('width', ratio * 400 + 'px');
+		}
+	}
+
+	addstartrect(allyNo, left, top, right, bottom) {
+		var width = right / 2 - left / 2;
+		var height = bottom / 2 - top / 2;
+
+		$('.startbox.box' + allyNo).remove();
+		var startbox = '<div class="startbox box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"></div>';
+		$('#battleroom .minimaps').append(startbox);
+	}
+
+	openbattle(cmd, parts) {
+		var sentences = cmd.split('\t');
+		parts = sentences[0].split(' ');
 		var battleid = parts[1];
-		
-		if ( $('.battle-card[data-battleid="'+battleid+'"]').length ){
-			this.closebattle( battleid );
-		}				
+
+		if ($('.battle-card[data-battleid="' + battleid + '"]').length) {
+			this.closebattle(battleid);
+		}
 		//var type = parts[2];
 		//var natType = parts[3];
 		var username = parts[4];
@@ -378,544 +333,522 @@ export default class Battle {
 		var passworded = parts[8] > 0;
 		var rank = parts[9];
 		var maphash = parts[10];
-		
-		if (sentences.length == 3){
-			var mapname = parts.slice(11).join(' ');		
+
+		if (sentences.length == 3) {
+			var mapname = parts.slice(11).join(' ');
 			var title = sentences[1].split(')').slice(1);
 			var gameName = sentences[2];
-			var engine = sentences[1].slice(sentences[1].indexOf("(") + 1, sentences[1].indexOf(")"));
-		}else{
+			var engine = sentences[1].slice(sentences[1].indexOf('(') + 1, sentences[1].indexOf(')'));
+		} else {
 			var mapname = sentences[2];
 			var title = sentences[3];
 			var gameName = sentences[4];
 			var engine = sentences[1];
-		}							    	    	    	    
-	    	
-		var battlediv = '<div class="header">';
-				
-				battlediv += '<div class="infos">';
-				
-					battlediv += '<div class="meta">';
-					battlediv += '<div class="battleid">'+battleid+'</div>';	
-					battlediv += '<div class="status icon icon-user battle"></div>';
-					if (passworded){
-						battlediv += '<div class="locked">️LOCKED</div>';
-					}else{
-						battlediv += '<div class="locked">OPEN</div>';
-					}
-					
-					battlediv += '<div class="players icon icon-ingame">0</div>';
-					battlediv += '<div class="spectatorCount icon icon-spec">0</div>';
-					battlediv += '<div class="nUsers" style="display:none;">1</div>';
-					battlediv += '<div class="maxPlayers">'+maxPlayers+'<span class="upper">MAX</span></div>';
-					//battlediv += '<div class="passworded icon icon-locked '+passworded+'"></div>';
-					battlediv += '<div class="ip">'+ip+'</div>';
-					battlediv += '<div class="port">'+port+'</div>';
-					battlediv += '<div class="maphash">'+maphash+'</div>';
-					battlediv += '<div class="rank icon icon-rank'+rank+'"></div>';
-					battlediv += '</div>';			
-					
-					battlediv += '<div class="battletitle">'+title+'</div>';
-					
-					battlediv += '<div class="meta2">';			
-					battlediv += '<div class="gameName icon icon-mod">'+gameName+'</div>';
-					battlediv += '<div class="mapname">'+mapname+'</div>';
-					battlediv += '<div class="username founder icon icon-bot">'+username+'</div>';
-					battlediv += '<div class="engine">'+engine+'</div>';
-					battlediv += '</div>';
-				
-				battlediv += '</div>';
-				
-				battlediv += '<div class="minimap"></div>';
-				
-			battlediv += '</div>';
-			
-			battlediv += '<div class="playerlist"></div>';
-				
-		
-		$('#battle-list').append('<div class="battle-card" data-battleid="'+battleid+'" data-founder="'+username+'">'+battlediv+'</div>');
-		
-		$('.tab.battlelist .count').text( $('.battle-card').length );
-		
-		//this.load_remote_map_image( battleid );
-		
-    }
-    
-    
-	closebattle( battleid ){
-		
-		$('.battle-card[data-battleid="'+battleid+'"]').remove();				
-		$('.tab.battlelist .count').text( $('.battle-card').length );
-					
-	}
-	
-	updatebattleinfo( battleid, spectatorCount, locked, maphash, mapname ){
-		
-		$('.battle-card[data-battleid="'+battleid+'"] .spectatorCount').text(spectatorCount);		
-		$('.battle-card[data-battleid="'+battleid+'"] .mapname').text(mapname);
-		
-				
-		this.load_remote_map_image( battleid );
-		
-		if(locked===0){
-			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('LOCKED');	
-		}else{
-			$('.battle-card[data-battleid="'+battleid+'"] .locked').text('OPEN');	
 		}
-						
-		var nUsers = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(), 10);
+
+		var battlediv = '<div class="header">';
+
+		battlediv += '<div class="infos">';
+
+		battlediv += '<div class="meta">';
+		battlediv += '<div class="battleid">' + battleid + '</div>';
+		battlediv += '<div class="status icon icon-user battle"></div>';
+		if (passworded) {
+			battlediv += '<div class="locked">️LOCKED</div>';
+		} else {
+			battlediv += '<div class="locked">OPEN</div>';
+		}
+
+		battlediv += '<div class="players icon icon-ingame">0</div>';
+		battlediv += '<div class="spectatorCount icon icon-spec">0</div>';
+		battlediv += '<div class="nUsers" style="display:none;">1</div>';
+		battlediv += '<div class="maxPlayers">' + maxPlayers + '<span class="upper">MAX</span></div>';
+		//battlediv += '<div class="passworded icon icon-locked '+passworded+'"></div>';
+		battlediv += '<div class="ip">' + ip + '</div>';
+		battlediv += '<div class="port">' + port + '</div>';
+		battlediv += '<div class="maphash">' + maphash + '</div>';
+		battlediv += '<div class="rank icon icon-rank' + rank + '"></div>';
+		battlediv += '</div>';
+
+		battlediv += '<div class="battletitle">' + title + '</div>';
+
+		battlediv += '<div class="meta2">';
+		battlediv += '<div class="gameName icon icon-mod">' + gameName + '</div>';
+		battlediv += '<div class="mapname">' + mapname + '</div>';
+		battlediv += '<div class="username founder icon icon-bot">' + username + '</div>';
+		battlediv += '<div class="engine">' + engine + '</div>';
+		battlediv += '</div>';
+
+		battlediv += '</div>';
+
+		battlediv += '<div class="minimap"></div>';
+
+		battlediv += '</div>';
+
+		battlediv += '<div class="playerlist"></div>';
+
+		$('#battle-list').append('<div class="battle-card" data-battleid="' + battleid + '" data-founder="' + username + '">' + battlediv + '</div>');
+
+		$('.tab.battlelist .count').text($('.battle-card').length);
+
+		//this.load_remote_map_image( battleid );
+	}
+
+	closebattle(battleid) {
+		$('.battle-card[data-battleid="' + battleid + '"]').remove();
+		$('.tab.battlelist .count').text($('.battle-card').length);
+	}
+
+	updatebattleinfo(battleid, spectatorCount, locked, maphash, mapname) {
+		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
+		$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
+
+		this.load_remote_map_image(battleid);
+
+		if (locked === 0) {
+			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');
+		} else {
+			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('OPEN');
+		}
+
+		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10);
 		var players = nUsers - spectatorCount;
-		$('.battle-card[data-battleid="'+battleid+'"] .players').text(players);
-		
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+
 		// update options
-		if ( $('#battleroom .battleid').text() == battleid ){
-						
+		if ($('#battleroom .battleid').text() == battleid) {
 			//$('#battleroom #battle-minimap').append($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
-			
-			$('#battleroom .spectatorCount').text(spectatorCount);	
+
+			$('#battleroom .spectatorCount').text(spectatorCount);
 			$('#battleroom .mapname').text(mapname);
-			
+
 			//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
-			
-			if(locked===0){
-				$('#battleroom .locked').text('LOCKED');	
-			}else{
-				$('#battleroom .locked').text('OPEN');	
+
+			if (locked === 0) {
+				$('#battleroom .locked').text('LOCKED');
+			} else {
+				$('#battleroom .locked').text('OPEN');
 			}
 			$('#battleroom .players').text(players);
-			
+
 			//download map if doesnt have it
-			
+
 			var obj = this;
-			setTimeout( function(){
-				if ( !$('#battleroom .game-download').hasClass('downloading') ){
+			setTimeout(function() {
+				if (!$('#battleroom .game-download').hasClass('downloading')) {
 					obj.checkmap();
 				}
 			}, 1000);
-			
 		}
-		
 	}
-	
-	
-	
+
 	// when I join a battle and get a confirmation
-	joinbattle( battleid, hashCode, channelName ){
-		
+	joinbattle(battleid, hashCode, channelName) {
 		trackEvent('User', 'joinbattle');
-		this.createbattleroom();	
-		this.load_remote_map_image( battleid );	
-		
+		this.createbattleroom();
+		this.load_remote_map_image(battleid);
+
 		$('body').addClass('inbattleroom');
-		$('.battle-card[data-battleid="'+battleid+'"]').addClass('activebattle');
-		
+		$('.battle-card[data-battleid="' + battleid + '"]').addClass('activebattle');
+
 		$('.rcontainer, .tab').removeClass('active');
 		$('.container').removeClass('active');
 		$('#battleroom, .tab.battleroom').addClass('active');
 		$('#battleroom input.chat').data('battleid', battleid);
 		$('#battleroom').data('battleid', battleid);
 		$('.tab.battleroom .status').addClass('active');
-		
-		$('#battleroom .title').text($('.battle-card[data-battleid="'+battleid+'"] .battletitle').text());
-		
+
+		$('#battleroom .title').text($('.battle-card[data-battleid="' + battleid + '"] .battletitle').text());
 
 		//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
-		
-		var meta = $('.battle-card[data-battleid="'+battleid+'"] .meta').clone();
+
+		var meta = $('.battle-card[data-battleid="' + battleid + '"] .meta').clone();
 		$('#battleroom .battle-main-info').append(meta);
-		$('#battleroom .battle-main-info .meta .battleid').after('<div class="hashCode">'+hashCode+'</div>');
-		$('#battleroom .battle-main-info .meta .battleid').after('<div class="channelName">'+channelName+'</div>');
-		
-		var meta = $('.battle-card[data-battleid="'+battleid+'"] .meta2').clone();
+		$('#battleroom .battle-main-info .meta .battleid').after('<div class="hashCode">' + hashCode + '</div>');
+		$('#battleroom .battle-main-info .meta .battleid').after('<div class="channelName">' + channelName + '</div>');
+
+		var meta = $('.battle-card[data-battleid="' + battleid + '"] .meta2').clone();
 		$('#battleroom .battle-main-info').append(meta);
-		
+
 		//add host to playerlist
-		var hostname = $('.battle-card[data-battleid="'+battleid+'"] .founder').text();
-		var host = $('#chat-list li[data-username="'+hostname+'"]').clone();
+		var hostname = $('.battle-card[data-battleid="' + battleid + '"] .founder').text();
+		var host = $('#chat-list li[data-username="' + hostname + '"]').clone();
 		$('#battleroom .battle-playerlist').append(host);
-		
-		//add users to battle 
-		var players = $('.battle-card[data-battleid="'+battleid+'"] .playerlist').contents().clone();
+
+		//add users to battle
+		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist')
+			.contents()
+			.clone();
 		$('#battleroom .battle-playerlist').append(players);
-		
+
 		AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
 			$('#battleroom .colorpicked').css('background-color', color);
-			store.set('user.mycolor', color);			
+			store.set('user.mycolor', color);
 		});
 		//AColorPicker.setColor("#5588ff", true);
-		
-		
+
 		//check if game exist
 		// after game, check if map exist
 		this.checkgame();
 		utils.init_battlerrom_chat();
-		
+
 		// maybe this solve ingame join
 		//utils.sendbattlestatus();
-		
 	}
-    
-    
-    // when anyone joins a battle
-    joinedbattle( battleid, username ){
-	    
-	    var nUsers = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(), 10) + 1;				
-		$('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(nUsers);
-		
-		var spectatorCount = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .spectatorCount').text(), 10);				
+
+	// when anyone joins a battle
+	joinedbattle(battleid, username) {
+		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) + 1;
+		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
+
+		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
 		var players = nUsers - spectatorCount;
-		$('.battle-card[data-battleid="'+battleid+'"] .players').text(players);					
-		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
-		
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -players);
+
 		//update chatlist
-		$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').addClass('battle');
-		
+		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('battle');
+
 		// append user to bnattle-card
-		var user = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').clone();
-		$('.battle-card[data-battleid="'+battleid+'"] .playerlist').append(user);
-		
-		
-		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){
+		var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
+		$('.battle-card[data-battleid="' + battleid + '"] .playerlist').append(user);
+
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
 			$('#battleroom .players').text(players);
 			$('#battleroom .spectatorCount').text(spectatorCount);
-			var user = $('#chat-list li[data-username="'+jQuery.escapeSelector(username)+'"]').clone();
-			$('#battleroom .battle-playerlist').append(user);	
-		}				
-		
-    }
-    
-    leftbattle( battleid, username ){
-	    
-	    var nUsers = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(), 10) - 1;
-		$('.battle-card[data-battleid="'+battleid+'"] .nUsers').text(nUsers);
-		
-		var spectatorCount = parseInt( $('.battle-card[data-battleid="'+battleid+'"] .spectatorCount').text(), 10);				
-		var players = nUsers - spectatorCount;
-		$('.battle-card[data-battleid="'+battleid+'"] .players').text(players);					
-		$('.battle-card[data-battleid="'+battleid+'"]').css('order', -players);
-		
-		//update chatlist
-		$('li[data-username="'+jQuery.escapeSelector(username)+'"] .icon-user').removeClass('battle');			
-		
-		// remove user from bnattle-card				
-		$('.battle-card li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();
-		
-		// if user is in my battle
-		if( $('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid') ){
-			$('#battleroom li[data-username="'+jQuery.escapeSelector(username)+'"]').remove();						
+			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
+			$('#battleroom .battle-playerlist').append(user);
 		}
-		
+	}
+
+	leftbattle(battleid, username) {
+		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) - 1;
+		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
+
+		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
+		var players = nUsers - spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -players);
+
+		//update chatlist
+		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').removeClass('battle');
+
+		// remove user from bnattle-card
+		$('.battle-card li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
+
+		// if user is in my battle
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
+			$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
+		}
+
 		// if i am leaving
-		if ( username == $('#myusername').text() ){
-			
-			$('.tab.battleroom .status').removeClass('active');	
+		if (username == $('#myusername').text()) {
+			$('.tab.battleroom .status').removeClass('active');
 			$('.container').removeClass('active');
 			$('#battlelist').addClass('active');
-						
+
 			$('#battleroom').empty();
-			
+
 			$('body').removeClass('inbattleroom');
 			$('.activebattle').removeClass('activebattle');
 		}
-    }
-    
-    
-    
-    
-	// when client get kicked    
-    got_kicked(){
-	    
-	    $('.tab.battleroom .status').removeClass('active');	
+	}
+
+	// when client get kicked
+	got_kicked() {
+		$('.tab.battleroom .status').removeClass('active');
 		$('.container').removeClass('active');
-		$('#battlelist').addClass('active');		
-		
+		$('#battlelist').addClass('active');
+
 		$('#battleroom').empty();
-		
+
 		$('body').removeClass('inbattleroom');
 		$('.activebattle').removeClass('activebattle');
-		
-    }
-    
-    
-    setscripttags( parts ){
-	    
-	    var scriptTags = parts.slice(1).join(' ').split('\t');
-				
-		$.each( scriptTags, function( index, value ) {	
-			
+	}
+
+	setscripttags(parts) {
+		var scriptTags = parts
+			.slice(1)
+			.join(' ')
+			.split('\t');
+
+		$.each(scriptTags, function(index, value) {
 			var scriptTag = value.split('=');
 			var val = scriptTag[1];
-			
-			var tag = scriptTag[0];
-			var parts = tag.split('/');						
-			
-			if(parts[0] == 'game'){
-			
-				if (parts[1]=='players'){
-				
-					var username = parts[2];
-					if(parts[3]=='skill'){
-						val = val.replace('#', '').replace('#', '').replace('(', '').replace(')', '');
-						$('.battle-players li:contains('+username+') .trueskill').text(val);
-					}					
-				
-				}else 
-				if(parts[1]=='modoptions'){
-					
-					var div = '<div class="option '+parts[2]+'">';
-						div += '<div class="name">'+parts[2]+'</div>';
-						div += '<div class="val">'+val+'</div>';
-						div += '</div>';
-					   
-					$('#battleroom .modoptions').append(div);
-						
-				}else
-				if(parts[1]=='mapoptions'){
-					
-					var div = '<div class="option '+parts[2]+'">';
-						div += '<div class="name">'+parts[2]+'</div>';
-						div += '<div class="val">'+val+'</div>';
-						div += '</div>';
-					   
-					$('#battleroom .mapoptions').append(div);
-						
-				}else 
-				if(parts[0]=='game'){
-					
-					var div = '<div class="option '+parts[1]+'">';
-						div += '<div class="name">'+parts[1]+'</div>';
-						div += '<div class="val">'+val+'</div>';
-						div += '</div>';
-					   
-					$('#battleroom .gameoptions').append(div);
-					
-				}else{
-					
-					var div = '<div class="option '+tag+'">';
-						div += '<div class="name">'+tag+'</div>';
-						div += '<div class="val">'+val+'</div>';
-						div += '</div>';
-					   
-					$('#battleroom .otheroptions').append(div);	
-					
-				}
-				
-			}
-			
-			if (parts[2] == 'mo_ffa' && val == '1'){
-				
-				$('#battleroom').removeClass('teams').addClass('ffa');			
-				$('#battleroom .gametype').text('FFA');
-				
-			}else if(parts[2] == 'mo_ffa' && val == '0'){
-				
-				$('#battleroom .ffatype').text('');	
-				$('#battleroom').removeClass('ffa').addClass('teams');
-				var numplayers = $('.battle-playerlist li').length;					
-				
-				if (numplayers <= 2){
-					$('#battleroom .gametype').text('1v1');
-				}else if (numplayers > 2){
-					$('#battleroom .gametype').text('TEAMS');
-				}												
-			}
-			
-			if (parts[2] == 'anon_ffa' && val == '1'){
-				$('#battleroom .ffatype').text('ANON');	
-			}else if (parts[2] == 'anon_ffa' && val == '0'){
-				$('#battleroom .ffatype').text('');	
-			}
-			
-		});
-		
-		// copy game info, it could be done in joinbattle maybe
-					
-    }
-    
-    
-    
-    startasplayer(){
 
+			var tag = scriptTag[0];
+			var parts = tag.split('/');
+
+			if (parts[0] == 'game') {
+				if (parts[1] == 'players') {
+					var username = parts[2];
+					if (parts[3] == 'skill') {
+						val = val
+							.replace('#', '')
+							.replace('#', '')
+							.replace('(', '')
+							.replace(')', '');
+						$('.battle-players li:contains(' + username + ') .trueskill').text(val);
+					}
+				} else if (parts[1] == 'modoptions') {
+					var div = '<div class="option ' + parts[2] + '">';
+					div += '<div class="name">' + parts[2] + '</div>';
+					div += '<div class="val">' + val + '</div>';
+					div += '</div>';
+
+					$('#battleroom .modoptions').append(div);
+				} else if (parts[1] == 'mapoptions') {
+					var div = '<div class="option ' + parts[2] + '">';
+					div += '<div class="name">' + parts[2] + '</div>';
+					div += '<div class="val">' + val + '</div>';
+					div += '</div>';
+
+					$('#battleroom .mapoptions').append(div);
+				} else if (parts[0] == 'game') {
+					var div = '<div class="option ' + parts[1] + '">';
+					div += '<div class="name">' + parts[1] + '</div>';
+					div += '<div class="val">' + val + '</div>';
+					div += '</div>';
+
+					$('#battleroom .gameoptions').append(div);
+				} else {
+					var div = '<div class="option ' + tag + '">';
+					div += '<div class="name">' + tag + '</div>';
+					div += '<div class="val">' + val + '</div>';
+					div += '</div>';
+
+					$('#battleroom .otheroptions').append(div);
+				}
+			}
+
+			if (parts[2] == 'mo_ffa' && val == '1') {
+				$('#battleroom')
+					.removeClass('teams')
+					.addClass('ffa');
+				$('#battleroom .gametype').text('FFA');
+			} else if (parts[2] == 'mo_ffa' && val == '0') {
+				$('#battleroom .ffatype').text('');
+				$('#battleroom')
+					.removeClass('ffa')
+					.addClass('teams');
+				var numplayers = $('.battle-playerlist li').length;
+
+				if (numplayers <= 2) {
+					$('#battleroom .gametype').text('1v1');
+				} else if (numplayers > 2) {
+					$('#battleroom .gametype').text('TEAMS');
+				}
+			}
+
+			if (parts[2] == 'anon_ffa' && val == '1') {
+				$('#battleroom .ffatype').text('ANON');
+			} else if (parts[2] == 'anon_ffa' && val == '0') {
+				$('#battleroom .ffatype').text('');
+			}
+		});
+
+		// copy game info, it could be done in joinbattle maybe
+	}
+
+	startasplayer() {
 		var username = $('#myusername').text();
-		
+
 		var teams = [];
 		var allys = [];
-		
+
 		var numplayers = $('.battle-playerlist li').length() + $('.battle-speclist li').length();
 		//var numusers = numplayers+ $('.battle-speclist li').length();
-		
-		var script = '[GAME]\n{\n\t';
-			script += 'gametype=Balanced Annihilation V11.0.0;\n\t'+
-					'HostIP='+$('.battle-main-info .ip').text()+';\n\t'+
-					'HostPort='+$('.battle-main-info .port').text()+';\n\t'+
-					'IsHost=0;\n\t'+
-					'MapHash='+$('.battle-main-info .maphash').text()+';\n\t'+
-					'MapName='+$('.battle-main-info .mapname').text()+';\n\t'+
-					'ModHash=2610892527;\n\t'+
-					'MyPlayerName='+username+';\n\t'+
-					'numplayers='+numplayers+';\n\t'+
-					//'numrestrictions=0;\n\t'+
-					//'numusers='+numusers+';\n\t'+
-					'MyPasswd='+this.generatePassword(username)+';\n\t'+
-					'StartPosType='+$('.gameoptions .startPosType').closest('.val').text()+';\n'+
-					'}\n';
-					
 
-					
+		var script = '[GAME]\n{\n\t';
+		script +=
+			'gametype=Balanced Annihilation V11.0.0;\n\t' +
+			'HostIP=' +
+			$('.battle-main-info .ip').text() +
+			';\n\t' +
+			'HostPort=' +
+			$('.battle-main-info .port').text() +
+			';\n\t' +
+			'IsHost=0;\n\t' +
+			'MapHash=' +
+			$('.battle-main-info .maphash').text() +
+			';\n\t' +
+			'MapName=' +
+			$('.battle-main-info .mapname').text() +
+			';\n\t' +
+			'ModHash=2610892527;\n\t' +
+			'MyPlayerName=' +
+			username +
+			';\n\t' +
+			'numplayers=' +
+			numplayers +
+			';\n\t' +
+			//'numrestrictions=0;\n\t'+
+			//'numusers='+numusers+';\n\t'+
+			'MyPasswd=' +
+			this.generatePassword(username) +
+			';\n\t' +
+			'StartPosType=' +
+			$('.gameoptions .startPosType')
+				.closest('.val')
+				.text() +
+			';\n' +
+			'}\n';
+
 		var playercount = 0;
-		$('.battle-playerlist li').each(function( index ) {
-			var team = $(this).children('.team').text();
-			var ally = $(this).children('.ally').text();
+		$('.battle-playerlist li').each(function(index) {
+			var team = $(this)
+				.children('.team')
+				.text();
+			var ally = $(this)
+				.children('.ally')
+				.text();
 			var faction = 'ARM';
-			if ($(this).children('.icon-core').length ){
+			if ($(this).children('.icon-core').length) {
 				faction = 'CORE';
 			}
-			if(allys.indexOf(ally) === -1) {
-			    allys.push(ally);
-			}			
-			script += '[PLAYER'+playercount+']\n'+
-					'{\n\t'+
-					'Name='+$(this).children('.name').text()+';\n\t'+
-					'Team='+team+';\n\t'+
-					'Spectator=0;\n'+
-					'}\n';
-			
-			script += '[TEAM'+playercount+']\n'+
-					'{\n\t'+
-					'Teamleader='+playercount+';\n\t'+
-					'Allyteam='+ally+';\n\t'+
-					'Side='+faction+';\n\t'+
-					'}\n';			
+			if (allys.indexOf(ally) === -1) {
+				allys.push(ally);
+			}
+			script +=
+				'[PLAYER' +
+				playercount +
+				']\n' +
+				'{\n\t' +
+				'Name=' +
+				$(this)
+					.children('.name')
+					.text() +
+				';\n\t' +
+				'Team=' +
+				team +
+				';\n\t' +
+				'Spectator=0;\n' +
+				'}\n';
+
+			script += '[TEAM' + playercount + ']\n' + '{\n\t' + 'Teamleader=' + playercount + ';\n\t' + 'Allyteam=' + ally + ';\n\t' + 'Side=' + faction + ';\n\t' + '}\n';
 			playercount += 1;
-					
 		});
-		
-		$.each(allys, function(index, value){
-				script += '[ALLYTEAM'+index+']\n'+
-					'{\n\t'+
-					'NumAllies='+$('.battle-playerlist li .ally:contains('+value+')').length+';\n\t'+
-					'}\n';	
+
+		$.each(allys, function(index, value) {
+			script += '[ALLYTEAM' + index + ']\n' + '{\n\t' + 'NumAllies=' + $('.battle-playerlist li .ally:contains(' + value + ')').length + ';\n\t' + '}\n';
 		});
-		
-		$('.battle-speclist li').each(function( index ) {
+
+		$('.battle-speclist li').each(function(index) {
 			//var team = $(this).children('team').text();
 			//var ally = $(this).children('ally').text();
-			script += '[PLAYER'+playercount+']\n'+
-					'{\n\t'+
-					'Name='+$(this).children('.name').text()+';\n\t'+
-					'Team=0;\n\t'+
-					'Spectator=1;\n'+
-					'}\n';
-			playercount += 1;		
+			script +=
+				'[PLAYER' +
+				playercount +
+				']\n' +
+				'{\n\t' +
+				'Name=' +
+				$(this)
+					.children('.name')
+					.text() +
+				';\n\t' +
+				'Team=0;\n\t' +
+				'Spectator=1;\n' +
+				'}\n';
+			playercount += 1;
 		});
-		
-		
+
 		script += '[mapoptions]\n{\n\t';
-		$('.mapoptions .option').each(function( index ) {
-			var name = $(this).children('.name').text();
-			var val = $(this).children('.val').text();
+		$('.mapoptions .option').each(function(index) {
+			var name = $(this)
+				.children('.name')
+				.text();
+			var val = $(this)
+				.children('.val')
+				.text();
 			script += name + '=' + val + ';\n\t';
 		});
-		
+
 		script += '}\n[modoptions]\n{\n\t';
-		$('.modoptions').each(function( index ) {
-			var name = $(this).children('.name').text();
-			var val = $(this).children('.val').text();
+		$('.modoptions').each(function(index) {
+			var name = $(this)
+				.children('.name')
+				.text();
+			var val = $(this)
+				.children('.val')
+				.text();
 			script += name + '=' + val + ';\n\t';
-		});		
+		});
 		script += '}\n';
-									
-		
-		try { 
-			fs.writeFileSync( scriptfile , script, 'utf-8' ); 
-		}catch(e) { alert('Failed to save the script file!'); }		
-		
-		try {
-		  if (fs.existsSync(infologfile)) {
-		    //file exists
-		    fs.unlinkSync(infologfile);
-		  }
-		}catch(e) { } 
-		
-		// start recording logs
-		var out = fs.openSync( infologfile , 'a');
-	    var err = fs.openSync( infologfile, 'a');
 
-				
-		const bat = spawn( enginepath , [scriptfile], {
+		try {
+			fs.writeFileSync(scriptfile, script, 'utf-8');
+		} catch (e) {
+			alert('Failed to save the script file!');
+		}
+
+		try {
+			if (fs.existsSync(infologfile)) {
+				//file exists
+				fs.unlinkSync(infologfile);
+			}
+		} catch (e) {}
+
+		// start recording logs
+		var out = fs.openSync(infologfile, 'a');
+		var err = fs.openSync(infologfile, 'a');
+
+		const bat = spawn(enginepath, [scriptfile], {
 			detached: true,
-		    stdio: [ 'ignore', out, err ]
-		});		
-		
+			stdio: ['ignore', out, err],
+		});
+
 		bat.unref();
-		
-		bat.on('close', (code) => {
-			var command = 'MYSTATUS ' + 0 + '\n';													
-			socketClient.write( command );
-		});	
-		
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    launchgame(){
 
-		var username = $('#myusername').text();
-		
-		var script = '[GAME]\n{\n\t';
-			script += 'HostIP='+$('.battle-main-info .ip').text()+';\n\t'+
-					'HostPort='+$('.battle-main-info .port').text()+';\n\t'+
-					'IsHost=0;\n\t'+
-					'MyPlayerName='+username+';\n\t'+
-					'MyPasswd='+this.generatePassword(username)+';\n'+
-					'}\n';		
-		
-		try { 
-			fs.writeFileSync( scriptfile , script, 'utf-8' ); 
-		}catch(e) { alert('Failed to save the script file!'); console.log(e);}			
-		
-		try {
-		  if (fs.existsSync(infologfile)) {
-		    //file exists
-		    fs.unlinkSync(infologfile);
-		  }
-		}catch(e) { } 
-		
-		// start recording logs
-		var out = fs.openSync( infologfile , 'a');
-	    var err = fs.openSync( infologfile, 'a');
-		
-		const bat = spawn( enginepath , [scriptfile], {
-			detached: true,
-		    stdio: [ 'ignore', out, err ]
-		});				
-		
-		bat.unref();	
-		
-		bat.on('close', (code) => {
-			var command = 'MYSTATUS ' + 0 + '\n';													
-			socketClient.write( command );
-		});							
-		
-
-    }
-    
-    
-    
-    generatePassword(username) {	    
-	    //var passwd = $.MD5(username);
-	    //crypto.createHash('md5').update(data).digest("hex");
-	    var passwd = crypto.createHash("md5").update(username).digest("hex");
-	    return passwd.substring(0, 12);
+		bat.on('close', code => {
+			var command = 'MYSTATUS ' + 0 + '\n';
+			socketClient.write(command);
+		});
 	}
-    
+
+	launchgame() {
+		var username = $('#myusername').text();
+
+		var script = '[GAME]\n{\n\t';
+		script += 'HostIP=' + $('.battle-main-info .ip').text() + ';\n\t' + 'HostPort=' + $('.battle-main-info .port').text() + ';\n\t' + 'IsHost=0;\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'MyPasswd=' + this.generatePassword(username) + ';\n' + '}\n';
+
+		try {
+			fs.writeFileSync(scriptfile, script, 'utf-8');
+		} catch (e) {
+			alert('Failed to save the script file!');
+			console.log(e);
+		}
+
+		try {
+			if (fs.existsSync(infologfile)) {
+				//file exists
+				fs.unlinkSync(infologfile);
+			}
+		} catch (e) {}
+
+		// start recording logs
+		var out = fs.openSync(infologfile, 'a');
+		var err = fs.openSync(infologfile, 'a');
+
+		const bat = spawn(enginepath, [scriptfile], {
+			detached: true,
+			stdio: ['ignore', out, err],
+		});
+
+		bat.unref();
+
+		bat.on('close', code => {
+			var command = 'MYSTATUS ' + 0 + '\n';
+			socketClient.write(command);
+		});
+	}
+
+	generatePassword(username) {
+		//var passwd = $.MD5(username);
+		//crypto.createHash('md5').update(data).digest("hex");
+		var passwd = crypto
+			.createHash('md5')
+			.update(username)
+			.digest('hex');
+		return passwd.substring(0, 12);
+	}
 }

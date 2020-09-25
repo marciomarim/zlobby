@@ -1,164 +1,140 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-  <head>
-		<meta charset="UTF-8">
+	<head>
+		<meta charset="UTF-8" />
 		<title>Elobby</title>
-	    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/ui.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/fontello.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/flag-icon.min.css">
-		<link rel="stylesheet" type="text/css" href="assets/css/pretty-checkbox.min.css">		
-	    <script> var $ = jQuery = require("jquery") </script>
-    	<script src="node_modules/jquery/dist/jquery.slim.min.js"></script>    	
-    	<script type="module" src="js/init.js"></script>    	
-    	<script type="module" src="js/socket.js"></script>
-    	<script type="module" src="js/navigation.js"></script>
-    	<script type="module" src="js/chat.js"></script>
-    	<script type="module" src="js/battleroom.js"></script>
-    	<script type="module" src="js/replays.js"></script>
-    	<script type="module" src="js/acolorpicker.js"></script>
-  </head>
-  
-  <body>    
-    
-    <div id="main">
-	    	    	    
-	    <div id="topbar">		    
-		    <div class="left"></div>
-		    
-		    <div class="middle">
-				<div id="myusername"></div>    
-		    </div>		    
-		    
-		    <div class="right">
-				<div class="status socket"></div>
-			    <div id="appVersion"></div>    
-		    </div>		   		    
-	    </div>
-	    
-	    
-	    <div class="lmenu">
-			<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>    
-			    
-			<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>    
-			<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
-			<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
-			<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
-			<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
-			<div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
-			<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div>					
-			<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
-	    </div>
-	    
-	    
-	    
-	    
-	    
-	    <div id="start" class="container active wide">		    		    
-		    
-		    <div id="videocontainer">			    
-			    <video id="bademovideo" autoplay muted loop>
-				  <source src="assets/videos/bamoviecrop4.mp4" type="video/mp4" />
-				</video>
-		    </div>
-			
-		    <div class="title icon icon-account-circle-1">Start</div>
-		    
-		    <div class="account">  
-			  	
-			  	<div class="center-win">
-			    	
-			    	<div class="center">
-				    	<div class="appicon"></div>				    	
-			    	</div>
-			    	
-			    	<div id="serverhosts" class="center">
-				    	<div class="serverhosturl active" data-url="springfightclub.com">BA</div>				    	
-				    	<div class="serverhosturl" data-url="springrts.com">Spring</div>
-			    	</div>
-			    	
-			    	<div id="disconnectpane" class="pane">			    	
-				    	
-				    	<div class="line" style="text-align: center; margin-top: 20px;">
-						    <button class="disconnect">Disconnect</button>
-				    	</div>
-			    	
-			    	</div>
-			    	
-			    	<div id="loginpane" class="pane active">
-			    		
-			    		<div class="panetitle">LOGIN</div>
-			    		
-			    		<div id="loginmessage"></div>
-			    		
-				    	<div class="line">
-					    	<label for="username">Username:</label>
-						    <input type="text" id="username" name="username" value="">
-				    	</div>
-				    	
-				    	<div class="line">
-						    <label for="pass">Password:</label>
-						    <input type="password" id="password" name="password" minlength="5" required value="">
-				    	</div>
-				    	
-				    	<div class="line" style="text-align: center; margin-top: 20px;">
-						    <button class="login">Login</button>
-				    	</div>
-			    	
-			    	</div>
-			    	
-			    	<div id="createpane" class="pane">
-			    		
-			    		<div class="panetitle">CREATE NEW ACCOUNT</div>
-			    		
-				    	<div class="line">
-					    	<label for="username">Username:</label>
-						    <input type="text" id="createusername" name="username" value="">
-				    	</div>
-				    	
-				    	<div class="line">
-						    <label for="pass">Password:</label>
-						    <input type="password" id="createpassword" name="password" minlength="5" required value="">
-				    	</div>
-				    	
-				    	<div class="line" style="text-align: center; margin-top: 20px;">
-						    <button class="createaccount">SIGN UP</button>
-				    	</div>
-			    	
-			    	</div>
-			    	
-			    	<div class="nav">
-				    	<div class="btn active" data-target="loginpane">Login to existing account.</div>
-				    	<div class="btn" data-target="createpane">Create new account.</div>
-			    	</div>
-				    
-				    
-				    <div id="system-status">
-						<div id="enginestatus" class="sys-status">Checking engine...</div>    
-						<div id="updatestatus" class="sys-status"></div>
-				    </div>
-				    
-				</div>						
-	
-		    </div>
-		    
-		    <div class="engine-download">			    			    
-			    <div class="download-title">Downloading engine...</div>
-			    <div class="progress"></div>
-		    </div>
-		    
-	    </div>
-	    
-	    
-	    
-	    
-	    
-	    
-	    
-	    <div id="battlelist" class="container wide latest">
-		    <div class="title icon icon-game-controller-3">Battlelist</div>
-<!--
+		<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/ui.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/fontello.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/flag-icon.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/pretty-checkbox.min.css" />
+		<script>
+			var $ = jQuery = require("jquery")
+		</script>
+		<script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+		<script type="module" src="js/init.js"></script>
+		<script type="module" src="js/socket.js"></script>
+		<script type="module" src="js/navigation.js"></script>
+		<script type="module" src="js/chat.js"></script>
+		<script type="module" src="js/battleroom.js"></script>
+		<script type="module" src="js/replays.js"></script>
+		<script type="module" src="js/acolorpicker.js"></script>
+	</head>
+
+	<body>
+		<div id="main">
+			<div id="topbar">
+				<div class="left"></div>
+
+				<div class="middle">
+					<div id="myusername"></div>
+				</div>
+
+				<div class="right">
+					<div class="status socket"></div>
+					<div id="appVersion"></div>
+				</div>
+			</div>
+
+			<div class="lmenu">
+				<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>
+
+				<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>
+				<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
+				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
+				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
+				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
+				<div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
+				<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div>
+				<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
+			</div>
+
+			<div id="start" class="container active wide">
+				<div id="videocontainer">
+					<video id="bademovideo" autoplay muted loop>
+						<source src="assets/videos/bamoviecrop4.mp4" type="video/mp4" />
+					</video>
+				</div>
+
+				<div class="title icon icon-account-circle-1">Start</div>
+
+				<div class="account">
+					<div class="center-win">
+						<div class="center">
+							<div class="appicon"></div>
+						</div>
+
+						<div id="serverhosts" class="center">
+							<div class="serverhosturl active" data-url="springfightclub.com">BA</div>
+							<div class="serverhosturl" data-url="springrts.com">Spring</div>
+						</div>
+
+						<div id="disconnectpane" class="pane">
+							<div class="line" style="text-align: center; margin-top: 20px;">
+								<button class="disconnect">Disconnect</button>
+							</div>
+						</div>
+
+						<div id="loginpane" class="pane active">
+							<div class="panetitle">LOGIN</div>
+
+							<div id="loginmessage"></div>
+
+							<div class="line">
+								<label for="username">Username:</label>
+								<input type="text" id="username" name="username" value="" />
+							</div>
+
+							<div class="line">
+								<label for="pass">Password:</label>
+								<input type="password" id="password" name="password" minlength="5" required value="" />
+							</div>
+
+							<div class="line" style="text-align: center; margin-top: 20px;">
+								<button class="login">Login</button>
+							</div>
+						</div>
+
+						<div id="createpane" class="pane">
+							<div class="panetitle">CREATE NEW ACCOUNT</div>
+
+							<div class="line">
+								<label for="username">Username:</label>
+								<input type="text" id="createusername" name="username" value="" />
+							</div>
+
+							<div class="line">
+								<label for="pass">Password:</label>
+								<input type="password" id="createpassword" name="password" minlength="5" required value="" />
+							</div>
+
+							<div class="line" style="text-align: center; margin-top: 20px;">
+								<button class="createaccount">SIGN UP</button>
+							</div>
+						</div>
+
+						<div class="nav">
+							<div class="btn active" data-target="loginpane">Login to existing account.</div>
+							<div class="btn" data-target="createpane">Create new account.</div>
+						</div>
+
+						<div id="system-status">
+							<div id="enginestatus" class="sys-status">Checking engine...</div>
+							<div id="updatestatus" class="sys-status"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="engine-download">
+					<div class="download-title">Downloading engine...</div>
+					<div class="progress"></div>
+				</div>
+			</div>
+
+			<div id="battlelist" class="container wide latest">
+				<div class="title icon icon-game-controller-3">Battlelist</div>
+				<!--
 		    <div id="gamefilter" class="pretty p-switch p-fill">
 		        <input class="gamefilter" type="checkbox"/>
 		        <div class="state">
@@ -166,139 +142,126 @@
 		        </div>
 		    </div>
 -->
-		    <div class="text-scroll">
-				<div id="battle-list" class="list"></div>	    
-		    </div>
-	    </div>
-	    
-	    
-	    
-	    <div id="battleroom" class="container wide"></div>
-	    
-	    <div id="battleroomtemplate" style="display:none;">
-		    
-		    <div class="left">
-			    <div class="title icon icon-tank">Battleroom</div>
-			    
-			    <div id="battlelabels">
-				    <div class="labels gametype">TEAMS</div>
-				    <div class="labels ffatype"></div>
-			    </div>
-				    		    		    
-			    <div class="battle-players">
-					<div class="battle-playerlist list">
-						<div class="ui-label">Players</div>
+				<div class="text-scroll">
+					<div id="battle-list" class="list"></div>
+				</div>
+			</div>
+
+			<div id="battleroom" class="container wide"></div>
+
+			<div id="battleroomtemplate" style="display:none;">
+				<div class="left">
+					<div class="title icon icon-tank">Battleroom</div>
+
+					<div id="battlelabels">
+						<div class="labels gametype">TEAMS</div>
+						<div class="labels ffatype"></div>
 					</div>
-					<div class="battle-speclist list">
-						<div class="ui-label">Spectators</div>
+
+					<div class="battle-players">
+						<div class="battle-playerlist list">
+							<div class="ui-label">Players</div>
+						</div>
+						<div class="battle-speclist list">
+							<div class="ui-label">Spectators</div>
+						</div>
 					</div>
-					    
-			    </div>
-			    
-			    <div id="battlechatoptions">
-					
-					<div class="label">Options</div>										
-				    
-					<div id="mutebattleroom" class="pretty p-switch p-fill option">
-				        <input class="mutebattleroom" type="checkbox"/>
-				        <div class="state">
-				            <label>Mute</label>
-				        </div>
-				    </div>
-				    
-					<div id="showhostmessages" class="pretty p-switch p-fill option">
-				        <input class="showhostmessages" type="checkbox" checked/>
-				        <div class="state">
-				            <label>Host messages</label>
-				        </div>
-				    </div>
-				    		    
-					<div id="autoscrollbattle" class="pretty p-switch p-fill option">
-				        <input class="autoscrollbattle" type="checkbox" checked/>
-				        <div class="state">
-				            <label>Autoscroll</label>
-				        </div>
-				    </div>
-			    
-			    </div>
-			    
-			    <div id="votewin">
-				    <div id="votefor"></div>
-				    <div class="votes">
-				    	<div class="vote yes icon icon-thumbs-up-2"></div>
-				    	<div class="vote no icon icon-thumbs-down-2"></div>	
-			    	</div>
-			    </div>
-			    
-			    <div class="text-scroll">			    			    			    
-					<ul id="battle-room" class="messages"></ul>	    
-			    </div>		    		    
-			    
-			    <div class="bottom-input">
-			      <input type="text" class="battleroom_input" placeholder="Battle message"/>
-<!--
+
+					<div id="battlechatoptions">
+						<div class="label">Options</div>
+
+						<div id="mutebattleroom" class="pretty p-switch p-fill option">
+							<input class="mutebattleroom" type="checkbox" />
+							<div class="state">
+								<label>Mute</label>
+							</div>
+						</div>
+
+						<div id="showhostmessages" class="pretty p-switch p-fill option">
+							<input class="showhostmessages" type="checkbox" checked />
+							<div class="state">
+								<label>Host messages</label>
+							</div>
+						</div>
+
+						<div id="autoscrollbattle" class="pretty p-switch p-fill option">
+							<input class="autoscrollbattle" type="checkbox" checked />
+							<div class="state">
+								<label>Autoscroll</label>
+							</div>
+						</div>
+					</div>
+
+					<div id="votewin">
+						<div id="votefor"></div>
+						<div class="votes">
+							<div class="vote yes icon icon-thumbs-up-2"></div>
+							<div class="vote no icon icon-thumbs-down-2"></div>
+						</div>
+					</div>
+
+					<div class="text-scroll">
+						<ul id="battle-room" class="messages"></ul>
+					</div>
+
+					<div class="bottom-input">
+						<input type="text" class="battleroom_input" placeholder="Battle message" />
+						<!--
 			      	<div class="votes active">
 				    	<div class="vote yes icon icon-thumbs-up-2"></div>
 				    	<div class="vote no icon icon-thumbs-down-2"></div>	
 			    	</div>
 -->
-			    </div>
-		    </div>
-		    
-		    <div id="battle-right-info">
-			    
-			    <div class="scroll" style="padding-bottom: 150px; padding-right: 0.6em;">
-				    <div class="title">Battle Info</div>
-				    
-				    <div class="battle-main-info"></div>
-				    
-				    <div class="game-download">
-					    <div class="download-title">Downloading game...</div>
-					    <div class="progress"></div>
-				    </div>
-				    <div class="map-download">
-					    <div class="download-title">Downloading map...</div>
-					    <div class="progress"></div>
-				    </div>
-					    
-				    
-				    
-				    <div class="smallnav">				    
-					    <div class="navbtn active" data-target="battle-minimap" data-class="map">Map</div>
-					    <div class="navbtn" data-target="battle-metalmap" data-class="map">metalmap</div>
-					    <div class="navbtn" data-target="battle-heightmap" data-class="map">heightmap</div>
-				    </div>
-				    
-				    <div class="minimaps">
-						<div id="battle-minimap" class="map smalltab active"></div>				    
-					    <div id="battle-metalmap" class="map smalltab"></div>
-					    <div id="battle-heightmap" class="map smalltab"></div>    
-				    </div>				    				   
-				    
-				    
-					
-					<div class="ui-label">Options</div>
-													
-					<div id="battleoptions" class="options">    
-					    <div class="ui-label">Game</div>
-					    <div class="gameoptions"></div>
-					    
-					    <div class="ui-label">Map Options</div>
-					    <div class="mapoptions"></div>
-					    
-					    <div class="ui-label">Mod Options</div>
-					    <div class="modoptions"></div>
-					    
-					    <div class="ui-label">Other Options</div>
-					    <div class="otheroptions"></div>
 					</div>
-									    
-			    </div>
-				
-			    <div class="battle-actions">	
-					
-					<div class="line">
-<!--
+				</div>
+
+				<div id="battle-right-info">
+					<div class="scroll" style="padding-bottom: 150px; padding-right: 0.6em;">
+						<div class="title">Battle Info</div>
+
+						<div class="battle-main-info"></div>
+
+						<div class="game-download">
+							<div class="download-title">Downloading game...</div>
+							<div class="progress"></div>
+						</div>
+						<div class="map-download">
+							<div class="download-title">Downloading map...</div>
+							<div class="progress"></div>
+						</div>
+
+						<div class="smallnav">
+							<div class="navbtn active" data-target="battle-minimap" data-class="map">Map</div>
+							<div class="navbtn" data-target="battle-metalmap" data-class="map">metalmap</div>
+							<div class="navbtn" data-target="battle-heightmap" data-class="map">heightmap</div>
+						</div>
+
+						<div class="minimaps">
+							<div id="battle-minimap" class="map smalltab active"></div>
+							<div id="battle-metalmap" class="map smalltab"></div>
+							<div id="battle-heightmap" class="map smalltab"></div>
+						</div>
+
+						<div class="ui-label">Options</div>
+
+						<div id="battleoptions" class="options">
+							<div class="ui-label">Game</div>
+							<div class="gameoptions"></div>
+
+							<div class="ui-label">Map Options</div>
+							<div class="mapoptions"></div>
+
+							<div class="ui-label">Mod Options</div>
+							<div class="modoptions"></div>
+
+							<div class="ui-label">Other Options</div>
+							<div class="otheroptions"></div>
+						</div>
+					</div>
+
+					<div class="battle-actions">
+						<div class="line">
+							<!--
 					    <div class="pretty p-switch p-fill">
 					        <input class="autounspecbattle" type="checkbox" />
 					        <div class="state">
@@ -306,253 +269,210 @@
 					        </div>
 					    </div>
 -->
-					    <div class="item">
-						    <label for="pickteam">TEAM </label>
-						    <select id="pickteam" name="pickteam">
-							  <option value="1">1</option>
-							  <option value="2">2</option>
-							  <option value="3">3</option>
-							  <option value="4">4</option>
-							  <option value="5">5</option>
-							  <option value="6">6</option>
-							  <option value="7">7</option>
-							  <option value="8">8</option>
-							  <option value="9">9</option>
-							  <option value="10">10</option>
-							  <option value="11">11</option>
-							  <option value="12">12</option>
-							  <option value="13">13</option>
-							  <option value="14">14</option>
-							  <option value="15">15</option>
-							  <option value="16">16</option>
-							</select>
-					    </div>
-						
-						<div class="item">
-							<label for="pickally">ALLY </label>
-						    <select id="pickally" name="pickally">
-							  <option value="1">1</option>
-							  <option value="2">2</option>
-							  <option value="3">3</option>
-							  <option value="4">4</option>
-							  <option value="5">5</option>
-							  <option value="6">6</option>
-							  <option value="7">7</option>
-							  <option value="8">8</option>
-							  <option value="9">9</option>
-							  <option value="10">10</option>
-							  <option value="11">11</option>
-							  <option value="12">12</option>
-							  <option value="13">13</option>
-							  <option value="14">14</option>
-							  <option value="15">15</option>
-							  <option value="16">16</option>
-							</select>
-						</div>			    
-						
-						<div class="pickarm icon icon-arm active">ARM</div>
-					    <div class="pickcore icon icon-core">CORE</div>
-					    
-					    <div class="colorpicked">						    
-						    <div class="colorpicker" 
-							     acp-color="#5588ff" 
-							     acp-show-rgb="no"
-							     acp-show-hsl="yes"
-							     acp-show-hex="yes"
-							     acp-show-alpha>
+							<div class="item">
+								<label for="pickteam">TEAM </label>
+								<select id="pickteam" name="pickteam">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+								</select>
 							</div>
-							<div class="label">COLOR</div>
-					    </div>
-					   
-				    </div>
-				    
-				    				    
-			    	<div class="line">
-				    					    
-					    <button class="leavebattle gray">Leave Battle</button>
-					    
-					     <div class="pretty p-switch p-fill">
-					        <input class="autolaunchbattle" type="checkbox" checked/>
-					        <div class="state">
-					            <label>Autolaunch</label>
-					        </div>
-					    </div>
-					    
-					    <div class="pretty p-switch p-fill">
-					        <input class="specbattle" type="checkbox"/>
-					        <div class="state">
-					            <label>Spectate</label>
-					        </div>
-					    </div>				    					    	
-					    				    	
-					    <div class="pretty p-switch p-fill">
-					        <input class="readybattle" type="checkbox"/>
-					        <div class="state">
-					            <label>Ready</label>
-					        </div>
-					    </div>
-					    
-					    
-					    					    					    
-						
-					    <button class="startbattle">Start</button>
-				    </div>
-				    
-			    	
 
-		    	</div>
-		    
-		    </div>
-	    </div>
-	  	
-	  	
-	  	
-	  	<div id="chatlist" class="container wide">
-		  	
-		  	<div class="title icon icon-chat-double-bubble-4">Chatlist</div>		 
-		  	
-		    <div class="left">			    
-			    <div class="text-scroll">
-					<ul id="chat-list" class="list"></ul>	    
-			    </div>		   
-		    </div>		    
-		    
-		    <div id="chats">			     
-				<div id="activechats">
-					<div class="buttons"></div>
-				</div>			     
-			</div>
-		    
-	    </div>
-	    
-	    <div id="channellist" class="container">
-		    
-		    <div class="left">		    
-			    <div class="title icon icon-radio-5">Channels</div>
-			    <div class="text-scroll">
-					<ul id="channel-list" class="list"></ul>	    
-			    </div>		
-		    </div>
-		    
-		    
-		    <div id="channels">			
-			</div>
-		    
-	    </div>
-	    
-	  	
-	  	<div id="website" class="container wide">
-		    <div class="title icon icon-computer-imac-1">Balanced Annihilation</div>		    
-			<webview id="bawebsite" src="https://balancedannihilation.com/" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>		    
-	    </div>
-	    
-	    <div id="discord" class="container wide">
-		    <div class="title icon icon-discord">Discord</div>
-			<webview id="replaywebsite" src="https://discord.com/invite/Yd6nT2m" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
-			<!-- https://discord.gg/Yd6nT2m -->
-	    </div>
-	   
-	     
-   	    <div id="replays" class="container wide">
-		    <div class="title icon icon-account-television">Replays</div>
-			<div class="text-scroll">
-				<div id="replaylist"></div>
-			</div>
-	    </div>	    	    		
-		
-		<div id="preferences" class="container wide">
-		    <div class="title icon icon-speed-gauge">Preferences</div>
-			<div class="text-scroll">
-				<div id="prefs">
-					
-					<div class="column">
-						
-						<div class="section">
-					    	<div class="section-title">Startup options</div>
-					    	
-					    	<div class="line">					    	
-						    	
-						    	<div id="autoconnect" class="pretty p-switch p-fill option">
-							        <input class="autoconnect" type="checkbox" />
-							        <div class="state">
-							            <label>Autoconnect</label>
-							        </div>
-							    </div>
-							    
-					    	</div>
-				    	</div>
-				    	
-						<div class="section">
-							<div class="section-title">Paths</div>
-								
-							<div class="line">
-						    	<label for="enginepath">Engine executable:</label>
-							    <input type="text" id="enginepath" name="enginepath" value="">
-					    	</div>
-					    	
-					    	<div class="line">
-						    	<label for="springdir">Spring files path:</label>
-							    <input type="text" id="springdir" name="springdir" value="">
-					    	</div>
-					    	
-					    	<button class="savepaths gray">Save paths</button>
-					    	
+							<div class="item">
+								<label for="pickally">ALLY </label>
+								<select id="pickally" name="pickally">
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+									<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+									<option value="14">14</option>
+									<option value="15">15</option>
+									<option value="16">16</option>
+								</select>
+							</div>
+
+							<div class="pickarm icon icon-arm active">ARM</div>
+							<div class="pickcore icon icon-core">CORE</div>
+
+							<div class="colorpicked">
+								<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>
+								<div class="label">COLOR</div>
+							</div>
 						</div>
-				    	
-				    	<div class="section">
-					    	<div class="section-title">Battleroom options</div>
-					    	
-					    	<div class="line">					    	
-						    	
-						    	<div id="savechats" class="pretty p-switch p-fill option">
-							        <input class="savechats" type="checkbox"/>
-							        <div class="state">
-							            <label>Save battleroom chats</label>
-							        </div>
-							    </div>
-							    
-							    <div id="rudechat" class="pretty p-switch p-fill option">
-							        <input class="rudechat" type="checkbox" checked />
-							        <div class="state">
-							            <label>Rude chat filter</label>
-							        </div>
-							    </div>
-					    	</div>
-				    	</div>
-				    	
+
+						<div class="line">
+							<button class="leavebattle gray">Leave Battle</button>
+
+							<div class="pretty p-switch p-fill">
+								<input class="autolaunchbattle" type="checkbox" checked />
+								<div class="state">
+									<label>Autolaunch</label>
+								</div>
+							</div>
+
+							<div class="pretty p-switch p-fill">
+								<input class="specbattle" type="checkbox" />
+								<div class="state">
+									<label>Spectate</label>
+								</div>
+							</div>
+
+							<div class="pretty p-switch p-fill">
+								<input class="readybattle" type="checkbox" />
+								<div class="state">
+									<label>Ready</label>
+								</div>
+							</div>
+
+							<button class="startbattle">Start</button>
+						</div>
 					</div>
-										
-					<div class="column">
-						<div class="section">
-					    	
-					    	<div class="section-title">Reset Options</div>
-					    	
-					    	<div class="line">					    	
-						    	
-						    	<button class="deletechats gray">Clear private chats</button>
-						    	
-						    	<button class="deletebattlechats gray">Clear battleroom chats</button>
-						    	
-						    	<button class="deletechannelchats gray">Clear channel chats</button>
-					    	</div>
-					    	
-				    	</div>
-					</div>
-					
 				</div>
 			</div>
-	    </div>	
-	    
-		
-	    
-	    <div id="sounds">
-		    <audio id="ringsound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
-		    <audio id="messagesound"><source src="assets/sounds/ring.mp3" type="audio/mp3"></audio>
-	    </div>
-	    	    
-	    
-    </div>
-        
-  </body>
-  
+
+			<div id="chatlist" class="container wide">
+				<div class="title icon icon-chat-double-bubble-4">Chatlist</div>
+
+				<div class="left">
+					<div class="text-scroll">
+						<ul id="chat-list" class="list"></ul>
+					</div>
+				</div>
+
+				<div id="chats">
+					<div id="activechats">
+						<div class="buttons"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="channellist" class="container">
+				<div class="left">
+					<div class="title icon icon-radio-5">Channels</div>
+					<div class="text-scroll">
+						<ul id="channel-list" class="list"></ul>
+					</div>
+				</div>
+
+				<div id="channels"></div>
+			</div>
+
+			<div id="website" class="container wide">
+				<div class="title icon icon-computer-imac-1">Balanced Annihilation</div>
+				<webview id="bawebsite" src="https://balancedannihilation.com/" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
+			</div>
+
+			<div id="discord" class="container wide">
+				<div class="title icon icon-discord">Discord</div>
+				<webview id="replaywebsite" src="https://discord.com/invite/Yd6nT2m" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
+				<!-- https://discord.gg/Yd6nT2m -->
+			</div>
+
+			<div id="replays" class="container wide">
+				<div class="title icon icon-account-television">Replays</div>
+				<div class="text-scroll">
+					<div id="replaylist"></div>
+				</div>
+			</div>
+
+			<div id="preferences" class="container wide">
+				<div class="title icon icon-speed-gauge">Preferences</div>
+				<div class="text-scroll">
+					<div id="prefs">
+						<div class="column">
+							<div class="section">
+								<div class="section-title">Startup options</div>
+
+								<div class="line">
+									<div id="autoconnect" class="pretty p-switch p-fill option">
+										<input class="autoconnect" type="checkbox" checked />
+										<div class="state">
+											<label>Autoconnect</label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="section">
+								<div class="section-title">Paths</div>
+
+								<div class="line">
+									<label for="enginepath">Engine executable:</label>
+									<input type="text" id="enginepath" name="enginepath" value="" />
+								</div>
+
+								<div class="line">
+									<label for="springdir">Spring files path:</label>
+									<input type="text" id="springdir" name="springdir" value="" />
+								</div>
+
+								<button class="savepaths gray">Save paths</button>
+							</div>
+
+							<div class="section">
+								<div class="section-title">Battleroom options</div>
+
+								<div class="line">
+									<div id="savechats" class="pretty p-switch p-fill option">
+										<input class="savechats" type="checkbox" />
+										<div class="state">
+											<label>Save battleroom chats</label>
+										</div>
+									</div>
+
+									<div id="rudechat" class="pretty p-switch p-fill option">
+										<input class="rudechat" type="checkbox" checked />
+										<div class="state">
+											<label>Rude chat filter</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="column">
+							<div class="section">
+								<div class="section-title">Reset Options</div>
+
+								<div class="line">
+									<button class="deletechats gray">Clear private chats</button>
+
+									<button class="deletebattlechats gray">Clear battleroom chats</button>
+
+									<button class="deletechannelchats gray">Clear channel chats</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="sounds">
+				<audio id="ringsound"><source src="assets/sounds/ring.mp3" type="audio/mp3" /></audio>
+				<audio id="messagesound"><source src="assets/sounds/ring.mp3" type="audio/mp3" /></audio>
+			</div>
+		</div>
+	</body>
 </html>
