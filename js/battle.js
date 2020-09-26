@@ -205,9 +205,6 @@ export default class Battle {
 	}
 
 	load_remote_map_image(battleid) {
-		//clear startboxes
-		$('.startbox').remove();
-
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
 		var mapfilenamebase = mapname
 			.toLowerCase()
@@ -400,10 +397,16 @@ export default class Battle {
 	}
 
 	updatebattleinfo(battleid, spectatorCount, locked, maphash, mapname) {
-		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
-		$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
+		var currentmapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+		// check if map changed
+		if (mapname != currentmapname) {
+			//clear startboxes
+			$('.startbox').remove();
+			$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
+			this.load_remote_map_image(battleid);
+		}
 
-		this.load_remote_map_image(battleid);
+		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
 
 		if (locked === 0) {
 			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');

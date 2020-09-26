@@ -226,8 +226,6 @@ function downloadengine(engineurl) {
 			setTimeout(function() {
 				$('#start .engine-download').removeClass('downloading');
 			}, 3000);
-
-			console.log(enginepath);
 		});
 	});
 }
