@@ -44,12 +44,15 @@ export default class Protocol {
 
 			switch (command_name) {
 				case 'ACCEPTED':
+					// clear previous error messages
+					$('#loginmessage').text('');
 					// hide login pane and show disconnect pane
 					$('.account #disconnectpane').addClass('active');
 					$('.account #loginpane, .account #createpane').removeClass('active');
 					$('.account .btn').addClass('active');
 					$('.container.active').removeClass('active');
 					$('.tab').removeClass('active');
+					// activate battlelist
 					$('.tab.battlelist').addClass('active');
 					$('#battlelist').addClass('active');
 					break;
@@ -88,15 +91,6 @@ export default class Protocol {
 					// send first time after account creation
 					var command = 'CONFIRMAGREEMENT\n';
 					setTimeout(socketClient.write(command), 1500);
-
-					// show login pane
-					// var username = $('#createusername').val();
-					// var password = $('#createpassword').val();
-					// $('#username').val(username);
-					// $('#password').val(password);
-					// $('#password').focus();
-					// $('#createpane').removeClass('active');
-					// $('#loginpane').addClass('active');
 					break;
 
 				case 'BATTLECLOSED':
@@ -171,9 +165,7 @@ export default class Protocol {
 
 				case 'DENIED':
 					var reason = parts.slice(1).join(' ');
-
 					$('#loginmessage').text(reason);
-
 					var notification = new Notification('Login denied:', {
 						body: reason,
 					});

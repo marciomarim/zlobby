@@ -235,20 +235,15 @@ function downloadengine(engineurl) {
 $(window).ready(function() {
 	// save defaults on first launch
 	var autoconnect = store.get('prefs.autoconnect');
-	if (autoconnect == undefined) {
-		store.set('prefs.autoconnect', 1);
-	}
+	if (autoconnect == undefined) store.set('prefs.autoconnect', 1);
 
 	var savechats = store.get('prefs.savechats');
-	if (savechats == undefined) {
-		store.set('prefs.savechats', 0);
-	}
+	if (savechats == undefined) store.set('prefs.savechats', 0);
 
 	var rudechat = store.get('prefs.rudechat');
-	if (rudechat == undefined) {
-		store.set('prefs.rudechat', 1);
-	}
+	if (rudechat == undefined) store.set('prefs.rudechat', 1);
 
+	// load preferences and update checkboxes
 	autoconnect = store.get('prefs.autoconnect');
 	if (autoconnect == 0) {
 		$('.autoconnect').prop('checked', false);

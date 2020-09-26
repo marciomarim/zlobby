@@ -175,15 +175,8 @@ export default class Battle {
 			$('.autoscrollbattle').prop('checked', true);
 		}
 
-		var savechats = store.get('user.savechats');
-		if (savechats == 0) {
-			$('.savechats').prop('checked', false);
-		} else {
-			$('.savechats').prop('checked', true);
-		}
-
 		var mutebattleroom = store.get('user.mutebattleroom');
-		if (mutebattleroom == 0) {
+		if (mutebattleroom == 0 || mutebattleroom == undefined) {
 			$('.mutebattleroom').prop('checked', false);
 			var sound = document.getElementById('messagesound');
 			sound.volume = 1;

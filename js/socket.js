@@ -114,7 +114,8 @@ function create_account() {
 	$('#createpane').removeClass('active');
 	$('#loginpane').addClass('active');
 
-	login();
+	// agreement sent after 1500ms, then try to autoconnect
+	setTimeout(login(), 2500);
 }
 
 function resetUI() {
