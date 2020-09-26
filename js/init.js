@@ -32,6 +32,9 @@ function initial_check() {
 		$('#enginestatus')
 			.addClass('active')
 			.text('Engine: ok');
+
+		// add it to preferences tab
+		$('#enginepath').val(enginepath);
 	} else {
 		lookforengine();
 	}
@@ -155,15 +158,15 @@ function lookforengine() {
 		}
 	}
 
-	// add it to preferences tab
-	$('#enginepath').val(enginepath);
-
 	if (!enginefound) {
 		prepareenginedownload();
 	} else {
 		$('#enginestatus')
 			.addClass('active')
 			.text('Engine: ok');
+
+		// add it to preferences tab
+		$('#enginepath').val(enginepath);
 	}
 }
 
@@ -223,6 +226,10 @@ function downloadengine(engineurl) {
 			$('#enginestatus')
 				.addClass('active')
 				.text('Engine: ok');
+
+			// add it to preferences tab
+			$('#enginepath').val(enginepath);
+
 			$('#start .engine-download .download-title').text('All ready!');
 			setTimeout(function() {
 				$('#start .engine-download').removeClass('downloading');
