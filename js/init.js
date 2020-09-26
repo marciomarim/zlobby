@@ -28,6 +28,7 @@ function initial_check() {
 
 	// check if already looked for
 	if (enginepath_saved && fs.existsSync(enginepath_saved)) {
+		enginepath = enginepath_saved;
 		$('#enginestatus')
 			.addClass('active')
 			.text('Engine: ok');
