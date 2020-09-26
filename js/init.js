@@ -45,7 +45,7 @@ function set_detault_paths() {
 		modsdir = homedir + '\\Documents\\My Games\\Spring\\games\\';
 		replaysdir = homedir + '\\Documents\\My Games\\Spring\\demos\\';
 		chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
-		infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.log';
+		infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.txt';
 		scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
 		enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
 		engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\';
@@ -54,7 +54,7 @@ function set_detault_paths() {
 		mapsdir = homedir + '/.spring/maps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
-		infologfile = homedir + '/.spring/infolog.log';
+		infologfile = homedir + '/.spring/infolog.txt';
 		scriptfile = homedir + '/.spring/e-script.txt';
 		replaysdir = homedir + '/.config/spring/demos/';
 		enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
@@ -65,7 +65,7 @@ function set_detault_paths() {
 		mapsdir = homedir + '/.spring/maps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
-		infologfile = homedir + '/.spring/infolog.log';
+		infologfile = homedir + '/.spring/infolog.txt';
 		scriptfile = homedir + '/.spring/e-script.txt';
 		replaysdir = homedir + '/.spring/demos/';
 		enginepath = homedir + '/.spring/engine/103/spring';

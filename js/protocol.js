@@ -66,7 +66,7 @@ export default class Protocol {
 					var top = parts[3];
 					var right = parts[4];
 					var bottom = parts[5];
-					setTimeout(battles.addstartrect(allyNo, left, top, right, bottom), 3000);
+					battles.addstartrect(allyNo, left, top, right, bottom);
 					break;
 
 				case 'ADDUSER':
