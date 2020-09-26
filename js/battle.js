@@ -391,11 +391,14 @@ export default class Battle {
 
 	updatebattleinfo(battleid, spectatorCount, locked, maphash, mapname) {
 		var currentmapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+		$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
+
 		// check if map changed
-		if (mapname != currentmapname) {
-			//clear startboxes
-			$('.startbox').remove();
-			$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
+		if (mapname != currentmapname || $('.battle-card[data-battleid="' + battleid + '"] .minimap').is(':empty')) {
+			// check if it's battleroom
+			if ($('#battleroom .battleid').text() == battleid) {
+				$('.startbox').remove();
+			}
 			this.load_remote_map_image(battleid);
 		}
 
@@ -487,9 +490,6 @@ export default class Battle {
 		// after game, check if map exist
 		this.checkgame();
 		utils.init_battlerrom_chat();
-
-		// maybe this solve ingame join
-		//utils.sendbattlestatus();
 	}
 
 	// when anyone joins a battle
@@ -815,10 +815,7 @@ export default class Battle {
 		}
 
 		try {
-			if (fs.existsSync(infologfile)) {
-				//file exists
-				fs.unlinkSync(infologfile);
-			}
+			fs.unlinkSync(infologfile);
 		} catch (e) {}
 
 		// start recording logs
