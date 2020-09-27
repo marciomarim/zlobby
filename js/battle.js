@@ -229,6 +229,10 @@ export default class Battle {
 			var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
 			var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
 
+			var map = fs.createWriteStream(localmap);
+			var mmap = fs.createWriteStream(localmmap);
+			var hmap = fs.createWriteStream(localhmap);
+
 			$.ajax({
 				url: url1,
 				type: 'HEAD',
@@ -237,17 +241,6 @@ export default class Battle {
 						url: url2,
 						type: 'HEAD',
 						success: function() {
-							var map = fs.createWriteStream(localmap);
-							var mmap = fs.createWriteStream(localmmap);
-							var hmap = fs.createWriteStream(localhmap);
-
-							var request = https.get(url2, function(response) {
-								response.pipe(map);
-								response.on('end', function() {
-									battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
-								});
-							});
-
 							var request = https.get(murl2, function(response) {
 								response.pipe(mmap);
 							});
@@ -255,27 +248,30 @@ export default class Battle {
 							var request = https.get(hurl2, function(response) {
 								response.pipe(hmap);
 							});
+
+							var request = https.get(url2, function(response) {
+								response.pipe(map);
+								response.on('end', function() {
+									battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
+								});
+							});
 						},
 					});
 				},
 				success: function() {
-					var map = fs.createWriteStream(localmap);
-					var mmap = fs.createWriteStream(localmmap);
-					var hmap = fs.createWriteStream(localhmap);
-
-					var request = https.get(url1, function(response) {
-						response.pipe(map);
-						response.on('end', function() {
-							battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
-						});
-					});
-
 					var request = https.get(murl1, function(response) {
 						response.pipe(mmap);
 					});
 
 					var request = https.get(hurl1, function(response) {
 						response.pipe(hmap);
+					});
+
+					var request = https.get(url1, function(response) {
+						response.pipe(map);
+						response.on('end', function() {
+							battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
+						});
 					});
 				},
 			});

@@ -102,7 +102,7 @@ $('body').on('click', '.mutebattleroom', function(e) {
 });
 
 $('body').on('click', '.command', function(e) {
-	var command = 'SAYBATTLE ' + $(this).text() + '\n';
+	var command = 'SAYBATTLE ' + $(this).data('command') + '\n';
 	socketClient.write(command);
 });
 
