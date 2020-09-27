@@ -49,6 +49,11 @@ $('body').on('click', '.account .btn', function(e) {
 
 $(window).focus(function() {
 	$('body').addClass('focus');
+	if ($('#chatlist').hasClass('active')) {
+		var username = $('.userchat.active').data('username');
+		$('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"] .unread').remove();
+		utils.update_global_unread_count();
+	}
 });
 
 $(window).blur(function() {
