@@ -317,10 +317,12 @@ export default class Utils {
 
 	init_battlerrom_chat() {
 		var battleid = $('#battleroom .battleid').text();
-		fs.readFile(chatlogsdir + 'battleroom-' + battleid + '.log', function(err, data) {
-			if (err) throw err;
-			if (data) $('#battle-room').html(data.toString());
-		});
+		if (fs.existsSync(chatlogsdir + 'battleroom-' + battleid + '.log')) {
+			fs.readFile(chatlogsdir + 'battleroom-' + battleid + '.log', function(err, data) {
+				if (err) throw err;
+				if (data) $('#battle-room').html(data.toString());
+			});
+		}
 
 		setTimeout(function() {
 			if ($('.showhostmessages').prop('checked') == true) {

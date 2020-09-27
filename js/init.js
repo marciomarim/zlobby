@@ -17,8 +17,8 @@ var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
 
-export { springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
-var springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
+export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
+var springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
 function initial_check() {
 	var enginepath_saved = store.get('paths.enginepath');
@@ -46,6 +46,7 @@ function set_detault_paths() {
 	if (platform == 'win32') {
 		springdir = homedir + '\\Documents\\My Games\\Spring\\';
 		mapsdir = homedir + '\\Documents\\My Games\\Spring\\maps\\';
+		minimapsdir = homedir + '\\Documents\\My Games\\Spring\\minimaps\\';
 		modsdir = homedir + '\\Documents\\My Games\\Spring\\games\\';
 		replaysdir = homedir + '\\Documents\\My Games\\Spring\\demos\\';
 		chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
@@ -56,6 +57,7 @@ function set_detault_paths() {
 	} else if (platform == 'darwin') {
 		springdir = homedir + '/.spring/';
 		mapsdir = homedir + '/.spring/maps/';
+		minimapsdir = homedir + '/.spring/minimaps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
@@ -67,6 +69,7 @@ function set_detault_paths() {
 	} else if (platform == 'linux') {
 		springdir = homedir + '/.spring/';
 		mapsdir = homedir + '/.spring/maps/';
+		minimapsdir = homedir + '/.spring/minimaps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
@@ -100,6 +103,10 @@ function check_folders() {
 
 	if (!fs.existsSync(mapsdir)) {
 		fs.mkdirSync(mapsdir);
+	}
+
+	if (!fs.existsSync(minimapsdir)) {
+		fs.mkdirSync(minimapsdir);
 	}
 
 	if (!fs.existsSync(modsdir)) {

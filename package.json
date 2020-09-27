@@ -30,6 +30,7 @@
     "electron-updater": "^4.3.4",
     "export": "^0.1.337",
     "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "jquery": "^3.5.1",
     "net": "^1.0.2",
     "universal-analytics": "^0.4.23",

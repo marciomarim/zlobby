@@ -1,5 +1,6 @@
 var spawn = require('child_process').spawn,
-	fs = require('fs');
+	fs = require('fs'),
+	https = require('https');
 
 import { socketClient } from './socket.js';
 
@@ -12,7 +13,7 @@ const store = new Store();
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
-import { springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
 import { trackEvent } from './init.js';
 
@@ -198,90 +199,118 @@ export default class Battle {
 	}
 
 	load_remote_map_image(battleid) {
+		var battles = this;
+
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+
 		var mapfilenamebase = mapname
 			.toLowerCase()
 			.split(' ')
 			.join('_');
-		var mapfilename1 = mapfilenamebase + '.sd7';
-		var mapfilename2 = mapfilenamebase + '.sdz';
 
-		var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
-		var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
+		var localmap = minimapsdir + mapfilenamebase + '.png';
+		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.png';
+		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.png';
 
-		var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
-		var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
+		// minimaps already downloaded
+		if (fs.existsSync(localmap)) {
+			console.log('map found, loading local file');
+			battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
+		} else {
+			var mapfilename1 = mapfilenamebase + '.sd7';
+			var mapfilename2 = mapfilenamebase + '.sdz';
 
-		var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
-		var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
+			var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
+			var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
 
+			var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
+			var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
+
+			var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
+			var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
+
+			$.ajax({
+				url: url1,
+				type: 'HEAD',
+				error: function() {
+					$.ajax({
+						url: url2,
+						type: 'HEAD',
+						success: function() {
+							var map = fs.createWriteStream(localmap);
+							var mmap = fs.createWriteStream(localmmap);
+							var hmap = fs.createWriteStream(localhmap);
+
+							var request = https.get(url2, function(response) {
+								response.pipe(map);
+								response.on('end', function() {
+									battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
+								});
+							});
+
+							var request = https.get(murl2, function(response) {
+								response.pipe(mmap);
+							});
+
+							var request = https.get(hurl2, function(response) {
+								response.pipe(hmap);
+							});
+						},
+					});
+				},
+				success: function() {
+					var map = fs.createWriteStream(localmap);
+					var mmap = fs.createWriteStream(localmmap);
+					var hmap = fs.createWriteStream(localhmap);
+
+					var request = https.get(url1, function(response) {
+						response.pipe(map);
+						response.on('end', function() {
+							battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
+						});
+					});
+
+					var request = https.get(murl1, function(response) {
+						response.pipe(mmap);
+					});
+
+					var request = https.get(hurl1, function(response) {
+						response.pipe(hmap);
+					});
+				},
+			});
+		}
+	}
+
+	appendimagedivs(battleid, localmap, localmmap, localhmap) {
 		var battles = this;
+		var imgdiv = '<img class="map" src="' + localmap + '">';
 
-		$.ajax({
-			url: url1,
-			type: 'HEAD',
-			error: function() {
-				$.ajax({
-					url: url2,
-					type: 'HEAD',
-					success: function() {
-						var imgdiv = '<img class="map" src="' + url2 + '">';
+		$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
 
-						$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
-						if ($('#battleroom .battleid').text() == battleid) {
-							var startbox1 = $('.startbox.box0');
-							var startbox2 = $('.startbox.box1');
+		// if I'm on a battleroom, load metal and height maps, handle startboxes
+		if ($('#battleroom').data('battleid') == battleid) {
+			var startbox1 = $('.startbox.box0');
+			var startbox2 = $('.startbox.box1');
 
-							$('#battleroom #battle-minimap').html(imgdiv);
-							$('#battleroom .minimaps').append(startbox1);
-							$('#battleroom .minimaps').append(startbox2);
+			$('#battleroom #battle-minimap').html(imgdiv);
+			$('#battleroom .minimaps').append(startbox1);
+			$('#battleroom .minimaps').append(startbox2);
 
-							const metalmap = new Image();
-							metalmap.src = murl2;
-							$('#battleroom #battle-metalmap').html(metalmap);
+			// load heightmap to get sizes
+			const metalmap = new Image();
+			metalmap.src = localmmap;
+			$('#battleroom #battle-metalmap').html(metalmap);
 
-							// load heightmap to get sizes
-
-							const heightmap = new Image();
-							heightmap.onload = function() {
-								var w = this.width;
-								var h = this.height;
-								battles.fitmapsize(w, h);
-							};
-							heightmap.src = hurl2;
-							$('#battleroom #battle-heightmap').html(heightmap);
-						}
-					},
-				});
-			},
-			success: function() {
-				var imgdiv = '<img class="map" src="' + url1 + '">';
-
-				$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
-
-				if ($('#battleroom .battleid').text() == battleid) {
-					var startbox1 = $('.startbox.box0');
-					var startbox2 = $('.startbox.box1');
-
-					$('#battleroom #battle-minimap').html(imgdiv);
-					$('#battleroom .minimaps').append(startbox1);
-					$('#battleroom .minimaps').append(startbox2);
-
-					const metalmap = new Image();
-					metalmap.src = murl1;
-					$('#battleroom #battle-metalmap').html(metalmap);
-
-					const heightmap = new Image();
-					heightmap.onload = function() {
-						var w = this.width;
-						var h = this.height;
-						battles.fitmapsize(w, h);
-					};
-					heightmap.src = hurl1;
-					$('#battleroom #battle-heightmap').html(heightmap);
-				}
-			},
-		});
+			const heightmap = new Image();
+			heightmap.onload = function() {
+				var w = this.width;
+				var h = this.height;
+				battles.fitmapsize(w, h);
+			};
+			heightmap.src = localhmap;
+			$('#battleroom #battle-heightmap').html(heightmap);
+		}
 	}
 
 	fitmapsize(w, h) {
@@ -399,8 +428,8 @@ export default class Battle {
 			if ($('#battleroom .battleid').text() == battleid) {
 				$('.startbox').remove();
 			}
-			this.load_remote_map_image(battleid);
 		}
+		this.load_remote_map_image(battleid);
 
 		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
 
@@ -443,10 +472,8 @@ export default class Battle {
 
 	// when I join a battle and get a confirmation
 	joinbattle(battleid, hashCode, channelName) {
-		trackEvent('User', 'joinbattle');
 		this.createbattleroom();
-		this.load_remote_map_image(battleid);
-
+		$('#battleroom').data('battleid', battleid);
 		$('body').addClass('inbattleroom');
 		$('.battle-card[data-battleid="' + battleid + '"]').addClass('activebattle');
 
@@ -454,7 +481,6 @@ export default class Battle {
 		$('.container').removeClass('active');
 		$('#battleroom, .tab.battleroom').addClass('active');
 		$('#battleroom input.chat').data('battleid', battleid);
-		$('#battleroom').data('battleid', battleid);
 		$('.tab.battleroom .status').addClass('active');
 
 		$('#battleroom .title').text($('.battle-card[data-battleid="' + battleid + '"] .battletitle').text());
@@ -486,10 +512,13 @@ export default class Battle {
 		});
 		//AColorPicker.setColor("#5588ff", true);
 
+		this.load_remote_map_image(battleid);
+
 		//check if game exist
 		// after game, check if map exist
 		this.checkgame();
 		utils.init_battlerrom_chat();
+		trackEvent('User', 'joinbattle');
 	}
 
 	// when anyone joins a battle
