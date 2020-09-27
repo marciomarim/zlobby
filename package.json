@@ -75,7 +75,7 @@
     "win": {
       "icon": "assets/icons/icon.png",
       "publisherName": [
-        "marcio@yhello.co"
+        "Marcio de Moraes Marim"
       ],
       "target": [
         "nsis"
