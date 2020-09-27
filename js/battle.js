@@ -122,14 +122,13 @@ export default class Battle {
 	}
 
 	downloadmap(fileurl) {
-		$('#battleroom .map-download').addClass('downloading');
-
 		ipcRenderer.send('download', {
 			url: fileurl,
 			properties: { directory: mapsdir },
 		});
 
 		ipcRenderer.on('download progress', async (event, progress) => {
+			$('#battleroom .map-download').addClass('downloading');
 			var w = Math.round(progress.percent * 100) + '%';
 			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
 			$('#battleroom .map-download .progress').css('width', w);
@@ -214,7 +213,6 @@ export default class Battle {
 
 		// minimaps already downloaded
 		if (fs.existsSync(localmap)) {
-			console.log('map found, loading local file');
 			battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
 		} else {
 			var mapfilename1 = mapfilenamebase + '.sd7';
