@@ -108,7 +108,7 @@ $('body').on('click', '.command', function(e) {
 
 $('body').on('click', '.pickmap-btn', function(e) {
 	$('.mappicker').addClass('active');
-	battles.loadmapspickmap();
+	if (!$('.mapscontainer .map').length) battles.loadmapspickmap();
 });
 
 $('body').on('click', '.mappicker .map', function(e) {

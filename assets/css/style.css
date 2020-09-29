@@ -1076,7 +1076,7 @@ ul.list {
 		padding: 0.7em 1.2em;
 		background: #202427;
 		cursor: pointer;
-		z-index: 9999;
+		z-index: 99;
 	}
 	
 	.pickmapclose-btn{

@@ -417,7 +417,6 @@ export default class Utils {
 				var localmap = minimapsdir + mapfilenamebase + '.png';
 				var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';
 				$('#voteformap').html(imgdiv);
-				console.log(mapfilenamebase);
 			}
 
 			setTimeout(function() {
