@@ -111,6 +111,11 @@ $('body').on('click', '.pickmap-btn', function(e) {
 	if (!$('.mapscontainer .map').length) battles.loadmapspickmap();
 });
 
+$('body').on('click', '.mappicker .icon-star', function(e) {
+	var prefname = 'maps.' + $(this).data('mapname');
+	store.set(prefname, 1);
+});
+
 $('body').on('click', '.mappicker .map', function(e) {
 	var command =
 		'SAYBATTLE !cv map ' +

@@ -28,7 +28,7 @@ fs.readdir(replaysdir, (err, files) => {
 		div += '<div class="meta">' + hour + '</div>';
 		div += '<div class="meta">' + mapname + '</div>';
 		div += '</div>';
-		div += '<div class="minimap"><img src="' + localmap + '"></div>';
+		if (fs.existsSync(localmap)) div += '<div class="minimap"><img src="' + localmap + '"></div>';
 		div += '</div>';
 		$('#replaylist').append(div);
 
