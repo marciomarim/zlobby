@@ -194,6 +194,7 @@
 
 					<div id="votewin">
 						<div id="votefor"></div>
+						<div id="voteformap"></div>
 						<div class="votes">
 							<div class="vote yes icon icon-thumbs-up-2"></div>
 							<div class="vote no icon icon-thumbs-down-2"></div>
@@ -240,6 +241,7 @@
 							<div id="battle-minimap" class="map smalltab active"></div>
 							<div id="battle-metalmap" class="map smalltab"></div>
 							<div id="battle-heightmap" class="map smalltab"></div>
+							<div class="pickmap-btn">PICK MAP</div>
 						</div>
 
 						<div class="ui-label">Options</div>
@@ -259,10 +261,15 @@
 						</div>
 					</div>
 
+					<div class="scroll mappicker" style="padding-bottom: 150px; padding-right: 0.6em;">
+						<div class="pickmapclose-btn">CLOSE</div>
+						<div class="mapscontainer"></div>
+					</div>
+
 					<div class="battle-actions">
 						<div class="line">
-							<button class="command" data-command="!preset team">!team</button>
-							<button class="command" data-command="!preset FFA">!ffa</button>
+							<button class="command" data-command="!cv preset team">!team</button>
+							<button class="command" data-command="!cv preset FFA">!ffa</button>
 							<button class="command" data-command="!ring">!ring</button>
 							<button class="command" data-command="!balance">!balance</button>
 							<button class="command" data-command="!fixcolors">!fixcolors</button>

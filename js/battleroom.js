@@ -106,6 +106,26 @@ $('body').on('click', '.command', function(e) {
 	socketClient.write(command);
 });
 
+$('body').on('click', '.pickmap-btn', function(e) {
+	$('.mappicker').addClass('active');
+	battles.loadmapspickmap();
+});
+
+$('body').on('click', '.mappicker .map', function(e) {
+	var command =
+		'SAYBATTLE !cv map ' +
+		$(this)
+			.data('mapname')
+			.replace(/_/g, ' ') +
+		'\n';
+	socketClient.write(command);
+	$('.mappicker').removeClass('active');
+});
+
+$('body').on('click', '.pickmapclose-btn', function(e) {
+	$('.mappicker').removeClass('active');
+});
+
 $('body').on('click', '.vote.yes', function(e) {
 	var command = 'SAYBATTLE !vote y\n';
 	socketClient.write(command);

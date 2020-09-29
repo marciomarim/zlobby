@@ -1064,7 +1064,64 @@ ul.list {
     	height: 50vh;
 	    background: #1b1e23;
 	    
+	}
+	
+	.pickmapclose-btn,
+	.pickmap-btn{
+		position: absolute;
+		bottom: 1em;
+		right: 1em;
+		font-size: 11px;
+		border-radius: 3px;
+		padding: 0.7em 1.2em;
+		background: #202427;
+		cursor: pointer;
+		z-index: 9999;
+	}
+	
+	.pickmapclose-btn{
+		bottom: inherit;
+		top: 1em;
+	}
+	
+	.scroll.mappicker{
+		display: none;	
+		background: #111;
+		position: absolute;
+		z-index: 99;
+		top:0;
+		left: 0;
+		width: 100%;
 	}	
+	
+		.mappicker.active{
+			display: block;
+		}
+		
+		.mappicker .mapscontainer{
+			display: flex;
+			flex-wrap: wrap;
+		}
+		
+		.mappicker .map{
+			width: 23%;
+			margin: 1%;
+			background: #202427;
+			cursor: pointer;		 
+		}
+		
+		.mappicker .map img{
+			margin:0 auto;
+		}
+		
+		#voteformap:empty{
+			display: none;
+		}
+		
+		#voteformap img{
+			width: 100px;
+			height: 100px;
+		}
 				
 /*
 	#hostmessages .text-scroll{

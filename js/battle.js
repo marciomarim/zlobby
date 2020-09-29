@@ -328,6 +328,38 @@ export default class Battle {
 		}
 	}
 
+	loadmapspickmap() {
+		fs.readdir(mapsdir, (err, files) => {
+			files.forEach(file => {
+				if (file.indexOf('sd7') || file.indexOf('sdz')) {
+					var mapfilenamebase = file.replace('.sd7', '').replace('.sdz', '');
+					var localmap = minimapsdir + mapfilenamebase + '.png';
+					var localhmap = minimapsdir + mapfilenamebase + '-heightmap.png';
+
+					const heightmap = new Image();
+					heightmap.src = localhmap;
+
+					heightmap.onload = function() {
+						var w = this.width;
+						var h = this.height;
+						var ratio = w / h;
+						var maxwh = $('.mapscontainer').width() * 0.23;
+
+						// map is wider
+						if (w > h) {
+							var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh / ratio + '"></div>';
+						} else if (w == h) {
+							var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh + '"></div>';
+						} else {
+							var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><img src="' + localmap + '" width="' + maxwh * ratio + '" height="' + maxwh + '"></div>';
+						}
+						$('.mapscontainer').append(imgdiv);
+					};
+				}
+			});
+		});
+	}
+
 	addstartrect(allyNo, left, top, right, bottom) {
 		var width = right / 2 - left / 2;
 		var height = bottom / 2 - top / 2;

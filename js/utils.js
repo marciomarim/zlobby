@@ -1,6 +1,6 @@
 import { socketClient } from './socket.js';
 
-import { springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile } from './init.js';
 
 var fs = require('fs');
 
@@ -29,7 +29,6 @@ export default class Utils {
 
 	append_to_terminal(message) {
 		if (message == 'PONG' || message == '\n' || message == ' ' || message == '') return false;
-
 		$('#server').append('<li>' + message + '</li>');
 	}
 
@@ -347,12 +346,14 @@ export default class Utils {
 		var vote = -1;
 		var endvote = -1;
 		var myvote = -1;
+		var votemap = -1;
 
 		if (ishost >= 0) {
 			winner = message.indexOf('won!');
 			vote = message.indexOf('called a vote for command');
 			endvote = message.indexOf('* Vote cancelled');
 			myvote = message.indexOf('by ' + myusername);
+			votemap = message.indexOf('vote for command "set map');
 			//var endvote = message.indexOf('Vote for command');
 		}
 
@@ -406,8 +407,18 @@ export default class Utils {
 			$('#messagesound')[0].play();
 			$bubble.addClass('vote');
 			$('#votewin').addClass('active');
-
 			$('#votefor').text(message.replace('[!vote y, !vote n, !vote b]', ''));
+			if (votemap >= 0) {
+				var mapfilenamebase = message.match(/"(.*?)"/)[1].replace('set map ');
+				mapfilenamebase = mapfilenamebase
+					.split(' ')
+					.join('_')
+					.replace('undefined', '');
+				var localmap = minimapsdir + mapfilenamebase + '.png';
+				var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';
+				$('#voteformap').html(imgdiv);
+				console.log(mapfilenamebase);
+			}
 
 			setTimeout(function() {
 				$('#votewin').removeClass('active');
