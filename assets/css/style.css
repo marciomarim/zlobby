@@ -572,19 +572,25 @@ ul.list {
 		}
 		
 		.battle-card .minimap{
-			width: 140px;
-			height: 140px;
+			width: 220px;
+			height: 220px;
 			background: #000;	
 			position: relative;
+			
 		}
 		
-		.battle-card .minimap img{
-			width: 100%;
-			height: auto;
+		.battle-card .minimap img{			
+			position: relative;
+			top: 50%;
+			left: 50%;
+			transform: translate3d(-50%,-50%,0);
+			max-width: 220px;
+			max-height: 220px;			
 		}
 		
 		.battle-card .header .infos{
 			flex: 1;
+			max-width: calc(100% - 220px);
 			padding-right: 1.5em;
 		}
 			
@@ -610,11 +616,11 @@ ul.list {
 		.battle-card .playerlist{
 			display: flex;
 			justify-content: space-between;
-			flex-wrap: wrap;
-			background: #000;
-		    margin: 20px 0 0 0;
-	        padding: 13px 0;
-		    color: #bbb;
+			flex-wrap: wrap;			
+		    margin: -75px 0 0 0;
+			padding: 13px 0;
+			color: #bbb;
+			width: calc(100% - 220px);			
 		}
 		
 			.battle-card .playerlist:empty{

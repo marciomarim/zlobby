@@ -278,33 +278,41 @@ export default class Battle {
 
 	appendimagedivs(battleid, localmap, localmmap, localhmap) {
 		var battles = this;
-		var imgdiv = '<img class="map" src="' + localmap + '">';
 
-		$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
+		// load heightmap to get sizes (temporary)
+		const heightmap = new Image();
+		heightmap.src = localhmap;
 
-		// if I'm on a battleroom, load metal and height maps, handle startboxes
-		if ($('#battleroom').data('battleid') == battleid) {
-			var startbox1 = $('.startbox.box0');
-			var startbox2 = $('.startbox.box1');
+		heightmap.onload = function() {
+			var w = this.width;
+			var h = this.height;
 
-			$('#battleroom #battle-minimap').html(imgdiv);
-			$('#battleroom .minimaps').append(startbox1);
-			$('#battleroom .minimaps').append(startbox2);
+			var ratio = w / h;
+			var maxwh = 220;
 
-			// load heightmap to get sizes
-			const metalmap = new Image();
-			metalmap.src = localmmap;
-			$('#battleroom #battle-metalmap').html(metalmap);
+			// map is wider
+			if (w > h) {
+				var imgdiv = '<img class="map" src="' + localmap + '" width="220" height="' + maxwh / ratio + '">';
+			} else if (w == h) {
+				var imgdiv = '<img class="map" src="' + localmap + '" width="220" height="220">';
+			} else {
+				var imgdiv = '<img class="map" src="' + localmap + '" width="' + maxwh * ratio + '" height="220">';
+			}
 
-			const heightmap = new Image();
-			heightmap.onload = function() {
-				var w = this.width;
-				var h = this.height;
+			$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(imgdiv);
+
+			// if I'm on a battleroom, load metal and height maps, handle startboxes
+			if ($('#battleroom').data('battleid') == battleid) {
+				const metalmap = new Image();
+				metalmap.src = localmmap;
+
+				$('#battleroom #battle-minimap').html(imgdiv);
+				$('#battleroom #battle-metalmap').html(metalmap);
+				$('#battleroom #battle-heightmap').html(heightmap);
+
 				battles.fitmapsize(w, h);
-			};
-			heightmap.src = localhmap;
-			$('#battleroom #battle-heightmap').html(heightmap);
-		}
+			}
+		};
 	}
 
 	fitmapsize(w, h) {
