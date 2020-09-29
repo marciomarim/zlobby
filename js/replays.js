@@ -1,36 +1,38 @@
-var spawn  = require('child_process').spawn,
-	fs = require('fs');	
+var spawn = require('child_process').spawn,
+	fs = require('fs');
 
-import {springdir, mapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl} from './init.js'
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
-
-if (!fs.existsSync(replaysdir)){
-    fs.mkdirSync(replaysdir);
+if (!fs.existsSync(replaysdir)) {
+	fs.mkdirSync(replaysdir);
 }
-	
+
 fs.readdir(replaysdir, (err, files) => {
 	files.forEach(file => {
-		
-		var data = file.replace('_103.sdfz','').split('_');
+		var data = file.replace('_103.sdfz', '').split('_');
 		var date = data[0];
 		var hour = data[1];
 		var mapname = data.slice(2).join('');
-		
-		var div = '<div class="replayitem" data-file="'+file+'">';
-				div += '<div class="infos">';
-					div += '<div class="meta">'+date+'</div>';
-					div += '<div class="meta">'+hour+'</div>';
-					div += '<div class="meta">'+mapname+'</div>';
-				div += '</div>';
-				div += '<div class="minimap">';
-				div += '</div>';
-			div += '</div>';
-		
-		var $div = $(div);		
+
+		var localmap =
+			minimapsdir +
+			mapname
+				.toLowerCase()
+				.split(' ')
+				.join('_') +
+			'.png';
+
+		var div = '<div class="replayitem" data-file="' + file + '">';
+		div += '<div class="infos">';
+		div += '<div class="meta">' + date + '</div>';
+		div += '<div class="meta">' + hour + '</div>';
+		div += '<div class="meta">' + mapname + '</div>';
+		div += '</div>';
+		div += '<div class="minimap"><img src="' + localmap + '"></div>';
+		div += '</div>';
 		$('#replaylist').append(div);
-		
-		
-/*
+
+		/*
 	    var mapfilenamebase = mapname.toLowerCase().split(' ').join('_');
 	    var mapfilename1 = mapfilenamebase+'.sd7';
 	    var mapfilename2 = mapfilenamebase+'.sdz';
@@ -39,8 +41,8 @@ fs.readdir(replaysdir, (err, files) => {
 	    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
 	    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
 */
-	    
-/*
+
+		/*
 	    $.ajax({ 
             url: url1,             
             type: 'HEAD', 
@@ -63,34 +65,29 @@ fs.readdir(replaysdir, (err, files) => {
             } 
         });
 */
-        
 	});
 });
 
-
-
 $('body').on('click', '.replayitem', function(e) {
-	
 	var replaypath = replaysdir + $(this).data('file');
-	
+
 	console.log(replaypath);
-	
+
 	try {
-		  if (fs.existsSync(infologfile)) {
-		    //file exists
-		    fs.unlinkSync(infologfile);
-		  }
-		}catch(e) { } 
-		
-		// start recording logs
-		var out = fs.openSync( infologfile , 'a');
-	    var err = fs.openSync( infologfile, 'a');	
-    
-	const bat = spawn( enginepath , [replaypath], {
-			detached: true,
-		    stdio: [ 'ignore', out, err ]
-		});		
-		
-		bat.unref();
-	
+		if (fs.existsSync(infologfile)) {
+			//file exists
+			fs.unlinkSync(infologfile);
+		}
+	} catch (e) {}
+
+	// start recording logs
+	var out = fs.openSync(infologfile, 'a');
+	var err = fs.openSync(infologfile, 'a');
+
+	const bat = spawn(enginepath, [replaypath], {
+		detached: true,
+		stdio: ['ignore', out, err],
+	});
+
+	bat.unref();
 });

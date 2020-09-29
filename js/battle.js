@@ -329,6 +329,7 @@ export default class Battle {
 	}
 
 	loadmapspickmap() {
+		// https://files.balancedannihilation.com/api.php?command=getmapslist
 		fs.readdir(mapsdir, (err, files) => {
 			files.forEach(file => {
 				if (file.indexOf('sd7') || file.indexOf('sdz')) {

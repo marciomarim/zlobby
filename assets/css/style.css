@@ -1690,15 +1690,26 @@ span.upper{
 }
 
 #replaylist .replayitem{
-	width: 33%;
-	margin: 0.16%;
+	width: 24%;
+	margin: 0.5%;
 	padding: 1%;
 	background: #33383e;
 	font-size: 12px;
 	cursor: alias;
 	position: relative;
+	display: flex;
 }
-
+	
+	.replayitem .infos{
+		flex: 0.7;
+	}
+	.replayitem .minimap{
+		flex: 0.3; 
+	}
+		.replayitem .minimap img{
+			width: 100%;
+			height: auto;
+		}
 
 #prefs{
 	display: flex;			
