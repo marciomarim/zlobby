@@ -1080,8 +1080,9 @@ ul.list {
 	}
 	
 	.pickmapclose-btn{
+		position: fixed;	
 		bottom: inherit;
-		top: 1em;
+		top: 4em;
 	}
 	
 	.scroll.mappicker{
@@ -1092,16 +1093,43 @@ ul.list {
 		top:0;
 		left: 0;
 		width: 100%;
-	}	
+		padding-top: 1em;
+	}				
 	
 		.mappicker.active{
 			display: block;
 		}
 		
-		.mappicker .mapscontainer{
-			display: flex;
-			flex-wrap: wrap;
+		.scroll.mappicker .filters{
+			padding: 0.5em;
 		}
+		
+		.scroll.mappicker .filters .line{
+			display: flex;
+		}
+		
+		.scroll.mappicker .filters .filter{
+			text-transform: uppercase;
+			margin: 0.3em;
+			font-size: 10px;
+			border-radius: 3px;
+			padding: 0.7em 1.2em;
+			background: #202427;
+			cursor: pointer;
+		}
+		
+		.scroll.mappicker .filters .filter.active{
+			background: #5588ff;
+		}
+		
+		.mappicker .mapscontainer{
+			display: none;
+			flex-wrap: wrap;					
+		}
+		
+			.mappicker .mapscontainer.active{
+				display: flex;
+			}
 		
 		.mappicker .map{
 			width: 23%;
@@ -1109,14 +1137,62 @@ ul.list {
 			background: #202427;
 			cursor: pointer;		 
 			position: relative;
+			text-align: center;
+		}
+		
+		.mappicker .map:after{
+			content: attr(data-mapname);
+			position: absolute;
+			background: #202427;
+			padding: 0.2em 0.5em;
+			font-size: 10px;
+			left: 0;
+			top: 40%;
+			display: none;
+		}
+		.mappicker .map:hover:after{
+			display: block;
 		}
 		
 		.mappicker .map .icon-star{
 			position: absolute;
 			top: 0.5em;
-			right: 0.5em;
+			left: 0.5em;
 			z-index: 9;
+			opacity: 0.5;
 		}
+		
+		.mappicker .map .icon-star.active{			
+			opacity: 1;
+			color: #5588ff;
+		}
+		
+		.mappicker .map .select,
+		.mappicker .map .delete{
+			position: absolute;
+			z-index: 9;
+			right: 0.5em;
+			font-size: 10px;
+			border-radius: 23px;
+			padding: 0.2em 1em;
+			background: #202427;
+			border: 1px solid #3689de;
+			display: none;
+		}
+		
+		.mappicker .map:hover > .select,
+		.mappicker .map:hover > .delete{
+			display: block;
+		}
+		
+		.mappicker .map .select{
+			bottom: 0.5em;
+		}
+		
+		.mappicker .map .delete{
+			top: 0.5em;			
+		}
+		
 		.mappicker .map img{
 			margin:0 auto;
 		}

@@ -311,8 +311,33 @@ export default class Battle {
 				$('#battleroom #battle-heightmap').html(heightmap);
 
 				battles.fitmapsize(w, h);
+				//battles.addmapstartposes();
 			}
 		};
+	}
+
+	// need to know map size to finish this
+	addmapstartposes() {
+		var mapname = $('#battleroom .mapname').text();
+		var mapfilenamebase = mapname
+			.toLowerCase()
+			.split(' ')
+			.join('_');
+
+		var mapfilename1 = mapfilenamebase + '.sd7';
+		var mapfilename2 = mapfilenamebase + '.sdz';
+
+		var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/mapinfo.json';
+
+		$.getJSON(url1, function(data) {
+			var div = '';
+			data = data['teamlist'];
+			$.each(data, function(key, val) {
+				var teamnum = val['teamnum'];
+				var posx = val['StartPosX'];
+				var posy = val['StartPosY'];
+			});
+		});
 	}
 
 	fitmapsize(w, h) {
@@ -348,13 +373,22 @@ export default class Battle {
 
 							// map is wider
 							if (w > h) {
-								var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class"icon icon-star"></div><img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh / ratio + '"></div>';
+								var imgdiv = '<img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh / ratio + '">';
 							} else if (w == h) {
-								var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class"icon icon-star"></div><img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh + '"></div>';
+								var imgdiv = '<img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh + '">';
 							} else {
-								var imgdiv = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class"icon icon-star"></div><img src="' + localmap + '" width="' + maxwh * ratio + '" height="' + maxwh + '"></div>';
+								var imgdiv = '<img src="' + localmap + '" width="' + maxwh * ratio + '" height="' + maxwh + '">';
 							}
-							$('.mapscontainer').append(imgdiv);
+
+							var stared = store.get('maps.' + file);
+
+							if (stared) {
+								var div = '<div class="map" data-mapname="' + mapfilenamebase + '" style="order: -1;"><div class="icon icon-star active" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
+							} else {
+								var div = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class="icon icon-star" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
+							}
+
+							$('.local.mapscontainer').append(div);
 						};
 					}
 				}
@@ -363,7 +397,38 @@ export default class Battle {
 	}
 
 	loadremotemapspickmap() {
-		// https://files.balancedannihilation.com/api.php?command=getmapslist
+		$.getJSON('https://files.balancedannihilation.com/api.php?command=getmapslist', function(data) {
+			var div = '';
+			data = data['mapslist'];
+			$.each(data, function(key, val) {
+				var filename = val['filename'];
+				var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
+				var url = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/minimap_9.png';
+
+				const heightmap = new Image();
+				heightmap.src = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/heightmap_9.png';
+
+				heightmap.onload = function() {
+					var w = this.width;
+					var h = this.height;
+					var ratio = w / h;
+					var maxwh = $('.mapscontainer').width() * 0.23;
+
+					// map is wider
+					if (w > h) {
+						var imgdiv = '<img src="' + url + '" width="' + maxwh + '" height="' + maxwh / ratio + '">';
+					} else if (w == h) {
+						var imgdiv = '<img src="' + url + '" width="' + maxwh + '" height="' + maxwh + '">';
+					} else {
+						var imgdiv = '<img src="' + url + '" width="' + maxwh * ratio + '" height="' + maxwh + '">';
+					}
+
+					var div = '<div class="map" data-mapname="' + mapfilenamebase + '"></div><div class="downloadremotemap" data-filename="' + filename + '">GET</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
+
+					$('.remote.mapscontainer').append(div);
+				};
+			});
+		});
 	}
 
 	addstartrect(allyNo, left, top, right, bottom) {

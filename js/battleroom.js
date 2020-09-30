@@ -18,6 +18,9 @@ const store = new Store();
 $('body').on('click', '.battle-card', function(e) {
 	var username = $('#myusername').text();
 
+	// hide map picker
+	$('.mappicker').removeClass('active');
+
 	//if I'm in, just go to battleroom
 	if ($(this).hasClass('activebattle')) {
 		$('.container').removeClass('active');
@@ -104,31 +107,6 @@ $('body').on('click', '.mutebattleroom', function(e) {
 $('body').on('click', '.command', function(e) {
 	var command = 'SAYBATTLE ' + $(this).data('command') + '\n';
 	socketClient.write(command);
-});
-
-$('body').on('click', '.pickmap-btn', function(e) {
-	$('.mappicker').addClass('active');
-	if (!$('.mapscontainer .map').length) battles.loadmapspickmap();
-});
-
-$('body').on('click', '.mappicker .icon-star', function(e) {
-	var prefname = 'maps.' + $(this).data('mapname');
-	store.set(prefname, 1);
-});
-
-$('body').on('click', '.mappicker .map', function(e) {
-	var command =
-		'SAYBATTLE !cv map ' +
-		$(this)
-			.data('mapname')
-			.replace(/_/g, ' ') +
-		'\n';
-	socketClient.write(command);
-	$('.mappicker').removeClass('active');
-});
-
-$('body').on('click', '.pickmapclose-btn', function(e) {
-	$('.mappicker').removeClass('active');
 });
 
 $('body').on('click', '.vote.yes', function(e) {
@@ -286,4 +264,50 @@ $(document).mouseup(function(e) {
 	if (!container.is(e.target) && container.has(e.target).length === 0) {
 		container.remove();
 	}
+});
+
+// map picker
+$('body').on('click', '.pickmap-btn', function(e) {
+	$('.mappicker').addClass('active');
+	if (!$('.local.mapscontainer .map').length) battles.loadmapspickmap();
+});
+
+$('body').on('click', '.filter.remotemaps', function(e) {
+	$('.filter.localmaps, .local.mapscontainer').removeClass('active');
+	$('.filter.remotemaps, .remote.mapscontainer').addClass('active');
+
+	if (!$('.remote.mapscontainer .map').length) battles.loadremotemapspickmap();
+});
+
+$('body').on('click', '.mappicker .icon-star', function(e) {
+	var prefname = 'maps.' + $(this).data('filename');
+	if ($(this).hasClass('active')) {
+		store.set(prefname, 0);
+	} else {
+		store.set(prefname, 1);
+	}
+	$(this).toggleClass('active');
+});
+
+$('body').on('click', '.mappicker .map .select', function(e) {
+	var command =
+		'SAYBATTLE !cv map ' +
+		$(this)
+			.data('mapname')
+			.replace(/_/g, ' ') +
+		'\n';
+	socketClient.write(command);
+	$('.mappicker').removeClass('active');
+});
+
+$('body').on('click', '.mappicker .map .delete', function(e) {
+	var filename = $(this).data('filename');
+	utils.deletemap(filename);
+	$(this)
+		.closest('.map')
+		.remove();
+});
+
+$('body').on('click', '.pickmapclose-btn', function(e) {
+	$('.mappicker').removeClass('active');
 });
