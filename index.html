@@ -45,8 +45,8 @@
 				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
 				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
 				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
-				<!-- <div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
-				<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div> -->
+				<!-- <div class="tab website icon icon-computer-imac-1" data-target="bawebsite">Website</div>
+				<div class="tab discord icon icon-catapult-1" data-target="badiscord">Discord</div> -->
 				<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
 			</div>
 
@@ -124,9 +124,9 @@
 							<div id="updatestatus" class="sys-status"></div>
 						</div>
 
-						<div class="additional-btns">
-							<button class="bawebsite">BA Website</button>
-							<button class="badiscord">Discord</button>
+						<div class="additional-nav">
+							<button class="bawebsite" data-target="bawebsite">BA Website</button>
+							<button class="badiscord" data-target="badiscord">Discord</button>
 						</div>
 					</div>
 				</div>
@@ -419,12 +419,12 @@
 				<div id="channels"></div>
 			</div>
 
-			<div id="website" class="container wide">
+			<div id="bawebsite" class="container wide">
 				<div class="title icon icon-computer-imac-1">Balanced Annihilation</div>
 				<webview id="bawebsite" src="https://balancedannihilation.com/" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
 			</div>
 
-			<div id="discord" class="container wide">
+			<div id="badiscord" class="container wide">
 				<div class="title icon icon-discord">Discord</div>
 				<webview id="replaywebsite" src="https://discord.com/invite/Yd6nT2m" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
 				<!-- https://discord.gg/Yd6nT2m -->
