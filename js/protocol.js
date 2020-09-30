@@ -315,6 +315,8 @@ export default class Protocol {
 					break;
 
 				case 'REMOVESTARTRECT':
+					var allyNo = parts[1];
+					battles.removestartrect(allyNo);
 					break;
 
 				case 'REMOVEUSER':
