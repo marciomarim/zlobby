@@ -74,7 +74,6 @@ export function login() {
 		//console.log( data.toString().length );
 		protocol.server(data.toString());
 		console.log(data.toString());
-
 		clearInterval(connectInterval);
 	});
 
@@ -133,14 +132,13 @@ function resetUI() {
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
 	$('#start, .lmenu .tab.start').addClass('active');
 	$('.tab.battlelist .count').text('');
-	$('.account #loginpane').addClass('active');
+	$('#loginpane').addClass('active');
 	$('.account .btn').removeClass('active');
-	$('.account #disconnectpane').removeClass('active');
+	$('#disconnectpane').removeClass('active');
 }
 
 $('body').on('click', '.login', function(e) {
 	socket_connect();
-
 	login();
 });
 
@@ -181,6 +179,8 @@ $(document).ready(function() {
 	if (autoconnect) {
 		socket_connect();
 		login();
+	} else {
+		$('#loginpane').addClass('active');
 	}
 });
 

@@ -3,7 +3,7 @@ const shell = require('electron').shell;
 import Utils from './utils.js';
 let utils = new Utils();
 
-$('.lmenu').on('click', '.tab', function(e) {
+$('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 	var tab = $(this).data('target');
 	var id = '#' + $(this).data('target');
 

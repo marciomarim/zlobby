@@ -39,14 +39,14 @@
 
 			<div class="lmenu">
 				<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>
-
 				<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>
 				<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
+
 				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
 				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
 				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
-				<div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
-				<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div>
+				<!-- <div class="tab website icon icon-computer-imac-1" data-target="website">Website</div>
+				<div class="tab discord icon icon-catapult-1" data-target="discord">Discord</div> -->
 				<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
 			</div>
 
@@ -65,18 +65,18 @@
 							<div class="appicon"></div>
 						</div>
 
-						<div id="serverhosts" class="center">
-							<div class="serverhosturl active" data-url="springfightclub.com">BA</div>
-							<div class="serverhosturl" data-url="springrts.com">Spring</div>
-						</div>
-
 						<div id="disconnectpane" class="pane">
 							<div class="line" style="text-align: center; margin-top: 20px;">
 								<button class="disconnect">Disconnect</button>
 							</div>
 						</div>
 
-						<div id="loginpane" class="pane active">
+						<div id="loginpane" class="pane">
+							<div id="serverhosts" class="center">
+								<div class="serverhosturl active" data-url="springfightclub.com">BA</div>
+								<div class="serverhosturl" data-url="springrts.com">Spring</div>
+							</div>
+
 							<div class="panetitle">LOGIN</div>
 
 							<div id="loginmessage"></div>
@@ -122,6 +122,11 @@
 						<div id="system-status">
 							<div id="enginestatus" class="sys-status">Checking engine...</div>
 							<div id="updatestatus" class="sys-status"></div>
+						</div>
+
+						<div class="additional-btns">
+							<button class="bawebsite">BA Website</button>
+							<button class="badiscord">Discord</button>
 						</div>
 					</div>
 				</div>
