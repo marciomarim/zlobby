@@ -729,6 +729,27 @@ ul.list {
 		#battleroom .minimaps .startbox.box1:before{
 			content: '2';
 		}
+		
+		
+		#battleroom .minimaps .startpos{
+			position: absolute;
+			z-index: 1;
+			font-size: 10px;			
+			transform: translate3d(-50%,-50%,0);
+		}
+		
+		#battleroom .minimaps .startpos:before{
+			content: '';
+			background: #111;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			position:absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate3d(-50%,-50%,0);
+			z-index: -1;
+		}
 	
 		#battle-metalmap img,
 		#battle-heightmap img,
@@ -1092,12 +1113,19 @@ ul.list {
 		z-index: 99;
 	}
 	
+	.pickmap-btn{
+		display: none;
+	}
+	
 	.pickmapclose-btn{
 		position: fixed;	
 		bottom: inherit;
-		top: 4em;
+		top: 4em;		
 	}
 	
+	.minimaps:hover > .pickmap-btn{
+		display: block;
+	}
 	.scroll.mappicker{
 		display: none;	
 		background: #111;
