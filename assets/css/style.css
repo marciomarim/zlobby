@@ -546,8 +546,8 @@ ul.list {
 		position: absolute;
 		top:0;
 		left: 0;
-		width: 100%;
-		height: 4px;
+		width: 4px;
+		height: 100%;
 		background: #1d4cba;
 	}
 	
@@ -606,7 +606,7 @@ ul.list {
 				justify-content: space-between;
 				flex-wrap: wrap;
 				color: #ccc;
-				padding: 1em;
+				padding: 0;
 			}
 			
 				.battle-card .meta2 div{
@@ -617,8 +617,8 @@ ul.list {
 			display: flex;
 			justify-content: space-between;
 			flex-wrap: wrap;			
-		    margin: -75px 0 0 0;
-			padding: 13px 0;
+		    margin: -80px 0 0 0;
+			padding: 0;
 			color: #bbb;
 			width: calc(100% - 220px);			
 		}
@@ -629,6 +629,7 @@ ul.list {
 		
 			.battle-card .playerlist li{
 				width: 50%;
+				padding: 0.25em 0;
 			}
 			
 			.battle-card .playerlist li:nth-child(odd){
@@ -1140,26 +1141,26 @@ ul.list {
 			text-align: center;
 		}
 		
-		.mappicker .map:after{
+		.mappicker .map:before{
 			content: attr(data-mapname);
-			position: absolute;
+			position: relative;
 			background: #202427;
-			padding: 0.2em 0.5em;
-			font-size: 10px;
-			left: 0;
-			top: 40%;
-			display: none;
+			padding: 0.4em 0.5em;
+			width: 100%;			
+			font-size: 10px;			
+			top: 0;			
 		}
-		.mappicker .map:hover:after{
+		/* .mappicker .map:hover:after{
 			display: block;
-		}
+		} */
 		
 		.mappicker .map .icon-star{
 			position: absolute;
-			top: 0.5em;
-			left: 0.5em;
+			top: 1px;
+			left: 1px;
 			z-index: 9;
 			opacity: 0.5;
+			font-size: 15px;
 		}
 		
 		.mappicker .map .icon-star.active{			
@@ -1190,11 +1191,12 @@ ul.list {
 		}
 		
 		.mappicker .map .delete{
-			top: 0.5em;			
+			top: 3.5em;			
 		}
 		
 		.mappicker .map img{
 			margin:0 auto;
+			display: block;
 		}
 		
 		#voteformap:empty{
@@ -1315,9 +1317,10 @@ ul.list {
 	    bottom: 0;
 	    right: 0;
 	    width: 100%;		
-	    background: #1b1e23;
-	    padding: 2em;
+	    background: #131519;
+	    padding: 0.5em 2em 2em 2em;
 	    font-size: 12px;
+		z-index: 999;
 	}
 	
 		.battle-actions .line{
