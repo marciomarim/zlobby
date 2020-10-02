@@ -296,21 +296,15 @@ export default class Battle {
 			var w = sizeinfos['width'],
 				h = sizeinfos['height'];
 
-			Jimp.read(urlmap)
-				.then(image => {
-					// Do stuff with the image.
-					image
-						.resize(w, h)
-						.quality(70)
-						.write(localmap, function() {
-							console.error('image saved');
-							battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-						});
-				})
-				.catch(err => {
-					// Handle an exception.
-					console.error(err);
-				});
+			Jimp.read(urlmap).then(image => {
+				// Do stuff with the image.
+				image
+					.resize(w, h)
+					.quality(70)
+					.write(localmap, function() {
+						battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+					});
+			});
 
 			Jimp.read(urlmmap).then(image => {
 				image
