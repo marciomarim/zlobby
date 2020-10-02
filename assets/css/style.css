@@ -587,9 +587,25 @@ ul.list {
 			width: 220px;
 			height: 220px;
 			background: #000;	
-			position: relative;
-			
+			position: relative;			
 		}
+		
+		.battle-card .minimap:before{
+			content: '';
+			position: absolute;
+			width: 30px;
+			height: 30px;
+			background: url(../svg/loading.svg);
+			top: 50%;
+			left: 50%;
+			background-size: cover;
+			transform: translate3d(-50%, -50%, 0);
+		}
+		
+		/* .battle-card .minimap:before svg path,
+		.battle-card .minimap:before svg rect{
+		  fill: #FF6700;
+		} */
 		
 		.battle-card .minimap img{			
 			position: relative;
@@ -704,6 +720,7 @@ ul.list {
 		#battleroom .minimaps .startbox{
 			position: absolute;
 			background: rgba(255, 63, 63, 0.3);
+			display: none;	
 		}	
 		
 		#battleroom .minimaps .startbox.box1{
@@ -736,6 +753,7 @@ ul.list {
 			z-index: 1;
 			font-size: 10px;			
 			transform: translate3d(-50%,-50%,0);
+			display: none;
 		}
 		
 		#battleroom .minimaps .startpos:before{
@@ -750,6 +768,13 @@ ul.list {
 			transform: translate3d(-50%,-50%,0);
 			z-index: -1;
 		}
+		
+		#battleroom .minimaps.choose_before > .startbox,
+		#battleroom .minimaps.choose_ingame > .startbox,
+		#battleroom .minimaps.random > .startpos,
+		#battleroom .minimaps.fixed > .startpos{
+			display: block;
+		}				
 	
 		#battle-metalmap img,
 		#battle-heightmap img,

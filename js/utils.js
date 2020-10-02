@@ -336,6 +336,7 @@ export default class Utils {
 	append_message_battleroom(username, message) {
 		var myusername = $('#myusername').text();
 		var amiplaying = false;
+		$('#voteformap').empty();
 
 		if ($('.battle-playerlist li[data-username="' + jQuery.escapeSelector(myusername) + '"]').length) amiplaying = true;
 

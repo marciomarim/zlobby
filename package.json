@@ -31,6 +31,7 @@
     "export": "^0.1.337",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
+    "jimp": "^0.16.1",
     "jquery": "^3.5.1",
     "net": "^1.0.2",
     "universal-analytics": "^0.4.23",

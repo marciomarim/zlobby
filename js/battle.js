@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn,
 	fs = require('fs'),
-	https = require('https');
+	https = require('https'),
+	Jimp = require('jimp');
 
 import { socketClient } from './socket.js';
 
@@ -233,9 +234,9 @@ export default class Battle {
 
 	load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
 		var battles = this;
-		var localmap = minimapsdir + mapfilenamebase + '.png';
-		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.png';
-		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.png';
+		var localmap = minimapsdir + mapfilenamebase + '.jpg';
+		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
 		var localmapok = true;
 
 		// check if minimaps were saved and not empty
@@ -263,33 +264,65 @@ export default class Battle {
 		}
 
 		if (localmapok) {
-			console.log('Local map found:' + filename);
+			console.log('Local minimap found:' + filename);
 			battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
 		} else {
-			console.log('Saving remote map:' + filename);
-			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=' + filename + '&xmax=600&ymax=600&maptype=minimap&keepratio=true';
+			console.log('Saving remote minimaps:' + filename);
+			//&xmax=1000&ymax=1000
+			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
+			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
+			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
 
-			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=' + filename + '&xmax=600&ymax=600&maptype=metalmap&keepratio=true';
+			// 			var map = fs.createWriteStream(localmap);
+			// 			var mmap = fs.createWriteStream(localmmap);
+			// 			var hmap = fs.createWriteStream(localhmap);
+			//
+			// 			var request = https.get(urlmmap, function(response) {
+			// 				response.pipe(mmap);
+			// 			});
+			//
+			// 			var request = https.get(urlhmap, function(response) {
+			// 				response.pipe(hmap);
+			// 			});
+			//
+			// 			var request = https.get(urlmap, function(response) {
+			// 				response.pipe(map);
+			// 				response.on('end', function() {
+			// 					battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+			// 				});
+			// 			});
 
-			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=' + filename + '&xmax=600&ymax=600&maptype=heightmap&keepratio=true';
+			var sizeinfos = mapinfo['sizeinfos'];
+			var w = sizeinfos['width'],
+				h = sizeinfos['height'];
 
-			var map = fs.createWriteStream(localmap);
-			var mmap = fs.createWriteStream(localmmap);
-			var hmap = fs.createWriteStream(localhmap);
-
-			var request = https.get(urlmmap, function(response) {
-				response.pipe(mmap);
-			});
-
-			var request = https.get(urlhmap, function(response) {
-				response.pipe(hmap);
-			});
-
-			var request = https.get(urlmap, function(response) {
-				response.pipe(map);
-				response.on('end', function() {
-					battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+			Jimp.read(urlmap)
+				.then(image => {
+					// Do stuff with the image.
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localmap, function() {
+							console.error('image saved');
+							battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+						});
+				})
+				.catch(err => {
+					// Handle an exception.
+					console.error(err);
 				});
+
+			Jimp.read(urlmmap).then(image => {
+				image
+					.resize(w, h)
+					.quality(70)
+					.write(localmmap);
+			});
+			Jimp.read(urlhmap).then(image => {
+				image
+					.resize(w, h)
+					.quality(70)
+					.write(localhmap);
 			});
 		}
 	}
@@ -340,10 +373,12 @@ export default class Battle {
 
 			var teamlist = mapinfo['teamslist'];
 			if (teamlist.length) {
+				// clear old points
+				$('.minimaps .startpos').remove();
 				teamlist.forEach(async function(item) {
-					console.log(item);
-					console.log(fulltilewidth);
-					console.log(fulltileheight);
+					//console.log(item);
+					//console.log(fulltilewidth);
+					//console.log(fulltileheight);
 
 					var xrel = (item['StartPosX'] / fulltilewidth) * 100;
 					var yrel = (item['StartPosZ'] / fulltileheight) * 100;
@@ -358,7 +393,6 @@ export default class Battle {
 	addstartrect(allyNo, left, top, right, bottom) {
 		var width = right / 2 - left / 2;
 		var height = bottom / 2 - top / 2;
-
 		$('.startbox.box' + allyNo).remove();
 		var startbox = '<div class="startbox box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"></div>';
 		$('#battleroom .minimaps').append(startbox);
@@ -664,12 +698,22 @@ export default class Battle {
 
 			//download map if doesnt have it
 
-			var obj = this;
-			setTimeout(function() {
-				if (!$('#battleroom .game-download').hasClass('downloading')) {
-					obj.checkmap();
-				}
-			}, 1000);
+			var status = utils.getsyncstatus();
+
+			if (!status) {
+				// send unsync
+				utils.sendbattlestatus();
+
+				// download what is missing
+				this.checkmap();
+
+				// var obj = this;
+				// setTimeout(function() {
+				// 	if (!$('#battleroom .game-download').hasClass('downloading')) {
+				// 		obj.checkmap();
+				// 	}
+				// }, 1000);
+			}
 		}
 	}
 
@@ -839,16 +883,16 @@ export default class Battle {
 					if (parts[1] == 'startpostype') {
 						if (val == 0) {
 							val = 'fixed';
-							$('#battleroom .startpos').show();
+							$('#battleroom .minimaps').addClass('fixed');
 						} else if (val == 1) {
 							val = 'random';
-							$('#battleroom .startpos').show();
+							$('#battleroom .minimaps').addClass('random');
 						} else if (val == 2) {
 							val = 'choose_ingame';
-							$('#battleroom .startpos').hide();
+							$('#battleroom .minimaps').addClass('choose_ingame');
 						} else if (val == 3) {
 							val = 'choose_before';
-							$('#battleroom .startpos').hide();
+							$('#battleroom .minimaps').addClass('choose_before');
 						}
 					}
 
