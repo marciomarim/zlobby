@@ -1,10 +1,10 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 
-const { autoUpdater } = require("electron-updater")
+const { autoUpdater } = require('electron-updater');
 
-const { download } = require("electron-dl")
+const { download } = require('electron-dl');
 
-function createWindow () {
+function createWindow() {
 	// Create the browser window.
 	const win = new BrowserWindow({
 		width: 1800,
@@ -13,95 +13,85 @@ function createWindow () {
 		titleBarStyle: 'hidden',
 		//frame: false,
 		webPreferences: {
-		  nodeIntegration: true,
-		  webviewTag: true,
-		  enableRemoteModule: true
-		}
-	})
-	
+			nodeIntegration: true,
+			webviewTag: true,
+			enableRemoteModule: true,
+		},
+	});
+
 	// and load the index.html of the app.
-	win.loadFile(__dirname + '/index.html')
-	
+	win.loadFile(__dirname + '/index.html');
+
 	// Open the DevTools.
-	//win.webContents.openDevTools()  
-	
+	//win.webContents.openDevTools()
+
 	win.once('ready-to-show', () => {
-	    autoUpdater.checkForUpdatesAndNotify();
+		autoUpdater.checkForUpdatesAndNotify();
 	});
-  
-  	ipcMain.on("download", async (event, info) => {
-    	
-    	info.properties.onProgress = status => win.webContents.send("download progress", status);    	    	    	
-		download(BrowserWindow.getFocusedWindow(), info.url, info.properties)
-        	.then(dl => win.webContents.send("download complete", dl.getSavePath()));
-	});
-	
 
+	ipcMain.on('download', async (event, info) => {
+		info.properties.onProgress = status => win.webContents.send('download progress', status);
+		download(BrowserWindow.getFocusedWindow(), info.url, info.properties).then(dl => win.webContents.send('download complete', dl.getSavePath()));
+	});
 }
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
-  autoUpdater.checkForUpdatesAndNotify();
-  createWindow();		
+	autoUpdater.checkForUpdatesAndNotify();
+	createWindow();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+	if (process.platform !== 'darwin') {
+		app.quit();
+	}
+});
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
-
+	// On macOS it's common to re-create a window in the app when the
+	// dock icon is clicked and there are no other windows open.
+	if (BrowserWindow.getAllWindows().length === 0) {
+		createWindow();
+	}
+});
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "info"	
-	
+autoUpdater.logger = require('electron-log');
+autoUpdater.logger.transports.file.level = 'info';
+
 autoUpdater.on('checking-for-update', () => {
 	console.log('Checking for update...');
-})
+});
 
-autoUpdater.on('update-available', (info) => {
+autoUpdater.on('update-available', info => {
 	console.log('update-available...');
-})
+});
 
-autoUpdater.on('error', (err) => {
-	
-})
+autoUpdater.on('error', err => {});
 
-autoUpdater.on('download-progress', (progressObj) => {
-  let log_message = "Download speed: " + progressObj.bytesPerSecond;
-  log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
-  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
-  console.log(log_message);
-})
+autoUpdater.on('download-progress', progressObj => {
+	let log_message = 'Download speed: ' + progressObj.bytesPerSecond;
+	log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+	log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')';
+	console.log(log_message);
+});
 
-autoUpdater.on('update-downloaded', (info) => {  
-	
+autoUpdater.on('update-downloaded', info => {
 	const dialogOpts = {
-	    type: 'info',
-	    buttons: ['Restart', 'Later'],
-	    title: 'Update is ready',
-	    message: 'Update is ready',
-	    detail: 'A new version has been downloaded. Restart to apply the updates.'
-	}
+		type: 'info',
+		buttons: ['Restart', 'Later'],
+		title: 'Update is ready',
+		message: 'Update is ready',
+		detail: 'A new version has been downloaded. Restart to apply the updates.',
+	};
 
-	dialog.showMessageBox(dialogOpts).then((returnValue) => {
-		if (returnValue.response === 0) autoUpdater.quitAndInstall()
-	})
-  
+	dialog.showMessageBox(dialogOpts).then(returnValue => {
+		if (returnValue.response === 0) autoUpdater.quitAndInstall();
+	});
 });
