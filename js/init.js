@@ -247,102 +247,6 @@ function downloadengine(engineurl) {
 	});
 }
 
-function syncremoteminimaps() {
-	$.getJSON('https://files.balancedannihilation.com/api.php?command=getmapslist', function(data) {
-		//fs.writeFileSync(appPath + '/mapslist.json', JSON.stringify(data));
-
-		data = data['mapslist'];
-		for (var i = 0; i < data.length; i++) {
-			var obj = data[i];
-			var filename = obj.filename;
-			var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
-			var localmap = minimapsdir + mapfilenamebase + '.jpg';
-			var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
-			var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
-			if (!fs.existsSync(localmap)) {
-				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
-				$.getJSON(jsonurl, function(mapinfo) {
-					console.log('saving:' + obj.filename);
-
-					var sizeinfos = mapinfo['sizeinfos'];
-					var w = sizeinfos['width'],
-						h = sizeinfos['height'],
-						urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename,
-						urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename,
-						urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
-
-					Jimp.read(urlmap).then(image => {
-						image
-							.resize(w, h)
-							.quality(70)
-							.write(localmap);
-					});
-
-					Jimp.read(urlmmap).then(image => {
-						image
-							.resize(w, h)
-							.quality(70)
-							.write(localmmap);
-					});
-
-					Jimp.read(urlhmap).then(image => {
-						image
-							.resize(w, h)
-							.quality(70)
-							.write(localhmap);
-					});
-				});
-			}
-		}
-
-		// 		$.each(data, function(key, val) {
-		// 			var filename = val['filename'];
-		// 			var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
-		//
-		// 			var localmap = minimapsdir + mapfilenamebase + '.jpg';
-		// 			var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
-		// 			var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
-		//
-		// 			// if not exist save it
-		// 			if (!fs.existsSync(localmap)) {
-		// 				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
-		// 				$.getJSON(jsonurl, function(mapinfo) {
-		//
-		//
-		// 					var sizeinfos = mapinfo['sizeinfos'];
-		//
-		// 					var w = sizeinfos['width'],
-		// 						h = sizeinfos['height'],
-		// 						urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename,
-		// 						urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename,
-		// 						urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
-		//
-		// 					Jimp.read(urlmap).then(image => {
-		// 						image
-		// 							.resize(w, h)
-		// 							.quality(70)
-		// 							.write(localmap);
-		// 					});
-		//
-		// 					Jimp.read(urlmmap).then(image => {
-		// 						image
-		// 							.resize(w, h)
-		// 							.quality(70)
-		// 							.write(localmmap);
-		// 					});
-		//
-		// 					Jimp.read(urlhmap).then(image => {
-		// 						image
-		// 							.resize(w, h)
-		// 							.quality(70)
-		// 							.write(localhmap);
-		// 					});
-		// 				});
-		// 			}
-		// 		});
-	});
-}
-
 // preferences
 // load preferences
 $(window).ready(function() {
@@ -377,9 +281,6 @@ $(window).ready(function() {
 	} else {
 		$('.savechats').prop('checked', true);
 	}
-
-	// after 5 secs start saving images locally
-	//syncremoteminimaps();
 });
 
 // save preferences

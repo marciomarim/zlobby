@@ -88,7 +88,6 @@ export function login() {
 		console.log('Socket Error');
 		var err = data.toString();
 		console.log(err);
-		//
 		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
 			error_count += 1;
 
