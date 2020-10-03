@@ -8,6 +8,8 @@ const arch = os.arch();
 const platform = os.platform();
 const { ipcRenderer } = require('electron');
 var appVersion = require('electron').remote.app.getVersion();
+var appPath = require('electron').remote.app.getPath('userData');
+var Jimp = require('jimp');
 const { dialog } = require('electron').remote;
 const ua = require('universal-analytics');
 
@@ -46,7 +48,7 @@ function set_detault_paths() {
 	if (platform == 'win32') {
 		springdir = homedir + '\\Documents\\My Games\\Spring\\';
 		mapsdir = homedir + '\\Documents\\My Games\\Spring\\maps\\';
-		minimapsdir = homedir + '\\Documents\\My Games\\Spring\\minimaps\\';
+		minimapsdir = appPath + '\\minimaps\\';
 		modsdir = homedir + '\\Documents\\My Games\\Spring\\games\\';
 		replaysdir = homedir + '\\Documents\\My Games\\Spring\\demos\\';
 		chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
@@ -57,7 +59,7 @@ function set_detault_paths() {
 	} else if (platform == 'darwin') {
 		springdir = homedir + '/.spring/';
 		mapsdir = homedir + '/.spring/maps/';
-		minimapsdir = homedir + '/.spring/minimaps/';
+		minimapsdir = appPath + '/minimaps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
@@ -69,7 +71,7 @@ function set_detault_paths() {
 	} else if (platform == 'linux') {
 		springdir = homedir + '/.spring/';
 		mapsdir = homedir + '/.spring/maps/';
-		minimapsdir = homedir + '/.spring/minimaps/';
+		minimapsdir = appPath + '/minimaps/';
 		modsdir = homedir + '/.spring/games/';
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
@@ -245,6 +247,102 @@ function downloadengine(engineurl) {
 	});
 }
 
+function syncremoteminimaps() {
+	$.getJSON('https://files.balancedannihilation.com/api.php?command=getmapslist', function(data) {
+		//fs.writeFileSync(appPath + '/mapslist.json', JSON.stringify(data));
+
+		data = data['mapslist'];
+		for (var i = 0; i < data.length; i++) {
+			var obj = data[i];
+			var filename = obj.filename;
+			var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
+			var localmap = minimapsdir + mapfilenamebase + '.jpg';
+			var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+			var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
+			if (!fs.existsSync(localmap)) {
+				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
+				$.getJSON(jsonurl, function(mapinfo) {
+					console.log('saving:' + obj.filename);
+
+					var sizeinfos = mapinfo['sizeinfos'];
+					var w = sizeinfos['width'],
+						h = sizeinfos['height'],
+						urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename,
+						urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename,
+						urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
+
+					Jimp.read(urlmap).then(image => {
+						image
+							.resize(w, h)
+							.quality(70)
+							.write(localmap);
+					});
+
+					Jimp.read(urlmmap).then(image => {
+						image
+							.resize(w, h)
+							.quality(70)
+							.write(localmmap);
+					});
+
+					Jimp.read(urlhmap).then(image => {
+						image
+							.resize(w, h)
+							.quality(70)
+							.write(localhmap);
+					});
+				});
+			}
+		}
+
+		// 		$.each(data, function(key, val) {
+		// 			var filename = val['filename'];
+		// 			var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
+		//
+		// 			var localmap = minimapsdir + mapfilenamebase + '.jpg';
+		// 			var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+		// 			var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
+		//
+		// 			// if not exist save it
+		// 			if (!fs.existsSync(localmap)) {
+		// 				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
+		// 				$.getJSON(jsonurl, function(mapinfo) {
+		//
+		//
+		// 					var sizeinfos = mapinfo['sizeinfos'];
+		//
+		// 					var w = sizeinfos['width'],
+		// 						h = sizeinfos['height'],
+		// 						urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename,
+		// 						urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename,
+		// 						urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
+		//
+		// 					Jimp.read(urlmap).then(image => {
+		// 						image
+		// 							.resize(w, h)
+		// 							.quality(70)
+		// 							.write(localmap);
+		// 					});
+		//
+		// 					Jimp.read(urlmmap).then(image => {
+		// 						image
+		// 							.resize(w, h)
+		// 							.quality(70)
+		// 							.write(localmmap);
+		// 					});
+		//
+		// 					Jimp.read(urlhmap).then(image => {
+		// 						image
+		// 							.resize(w, h)
+		// 							.quality(70)
+		// 							.write(localhmap);
+		// 					});
+		// 				});
+		// 			}
+		// 		});
+	});
+}
+
 // preferences
 // load preferences
 $(window).ready(function() {
@@ -279,6 +377,9 @@ $(window).ready(function() {
 	} else {
 		$('.savechats').prop('checked', true);
 	}
+
+	// after 5 secs start saving images locally
+	//syncremoteminimaps();
 });
 
 // save preferences

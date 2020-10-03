@@ -281,6 +281,7 @@ $('body').on('click', '.filter.remotemaps', function(e) {
 
 $('body').on('click', '.mappicker .icon-star', function(e) {
 	var prefname = 'maps.' + $(this).data('filename');
+	prefname = prefname.replace('.sd7', '').replace('.sdz', '');
 	if ($(this).hasClass('active')) {
 		store.set(prefname, 0);
 	} else {

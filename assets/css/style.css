@@ -1263,6 +1263,7 @@ ul.list {
 		.mappicker .map img{
 			margin:0 auto;
 			display: block;
+			width: 100%;
 		}
 		
 		#voteformap:empty{

@@ -500,38 +500,19 @@ export default class Battle {
 			files.forEach(file => {
 				if (file.indexOf('sd7') || file.indexOf('sdz')) {
 					var mapfilenamebase = file.replace('.sd7', '').replace('.sdz', '');
-					var localmap = minimapsdir + mapfilenamebase + '.png';
-					var localhmap = minimapsdir + mapfilenamebase + '-heightmap.png';
+					var localmap = minimapsdir + mapfilenamebase + '.jpg';
 
 					if (fs.existsSync(localmap)) {
-						const heightmap = new Image();
-						heightmap.src = localhmap;
+						var imgdiv = '<img src="' + localmap + '">';
+						var stared = store.get('maps.' + mapfilenamebase);
 
-						heightmap.onload = function() {
-							var w = this.width;
-							var h = this.height;
-							var ratio = w / h;
-							var maxwh = $('.mapscontainer').width() * 0.23;
+						if (stared == 1) {
+							var div = '<div class="map" data-mapname="' + mapfilenamebase + '" style="order: -1;"><div class="icon icon-star active" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
+						} else {
+							var div = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class="icon icon-star" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
+						}
 
-							// map is wider
-							if (w > h) {
-								var imgdiv = '<img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh / ratio + '">';
-							} else if (w == h) {
-								var imgdiv = '<img src="' + localmap + '" width="' + maxwh + '" height="' + maxwh + '">';
-							} else {
-								var imgdiv = '<img src="' + localmap + '" width="' + maxwh * ratio + '" height="' + maxwh + '">';
-							}
-
-							var stared = store.get('maps.' + file);
-
-							if (stared) {
-								var div = '<div class="map" data-mapname="' + mapfilenamebase + '" style="order: -1;"><div class="icon icon-star active" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
-							} else {
-								var div = '<div class="map" data-mapname="' + mapfilenamebase + '"><div class="icon icon-star" data-filename="' + file + '"></div><div class="delete" data-filename="' + file + '">DELETE</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
-							}
-
-							$('.local.mapscontainer').append(div);
-						};
+						$('.local.mapscontainer').append(div);
 					}
 				}
 			});
@@ -545,30 +526,30 @@ export default class Battle {
 			$.each(data, function(key, val) {
 				var filename = val['filename'];
 				var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
-				var url = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/minimap_9.png';
 
-				const heightmap = new Image();
-				heightmap.src = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/heightmap_9.png';
+				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
 
-				heightmap.onload = function() {
-					var w = this.width;
-					var h = this.height;
+				$.getJSON(jsonurl, function(mapinfo) {
+					var sizeinfos = mapinfo['sizeinfos'];
+					var w = sizeinfos['width'],
+						h = sizeinfos['height'];
 					var ratio = w / h;
 					var maxwh = $('.mapscontainer').width() * 0.23;
 
+					var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
+
 					// map is wider
 					if (w > h) {
-						var imgdiv = '<img src="' + url + '" width="' + maxwh + '" height="' + maxwh / ratio + '">';
+						var imgdiv = '<img src="' + urlmap + '" width="' + maxwh + '" height="' + maxwh / ratio + '">';
 					} else if (w == h) {
-						var imgdiv = '<img src="' + url + '" width="' + maxwh + '" height="' + maxwh + '">';
+						var imgdiv = '<img src="' + urlmap + '" width="' + maxwh + '" height="' + maxwh + '">';
 					} else {
-						var imgdiv = '<img src="' + url + '" width="' + maxwh * ratio + '" height="' + maxwh + '">';
+						var imgdiv = '<img src="' + urlmap + '" width="' + maxwh * ratio + '" height="' + maxwh + '">';
 					}
-
 					var div = '<div class="map" data-mapname="' + mapfilenamebase + '"></div><div class="downloadremotemap" data-filename="' + filename + '">GET</div><div class="select" data-mapname="' + mapfilenamebase + '">SELECT</div>' + imgdiv + '</div>';
 
 					$('.remote.mapscontainer').append(div);
-				};
+				});
 			});
 		});
 	}
