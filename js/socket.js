@@ -175,7 +175,7 @@ $(document).ready(function() {
 	$('#password').focus();
 
 	var autoconnect = store.get('prefs.autoconnect');
-	if (autoconnect) {
+	if (autoconnect && username && password) {
 		socket_connect();
 		login();
 	} else {

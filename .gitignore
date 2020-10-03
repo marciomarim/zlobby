@@ -6,5 +6,5 @@ electron-builder.yml
 certificate.p12
 yarn.lock
 yarn-error.log
-assets/.DS_Store
+*/.DS_Store
 .nova/Configuration.json

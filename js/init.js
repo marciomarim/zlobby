@@ -64,7 +64,7 @@ function set_detault_paths() {
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
 		scriptfile = homedir + '/.spring/e-script.txt';
-		replaysdir = homedir + '/.config/spring/demos/';
+		replaysdir = homedir + '/.spring/demos/';
 		enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
 		enginedir = '/Applications/';
 		engineverdir = enginedir;
