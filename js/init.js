@@ -14,7 +14,7 @@ const { dialog } = require('electron').remote;
 const ua = require('universal-analytics');
 
 var remotemodsurl = 'https://springfightclub.com/data/';
-var remotemapsurl = 'http://files.balancedannihilation.com/data/maps/';
+var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);

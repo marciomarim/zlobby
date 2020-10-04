@@ -1,5 +1,6 @@
 var spawn = require('child_process').spawn,
 	fs = require('fs'),
+	https = require('https'),
 	Jimp = require('jimp');
 
 import { socketClient } from './socket.js';
@@ -59,53 +60,57 @@ export default class Battle {
 	downloadgame(fileurl, filename) {
 		$('#battleroom .game-download').addClass('downloading');
 
-		// 		const file = fs.createWriteStream(modsdir + filename);
+		const file = fs.createWriteStream(modsdir + filename);
+		https.get(fileurl, function(response) {
+			var len = parseInt(response.headers['content-length'], 10);
+			var body = '';
+			var cur = 0;
+			var total = len / 1048576;
+
+			response.pipe(file);
+
+			response.on('data', function(chunk) {
+				body += chunk;
+				cur += chunk.length;
+				var status = ((100.0 * cur) / len).toFixed(2);
+				//var statusmb = (cur / 1048576).toFixed(2);
+				$('#battleroom .game-download .download-title').text('Downloading game ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
+				$('#battleroom .game-download .progress').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
+			});
+
+			response.on('end', function() {
+				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
+				$('#battleroom .game-download').removeClass('downloading');
+				utils.sendbattlestatus();
+				//this.checkmap();
+			});
+
+			response.on('error', err => {
+				fs.unlink(modsdir + filename);
+			});
+		});
+
+		// 		ipcRenderer.send('download-game', {
+		// 			url: fileurl,
+		// 			properties: { directory: modsdir },
+		// 		});
 		//
-		// 		https.get(fileurl, function(response) {
-		// 			response.pipe(file);
+		// 		ipcRenderer.on('download-game progress', (event, progress) => {
+		// 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
+		// 				var w = Math.round(progress.percent * 100) + '%';
+		// 				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
+		// 				$('#battleroom .game-download .progress').css('width', w);
+		// 			}
+		// 		});
 		//
-		// 			var len = parseInt(response.headers['content-length'], 10);
-		// 			var body = '';
-		// 			var cur = 0;
-		// 			var obj = document.getElementById('js-progress');
-		// 			var total = len / 1048576; //1048576 - bytes in  1Megabyte
-		//
-		// 			response.on('data', function(chunk) {
-		// 				body += chunk;
-		// 				cur += chunk.length;
-		// 				//obj.innerHTML = "Downloading " + (100.0 * cur / len).toFixed(2) + "% " + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb";
-		// 				$('#battleroom .game-download .progress').css('width', ((100.0 * cur) / len).toFixed(2));
-		// 			});
-		//
-		// 			response.on('end', function() {
+		// 		ipcRenderer.on('download-game complete', (event, progress) => {
+		// 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
 		// 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
 		// 				utils.sendbattlestatus();
 		// 				$('#battleroom .game-download').removeClass('downloading');
 		// 				this.checkmap();
-		// 			});
+		// 			}
 		// 		});
-
-		ipcRenderer.send('download-game', {
-			url: fileurl,
-			properties: { directory: modsdir },
-		});
-
-		ipcRenderer.on('download-game progress', (event, progress) => {
-			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
-				var w = Math.round(progress.percent * 100) + '%';
-				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
-				$('#battleroom .game-download .progress').css('width', w);
-			}
-		});
-
-		ipcRenderer.on('download-game complete', (event, progress) => {
-			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
-				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
-				utils.sendbattlestatus();
-				$('#battleroom .game-download').removeClass('downloading');
-				this.checkmap();
-			}
-		});
 	}
 
 	checkmap() {
@@ -119,6 +124,7 @@ export default class Battle {
 
 		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
 			//console.log('Map exist');
+			utils.sendbattlestatus();
 		} else {
 			var fileurl = remotemapsurl + filename;
 			var fileurl2 = remotemapsurl + filename2;
@@ -130,50 +136,79 @@ export default class Battle {
 				url: fileurl,
 				type: 'HEAD',
 				error: function() {
-					//console.log(fileurl + ' doesnt exist!');
 					$.ajax({
 						url: fileurl2,
 						type: 'HEAD',
 						error: function() {
-							//console.log(fileurl2 + ' doesnt exist!');
 							$('#battleroom .map-download').addClass('downloading');
 							$('#battleroom .map-download .download-title').text('Map not found for download.');
 						},
 						success: function() {
 							//console.log(fileurl2 + ' exist!');
-							battle.downloadmap(fileurl2);
+							battle.downloadmap(fileurl2, filename2);
 						},
 					});
 				},
 				success: function() {
-					//console.log(fileurl + ' exist!');
-					battle.downloadmap(fileurl);
+					battle.downloadmap(fileurl, filename);
 				},
 			});
 		}
 	}
 
-	downloadmap(fileurl) {
-		ipcRenderer.send('download-map', {
-			url: fileurl,
-			properties: { directory: mapsdir },
-		});
+	downloadmap(fileurl, filename) {
+		$('#battleroom .map-download').addClass('downloading');
+		const file = fs.createWriteStream(mapsdir + filename);
+		https.get(fileurl, function(response) {
+			response.pipe(file);
 
-		ipcRenderer.on('download-map progress', async (event, progress) => {
-			$('#battleroom .map-download').addClass('downloading');
-			var w = Math.round(progress.percent * 100) + '%';
-			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
-			$('#battleroom .map-download .progress').css('width', w);
-		});
+			var len = parseInt(response.headers['content-length'], 10);
+			var body = '';
+			var cur = 0;
+			var total = len / 1048576;
 
-		ipcRenderer.on('download-map complete', (event, progress) => {
-			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
-			utils.sendbattlestatus();
+			response.on('data', function(chunk) {
+				body += chunk;
+				cur += chunk.length;
+				var status = ((100.0 * cur) / len).toFixed(2);
+				$('#battleroom .map-download .download-title').text('Downloading map ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
+				$('#battleroom .map-download .progress').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
+			});
 
-			setTimeout(function() {
+			response.on('end', function() {
+				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 				$('#battleroom .map-download').removeClass('downloading');
-			}, 4000);
+				utils.sendbattlestatus();
+				// setTimeout(function() {
+				// 	$('#battleroom .map-download').removeClass('downloading');
+				// }, 4000);
+			});
+
+			response.on('error', err => {
+				fs.unlink(mapsdir + filename);
+			});
 		});
+
+		// 		ipcRenderer.send('download-map', {
+		// 			url: fileurl,
+		// 			properties: { directory: mapsdir },
+		// 		});
+		//
+		// 		ipcRenderer.on('download-map progress', async (event, progress) => {
+		// 			$('#battleroom .map-download').addClass('downloading');
+		// 			var w = Math.round(progress.percent * 100) + '%';
+		// 			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
+		// 			$('#battleroom .map-download .progress').css('width', w);
+		// 		});
+		//
+		// 		ipcRenderer.on('download-map complete', (event, progress) => {
+		// 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
+		// 			utils.sendbattlestatus();
+		//
+		// 			setTimeout(function() {
+		// 				$('#battleroom .map-download').removeClass('downloading');
+		// 			}, 4000);
+		// 		});
 	}
 
 	createbattleroom() {
@@ -647,6 +682,7 @@ export default class Battle {
 		//check if game exist
 		// after game, check if map exist
 		this.checkgame();
+		this.checkmap();
 		utils.init_battlerrom_chat();
 		trackEvent('User', 'joinbattle');
 	}

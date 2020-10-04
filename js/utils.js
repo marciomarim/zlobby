@@ -565,7 +565,7 @@ export default class Utils {
 		var index = currentmod.lastIndexOf(' ');
 		var filename = currentmod.substring(0, index).replace(' ', '_') + '-' + currentmod.substring(index).replace(' ', '') + '.sdz';
 
-		if (fs.existsSync(modsdir + filename)) {
+		if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
 			//console.log('STATUS: GAME OK');
 			var currentmap = $('#battleroom .mapname')
 				.text()
@@ -574,7 +574,7 @@ export default class Utils {
 			var filename = currentmap + '.sd7';
 			var filename2 = currentmap + '.sdz';
 
-			if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
+			if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {
 				//console.log('STATUS: MAP OK');
 				return 1;
 			} else {
