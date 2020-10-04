@@ -1011,17 +1011,17 @@ export default class Battle {
 			console.log(e);
 		}
 
-		try {
-			fs.unlinkSync(infologfile);
-		} catch (e) {}
-
-		// start recording logs
-		var out = fs.openSync(infologfile, 'a');
-		var err = fs.openSync(infologfile, 'a');
+		// 		try {
+		// 			fs.unlinkSync(infologfile);
+		// 		} catch (e) {}
+		//
+		// 		// start recording logs
+		// 		var out = fs.openSync(infologfile, 'a');
+		// 		var err = fs.openSync(infologfile, 'a');
 
 		const bat = spawn(enginepath, [scriptfile], {
 			detached: true,
-			stdio: ['ignore', out, err],
+			//stdio: ['ignore', out, err],
 		});
 
 		bat.unref();
