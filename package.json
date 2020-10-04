@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": {
@@ -56,8 +56,8 @@
     ],
     "mac": {
       "hardenedRuntime": true,
-      "entitlements": "dist/entitlements.mac.plist",
-      "entitlementsInherit": "dist/entitlements.mac.plist",
+      "entitlements": "entitlements.mac.plist",
+      "entitlementsInherit": "entitlements.mac.plist",
       "gatekeeperAssess": false,
       "category": "public.games.springrts",
       "icon": "assets/icons/icon.icns",
@@ -76,7 +76,7 @@
     "win": {
       "icon": "assets/icons/icon.png",
       "publisherName": [
-        "Marcio de Moraes Marim"
+        "Apple Development: marcio@yhello.co (2S7KUV69ZN)"
       ],
       "target": [
         "nsis"
