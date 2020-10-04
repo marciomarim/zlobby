@@ -33,16 +33,6 @@ function createWindow() {
 		info.properties.onProgress = status => win.webContents.send('download progress', status);
 		download(BrowserWindow.getFocusedWindow(), info.url, info.properties).then(dl => win.webContents.send('download complete', dl.getSavePath()));
 	});
-
-	ipcMain.on('download-game', async (event, info) => {
-		info.properties.onProgress = status => win.webContents.send('download-game progress', status);
-		download(BrowserWindow.getFocusedWindow(), info.url, info.properties).then(dl => win.webContents.send('download-game complete', dl.getSavePath()));
-	});
-
-	ipcMain.on('download-map', async (event, info) => {
-		info.properties.onProgress = status => win.webContents.send('download-map progress', status);
-		download(BrowserWindow.getFocusedWindow(), info.url, info.properties).then(dl => win.webContents.send('download-map complete', dl.getSavePath()));
-	});
 }
 
 // This method will be called when Electron has finished

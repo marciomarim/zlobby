@@ -866,7 +866,8 @@ ul.list {
 			left: 0;
 			width: 0;
 			height: 4px;
-			background: #1d4cba;			
+			background: #1d4cba;
+			transition: width 1s;			
 		}
 		
 		.engine-download .progress{

@@ -179,9 +179,6 @@ export default class Battle {
 				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 				$('#battleroom .map-download').removeClass('downloading');
 				utils.sendbattlestatus();
-				// setTimeout(function() {
-				// 	$('#battleroom .map-download').removeClass('downloading');
-				// }, 4000);
 			});
 
 			response.on('error', err => {
@@ -599,12 +596,8 @@ export default class Battle {
 
 		// update options
 		if ($('#battleroom .battleid').text() == battleid) {
-			//$('#battleroom #battle-minimap').append($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
-
 			$('#battleroom .spectatorCount').text(spectatorCount);
 			$('#battleroom .mapname').text(mapname);
-
-			//$('#battleroom #battle-minimap').html($('.battle-card[data-battleid="'+battleid+'"] .map').clone());
 
 			if (locked === 0) {
 				$('#battleroom .locked').text('LOCKED');
@@ -614,22 +607,13 @@ export default class Battle {
 			$('#battleroom .players').text(players);
 
 			//download map if doesnt have it
-
 			var status = utils.getsyncstatus();
-
 			if (!status) {
 				// send unsync
 				utils.sendbattlestatus();
 
 				// download what is missing
 				this.checkmap();
-
-				// var obj = this;
-				// setTimeout(function() {
-				// 	if (!$('#battleroom .game-download').hasClass('downloading')) {
-				// 		obj.checkmap();
-				// 	}
-				// }, 1000);
 			}
 		}
 	}
