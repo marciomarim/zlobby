@@ -76,7 +76,7 @@
     "win": {
       "icon": "assets/icons/icon.png",
       "publisherName": [
-        "Apple Development: marcio@yhello.co (2S7KUV69ZN)"
+        "Apple Development: Marcio Marim (Marcio Marim)"
       ],
       "target": [
         "nsis"
