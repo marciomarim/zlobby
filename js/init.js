@@ -19,7 +19,6 @@ var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
 
-export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
 function initial_check() {
@@ -142,6 +141,7 @@ function lookforengine() {
 	if (platform == 'win32') {
 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\spring.exe';
+			engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\';
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {
@@ -154,6 +154,7 @@ function lookforengine() {
 			store.set('paths.enginepath', enginepath);
 		} else {
 			enginefound = 0;
+			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 		}
 	} else if (platform == 'darwin') {
 		if (fs.existsSync(enginepath)) {
@@ -360,3 +361,5 @@ export function trackEvent(category, action, label, value) {
 		.send();
 }
 trackEvent('App', 'launched');
+
+export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };

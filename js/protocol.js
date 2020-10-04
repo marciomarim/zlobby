@@ -164,6 +164,7 @@ export default class Protocol {
 					break;
 
 				case 'DENIED':
+					$('#loginpane').addClass('active');
 					var reason = parts.slice(1).join(' ');
 					$('#loginmessage').text(reason);
 					var notification = new Notification('Login denied:', {
