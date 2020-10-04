@@ -1,6 +1,5 @@
 var spawn = require('child_process').spawn,
 	fs = require('fs'),
-	https = require('https'),
 	Jimp = require('jimp');
 
 import { socketClient } from './socket.js';
@@ -51,21 +50,47 @@ export default class Battle {
 					battle.checkmap();
 				},
 				success: function() {
-					battle.downloadgame(fileurl);
+					battle.downloadgame(fileurl, filename);
 				},
 			});
 		}
 	}
 
-	downloadgame(fileurl) {
+	downloadgame(fileurl, filename) {
 		$('#battleroom .game-download').addClass('downloading');
 
-		ipcRenderer.send('download', {
+		// 		const file = fs.createWriteStream(modsdir + filename);
+		//
+		// 		https.get(fileurl, function(response) {
+		// 			response.pipe(file);
+		//
+		// 			var len = parseInt(response.headers['content-length'], 10);
+		// 			var body = '';
+		// 			var cur = 0;
+		// 			var obj = document.getElementById('js-progress');
+		// 			var total = len / 1048576; //1048576 - bytes in  1Megabyte
+		//
+		// 			response.on('data', function(chunk) {
+		// 				body += chunk;
+		// 				cur += chunk.length;
+		// 				//obj.innerHTML = "Downloading " + (100.0 * cur / len).toFixed(2) + "% " + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb";
+		// 				$('#battleroom .game-download .progress').css('width', ((100.0 * cur) / len).toFixed(2));
+		// 			});
+		//
+		// 			response.on('end', function() {
+		// 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
+		// 				utils.sendbattlestatus();
+		// 				$('#battleroom .game-download').removeClass('downloading');
+		// 				this.checkmap();
+		// 			});
+		// 		});
+
+		ipcRenderer.send('download-game', {
 			url: fileurl,
 			properties: { directory: modsdir },
 		});
 
-		ipcRenderer.on('download progress', (event, progress) => {
+		ipcRenderer.on('download-game progress', (event, progress) => {
 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
 				var w = Math.round(progress.percent * 100) + '%';
 				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
@@ -73,7 +98,7 @@ export default class Battle {
 			}
 		});
 
-		ipcRenderer.on('download complete', (event, progress) => {
+		ipcRenderer.on('download-game complete', (event, progress) => {
 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
 				utils.sendbattlestatus();
@@ -129,19 +154,19 @@ export default class Battle {
 	}
 
 	downloadmap(fileurl) {
-		ipcRenderer.send('download', {
+		ipcRenderer.send('download-map', {
 			url: fileurl,
 			properties: { directory: mapsdir },
 		});
 
-		ipcRenderer.on('download progress', async (event, progress) => {
+		ipcRenderer.on('download-map progress', async (event, progress) => {
 			$('#battleroom .map-download').addClass('downloading');
 			var w = Math.round(progress.percent * 100) + '%';
 			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
 			$('#battleroom .map-download .progress').css('width', w);
 		});
 
-		ipcRenderer.on('download complete', (event, progress) => {
+		ipcRenderer.on('download-map complete', (event, progress) => {
 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 			utils.sendbattlestatus();
 
@@ -273,25 +298,6 @@ export default class Battle {
 			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
 			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
 
-			// 			var map = fs.createWriteStream(localmap);
-			// 			var mmap = fs.createWriteStream(localmmap);
-			// 			var hmap = fs.createWriteStream(localhmap);
-			//
-			// 			var request = https.get(urlmmap, function(response) {
-			// 				response.pipe(mmap);
-			// 			});
-			//
-			// 			var request = https.get(urlhmap, function(response) {
-			// 				response.pipe(hmap);
-			// 			});
-			//
-			// 			var request = https.get(urlmap, function(response) {
-			// 				response.pipe(map);
-			// 				response.on('end', function() {
-			// 					battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-			// 				});
-			// 			});
-
 			var sizeinfos = mapinfo['sizeinfos'];
 			var w = sizeinfos['width'],
 				h = sizeinfos['height'];
@@ -395,105 +401,6 @@ export default class Battle {
 	removestartrect(allyNo) {
 		$('.startbox.box' + allyNo).remove();
 	}
-
-	// 	load_remote_map_image(battleid) {
-	// 		var battles = this;
-	// 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
-	// 		var mapfilenamebase = mapname
-	// 			.toLowerCase()
-	// 			.split(' ')
-	// 			.join('_');
-	//
-	// 		var localmap = minimapsdir + mapfilenamebase + '.png';
-	// 		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.png';
-	// 		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.png';
-	//
-	// 		// minimaps already downloaded
-	// 		if (fs.existsSync(localmap)) {
-	// 			battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
-	// 		} else {
-	// 			var mapfilename1 = mapfilenamebase + '.sd7';
-	// 			var mapfilename2 = mapfilenamebase + '.sdz';
-	//
-	// 			var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
-	// 			var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
-	//
-	// 			var murl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/metalmap_9.png';
-	// 			var murl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/metalmap_9.png';
-	//
-	// 			var hurl1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/heightmap_9.png';
-	// 			var hurl2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/heightmap_9.png';
-	//
-	// 			var map = fs.createWriteStream(localmap);
-	// 			var mmap = fs.createWriteStream(localmmap);
-	// 			var hmap = fs.createWriteStream(localhmap);
-	//
-	// 			$.ajax({
-	// 				url: url1,
-	// 				type: 'HEAD',
-	// 				error: function() {
-	// 					$.ajax({
-	// 						url: url2,
-	// 						type: 'HEAD',
-	// 						success: function() {
-	// 							var request = https.get(murl2, function(response) {
-	// 								response.pipe(mmap);
-	// 							});
-	//
-	// 							var request = https.get(hurl2, function(response) {
-	// 								response.pipe(hmap);
-	// 							});
-	//
-	// 							var request = https.get(url2, function(response) {
-	// 								response.pipe(map);
-	// 								response.on('end', function() {
-	// 									battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
-	// 								});
-	// 							});
-	// 						},
-	// 					});
-	// 				},
-	// 				success: function() {
-	// 					var request = https.get(murl1, function(response) {
-	// 						response.pipe(mmap);
-	// 					});
-	//
-	// 					var request = https.get(hurl1, function(response) {
-	// 						response.pipe(hmap);
-	// 					});
-	//
-	// 					var request = https.get(url1, function(response) {
-	// 						response.pipe(map);
-	// 						response.on('end', function() {
-	// 							battles.appendimagedivs(battleid, localmap, localmmap, localhmap);
-	// 						});
-	// 					});
-	// 				},
-	// 			});
-	// 		}
-	// 	}
-
-	// need to know map size to finish this
-	// addmapstartposes(mode) {
-	// 	if (mode == 'fixed') {
-	// 	} else if (mode == 'random') {
-	// 	} else if (mode == 'choose_ingame') {
-	// 	} else if (mode == 'choose_before') {
-	// 	}
-	// }
-
-	// 	fitmapsize(w, h) {
-	// 		var ratio = w / h;
-	// 		var divwidth = $('#battleroom .minimaps').width();
-	// 		var ratiodiv = divwidth / 400;
-	//
-	// 		if (ratio > ratiodiv) {
-	// 			$('#battleroom .minimaps').css('height', divwidth / ratio);
-	// 		} else {
-	// 			$('#battleroom .minimaps').css('height', '400px');
-	// 			$('#battleroom .minimaps').css('width', ratio * 400 + 'px');
-	// 		}
-	// 	}
 
 	loadmapspickmap() {
 		fs.readdir(mapsdir, (err, files) => {
