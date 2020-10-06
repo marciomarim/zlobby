@@ -63,7 +63,7 @@ function set_detault_paths() {
 		chatlogsdir = homedir + '/.spring/chatlogs/';
 		infologfile = homedir + '/.spring/infolog.txt';
 		scriptfile = homedir + '/.spring/e-script.txt';
-		replaysdir = homedir + '/.spring/demos/';
+		replaysdir = homedir + '/.config/demos/';
 		enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
 		enginedir = '/Applications/';
 		engineverdir = enginedir;
@@ -95,6 +95,12 @@ function check_folders() {
 		var mygamesdir = homedir + '\\Documents\\My Games\\';
 		if (!fs.existsSync(mygamesdir)) {
 			fs.mkdirSync(mygamesdir);
+		}
+	}
+
+	if (platform == 'darwin') {
+		if (!fs.existsSync(homedir + '/.config/')) {
+			fs.mkdirSync(homedir + '/.config/');
 		}
 	}
 
