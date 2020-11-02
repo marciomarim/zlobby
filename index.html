@@ -18,6 +18,7 @@
 		<script type="module" src="js/navigation.js"></script>
 		<script type="module" src="js/chat.js"></script>
 		<script type="module" src="js/battleroom.js"></script>
+		<script type="module" src="js/singleplayer.js"></script>
 		<script type="module" src="js/replays.js"></script>
 		<script type="module" src="js/acolorpicker.js"></script>
 	</head>
@@ -41,7 +42,7 @@
 				<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>
 				<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>
 				<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
-				<div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div>
+				<!-- <div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div> -->
 				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
 				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
 				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
@@ -389,6 +390,30 @@
 							<button class="startbattle">Start</button>
 						</div>
 					</div>
+				</div>
+			</div>
+
+			<div id="singleplayer" class="container wide">
+				<div class="smallnav">
+					<div class="navbtn active" data-target="singleplayer-minimap" data-class="map">Map</div>
+					<div class="navbtn" data-target="singleplayer-metalmap" data-class="map">metalmap</div>
+					<div class="navbtn" data-target="singleplayer-heightmap" data-class="map">heightmap</div>
+				</div>
+
+				<div class="game-download">
+					<div class="download-title">Downloading game...</div>
+					<div class="progress"></div>
+				</div>
+				<div class="map-download">
+					<div class="download-title">Downloading map...</div>
+					<div class="progress"></div>
+				</div>
+
+				<div class="minimaps">
+					<div id="singleplayer-minimap" class="map smalltab active"></div>
+					<div id="singleplayer-metalmap" class="map smalltab"></div>
+					<div id="singleplayer-heightmap" class="map smalltab"></div>
+					<div class="pickmap-btn">PICK MAP</div>
 				</div>
 			</div>
 
