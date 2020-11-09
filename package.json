@@ -75,7 +75,7 @@
     },
     "win": {
       "icon": "assets/icons/icon.png",
-      "publisherName": ["Apple Development: Marcio Marim (Marcio Marim)"],
+      "publisherName": "Apple Development: Marcio Marim (Marcio Marim)",
       "target": [
         "nsis"
       ]
