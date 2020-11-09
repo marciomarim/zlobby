@@ -7,6 +7,9 @@ var fs = require('fs');
 var Filter = require('bad-words'),
 	filter = new Filter();
 
+const Store = require('electron-store');
+const store = new Store();
+
 //const { spawn } = require('child_process');
 
 export default class Utils {
@@ -334,6 +337,8 @@ export default class Utils {
 	}
 
 	append_message_battleroom(username, message) {
+		var usermuted = store.get('users.' + username + '.mute');
+
 		var myusername = $('#myusername').text();
 		var amiplaying = false;
 		$('#voteformap').empty();
@@ -435,6 +440,10 @@ export default class Utils {
 		}
 */
 
+		console.log(usermuted);
+		if (usermuted) {
+			$bubble.addClass('muted');
+		}
 		$('#battle-room').append($bubble);
 
 		// scroll to bottom

@@ -221,11 +221,18 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li', function(e) {
 	var username = $(this).data('username');
+	var usermuted = store.get('users.' + username + '.mute');
 
 	// create popoup
 	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
 	var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
-	commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div></div>';
+	commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
+	if (usermuted) {
+		commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
+	} else {
+		commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
+	}
+
 	$userwin.append(commands);
 	$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>');
 	$(this).append($userwin);
@@ -257,6 +264,24 @@ $('body').on('click', '.usercommand', function(e) {
 	var username = $(this).data('username');
 	var command = $(this).data('command');
 	socketClient.write('SAYBATTLE ' + command + ' ' + username + '\n');
+});
+
+$('body').on('click', '.muteuser', function(e) {
+	var username = $(this).data('username');
+	store.set('users.' + username + '.mute', 1);
+	$(this)
+		.addClass('unmuteuser')
+		.removeClass('muteuser')
+		.text('unmute');
+});
+
+$('body').on('click', '.unmuteuser', function(e) {
+	var username = $(this).data('username');
+	store.set('users.' + username + '.mute', 0);
+	$(this)
+		.addClass('muteuser')
+		.removeClass('unmuteuser')
+		.text('mute');
 });
 
 $(document).mouseup(function(e) {

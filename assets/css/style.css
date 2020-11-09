@@ -1099,6 +1099,19 @@ ul.list {
 					background: #434851;
 					font-size: 12px;
 				}
+				.userwin .unmuteuser,
+				.userwin .muteuser{
+					padding: 4px 6px;
+					border-radius: 15px;
+					margin: 0 5px;
+					cursor: pointer;
+					background: #434851;
+					font-size: 12px;
+				}
+				
+				.userwin .unmuteuser{
+					background: red;
+				}
 		
 	#battlelabels{
 		position: absolute;
@@ -1648,7 +1661,8 @@ span.upper{
 	.messages li.vote .message{
 		background: #d71327;		 
 	}
-		
+	
+	
 	.messages li.hidemessage{
 		display: none;
 	}
@@ -1656,6 +1670,20 @@ span.upper{
 	.messages li.offline .message{
 		background: #791919; 
 		cursor: pointer;
+	}
+	
+	.messages li.muted .message{
+		display: none;
+	}
+	.messages li.muted:after{		
+		content: '(muted)';
+		float: left;
+		padding: 5px 12px 6px;
+		background: rgba(255, 0, 0, 0.5);
+		border-radius: 16px;
+		max-width: 80%;
+		margin: 0 0 2px 0;
+		overflow-wrap: anywhere;
 	}
 	
 	.messages li.offline .message:before{
