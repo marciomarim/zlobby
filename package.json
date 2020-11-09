@@ -75,7 +75,7 @@
     },
     "win": {
       "icon": "assets/icons/icon.png",
-      "publisherName": "Apple Development: marcio@yhello.co (2S7KUV69ZN)",
+      "publisherName": "Apple Development: marcio@yhello.co (2S7KUV69ZN)",      
       "target": [
         "nsis"
       ]

@@ -366,7 +366,11 @@ export default class Utils {
 		if (ring && talkingabout >= 0 && myvote < 1) {
 			//console.log('ringing');
 			$('#ringsound')[0].play();
+		} else if (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready')) {
+			// ring me if not ready
+			$('#ringsound')[0].play();
 		}
+
 		message = message.replace('\n', ' ');
 		message = $('<div/>')
 			.text(message)
@@ -385,8 +389,15 @@ export default class Utils {
 
 		if (username == last_user_msg) {
 			$bubble.append('<div class="messageinfo hidden"><div class="userspeaking">' + username + '</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
+			if (usermuted) {
+				// avoid muted user spam
+				return false;
+			}
 		} else {
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">' + username + '</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
+			if (usermuted) {
+				$bubble.addClass('muted');
+			}
 		}
 
 		if (username == myusername) {
@@ -434,16 +445,6 @@ export default class Utils {
 			$('#votewin').removeClass('active');
 		}
 
-		/*
-		if (endvote >= 0){
-			$('#votewin').removeClass('active');
-		}
-*/
-
-		console.log(usermuted);
-		if (usermuted) {
-			$bubble.addClass('muted');
-		}
 		$('#battle-room').append($bubble);
 
 		// scroll to bottom

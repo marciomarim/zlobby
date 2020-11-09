@@ -1327,7 +1327,7 @@ ul.list {
 		    color: #ccc;
 		    max-width: 300px;
 		    z-index: 9;
-		    background: #6737b3;
+		    background: #5588ff;
 		    padding: 1em 1em 0 1em;
 		    border-radius: 10px;
 		    text-align: center;
@@ -1675,6 +1675,15 @@ span.upper{
 	.messages li.muted .message{
 		display: none;
 	}
+	
+	.messages li.muted:hover > .message{
+		display: block;
+	}
+	
+	.messages li.muted:hover:after{
+		display: none;
+	}
+	
 	.messages li.muted:after{		
 		content: '(muted)';
 		float: left;
