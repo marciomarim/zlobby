@@ -19,7 +19,7 @@ var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
 
-var springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
+var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
 function initial_check() {
 	var enginepath_saved = store.get('paths.enginepath');
@@ -50,6 +50,7 @@ function set_detault_paths() {
 		minimapsdir = appPath + '\\minimaps\\';
 		modsdir = homedir + '\\Documents\\My Games\\Spring\\games\\';
 		replaysdir = homedir + '\\Documents\\My Games\\Spring\\demos\\';
+		replaysdir2 = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\demos\\';
 		chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
 		infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.txt';
 		scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
@@ -64,6 +65,7 @@ function set_detault_paths() {
 		infologfile = homedir + '/.spring/infolog.txt';
 		scriptfile = homedir + '/.spring/e-script.txt';
 		replaysdir = homedir + '/.config/demos/';
+		replaysdir2 = homedir + '/.config/spring/demos/';
 		enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
 		enginedir = '/Applications/';
 		engineverdir = enginedir;
@@ -389,4 +391,4 @@ export function trackEvent(category, action, label, value) {
 }
 trackEvent('App', 'launched');
 
-export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
+export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
