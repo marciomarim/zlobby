@@ -261,6 +261,9 @@ $(window).ready(function() {
 	var autoconnect = store.get('prefs.autoconnect');
 	if (autoconnect == undefined) store.set('prefs.autoconnect', 1);
 
+	var lightmode = store.get('prefs.lightmode');
+	if (lightmode == undefined) store.set('prefs.lightmode', 0);
+
 	var savechats = store.get('prefs.savechats');
 	if (savechats == undefined) store.set('prefs.savechats', 0);
 
@@ -273,6 +276,14 @@ $(window).ready(function() {
 		$('.autoconnect').prop('checked', false);
 	} else {
 		$('.autoconnect').prop('checked', true);
+	}
+
+	lightmode = store.get('prefs.lightmode');
+	if (lightmode == 0) {
+		$('.lightmode').prop('checked', false);
+	} else {
+		$('.lightmode').prop('checked', true);
+		$('body').addClass('lightmode');
 	}
 
 	rudechat = store.get('prefs.rudechat');
@@ -296,6 +307,16 @@ $('body').on('click', '.autoconnect', function(e) {
 		store.set('prefs.autoconnect', 1);
 	} else {
 		store.set('prefs.autoconnect', 0);
+	}
+});
+
+$('body').on('click', '.lightmode', function(e) {
+	if ($('.lightmode').prop('checked') == true) {
+		store.set('prefs.lightmode', 1);
+		$('body').addClass('lightmode');
+	} else {
+		store.set('prefs.lightmode', 0);
+		$('body').removeClass('lightmode');
 	}
 });
 

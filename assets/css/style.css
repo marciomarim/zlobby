@@ -28,6 +28,11 @@ body {
 	background: #111418;
 }
 
+body.lightmode{
+	background: #eee;
+	color: #111;
+}
+
 a{
 	color: #5cc2ff;
 }
@@ -63,6 +68,10 @@ a{
 	background: #24282f;
 }
 
+	body.lightmode #main{
+		background: #eee;
+	}
+
 	#topbar{
 	    position: fixed;
 	    top: 0;
@@ -74,6 +83,10 @@ a{
 	    -webkit-app-select: none;
         background: #111418;
 	}
+	
+		body.lightmode #topbar{
+			background: #eee;
+		}
 		
 		#topbar .left,
 		#topbar .middle,
@@ -101,7 +114,10 @@ a{
 			font-family: LatoBold;
 		}
 		
-		
+		body.lightmode #topbar #appVersion,
+		body.lightmode #topbar #myusername{
+			color: #111;			
+		}
 		
 	.lmenu{
 		position: relative;
@@ -112,6 +128,10 @@ a{
 		background: #111418;
 	    padding: 20px 10px;
 	}
+	
+		body.lightmode .lmenu{
+			background: #eee;
+		}
 	
 		.lmenu .tab{
 			text-align: center;
@@ -234,6 +254,10 @@ a{
 	    font-size: 0.9em;
 	    padding: 0.4em;
 	    pointer-events: none;
+	}
+	
+	body.lightmode .container .title{		
+		color: #111;
 	}
 	
 	.container .account{
@@ -400,6 +424,10 @@ a{
 		background: #212832;
 	}
 	
+	body.lightmode .bottom-input{
+		background: #ccc;
+	}
+	
 	#chats .bottom-input {
 		width: calc(100% - 130px);
 	}
@@ -440,6 +468,12 @@ button.command{
 	padding: 0.7em 1.2em;
 	background: #202427;
 	border: 1px solid #202427;
+}
+
+body.lightmode button.command{	
+	background: #eee;
+	border: 1px solid #111;
+	color: #111;
 }	
 
 button.gray{
@@ -457,6 +491,13 @@ input[type=text]{
 	background: #11151a;
 	color: #fff;	
 	border-radius: 20px;
+}
+
+body.lightmode input[type=password], 
+body.lightmode input[type=text]{
+	border: 1px solid #fff;
+	background: #eee;
+	color: #111;
 }
 
 .battleroom_input{
@@ -551,6 +592,11 @@ ul.list {
 		position: relative;
 	}
 	
+	body.lightmode .battle-card{
+		background: #ddd;
+		color: #111;
+	}
+	
 	
 	.battle-card.activebattle:after,
 	.battle-card:hover:after{		
@@ -567,8 +613,7 @@ ul.list {
 			display: flex;
 			justify-content: space-between;
 			font-size: 11px;
-			font-family: LatoBold;
-			color: #ccc;
+			font-family: LatoBold;			
 		}
 		
 /*
@@ -588,6 +633,10 @@ ul.list {
 			height: 220px;
 			background: #000;	
 			position: relative;			
+		}
+		
+		body.lightmode .battle-card .minimap{			
+			background: #bbb;
 		}
 		
 		.battle-card .minimap:before{
@@ -633,8 +682,7 @@ ul.list {
 			.battle-card .meta2{
 				display: flex;
 				justify-content: space-between;
-				flex-wrap: wrap;
-				color: #ccc;
+				flex-wrap: wrap;				
 				padding: 0;
 			}
 			
@@ -647,8 +695,7 @@ ul.list {
 			justify-content: space-between;
 			flex-wrap: wrap;			
 		    margin: -80px 0 0 0;
-			padding: 0;
-			color: #bbb;
+			padding: 0;			
 			width: calc(100% - 220px);			
 		}
 		
@@ -702,8 +749,7 @@ ul.list {
 	#battleroom .minimaps{
 		width: 100%;
 	    height: 400px;
-		min-height: 400px;
-	    background: #000;
+		min-height: 400px;	    
 	    position: relative;
 	    text-align: center;
 	    margin: 0 auto;
@@ -716,6 +762,14 @@ ul.list {
 	    height: 100%;
 	    background: #000;
 	    position: relative;	    
+	}
+	
+	body.lightmode #battle-metalmap,
+	body.lightmode #battle-heightmap,
+	body.lightmode #battle-minimap{
+		width: 100%;
+		height: 100%;
+		background: #bbb;
 	}
 				
 		
@@ -927,10 +981,7 @@ ul.list {
 			justify-content: space-between;
 			position: relative;
 		    padding: 0.1em 1em;		    
-		}
-			.battle-players .battle-playerlist{
-				border-bottom: 1px solid #303440;	
-			}
+		}			
 			
 				.battle-players .battle-playerlist li{
 					padding: 0.1em 1em 0.1em 2em;		    		
@@ -1139,6 +1190,10 @@ ul.list {
     	height: 50vh;
 	    background: #1b1e23;
 	    
+	}
+	
+	body.lightmode #battleroom .text-scroll{
+		background: #f6f6f6;	
 	}
 	
 	.pickmapclose-btn,
@@ -1378,6 +1433,11 @@ ul.list {
     	border-radius: 20px;
 	}
 	
+	body.lightmode select{
+		background: #ccc;
+		color: #111;
+	}
+	
 	select:active,
 	select:focus{
 		border: none;
@@ -1404,6 +1464,10 @@ ul.list {
 	    font-size: 12px;
 		z-index: 999;
 	}
+	
+		body.lightmode .battle-actions{					
+			background: #eee;
+		}
 	
 		.battle-actions .line{
 			display: flex;
@@ -1499,6 +1563,11 @@ ul.list {
 		padding: 1em 0.5em 1em 1em;
 	}
 	
+	body.lightmode #battle-right-info{
+		background: #eee;
+		color: #111;
+	}
+	
 	.smallnav{
 		margin-top: 5px;
 		display: flex;
@@ -1512,6 +1581,11 @@ ul.list {
 	    padding: 2px 5px;
 	    background: #1b1e23;
 	    cursor: pointer;
+	}
+	
+	body.lightmode .smallnav .navbtn{		
+		color: #111;			
+		background: #bbb;
 	}
 	
 	.smallnav .navbtn.active{
@@ -1530,6 +1604,10 @@ ul.list {
 	#battleoptions{
 		background: #191d24;
 	    padding: 1em;
+	}
+	
+	body.lightmode #battleoptions{
+		background: #c6c6c6;
 	}
 	
 	
@@ -1632,6 +1710,10 @@ span.upper{
         overflow-wrap: anywhere;
 	}
 	
+	body.lightmode .messages li .message{
+		background: #ddd;
+	}
+	
 	.messages li.mine{
 		text-align: right;
 	}		
@@ -1641,26 +1723,43 @@ span.upper{
 		background: #1d4cba;		 
 	}
 	
+	body.lightmode .messages li.mine .message{
+		color: #2971cc;
+	}	
 		
 	.messages li.ishost{
 		opacity: 0.7;
-	}		
+	}				
 	
 	.messages li.ishost .message{
 		background: #222a3e;
+	}
+	
+	body.lightmode .messages li.ishost .message{
+		background: #c3cfe2;
 	}
 	
 	.messages li.talkingabout .message{
 		background: #6737b3;		 
 	}
 	
+	body.lightmode .messages li.talkingabout .message{
+		color: #ca29cc;
+	}
+	
 	.messages li.winner .message{
 		background: #13d68b;		 
+	}
+	
+	body.lightmode .messages li.winner .message{
+		color: #3acc29;
 	}
 	
 	.messages li.vote .message{
 		background: #d71327;		 
 	}
+	
+	
 	
 	
 	.messages li.hidemessage{
