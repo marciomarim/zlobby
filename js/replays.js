@@ -7,8 +7,8 @@ if (fs.existsSync(replaysdir)) {
 	fs.readdir(replaysdir, (err, files) => {
 		files.forEach(file => {
 			var data = file.replace('_103.sdfz', '').split('_');
-			var date = data[0];
-			var hour = data[1];
+			var date = [data[0].slice(0, 4), '/', data[0].slice(4, 6), '/', data[0].slice(6)].join('');
+			var hour = [data[1].slice(0, 2), ':', data[1].slice(2, 4), ':', data[1].slice(4)].join('');
 			var mapname = data.slice(2).join('');
 
 			var localmap =
@@ -17,51 +17,17 @@ if (fs.existsSync(replaysdir)) {
 					.toLowerCase()
 					.split(' ')
 					.join('_') +
-				'.png';
+				'.jpg';
 
 			var div = '<div class="replayitem" data-path="' + replaysdir + file + '">';
 			div += '<div class="infos">';
-			div += '<div class="meta">' + date + '</div>';
-			div += '<div class="meta">' + hour + '</div>';
-			div += '<div class="meta">' + mapname + '</div>';
+			div += '<div class="meta">Date: ' + date + '</div>';
+			div += '<div class="meta">Time: ' + hour + '</div>';
+			div += '<div class="meta">Map: ' + mapname + '</div>';
 			div += '</div>';
 			if (fs.existsSync(localmap)) div += '<div class="minimap"><img src="' + localmap + '"></div>';
 			div += '</div>';
 			$('#replaylist').append(div);
-
-			/*
-		    var mapfilenamebase = mapname.toLowerCase().split(' ').join('_');
-		    var mapfilename1 = mapfilenamebase+'.sd7';
-		    var mapfilename2 = mapfilenamebase+'.sdz';
-			console.log(mapfilename1);
-		    
-		    var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename1 + '/maps/BAfiles_metadata/minimap_9.png';
-		    var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilename2 + '/maps/BAfiles_metadata/minimap_9.png';
-	*/
-
-			/*
-		    $.ajax({ 
-	            url: url1,             
-	            type: 'HEAD', 
-	            error: function()  
-	            {                 
-					$.ajax({ 
-			            url: url2,             
-			            type: 'HEAD', 
-			            success: function()  
-			            { 
-							var imgdiv = '<img class="map" src="'+url2+'">';
-							$div.append(imgdiv);				        
-			            } 
-			        });     
-	            }, 
-	            success: function()  
-	            { 
-					var imgdiv = '<img class="map" src="'+url1+'">';
-					$div.append(imgdiv);
-	            } 
-	        });
-	*/
 		});
 	});
 }
@@ -70,8 +36,8 @@ if (fs.existsSync(replaysdir2)) {
 	fs.readdir(replaysdir2, (err, files) => {
 		files.forEach(file => {
 			var data = file.replace('_103.sdfz', '').split('_');
-			var date = data[0];
-			var hour = data[1];
+			var date = [data[0].slice(0, 4), '/', data[0].slice(4, 6), '/', data[0].slice(6)].join('');
+			var hour = [data[1].slice(0, 2), ':', data[1].slice(2, 4), ':', data[1].slice(4)].join('');
 			var mapname = data.slice(2).join('');
 
 			var localmap =
@@ -80,13 +46,13 @@ if (fs.existsSync(replaysdir2)) {
 					.toLowerCase()
 					.split(' ')
 					.join('_') +
-				'.png';
+				'.jpg';
 
 			var div = '<div class="replayitem" data-path="' + replaysdir2 + file + '">';
 			div += '<div class="infos">';
-			div += '<div class="meta">' + date + '</div>';
-			div += '<div class="meta">' + hour + '</div>';
-			div += '<div class="meta">' + mapname + '</div>';
+			div += '<div class="meta">Date: ' + date + '</div>';
+			div += '<div class="meta">Time: ' + hour + '</div>';
+			div += '<div class="meta">Map: ' + mapname + '</div>';
 			div += '</div>';
 			if (fs.existsSync(localmap)) div += '<div class="minimap"><img src="' + localmap + '"></div>';
 			div += '</div>';
