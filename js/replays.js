@@ -3,6 +3,8 @@ var spawn = require('child_process').spawn,
 
 import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
+var mapsfound = [];
+
 if (fs.existsSync(replaysdir)) {
 	fs.readdir(replaysdir, (err, files) => {
 		files.forEach(file => {
@@ -19,7 +21,12 @@ if (fs.existsSync(replaysdir)) {
 					.join('_') +
 				'.jpg';
 
-			var div = '<div class="replayitem" data-path="' + replaysdir + file + '">';
+			if (mapsfound.indexOf(localmap) === -1) {
+				mapsfound.push(localmap);
+				createmapfilter(localmap, mapname);
+			}
+
+			var div = '<div class="replayitem" data-path="' + replaysdir + file + '" data-mapname="' + mapname + '">';
 			div += '<div class="infos">';
 			div += '<div class="meta">Date: ' + date + '</div>';
 			div += '<div class="meta">Time: ' + hour + '</div>';
@@ -48,7 +55,12 @@ if (fs.existsSync(replaysdir2)) {
 					.join('_') +
 				'.jpg';
 
-			var div = '<div class="replayitem" data-path="' + replaysdir2 + file + '">';
+			if (mapsfound.indexOf(localmap) === -1) {
+				mapsfound.push(localmap);
+				createmapfilter(localmap, mapname);
+			}
+
+			var div = '<div class="replayitem" data-path="' + replaysdir2 + file + '" data-mapname="' + mapname + '">';
 			div += '<div class="infos">';
 			div += '<div class="meta">Date: ' + date + '</div>';
 			div += '<div class="meta">Time: ' + hour + '</div>';
@@ -60,6 +72,31 @@ if (fs.existsSync(replaysdir2)) {
 		});
 	});
 }
+
+function createmapfilter(localmap, mapname) {
+	if (fs.existsSync(localmap)) {
+		var div = '<div class="mapfilter" data-mapname="' + mapname + '">';
+		div += '<div class="minimap"><img src="' + localmap + '"></div>';
+		div += '</div>';
+		$('#mapfilter').append(div);
+	}
+}
+
+$('body').on('click', '.mapfilter', function(e) {
+	if ($(this).hasClass('active')) {
+		$(this).removeClass('active');
+		$('.replayitem').show();
+		// $('.mapfilter').each(function(index) {
+		// 	$(this).show();
+		// });
+	} else {
+		$('.mapfilter').removeClass('active');
+		$(this).addClass('active');
+		var mapname = $(this).data('mapname');
+		$('.replayitem').hide();
+		$('.replayitem[data-mapname="' + mapname + '"]').show();
+	}
+});
 
 $('body').on('click', '.replayitem', function(e) {
 	var replaypath = $(this).data('path');

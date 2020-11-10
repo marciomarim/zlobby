@@ -148,8 +148,8 @@ function lookforengine() {
 	var enginefound = 0;
 	if (platform == 'win32') {
 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe')) {
-			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\spring.exe';
-			engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.3\\';
+			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
+			engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {

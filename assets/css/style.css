@@ -2069,6 +2069,28 @@ span.upper{
 		border: 1px solid #5588ff;
 	}
 
+.inline-title{	
+	margin: 2em 2em 1em 2em;
+	text-transform: uppercase;
+	font-size: 0.8em;	
+}
+
+#mapfilter{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 1em;
+}
+
+	#mapfilter .mapfilter{
+		cursor: pointer;
+		width: 100px;	
+		margin: 0.5em;
+	}
+	
+	#mapfilter .mapfilter img{
+		width: 100%;
+		height: auto;
+	}
 	
 #replaylist{
 	display: flex;	
