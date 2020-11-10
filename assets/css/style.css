@@ -29,12 +29,12 @@ body {
 }
 
 body.lightmode{
-	background: #eee;
+	background: #d6d6d6;
 	color: #111;
 }
 
 a{
-	color: #5cc2ff;
+	color: #2996d8;
 }
 
 /* width */
@@ -57,6 +57,26 @@ a{
   background: #555;
 }
 
+/* width */
+body.lightmode ::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+body.lightmode ::-webkit-scrollbar-track {
+  background: #eee;
+}
+
+/* Handle */
+body.lightmode ::-webkit-scrollbar-thumb {
+  background: #bbb;
+}
+
+/* Handle on hover */
+body.lightmode ::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
 #main{
 	position: fixed;
 	width: 100%;
@@ -70,6 +90,7 @@ a{
 
 	body.lightmode #main{
 		background: #eee;
+		border-top: 1px solid #bbb;
 	}
 
 	#topbar{
@@ -85,7 +106,7 @@ a{
 	}
 	
 		body.lightmode #topbar{
-			background: #eee;
+			background: #d6d6d6;
 		}
 		
 		#topbar .left,
@@ -124,13 +145,15 @@ a{
 		left:0;
 		top:0;
 		height: calc(100vh - 30px);
-		width: 120px;
+		width: 119px;
 		background: #111418;
 	    padding: 20px 10px;
+		border-right: 1px solid #111418;
 	}
 	
 		body.lightmode .lmenu{
-			background: #eee;
+			background: #d6d6d6;
+			border-right: 1px solid #bbb;
 		}
 	
 		.lmenu .tab{
@@ -154,6 +177,11 @@ a{
 		    line-height: 1.5em;
 			border-radius: 50%;
 			background: #333;
+		}
+		
+		body.lightmode .lmenu .tab .status,
+		body.lightmode .lmenu .tab .count{
+			background: #ddd;
 		}
 		
 		.lmenu .tab .count:empty{
@@ -217,6 +245,11 @@ a{
 			height: 100%;
 			background: rgba(0,0,0,0.6);
 		}		
+		
+		body.lightmode #videocontainer:after{
+			background: rgba(255,255,255,0.2);
+		}
+		
 			
 	#bademovideo {
 	  position: absolute;	  
@@ -282,6 +315,10 @@ a{
 			display: none;
 		}
 		
+			body.lightmode .account .pane{
+				background: #d0d2da;
+			}
+			
 			.account .pane.active{
 				display: block;
 			}
@@ -327,6 +364,10 @@ a{
 			text-align: center;
 			padding: 1em;
 			cursor: pointer;
+		}
+		
+		body.lightmode .account .nav .btn{			
+			color: #fff;
 		}
 		
 		.account .nav .btn.active{
@@ -425,7 +466,8 @@ a{
 	}
 	
 	body.lightmode .bottom-input{
-		background: #ccc;
+		background: #ddd;
+		border-top: 1px solid #bbb;
 	}
 	
 	#chats .bottom-input {
@@ -474,13 +516,17 @@ body.lightmode button.command{
 	background: #eee;
 	border: 1px solid #111;
 	color: #111;
-}	
+}
 
 button.gray{
 	background: #4e5e80;
 	border: 1px solid #4e5e80;
 }	
 
+body.lightmode button.gray {
+	background: #c3c9d4;	
+	color: #111;
+}
 
 input[type=password], 
 input[type=text]{
@@ -495,7 +541,7 @@ input[type=text]{
 
 body.lightmode input[type=password], 
 body.lightmode input[type=text]{
-	border: 1px solid #fff;
+	border: 1px solid #333;
 	background: #eee;
 	color: #111;
 }
@@ -593,7 +639,8 @@ ul.list {
 	}
 	
 	body.lightmode .battle-card{
-		background: #ddd;
+		background: #e0e0e0;
+		border: 1px solid #bbb;
 		color: #111;
 	}
 	
@@ -882,6 +929,11 @@ ul.list {
 			flex-wrap: wrap;
 		}
 		
+		body.lightmode .battle-main-info .meta,
+		body.lightmode .battle-main-info .meta2{			
+			color: #111;
+		}
+		
 		.battle-main-info .meta2 div{
 			width: 50%;
 		}
@@ -935,7 +987,7 @@ ul.list {
 		height: calc(50vh - 75px);
 		overflow: auto;
 		position: relative;
-		padding-top: 1.3em;
+		padding-top: 0.5em;
 	}
 	
 		.battle-players .battle-speclist,
@@ -963,6 +1015,10 @@ ul.list {
 			    padding: 0 4px;
 			    letter-spacing: 0.1em;
 			    line-height: 1.7em;
+			}
+			
+			body.lightmode .teams .battle-playerlist .team-group:before{
+				background: #c4c8d0;
 			}
 			
 			.battle-playerlist .team-group:empty{
@@ -1166,7 +1222,7 @@ ul.list {
 		
 	#battlelabels{
 		position: absolute;
-		top: 0;
+		top: -32px;
 		left: 0; 
 		padding: 5px;
 	}
@@ -1184,6 +1240,10 @@ ul.list {
 		    margin: 0 0 0 10px;
 		}
 		
+		body.lightmode #battlelabels .labels{
+			color: #fff;
+		}
+		
 	
 	#battleroom .text-scroll {
 		width: 100%;
@@ -1193,7 +1253,8 @@ ul.list {
 	}
 	
 	body.lightmode #battleroom .text-scroll{
-		background: #f6f6f6;	
+		background: #eee;
+		border-top: 1px solid #bbb;
 	}
 	
 	.pickmapclose-btn,
@@ -1425,22 +1486,22 @@ ul.list {
 				top: 4px;
 			    left: -4px;
 			}
-	select {
-	    background: #202427;
+			
+	select {	    
 	    color: #fff;
 	    border: 2px solid #4a5173;
-	    padding: 6px 10px 6px 10px;
+	    padding: 7px 10px 7px 10px;
     	border-radius: 20px;
+		background: transparent;
 	}
 	
-	body.lightmode select{
-		background: #ccc;
+	body.lightmode select{		
 		color: #111;
 	}
 	
 	select:active,
-	select:focus{
-		border: none;
+	select:focus{		
+		border: 2px solid #4a5173;
 	}
 	
 	label.pickteam,
@@ -1480,6 +1541,10 @@ ul.list {
 			font-size: 11px;
 			text-transform: uppercase;
 			color: #889;		
+		}
+		
+		body.lightmode .ui-label{
+			color: #111;		
 		}
 		
 		.battle-players .ui-label{
@@ -1566,6 +1631,7 @@ ul.list {
 	body.lightmode #battle-right-info{
 		background: #eee;
 		color: #111;
+		border-left: 1px solid #ccc;
 	}
 	
 	.smallnav{
@@ -1585,7 +1651,7 @@ ul.list {
 	
 	body.lightmode .smallnav .navbtn{		
 		color: #111;			
-		background: #bbb;
+		background: #ccc;
 	}
 	
 	.smallnav .navbtn.active{
@@ -1607,7 +1673,7 @@ ul.list {
 	}
 	
 	body.lightmode #battleoptions{
-		background: #c6c6c6;
+		background: #e6e6e6;		
 	}
 	
 	
@@ -1617,6 +1683,10 @@ ul.list {
 		justify-content: space-between;
 		color: #777;	
 	}
+	
+		body.lightmode #battle-right-info .option{
+			color: #111;	
+		}
 	
 		#battle-right-info .option .name,
 		#battle-right-info .option .val{
@@ -1829,7 +1899,11 @@ span.upper{
 		width: 22%;
 		background: #181b21;
 	}
-	
+		
+		body.lightmode .channelchat .channelusers{			
+			background: #bbc1c7;
+		}
+		
 		.channelchat .channelusers li{
 			display: flex;
 			padding: 5px 0;
@@ -1877,6 +1951,14 @@ span.upper{
 		margin: 0 5px;
 		cursor: pointer;
 	}
+	
+	body.lightmode .channelchat .actions .clearchannel,
+	body.lightmode .channelchat .actions .closewin,
+	body.lightmode .userchat .actions .deletechat,
+	body.lightmode .userchat .actions .clearchat,
+	body.lightmode .userchat .actions .closewin{
+		background: #b5b7bf;
+	}
 
 
 	#channellist .left,
@@ -1893,6 +1975,11 @@ span.upper{
 	    right: 0;
 	    height: 100%;
 	    background: #1d2229;
+	}
+	
+	body.lightmode #channels,
+	body.lightmode #chats{
+		background: #cccfd4;
 	}
 
 #channellist{
@@ -1914,6 +2001,10 @@ span.upper{
 	font-size: 12px;    
 }	
 
+	body.lightmode #activechats{
+		background: #bbc1c7;
+	}
+
 	#activechats .buttons{
 		display: flex;
 	    flex-direction: column;	  
@@ -1932,6 +2023,11 @@ span.upper{
 	    position: relative;
 	    border: 1px solid #223;
 	}
+	
+		body.lightmode #activechats .userpm-select{
+			background: #d3d5dc;
+			border: 1px solid #929ba7;
+		}
 	
 		#activechats .userpm-select:before{
 		    content: '';

@@ -127,7 +127,7 @@ function create_account() {
 
 function resetUI() {
 	$('#battleroom, #battle-list, #chat-list, #channel-list').empty();
-	$('body').removeClass();
+	$('body').removeClass('socketlive inbattleroom picking ingame');
 	$('.lmenu .tab, .container, #battleroom .status, #chats').removeClass('active');
 	$('#start, .lmenu .tab.start').addClass('active');
 	$('.tab.battlelist .count').text('');
