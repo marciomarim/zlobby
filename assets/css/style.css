@@ -2083,8 +2083,13 @@ span.upper{
 
 	#mapfilter .mapfilter{
 		cursor: pointer;
-		width: 100px;	
+		width: 96px;	
 		margin: 0.5em;
+		border: 2px solid transparent;
+	}
+	
+	#mapfilter .mapfilter.active{		
+		border: 2px solid #1553da;
 	}
 	
 	#mapfilter .mapfilter img{

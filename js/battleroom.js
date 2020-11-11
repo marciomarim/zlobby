@@ -205,12 +205,14 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 
 		if (message == '/clear') {
 			utils.clear_battleroom_chat();
+		} else if (message.startsWith('/me')) {
+			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
+			socketClient.write(command);
 		} else {
 			if ($('.rudechat').prop('checked') == true) {
 				message = filter.clean(message);
 			}
 			var command = 'SAYBATTLE ' + message + '\n';
-			//console.log(command);
 			socketClient.write(command);
 		}
 		$(this).val('');

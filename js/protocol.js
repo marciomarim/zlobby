@@ -358,13 +358,22 @@ export default class Protocol {
 					break;
 
 				case 'SAIDBATTLE':
-				case 'SAIDBATTLEEX':
 					var username = parts[1];
 					var message = parts.slice(2).join(' ');
 					utils.append_message_battleroom(username, message);
 					break;
 
+				case 'SAIDBATTLEEX':
+					var username = parts[1];
+					var message = parts.slice(2).join(' ');
+					utils.append_message_battleroom(username, message, true);
+					break;
+
 				case 'SAIDEX':
+					var chanName = parts[1];
+					var username = parts[2];
+					var message = parts.slice(3).join(' ');
+					utils.add_message_to_channel(chanName, username, message, true);
 					break;
 
 				case 'SAIDFROM':

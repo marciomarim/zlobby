@@ -264,7 +264,7 @@ export default class Utils {
 		$('.channelchat[data-channame="' + chanName + '"] .messages').empty();
 	}
 
-	add_message_to_channel(chanName, username, message) {
+	add_message_to_channel(chanName, username, message, is_ex) {
 		var $bubble = $('<li></li>');
 
 		var me = false;
@@ -277,6 +277,10 @@ export default class Utils {
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
 		} else {
 			$bubble.append('<div class="messageinfo"><div class="userspeaking">' + username + '</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
+		}
+
+		if (is_ex) {
+			$bubble.addClass('talkingabout');
 		}
 
 		$('.channelchat[data-channame="' + chanName + '"] .messages').append($bubble);
@@ -336,7 +340,7 @@ export default class Utils {
 		}, 1000);
 	}
 
-	append_message_battleroom(username, message) {
+	append_message_battleroom(username, message, is_ex) {
 		var usermuted = store.get('users.' + username + '.mute');
 
 		var myusername = $('#myusername').text();
@@ -411,7 +415,7 @@ export default class Utils {
 			}
 		}
 
-		if (talkingabout >= 0) {
+		if (talkingabout >= 0 || is_ex) {
 			$bubble.addClass('talkingabout');
 			if (!$('body').hasClass('ingame')) $('#messagesound')[0].play();
 		}

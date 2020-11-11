@@ -22,64 +22,70 @@ $('#appVersion').text('Elobby v' + appVersion);
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
 function initial_check() {
-	var enginepath_saved = store.get('paths.enginepath');
+	var enginepath = store.get('paths.enginepath');
+	var springdir_saved = store.get('paths.springdir');
 
-	set_detault_paths();
-	check_folders();
-
-	// check if already looked for
-	if (enginepath_saved && fs.existsSync(enginepath_saved)) {
-		enginepath = enginepath_saved;
-		$('#enginestatus')
-			.addClass('active')
-			.text('Engine: ok');
-
-		// add it to preferences tab
-		$('#enginepath').val(enginepath);
+	if (springdir_saved && fs.existsSync(springdir_saved)) {
+		springdir = springdir_saved;
 	} else {
-		lookforengine();
+		// set default springdir
+		if (platform == 'win32') {
+			springdir = homedir + '\\Documents\\My Games\\Spring\\';
+		} else if (platform == 'darwin') {
+			springdir = homedir + '/.spring/';
+		} else if (platform == 'linux') {
+			springdir = homedir + '/.spring/';
+		}
 	}
+	// add it to preferences tab
+	$('#springdir').val(springdir);
+
+	set_detault_paths(enginepath, springdir);
+	check_folders(springdir);
 }
 initial_check();
 
-function set_detault_paths() {
-	// set default paths
+function set_detault_paths(enginepath, springdir) {
+	// set default paths based on saved base paths
 	if (platform == 'win32') {
-		springdir = homedir + '\\Documents\\My Games\\Spring\\';
-		mapsdir = homedir + '\\Documents\\My Games\\Spring\\maps\\';
+		mapsdir = springdir + 'maps\\';
 		minimapsdir = appPath + '\\minimaps\\';
-		modsdir = homedir + '\\Documents\\My Games\\Spring\\games\\';
-		replaysdir = homedir + '\\Documents\\My Games\\Spring\\demos\\';
-		replaysdir2 = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\demos\\';
-		chatlogsdir = homedir + '\\Documents\\My Games\\Spring\\chatlogs\\';
-		infologfile = homedir + '\\Documents\\My Games\\Spring\\infolog.txt';
-		scriptfile = homedir + '\\Documents\\My Games\\Spring\\e-script.txt';
-		enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
-		engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\';
+		modsdir = springdir + 'games\\';
+		replaysdir = springdir + 'demos\\';
+		replaysdir2 = springdir + 'engine\\103\\demos\\';
+		chatlogsdir = springdir + 'chatlogs\\';
+		infologfile = springdir + 'infolog.txt';
+		scriptfile = springdir + 'e-script.txt';
+		enginedir = springdir + 'engine\\';
+		engineverdir = springdir + 'engine\\103\\';
 	} else if (platform == 'darwin') {
-		springdir = homedir + '/.spring/';
-		mapsdir = homedir + '/.spring/maps/';
+		mapsdir = springdir + 'maps/';
 		minimapsdir = appPath + '/minimaps/';
-		modsdir = homedir + '/.spring/games/';
-		chatlogsdir = homedir + '/.spring/chatlogs/';
-		infologfile = homedir + '/.spring/infolog.txt';
-		scriptfile = homedir + '/.spring/e-script.txt';
+		modsdir = springdir + 'games/';
+		chatlogsdir = springdir + 'chatlogs/';
+		infologfile = springdir + 'infolog.txt';
+		scriptfile = springdir + 'e-script.txt';
 		replaysdir = homedir + '/.config/demos/';
 		replaysdir2 = homedir + '/.config/spring/demos/';
-		enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
+		if (enginepath && fs.existsSync(enginepath)) {
+		} else {
+			enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
+		}
 		enginedir = '/Applications/';
 		engineverdir = enginedir;
 	} else if (platform == 'linux') {
-		springdir = homedir + '/.spring/';
-		mapsdir = homedir + '/.spring/maps/';
+		mapsdir = springdir + 'maps/';
 		minimapsdir = appPath + '/minimaps/';
-		modsdir = homedir + '/.spring/games/';
-		chatlogsdir = homedir + '/.spring/chatlogs/';
-		infologfile = homedir + '/.spring/infolog.txt';
-		scriptfile = homedir + '/.spring/e-script.txt';
-		replaysdir = homedir + '/.spring/demos/';
-		enginepath = homedir + '/.spring/engine/103/spring';
-		enginedir = homedir + '/.spring/engine/103/';
+		modsdir = springdir + 'games/';
+		chatlogsdir = springdir + 'chatlogs/';
+		infologfile = springdir + 'infolog.txt';
+		scriptfile = springdir + 'e-script.txt';
+		replaysdir = springdir + 'demos/';
+		if (enginepath && fs.existsSync(enginepath)) {
+		} else {
+			enginepath = springdir + 'engine/103/spring';
+		}
+		enginedir = springdir + 'engine/103/';
 		engineverdir = enginedir;
 	} else {
 		$('#enginestatus')
@@ -87,8 +93,16 @@ function set_detault_paths() {
 			.text('Your OS is not supported');
 	}
 
-	// add it to preferences tab
-	$('#springdir').val(springdir);
+	// check if already looked for
+	if (enginepath && fs.existsSync(enginepath)) {
+		$('#enginestatus')
+			.addClass('active')
+			.text('Engine: ok');
+		// add it to preferences tab
+		$('#enginepath').val(enginepath);
+	} else {
+		lookforengine();
+	}
 }
 
 function check_folders() {
@@ -152,32 +166,46 @@ function lookforengine() {
 			engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
+			store.set('paths.enginedir', homedir + '\\Documents\\My Games\\Spring\\engine\\');
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
+			store.set('paths.enginedir', homedir + '\\Documents\\My Games\\Spring\\engine\\');
 		} else if (fs.existsSync('C:\\Program Files (x86)\\Spring\\spring.exe')) {
 			enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
+			store.set('paths.enginedir', 'C:\\Program Files (x86)\\Spring\\');
 		} else {
 			enginefound = 0;
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
+			enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
 		}
 	} else if (platform == 'darwin') {
 		if (fs.existsSync(enginepath)) {
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
+			store.set('paths.enginedir', enginedir);
 		}
 	} else if (platform == 'linux') {
 		if (fs.existsSync(enginepath)) {
 			enginefound = 1;
 			store.set('paths.enginepath', enginepath);
+			store.set('paths.enginedir', enginedir);
 		}
 	}
 
 	if (!enginefound) {
-		prepareenginedownload();
+		setTimeout(function() {
+			var answer = window.confirm('Engine not found, click OK to download or CANCEL to setup manually?');
+			if (answer) {
+				prepareenginedownload();
+			} else {
+				$('.tab, .rcontainer, .container.active').removeClass('active');
+				$('#preferences, .tab.preferences').addClass('active');
+			}
+		}, 2000);
 	} else {
 		$('#enginestatus')
 			.addClass('active')
@@ -304,6 +332,26 @@ $(window).ready(function() {
 });
 
 // save preferences
+
+$('body').on('click', '.savepaths', function(e) {
+	if (fs.existsSync($('#enginepath').val())) {
+		store.set('paths.enginepath', $('#enginepath').val());
+		// redefine paths
+		enginepath = $('#enginepath').val();
+	} else {
+		$('#enginepath').val('spring file not found');
+		alert('spring file not found');
+	}
+
+	if (fs.existsSync($('#springdir').val())) {
+		store.set('paths.springdir', $('#springdir').val());
+		set_detault_paths($('#enginepath').val(), $('#springdir').val());
+	} else {
+		$('#springdir').val('spring folder not found');
+		alert('spring folder not found');
+	}
+});
+
 $('body').on('click', '.autoconnect', function(e) {
 	if ($('.autoconnect').prop('checked') == true) {
 		store.set('prefs.autoconnect', 1);
