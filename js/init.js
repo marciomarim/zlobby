@@ -22,7 +22,7 @@ $('#appVersion').text('Elobby v' + appVersion);
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
 function initial_check() {
-	var enginepath = store.get('paths.enginepath');
+	enginepath = store.get('paths.enginepath');
 	var springdir_saved = store.get('paths.springdir');
 
 	if (springdir_saved && fs.existsSync(springdir_saved)) {

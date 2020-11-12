@@ -59,41 +59,63 @@ if (fs.existsSync(mapsdir)) {
 	});
 }
 
+function loadmapdiv(mapname) {
+	$('#singleplayer .minimaps').css('width', '100%');
+
+	var localmap = minimapsdir + mapname + '.jpg';
+	var localmmap = minimapsdir + mapname + '-metalmap.jpg';
+	var localhmap = minimapsdir + mapname + '-heightmap.jpg';
+
+	if (fs.existsSync(localmap)) {
+		var mapmap = '<img class="map" src="' + localmap + '">';
+		var metalmap = '<img class="map" src="' + localmmap + '">';
+		var heightmap = '<img class="map" src="' + localhmap + '">';
+
+		$('#singleplayer-minimap').html(mapmap);
+		$('#singleplayer-metalmap').html(metalmap);
+		$('#singleplayer-heightmap').html(heightmap);
+
+		setTimeout(function() {
+			var mw = $('#singleplayer-minimap img').width();
+			var mh = $('#singleplayer-minimap img').height();
+			$('#singleplayer .minimaps').css('width', mw + 'px');
+			$('#singleplayer .smallnav').css('width', mw + 'px');
+		}, 1000);
+
+		//$('#singleplayer-metalmap img').css('height', mh);
+	}
+}
+
 $('body').on('click', '.smap', function(e) {
 	if (!$(this).hasClass('active')) {
 		$('.smap').removeClass('active');
 		$(this).addClass('active');
-		$('#singleplayer .minimaps').css('width', '100%');
-
 		var mapname = $(this).data('mapname');
-		var localmap = minimapsdir + mapname + '.jpg';
-		var localmmap = minimapsdir + mapname + '-metalmap.jpg';
-		var localhmap = minimapsdir + mapname + '-heightmap.jpg';
+		store.set('singleplayer.map', mapname);
+		loadmapdiv(mapname);
+	}
+});
 
-		if (fs.existsSync(localmap)) {
-			var mapmap = '<img class="map" src="' + localmap + '">';
-			var metalmap = '<img class="map" src="' + localmmap + '">';
-			var heightmap = '<img class="map" src="' + localhmap + '">';
-
-			$('#singleplayer-minimap').html(mapmap);
-			$('#singleplayer-metalmap').html(metalmap);
-			$('#singleplayer-heightmap').html(heightmap);
-
-			var mw = $('#singleplayer-minimap img').width();
-			var mh = $('#singleplayer-minimap img').height();
-
-			setTimeout(function() {
-				$('#singleplayer .minimaps').css('width', mw);
-				$('#singleplayer .smallnav').css('width', mw);
-			}, 1000);
-
-			//$('#singleplayer-metalmap img').css('height', mh);
-		}
+$(window).ready(function() {
+	var mapname = store.get('singleplayer.map');
+	console.warn(mapname);
+	if (mapname) {
+		loadmapdiv(mapname);
 	}
 });
 
 $('body').on('click', '.startsinglebattle', function(e) {
 	var username = $('#myusername').text();
+	var scriptfile = springdir + 's-script.txt';
+
+	var modname = $('#spickmod')
+		.val()
+		.replace('_', ' ')
+		.replace('-', ' ');
+	var mapname = $('.smap.active')
+		.data('mapname')
+		.replace('_', ' ')
+		.replace('-', ' ');
 
 	var teams = [];
 	var allys = [];
@@ -101,46 +123,57 @@ $('body').on('click', '.startsinglebattle', function(e) {
 	var numplayers = 1;
 
 	var script = '[GAME]\n{\n\t';
-	script += 'gametype=Balanced Annihilation V11.0.2;\n\t' + 'IsHost=1;\n\t' + 'MapName=' + $('.smap.active').data('mapname') + ';\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'numplayers=' + numplayers + ';\n\t';
+	script += 'GameType=' + modname + ';\n\t' + 'IsHost=1;\n\t' + 'MapName=' + mapname + ';\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'NumPlayers=' + numplayers + ';\n\t';
 
-	var playercount = 0;
-	$('.battle-playerlist li').each(function(index) {
-		var team = $(this)
-			.children('.team')
-			.text();
-		var ally = $(this)
-			.children('.ally')
-			.text();
-		var faction = 'ARM';
-		if ($(this).children('.icon-core').length) {
-			faction = 'CORE';
-		}
-		if (allys.indexOf(ally) === -1) {
-			allys.push(ally);
-		}
-		script +=
-			'[PLAYER' +
-			playercount +
-			']\n' +
-			'{\n\t' +
-			'Name=' +
-			$(this)
-				.children('.name')
-				.text() +
-			';\n\t' +
-			'Team=' +
-			team +
-			';\n\t' +
-			'Spectator=0;\n' +
-			'}\n';
+	script += '[PLAYER0]\n\t{\n\t\t';
+	script += 'Team=0;';
+	script += '\n\t}';
 
-		script += '[TEAM' + playercount + ']\n' + '{\n\t' + 'Teamleader=' + playercount + ';\n\t' + 'Allyteam=' + ally + ';\n\t' + 'Side=' + faction + ';\n\t' + '}\n';
-		playercount += 1;
-	});
+	script += '\n\t[TEAM0]\n\t{\n\t\t';
+	script += 'TeamLeader=0;\n\t\t';
+	script += 'AllyTeam=0;';
+	script += '\n\t}';
 
-	$.each(allys, function(index, value) {
-		script += '[ALLYTEAM' + index + ']\n' + '{\n\t' + 'NumAllies=' + $('.battle-playerlist li .ally:contains(' + value + ')').length + ';\n\t' + '}\n';
-	});
+	// 	var playercount = 0;
+	// 	$('.battle-playerlist li').each(function(index) {
+	// 		var team = $(this)
+	// 			.children('.team')
+	// 			.text();
+	// 		var ally = $(this)
+	// 			.children('.ally')
+	// 			.text();
+	// 		var faction = 'ARM';
+	// 		if ($(this).children('.icon-core').length) {
+	// 			faction = 'CORE';
+	// 		}
+	// 		if (allys.indexOf(ally) === -1) {
+	// 			allys.push(ally);
+	// 		}
+	// 		script +=
+	// 			'[PLAYER' +
+	// 			playercount +
+	// 			']\n' +
+	// 			'{\n\t' +
+	// 			'Name=' +
+	// 			$(this)
+	// 				.children('.name')
+	// 				.text() +
+	// 			';\n\t' +
+	// 			'Team=' +
+	// 			team +
+	// 			';\n\t' +
+	// 			'Spectator=0;\n' +
+	// 			'}\n';
+	//
+	// 		script += '[TEAM' + playercount + ']\n' + '{\n\t' + 'Teamleader=' + playercount + ';\n\t' + 'Allyteam=' + ally + ';\n\t' + 'Side=' + faction + ';\n\t' + '}\n';
+	// 		playercount += 1;
+	// 	});
+
+	script += '\n\t[ALLYTEAM0]\n\t{\n\t}';
+
+	// $.each(allys, function(index, value) {
+	// 	script += '[ALLYTEAM' + index + ']\n' + '{\n\t' + 'NumAllies=' + $('.battle-playerlist li .ally:contains(' + value + ')').length + ';\n\t' + '}\n';
+	// });
 
 	// 	script += '[mapoptions]\n{\n\t';
 	// 	$('.mapoptions .option').each(function(index) {
@@ -163,16 +196,14 @@ $('body').on('click', '.startsinglebattle', function(e) {
 	// 			.text();
 	// 		script += name + '=' + val + ';\n\t';
 	// 	});
-	script += '}\n';
+	script += '\n}\n';
 
-	// try {
-	// 	fs.writeFileSync(scriptfile, script, 'utf-8');
-	// } catch (e) {
-	// 	alert('Failed to save the script file!');
-	// }
+	try {
+		fs.writeFileSync(scriptfile, script, 'utf-8');
+	} catch (e) {
+		alert('Failed to save the script file!');
+	}
 
-	var scriptfile = springdir + 's-script.txt';
-	var enginepath = store.get('paths.enginepath');
 	console.log(enginepath);
 	const bat = spawn(enginepath, [scriptfile], {
 		detached: true,

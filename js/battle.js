@@ -1021,7 +1021,7 @@ export default class Battle {
 
 		const bat = spawn(enginepath, [scriptfile], {
 			detached: true,
-			//stdio: ['ignore', out, err],
+			stdio: 'ignore',
 		});
 
 		bat.unref();
