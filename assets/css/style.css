@@ -1268,6 +1268,7 @@ ul.list {
 		background: #202427;
 		cursor: pointer;
 		z-index: 99;
+		color: #fff;
 	}
 	
 	.pickmap-btn{
@@ -1293,7 +1294,11 @@ ul.list {
 		left: 0;
 		width: 100%;
 		padding-top: 1em;
-	}				
+	}
+	
+		body.lightmode .scroll.mappicker{				
+			background: #eee;			
+		}				
 	
 		.mappicker.active{
 			display: block;
@@ -1315,6 +1320,7 @@ ul.list {
 			padding: 0.7em 1.2em;
 			background: #202427;
 			cursor: pointer;
+			color: #fff;
 		}
 		
 		.scroll.mappicker .filters .filter.active{
@@ -1393,10 +1399,15 @@ ul.list {
 			text-align: center;
 		}
 		
+		body.lightmode .smapscontainer .map,
+		body.lightmode .mappicker .map{
+			background: #bbb;
+		}
+		
 		.mappicker .map:before{
 			content: attr(data-mapname);
 			position: relative;
-			background: #202427;
+			
 			padding: 0.4em 0.5em;
 			width: 100%;			
 			font-size: 10px;			
