@@ -2192,6 +2192,10 @@ span.upper{
 	position: relative;
 	display: flex;
 }
+
+	body.lightmode #replaylist  .replayitem{
+		background: #ccc;
+	}
 	
 	.replayitem .infos{
 		flex: 0.7;
