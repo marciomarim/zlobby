@@ -1283,6 +1283,7 @@ ul.list {
 	.minimaps:hover > .pickmap-btn{
 		display: block;
 	}
+	
 	.scroll.mappicker{
 		display: none;	
 		background: #111;
@@ -1329,6 +1330,60 @@ ul.list {
 				display: flex;
 			}
 		
+		
+		
+		.singlecontainer {
+			display: flex;
+		}
+		
+		.singlecontainer .right,
+		.singlecontainer .left{
+			width: 50%;
+			height: calc(100vh - 30px);
+			position: relative;
+			padding: 1em;
+		}
+		
+		.singlecontainer .left{
+			text-align: center;
+		}
+		
+			.smapscontainer{
+				display: flex;
+				flex-wrap: wrap;	
+			}
+			
+			#singleplayer .smallnav{
+				margin: 0 auto;
+			}
+			
+			#singleplayer .minimaps{
+				margin: 0 auto;
+			}
+			
+			#singleplayer .minimaps img{
+				max-width: 100%;
+			}
+			
+			.smapscontainer .map{
+				width: 23%;
+				margin: 1%;
+				background: #202427;
+				cursor: pointer;		 
+				position: relative;
+				text-align: center;
+			}
+
+				.smapscontainer .map:before{
+					content: attr(data-mapname);
+					position: relative;
+					background: #202427;
+					padding: 0.4em 0.5em;
+					width: 100%;			
+					font-size: 10px;			
+					top: 0;			
+				}
+		
 		.mappicker .map{
 			width: 23%;
 			margin: 1%;
@@ -1351,6 +1406,7 @@ ul.list {
 			display: block;
 		} */
 		
+		.smapscontainer .map .icon-star,
 		.mappicker .map .icon-star{
 			position: absolute;
 			top: 1px;
@@ -1359,12 +1415,14 @@ ul.list {
 			opacity: 0.5;
 			font-size: 15px;
 		}
-		
+		.smapscontainer .map .icon-star.active,
 		.mappicker .map .icon-star.active{			
 			opacity: 1;
 			color: #5588ff;
 		}
 		
+		.smapscontainer .map .select,
+		.smapscontainer .map .delete,
 		.mappicker .map .select,
 		.mappicker .map .delete{
 			position: absolute;
@@ -1378,19 +1436,24 @@ ul.list {
 			display: none;
 		}
 		
+		.smapscontainer .map:hover > .select,
+		.smapscontainer .map:hover > .delete,
 		.mappicker .map:hover > .select,
 		.mappicker .map:hover > .delete{
 			display: block;
 		}
 		
+		.smapscontainer .map .select,
 		.mappicker .map .select{
 			bottom: 0.5em;
 		}
 		
+		.smapscontainer .map .delete,
 		.mappicker .map .delete{
 			top: 3.5em;			
 		}
 		
+		.smapscontainer .map img,
 		.mappicker .map img{
 			margin:0 auto;
 			display: block;
@@ -1404,6 +1467,11 @@ ul.list {
 		#voteformap img{
 			width: 100px;
 			height: 100px;
+		}
+		
+		#singleplayer-minimap img{
+			max-height: 600px;
+			width: auto;
 		}
 				
 /*

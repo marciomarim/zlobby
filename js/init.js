@@ -42,6 +42,17 @@ function initial_check() {
 
 	set_detault_paths(enginepath, springdir);
 	check_folders(springdir);
+
+	// check if spring executable exists
+	if (enginepath && fs.existsSync(enginepath)) {
+		$('#enginestatus')
+			.addClass('active')
+			.text('Engine: ok');
+		// add it to preferences tab
+		$('#enginepath').val(enginepath);
+	} else {
+		lookforengine();
+	}
 }
 initial_check();
 
@@ -52,12 +63,18 @@ function set_detault_paths(enginepath, springdir) {
 		minimapsdir = appPath + '\\minimaps\\';
 		modsdir = springdir + 'games\\';
 		replaysdir = springdir + 'demos\\';
-		replaysdir2 = springdir + 'engine\\103\\demos\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
 		enginedir = springdir + 'engine\\';
 		engineverdir = springdir + 'engine\\103\\';
+		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\')) {
+			engineverdir = springdir + 'engine\\103.0\\';
+			replaysdir2 = springdir + 'engine\\103.0\\demos\\';
+		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\')) {
+			engineverdir = springdir + 'engine\\103\\';
+			replaysdir2 = springdir + 'engine\\103\\demos\\';
+		}
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
 		minimapsdir = appPath + '/minimaps/';
@@ -67,10 +84,6 @@ function set_detault_paths(enginepath, springdir) {
 		scriptfile = springdir + 'e-script.txt';
 		replaysdir = homedir + '/.config/demos/';
 		replaysdir2 = homedir + '/.config/spring/demos/';
-		if (enginepath && fs.existsSync(enginepath)) {
-		} else {
-			enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
-		}
 		enginedir = '/Applications/';
 		engineverdir = enginedir;
 	} else if (platform == 'linux') {
@@ -81,27 +94,12 @@ function set_detault_paths(enginepath, springdir) {
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
 		replaysdir = springdir + 'demos/';
-		if (enginepath && fs.existsSync(enginepath)) {
-		} else {
-			enginepath = springdir + 'engine/103/spring';
-		}
 		enginedir = springdir + 'engine/103/';
 		engineverdir = enginedir;
 	} else {
 		$('#enginestatus')
 			.addClass('active')
 			.text('Your OS is not supported');
-	}
-
-	// check if already looked for
-	if (enginepath && fs.existsSync(enginepath)) {
-		$('#enginestatus')
-			.addClass('active')
-			.text('Engine: ok');
-		// add it to preferences tab
-		$('#enginepath').val(enginepath);
-	} else {
-		lookforengine();
 	}
 }
 
@@ -163,36 +161,27 @@ function lookforengine() {
 	if (platform == 'win32') {
 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
-			engineverdir = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\';
 			enginefound = 1;
-			store.set('paths.enginepath', enginepath);
-			store.set('paths.enginedir', homedir + '\\Documents\\My Games\\Spring\\engine\\');
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 			enginefound = 1;
-			store.set('paths.enginepath', enginepath);
-			store.set('paths.enginedir', homedir + '\\Documents\\My Games\\Spring\\engine\\');
 		} else if (fs.existsSync('C:\\Program Files (x86)\\Spring\\spring.exe')) {
 			enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
 			enginefound = 1;
-			store.set('paths.enginepath', enginepath);
-			store.set('paths.enginedir', 'C:\\Program Files (x86)\\Spring\\');
 		} else {
-			enginefound = 0;
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
-			enginedir = homedir + '\\Documents\\My Games\\Spring\\engine\\';
+			enginefound = 0;
 		}
+		store.set('paths.enginepath', enginepath);
 	} else if (platform == 'darwin') {
-		if (fs.existsSync(enginepath)) {
+		if (fs.existsSync('/Applications/Spring_103.0.app/Contents/MacOS/spring')) {
 			enginefound = 1;
-			store.set('paths.enginepath', enginepath);
-			store.set('paths.enginedir', enginedir);
+			enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
 		}
 	} else if (platform == 'linux') {
-		if (fs.existsSync(enginepath)) {
+		if (fs.existsSync(springdir + 'engine/103/spring')) {
 			enginefound = 1;
-			store.set('paths.enginepath', enginepath);
-			store.set('paths.enginedir', enginedir);
+			enginepath = springdir + 'engine/103/spring';
 		}
 	}
 
@@ -213,6 +202,7 @@ function lookforengine() {
 
 		// add it to preferences tab
 		$('#enginepath').val(enginepath);
+		store.set('paths.enginepath', enginepath);
 	}
 }
 
