@@ -56,6 +56,11 @@ $('body').on('click', '.leavebattle', function(e) {
 });
 
 $('body').on('click', '.specbattle', function(e) {
+	if ($('.specbattle').prop('checked') == true) {
+		$('body').removeClass('unspecing');
+	} else {
+		$('body').addClass('unspecing');
+	}
 	if ($('.readybattle').prop('checked') == true) {
 		$('.readybattle').prop('checked', false);
 	}

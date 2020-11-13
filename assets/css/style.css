@@ -1689,10 +1689,20 @@ ul.list {
 		
 		
 
-	#main .pretty.p-switch.p-fill input:checked~.state:before {
+	body .pretty.p-switch.p-fill input:checked~.state:before {
 	    border-color: #1553da;
 	    background-color: #1553da!important;
 	}
+	
+	body.unspecing #specbattlediv.pretty.p-switch.p-fill .state:before {
+		border-color: #fd9b22;		
+	}
+	
+	body.unspecing #specbattlediv.pretty.p-switch .state label:after, 
+	body.unspecing #specbattlediv.pretty.p-switch .state label:before{
+		background-color: #fd9b22!important;	
+	}
+	
 	
 	
 	

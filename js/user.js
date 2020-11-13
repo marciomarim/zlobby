@@ -124,6 +124,10 @@ export default class User {
 
 	updatebattlestatus(username, status, color) {
 		var myusername = $('#myusername').text();
+		// AUTO UNSPEC
+		if (myusername != username && $('body').hasClass('unspecing')) {
+			utils.sendbattlestatus();
+		}
 
 		if (!$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .faction').length) {
 			//add user battle status to players
@@ -141,8 +145,6 @@ export default class User {
 			sync: bin2dec(status2.substring(status2.length - 24, status2.length - 22)),
 			faction: bin2dec(status2.substring(status2.length - 28, status2.length - 24)),
 		};
-		console.log(username);
-		console.log(newStatus);
 
 		if (newStatus.sync == 2 || newStatus.sync == 0) {
 			$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('unsync');
@@ -158,8 +160,13 @@ export default class User {
 		if (newStatus.spec == true) {
 			$('#battleroom .battle-playerlist').append($('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]'));
 			$('.battle-speclist li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
+			// if unspec really work, clear class unspecing
+			if (myusername == username) {
+				$('body').removeClass('unspecing');
+			}
 		} else if (newStatus.spec == false) {
-			if (myusername == username && !$('body').hasClass('joinningbattle')) {
+			// if me and not trying to unspec
+			if (myusername == username && !$('body').hasClass('joinningbattle') && !$('body').hasClass('unspecing')) {
 				$('.specbattle').prop('checked', true);
 				$('.readybattle').prop('checked', false);
 			}
