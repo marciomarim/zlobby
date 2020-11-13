@@ -157,11 +157,10 @@
 }
 
 
-.icon-rank0:before,
+/* .icon-rank0:before,
 .icon-rank1:before{	
 	background-image: url(../svg/010-chevron-1.svg);
 }
-
 
 .icon-rank2:before{	
 	background-image: url(../svg/012-chevron-3.svg);
@@ -185,6 +184,37 @@
 
 .icon-rank7:before{	
 	background-image: url(../svg/058-security.svg);
+} */
+
+.icon-rank0:before{
+	background-image: url(../images/rank1.png);
+}
+.icon-rank1:before{	
+	background-image: url(../images/rank2.png);
+}
+
+.icon-rank2:before{	
+	background-image: url(../images/rank3.png);
+}
+
+.icon-rank3:before{	
+	background-image: url(../images/rank4.png);
+}
+
+.icon-rank4:before{	
+	background-image: url(../images/rank5.png);
+}
+
+.icon-rank5:before{	
+	background-image: url(../images/rank6.png);
+}
+
+.icon-rank6:before{	
+	background-image: url(../images/rank7.png);
+}
+
+.icon-rank7:before{	
+	background-image: url(../images/rank8.png);
 }
 
 

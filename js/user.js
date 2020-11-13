@@ -163,7 +163,12 @@ export default class User {
 			$('.battle-speclist li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
 			// if unspec really work, clear class unspecing
 			if (myusername == username) {
-				$('body').removeClass('unspecing');
+				setTimeout(function() {
+					// check after 1sec if still in the playerlist
+					if ($('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(myusername) + '"]').length) {
+						$('body').removeClass('unspecing');
+					}
+				}, 1000);
 			}
 		} else if (newStatus.spec == false) {
 			// if me and not trying to unspec
