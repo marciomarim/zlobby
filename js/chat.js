@@ -57,28 +57,56 @@ $('body').on('click', '.userchat.active', function(e) {
 //deal with unsent messages
 $('body').on('click', '.messages .offline', function(e) {
 	var username = $('.userchat.active').data('username');
-
-	if (!$('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
-		var notification = new Notification('Cant send yet', {
-			body: 'User still offline',
-		});
-		return false;
-	}
-
 	var html = $(this).html();
 
-	var message = $(this)
-		.children('.message')
-		.text();
+	// if offline
+	if (!$('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
+		utils.delete_unsent_message(username, html);
+		$(this).remove();
+		return false;
 
-	utils.send_unsent_message(username, html);
+		// var notification = new Notification('Cant send yet', {
+		// 	body: 'User still offline',
+		// });
+		// return false;
+	} else {
+		var message = $(this)
+			.children('.message')
+			.text();
 
-	var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
-	socketClient.write(command);
-	utils.add_message_to_chat(username, message, true);
+		utils.send_unsent_message(username, html);
 
-	$(this).remove();
+		var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
+		socketClient.write(command);
+		utils.add_message_to_chat(username, message, true);
+
+		$(this).remove();
+	}
 });
+
+function checkunsentmessages() {
+	$('.userpm-select.online').each(function() {
+		var username = $(this).data('username');
+		$('.userchat[data-username=' + jQuery.escapeSelector(username) + '] .messages .offline').each(function() {
+			var html = $(this).html();
+			var message = $(this)
+				.children('.message')
+				.text();
+
+			if (message != '') {
+				utils.send_unsent_message(username, html);
+
+				var command = 'SAYPRIVATE ' + username + ' ' + message + '\n';
+				socketClient.write(command);
+				utils.add_message_to_chat(username, message, true);
+
+				$(this).remove();
+			} else {
+				utils.delete_unsent_message(username, html);
+			}
+		});
+	});
+}
 
 $('#activechats').on('click', '.userpm-select', function(e) {
 	var username = $(this).data('username');
@@ -182,4 +210,8 @@ $('body').on('keypress', '.channelchat_input', function(e) {
 		$(this).val('');
 		return false; //<---- Add this line
 	}
+});
+
+$(window).ready(function() {
+	var checkUnsent = setInterval(checkunsentmessages, 2000);
 });

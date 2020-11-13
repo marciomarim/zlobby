@@ -174,7 +174,14 @@ export default class Utils {
 	}
 
 	send_unsent_message(username, html) {
-		//var newhtml = html.replace('offline', '');
+		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
+			if (err) throw err;
+			var content = data.toString().replace(html, '');
+			fs.writeFileSync(chatlogsdir + 'pm-' + username + '.log', content);
+		});
+	}
+
+	delete_unsent_message(username, html) {
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			var content = data.toString().replace(html, '');
@@ -483,7 +490,7 @@ export default class Utils {
 			clearTimeout(votetimerId);
 			$('#battleroom #votewin').removeClass('active');
 		} else {
-			$('#battleroom #votecountdown').text('ENDS IN ' + votetimer + ' sec.');
+			$('#battleroom #votecountdown').text(votetimer);
 			votetimer--;
 		}
 	}

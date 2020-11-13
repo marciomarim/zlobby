@@ -1587,7 +1587,16 @@ ul.list {
 			margin-top: 1em;
 		}
 		
-		#votecountdown{						
+		#votecountdown{		
+			position: absolute;
+			left:0;
+			top:10px;
+			border-radius: 50%;
+			width:60px;
+			height: 60px;
+			background: #111;
+			color: #fff;
+			font-size: 2em;				
 			padding: 0.8em;
 		}	
 			
