@@ -721,6 +721,8 @@ export default class Battle {
 		// if user is in my battle
 		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
 			$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
+			// print message to battleroom chat
+			utils.append_message_battleroom($('#battleroom .founder').text(), '* ' + username + ' left battle.');
 		}
 
 		// if i am leaving
