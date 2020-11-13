@@ -207,6 +207,7 @@ $('body').on('click', '.startsinglebattle', function(e) {
 	console.log(enginepath);
 	const bat = spawn(enginepath, [scriptfile], {
 		detached: true,
+		stdio: 'ignore',
 	});
 
 	bat.unref();

@@ -15,6 +15,9 @@ var Filter = require('bad-words'),
 const Store = require('electron-store');
 const store = new Store();
 
+var bmessages = [];
+var bmcount = 1;
+
 $('body').on('click', '.battle-card', function(e) {
 	var username = $('#myusername').text();
 
@@ -198,10 +201,48 @@ $('body').on('click', '.startbattle', function(e) {
 	}
 });
 
+$('body').on('keydown', '.battleroom_input', function(e) {
+	var arrow = { left: 37, up: 38, right: 39, down: 40 };
+
+	switch (e.which) {
+		case arrow.left:
+			//..
+			break;
+		case arrow.up:
+			console.log(bmcount);
+			if (bmessages[bmcount]) {
+				$('.battleroom_input').val(bmessages[bmcount]);
+				if (bmessages[bmcount - 1]) {
+					bmcount -= 1;
+				}
+			}
+			break;
+		case arrow.right:
+			//..
+			break;
+		case arrow.down:
+			console.log(bmcount);
+			if (bmessages[bmcount]) {
+				$('.battleroom_input').val(bmessages[bmcount]);
+				if (bmessages[bmcount + 1]) {
+					bmcount += 1;
+				}
+			} else {
+				$('.battleroom_input').val();
+				bmcount = bmessages.length - 1;
+			}
+			break;
+	}
+});
+
 // battleroom chat
 $('body').on('keypress', '.battleroom_input', function(e) {
 	if (e.which == 13) {
 		var message = $(this).val();
+
+		// save sent messages
+		bmessages.push(message);
+		bmcount = bmessages.length - 1;
 
 		if (message == '/clear') {
 			utils.clear_battleroom_chat();
