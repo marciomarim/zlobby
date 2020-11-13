@@ -399,6 +399,7 @@ export default class Battle {
 
 			if (ratio > ratiodiv) {
 				$('#battleroom .minimaps').css('height', divwidth / ratio);
+				$('#battleroom .minimaps').css('width', 'auto');
 			} else {
 				$('#battleroom .minimaps').css('height', '400px');
 				$('#battleroom .minimaps').css('width', ratio * 400 + 'px');

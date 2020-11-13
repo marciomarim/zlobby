@@ -363,23 +363,27 @@ export default class Utils {
 		var winner = -1;
 		var vote = -1;
 		var endvote = -1;
+		var votepassed = -1;
 		var myvote = -1;
 		var votemap = -1;
+		var byme = -1;
 
 		if (ishost >= 0) {
 			winner = message.indexOf('won!');
 			vote = message.indexOf('called a vote for command');
+			votepassed = message.indexOf('" passed.');
 			endvote = message.indexOf('* Vote cancelled');
 			myvote = message.indexOf(myusername + ' called a vote');
 			votemap = message.indexOf('vote for command "set map');
+			byme = message.indexOf('(by ' + myusername + ')');
+			if (byme >= 0) {
+				talkingabout = -1;
+			}
 			//var endvote = message.indexOf('Vote for command');
 		}
 
-		if (ring && talkingabout >= 0 && myvote < 1) {
-			//console.log('ringing');
-			$('#ringsound')[0].play();
-		} else if (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready')) {
-			// ring me if not ready
+		if ((ring && talkingabout >= 0) || (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready'))) {
+			console.warn('ringing: 1');
 			$('#ringsound')[0].play();
 		}
 
@@ -425,7 +429,10 @@ export default class Utils {
 
 		if (talkingabout >= 0 || is_ex) {
 			$bubble.addClass('talkingabout');
-			if (!$('body').hasClass('ingame')) $('#messagesound')[0].play();
+			// if (!$('body').hasClass('ingame')) {
+			// 	$('#messagesound')[0].play();
+			// 	console.warn('ringing: 2');
+			// }
 		}
 
 		if (winner >= 0) {
@@ -435,6 +442,8 @@ export default class Utils {
 		if (vote >= 0 && amiplaying) {
 			// will ring me too
 			$('#messagesound')[0].play();
+			console.warn('ringing: 3');
+
 			$bubble.addClass('vote');
 			$('#battleroom #votewin').addClass('active');
 			if (myvote > 1) {
@@ -463,7 +472,7 @@ export default class Utils {
 			votetimerId = setInterval(this.votecountdown, 1000);
 		}
 
-		if (endvote >= 0) {
+		if (endvote >= 0 || votepassed >= 0) {
 			$('#battleroom #votewin').removeClass('active');
 		}
 

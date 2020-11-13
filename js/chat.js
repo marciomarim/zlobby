@@ -13,7 +13,7 @@ $('body').on('keypress', '.chat', function(e) {
 	if (e.which == 13) {
 		socketClient.write($(this).val() + '\n');
 		$(this).val('');
-		return false; //<---- Add this line
+		return false;
 	}
 });
 

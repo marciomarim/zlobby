@@ -145,6 +145,7 @@ export default class User {
 			sync: bin2dec(status2.substring(status2.length - 24, status2.length - 22)),
 			faction: bin2dec(status2.substring(status2.length - 28, status2.length - 24)),
 		};
+		console.warn(newStatus);
 
 		if (newStatus.sync == 2 || newStatus.sync == 0) {
 			$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('unsync');
