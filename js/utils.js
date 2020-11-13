@@ -10,6 +10,8 @@ var Filter = require('bad-words'),
 const Store = require('electron-store');
 const store = new Store();
 
+var votetimerId;
+var votetimer = 45;
 //const { spawn } = require('child_process');
 
 export default class Utils {
@@ -345,7 +347,6 @@ export default class Utils {
 
 		var myusername = $('#myusername').text();
 		var amiplaying = false;
-		$('#voteformap').empty();
 
 		if ($('.battle-playerlist li[data-username="' + jQuery.escapeSelector(myusername) + '"]').length) amiplaying = true;
 
@@ -362,7 +363,7 @@ export default class Utils {
 			winner = message.indexOf('won!');
 			vote = message.indexOf('called a vote for command');
 			endvote = message.indexOf('* Vote cancelled');
-			myvote = message.indexOf('by ' + myusername);
+			myvote = message.indexOf(myusername + ' called a vote');
 			votemap = message.indexOf('vote for command "set map');
 			//var endvote = message.indexOf('Vote for command');
 		}
@@ -425,28 +426,38 @@ export default class Utils {
 		}
 
 		if (vote >= 0 && amiplaying) {
+			// will ring me too
 			$('#messagesound')[0].play();
 			$bubble.addClass('vote');
-			$('#votewin').addClass('active');
-			$('#votefor').text(message.replace('[!vote y, !vote n, !vote b]', ''));
+			$('#battleroom #votewin').addClass('active');
+			if (myvote > 1) {
+				$('#battleroom #votewin').addClass('myvote');
+			} else {
+				$('#battleroom #votewin').removeClass('myvote');
+			}
+			$('#battleroom #votefor').text(message.replace('[!vote y, !vote n, !vote b]', ''));
 			if (votemap >= 0) {
 				var mapfilenamebase = message.match(/"(.*?)"/)[1].replace('set map ');
 				mapfilenamebase = mapfilenamebase
 					.split(' ')
 					.join('_')
+					.toLowerCase()
 					.replace('undefined', '');
-				var localmap = minimapsdir + mapfilenamebase + '.png';
+				var localmap = 'minimaps/' + mapfilenamebase + '.jpg';
 				var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';
-				$('#voteformap').html(imgdiv);
+				//console.log(imgdiv);
+				$('#battleroom .voteformap').html(imgdiv);
+				//$('#battleroom .voteformap img').attr('src', localmap);
+			} else {
+				$('#battleroom .voteformap').empty();
 			}
 
-			setTimeout(function() {
-				$('#votewin').removeClass('active');
-			}, 45000);
+			votetimer = 45;
+			votetimerId = setInterval(this.votecountdown, 1000);
 		}
 
 		if (endvote >= 0) {
-			$('#votewin').removeClass('active');
+			$('#battleroom #votewin').removeClass('active');
 		}
 
 		$('#battle-room').append($bubble);
@@ -464,6 +475,16 @@ export default class Utils {
 				.parent()
 				.html();
 			fs.appendFileSync(chatlogsdir + 'battleroom-' + battleid + '.log', container);
+		}
+	}
+
+	votecountdown() {
+		if (votetimer == -1) {
+			clearTimeout(votetimerId);
+			$('#battleroom #votewin').removeClass('active');
+		} else {
+			$('#battleroom #votecountdown').text('ENDS IN ' + votetimer + ' sec.');
+			votetimer--;
 		}
 	}
 

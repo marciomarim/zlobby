@@ -129,6 +129,12 @@ $('body').on('click', '.vote.no', function(e) {
 	$('#votewin').removeClass('active');
 });
 
+$('body').on('click', '.endvote', function(e) {
+	var command = 'SAYBATTLE !ev \n';
+	socketClient.write(command);
+	$('#votewin').removeClass('active');
+});
+
 $('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
 	$('#battleroom .smallnav .navbtn, #battleroom .smalltab').removeClass('active');
 	$(this).addClass('active');
@@ -214,7 +220,6 @@ $('body').on('keydown', '.battleroom_input', function(e) {
 			//..
 			break;
 		case arrow.up:
-			console.log(bmcount);
 			if (bmessages[bmcount]) {
 				$('.battleroom_input').val(bmessages[bmcount]);
 				if (bmessages[bmcount - 1]) {
@@ -226,7 +231,6 @@ $('body').on('keydown', '.battleroom_input', function(e) {
 			//..
 			break;
 		case arrow.down:
-			console.log(bmcount);
 			if (bmessages[bmcount]) {
 				$('.battleroom_input').val(bmessages[bmcount]);
 				if (bmessages[bmcount + 1]) {
