@@ -214,6 +214,7 @@ export default class Battle {
 			.contents()
 			.clone();
 		$('#battleroom').append(battlediv);
+		$('#battleroom .battleroom_input').focus();
 
 		this.loadbattleprefs();
 	}
@@ -620,6 +621,12 @@ export default class Battle {
 
 	// when I join a battle and get a confirmation
 	joinbattle(battleid, hashCode, channelName) {
+		// add class joinning for spec status bypass in updatebattlestatus
+		$('body').addClass('joinningbattle');
+		setTimeout(function() {
+			$('body').removeClass('joinningbattle');
+		}, 2000);
+
 		this.createbattleroom();
 		$('#battleroom').data('battleid', battleid);
 		$('body').addClass('inbattleroom');
