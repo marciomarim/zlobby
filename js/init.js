@@ -288,7 +288,7 @@ $(window).ready(function() {
 	if (savechats == undefined) store.set('prefs.savechats', 0);
 
 	var rudechat = store.get('prefs.rudechat');
-	if (rudechat == undefined) store.set('prefs.rudechat', 0);
+	if (rudechat == undefined) store.set('prefs.rudechat', 1);
 
 	// load preferences and update checkboxes
 	autoconnect = store.get('prefs.autoconnect');
