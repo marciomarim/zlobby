@@ -620,6 +620,7 @@ export default class Utils {
 			//console.log('STATUS: GAME OK');
 			var currentmap = $('#battleroom .mapname')
 				.text()
+				.replace("'", '_')
 				.toLowerCase();
 			currentmap = currentmap.split(' ').join('_');
 			var filename = currentmap + '.sd7';

@@ -191,7 +191,7 @@ function lookforengine() {
 			if (answer) {
 				prepareenginedownload();
 			} else {
-				$('.tab, .rcontainer, .container.active').removeClass('active');
+				$('.tab, .container.active').removeClass('active');
 				$('#preferences, .tab.preferences').addClass('active');
 			}
 		}, 2000);

@@ -116,7 +116,9 @@ export default class Battle {
 	checkmap() {
 		var currentmap = $('#battleroom .mapname')
 			.text()
+			.replace("'", '_')
 			.toLowerCase();
+
 		currentmap = currentmap.split(' ').join('_');
 		var filename = currentmap + '.sd7';
 		var filename2 = currentmap + '.sdz';
@@ -267,8 +269,10 @@ export default class Battle {
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
 		var mapfilenamebase = mapname
 			.toLowerCase()
+			.replace("'", '_')
 			.split(' ')
 			.join('_');
+
 		var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
 		var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
 
