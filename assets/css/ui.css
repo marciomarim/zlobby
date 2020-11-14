@@ -80,14 +80,14 @@
 
 
 .icon-arm:before{
-	background-image: url(../images/ARM.svg);
+	background-image: url(../images/arm.png);
     position: relative;
     top: 2px;
     font-size: 0.8em;
 }
 
 .icon-core:before{
-	background-image: url(../images/CORE.svg);
+	background-image: url(../images/core.png);
 	position: relative;
     top: 2px;
     font-size: 0.8em;
