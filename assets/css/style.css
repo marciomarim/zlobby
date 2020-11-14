@@ -1075,7 +1075,9 @@ ul.list {
 			flex: 0.05;
 		}
 		
-		.battle-players li .trueskill{
+		.battle-players li .trueskill,
+		.battle-players li .team,
+		.battle-players li .ally{
 			position: relative;
 		}
 		
@@ -1085,10 +1087,6 @@ ul.list {
 		    top: -1em;
 		    left: -1.3em;
 		    font-size: 7px;			
-		}
-		
-		.battle-players li .ally{
-			position: relative;
 		}
 		
 		.battle-players li .trueskill,
@@ -1107,6 +1105,21 @@ ul.list {
 			width: 18px;
 			height: 18px;
 		}
+		
+		.battle-players li .team:before{
+			content: 'ID';
+			position: absolute;
+			top: -1em;
+			left: -1.3em;
+			font-size: 7px;			
+		}
+		/* .battle-players li .ally:after{
+			content: 'TEAM';
+			position: absolute;
+			top: -1em;
+			left: -1.3em;
+			font-size: 7px;			
+		} */
 		
 		.battle-players li .ally.ally-1:before,
 		.battle-players li .ally.ally-3:before,
@@ -1610,6 +1623,7 @@ ul.list {
 	select:active,
 	select:focus{		
 		border: 2px solid #4a5173;
+		outline: none;
 	}
 	
 	label.pickteam,
