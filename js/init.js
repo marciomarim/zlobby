@@ -290,6 +290,9 @@ $(window).ready(function() {
 	var rudechat = store.get('prefs.rudechat');
 	if (rudechat == undefined) store.set('prefs.rudechat', 1);
 
+	var chatnotifications = store.get('prefs.chatnotifications');
+	if (chatnotifications == undefined) store.set('prefs.chatnotifications', 0);
+
 	// load preferences and update checkboxes
 	autoconnect = store.get('prefs.autoconnect');
 	if (autoconnect == 0) {
@@ -318,6 +321,13 @@ $(window).ready(function() {
 		$('.savechats').prop('checked', false);
 	} else {
 		$('.savechats').prop('checked', true);
+	}
+
+	chatnotifications = store.get('prefs.chatnotifications');
+	if (chatnotifications == 0) {
+		$('.chatnotifications').prop('checked', false);
+	} else {
+		$('.chatnotifications').prop('checked', true);
 	}
 });
 
@@ -365,6 +375,14 @@ $('body').on('click', '.rudechat', function(e) {
 		store.set('prefs.rudechat', 1);
 	} else {
 		store.set('prefs.rudechat', 0);
+	}
+});
+
+$('body').on('click', '.chatnotifications', function(e) {
+	if ($('.chatnotifications').prop('checked') == true) {
+		store.set('prefs.chatnotifications', 1);
+	} else {
+		store.set('prefs.chatnotifications', 0);
 	}
 });
 

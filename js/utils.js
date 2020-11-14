@@ -103,6 +103,7 @@ export default class Utils {
 
 	add_message_to_chat(username, message, me) {
 		// if user not online, mark messages as unsent
+		var chatnotifications = store.get('prefs.chatnotifications');
 		var user_online = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length;
 		var $bubble = $('<li></li>');
 
@@ -152,23 +153,22 @@ export default class Utils {
 				}
 				this.update_global_unread_count();
 
-				$('#messagesound')[0].play();
+				if (chatnotifications) {
+					var notification = new Notification(username + ' said', {
+						body: message,
+					});
+					notification.onclick = () => {
+						$('.tab, .container.active').removeClass('active');
+						$('#chatlist, #chats').addClass('active');
+						$('.userchat, .userpm-select').removeClass('active');
+						$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"], .userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
 
-				var notification = new Notification(username + ' said', {
-					body: message,
-				});
+						if ($('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"] .unread').length) $('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"] .unread').remove();
 
-				notification.onclick = () => {
-					$('.tab, .container.active').removeClass('active');
-					$('#chatlist, #chats').addClass('active');
-					$('.userchat, .userpm-select').removeClass('active');
-					$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"], .userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
-
-					if ($('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"] .unread').length) $('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"] .unread').remove();
-
-					$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .text-scroll').scrollTop($('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .messages')[0].scrollHeight);
-					this.update_global_unread_count();
-				};
+						$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .text-scroll').scrollTop($('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .messages')[0].scrollHeight);
+						this.update_global_unread_count();
+					};
+				}
 			}
 		}
 	}
@@ -358,7 +358,8 @@ export default class Utils {
 		if ($('.battle-playerlist li[data-username="' + jQuery.escapeSelector(myusername) + '"]').length) amiplaying = true;
 
 		var ring = message.startsWith('* Ringing');
-		var talkingabout = message.toUpperCase().indexOf(myusername.toUpperCase());
+		var messageUp = message.toUpperCase();
+		var talkingabout = messageUp.indexOf(myusername.toUpperCase());
 		var ishost = message.startsWith('* ');
 		var winner = -1;
 		var vote = -1;
@@ -382,8 +383,10 @@ export default class Utils {
 			//var endvote = message.indexOf('Vote for command');
 		}
 
-		if ((ring && talkingabout >= 0) || (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready'))) {
-			console.warn('ringing: 1');
+		console.warn('talking about: ' + talkingabout);
+
+		// (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready'))
+		if (ring && talkingabout > 0) {
 			$('#ringsound')[0].play();
 		}
 
@@ -427,12 +430,12 @@ export default class Utils {
 			}
 		}
 
-		if (talkingabout >= 0 || is_ex) {
+		if (talkingabout > 0) {
 			$bubble.addClass('talkingabout');
-			// if (!$('body').hasClass('ingame')) {
-			// 	$('#messagesound')[0].play();
-			// 	console.warn('ringing: 2');
-			// }
+		}
+
+		if (is_ex) {
+			$bubble.addClass('talkingabout');
 		}
 
 		if (winner >= 0) {
@@ -441,9 +444,6 @@ export default class Utils {
 
 		if (vote >= 0 && amiplaying) {
 			// will ring me too
-			$('#messagesound')[0].play();
-			console.warn('ringing: 3');
-
 			$bubble.addClass('vote');
 			$('#battleroom #votewin').addClass('active');
 			if (myvote > 1) {
@@ -461,9 +461,7 @@ export default class Utils {
 					.replace('undefined', '');
 				var localmap = 'minimaps/' + mapfilenamebase + '.jpg';
 				var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';
-				//console.log(imgdiv);
 				$('#battleroom .voteformap').html(imgdiv);
-				//$('#battleroom .voteformap img').attr('src', localmap);
 			} else {
 				$('#battleroom .voteformap').empty();
 			}
