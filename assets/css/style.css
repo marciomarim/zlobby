@@ -2211,11 +2211,13 @@ span.upper{
 	display: flex;
 	flex-wrap: wrap;
 	padding: 1em;
+	max-height: 300px;
+	overflow: scroll;
 }
 
 	#mapfilter .mapfilter{
 		cursor: pointer;
-		width: 96px;	
+		width: 46px;	
 		margin: 0.5em;
 		border: 2px solid transparent;
 	}
