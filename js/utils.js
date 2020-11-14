@@ -383,8 +383,6 @@ export default class Utils {
 			//var endvote = message.indexOf('Vote for command');
 		}
 
-		console.warn('talking about: ' + talkingabout);
-
 		// (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready'))
 		if (ring && talkingabout > 0) {
 			$('#ringsound')[0].play();
@@ -434,9 +432,9 @@ export default class Utils {
 			$bubble.addClass('talkingabout');
 		}
 
-		if (is_ex) {
-			$bubble.addClass('talkingabout');
-		}
+		// if (is_ex > 0) {
+		// 	$bubble.addClass('talkingabout');
+		// }
 
 		if (winner >= 0) {
 			$bubble.addClass('winner');

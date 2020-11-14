@@ -125,7 +125,7 @@ export default class User {
 	updatebattlestatus(username, status, color) {
 		var myusername = $('#myusername').text();
 		// AUTO UNSPEC
-		if (myusername != username && $('body').hasClass('unspecing')) {
+		if (myusername != username && $('body').hasClass('unspecing') && $('#battleroom .battle-playerlist').length() < 16) {
 			utils.sendbattlestatus();
 		}
 
