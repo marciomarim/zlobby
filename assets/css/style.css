@@ -419,18 +419,6 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 			margin: 1em;
 		}
 			
-	.rcontainer{
-		width: calc(45% - 120px);
-		position: fixed;
-		top: 30px;
-		right: 0;
-		display: none;
-		height: calc(100% - 30px);
-		background: #1d2229;
-	}
-		.rcontainer.active{
-			display: block;	
-		}
 	
 	.text-scroll{
 		width: 100%;

@@ -633,8 +633,7 @@ export default class Battle {
 		$('body').addClass('inbattleroom');
 		$('.battle-card[data-battleid="' + battleid + '"]').addClass('activebattle');
 
-		$('.rcontainer, .tab').removeClass('active');
-		$('.container').removeClass('active');
+		$('.container, .tab').removeClass('active');
 		$('#battleroom, .tab.battleroom').addClass('active');
 		$('#battleroom input.chat').data('battleid', battleid);
 		$('.tab.battleroom .status').addClass('active');

@@ -26,8 +26,11 @@ $('body').on('click', '.battle-card', function(e) {
 
 	//if I'm in, just go to battleroom
 	if ($(this).hasClass('activebattle')) {
-		$('.container').removeClass('active');
-		$('#battleroom').addClass('active');
+		$('.container, .tab').removeClass('active');
+		$('#battleroom, .tab.battleroom').addClass('active');
+
+		$(id).addClass('active');
+		$(this).addClass('active');
 
 		// need to leave another battle
 	} else if ($('.activebattle').length) {
