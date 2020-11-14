@@ -159,7 +159,7 @@ export default class Utils {
 				});
 
 				notification.onclick = () => {
-					$('.tab, .rcontainer, .container.active').removeClass('active');
+					$('.tab, .container.active').removeClass('active');
 					$('#chatlist, #chats').addClass('active');
 					$('.userchat, .userpm-select').removeClass('active');
 					$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"], .userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');

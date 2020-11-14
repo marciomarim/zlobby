@@ -23,7 +23,7 @@ $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 		return false;
 	}
 
-	$('.tab, .rcontainer, .container.active').removeClass('active');
+	$('.tab, .container.active').removeClass('active');
 
 	$(id).addClass('active');
 	$(this).addClass('active');
