@@ -275,7 +275,11 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		}
 		
 	.backdark{
-		background: #2b2c38;
+		background: #292b33;
+	}
+	
+	body.lightmode .backdark{
+		background: #eee;
 	}	
 	
 	.container .title{
@@ -296,6 +300,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	
 	body.lightmode .container .title{		
 		color: #111;
+		background: #d6d6d6;
 	}
 	
 	.container .account{
@@ -1651,7 +1656,7 @@ ul.list {
 	    bottom: 0;
 	    right: 0;
 	    width: 100%;		
-	    background: #131519;
+	    background: #14161b;
 	    padding: 0.5em 2em 2em 2em;
 	    font-size: 12px;
 		z-index: 999;
@@ -1762,8 +1767,7 @@ ul.list {
 		right: 0;
 		top: 0;
 		height: 100%;
-		background: #111418;
-		
+		background: #171b21;		
 		padding: 1em 0.5em 1em 1em;
 	}
 	
@@ -2146,7 +2150,7 @@ span.upper{
 	    top: 0;
 	    right: 0;
 	    height: 100%;
-	    background: #1d2229;
+	    background: #191c21;
 	}	
 	
 	#chatlist.over #chats{
@@ -2159,7 +2163,7 @@ span.upper{
 	
 	body.lightmode #channels,
 	body.lightmode #chats{
-		background: #cccfd4;
+		background: #b3b7bd;
 	}
 	
 	#channellist .left,
@@ -2184,7 +2188,7 @@ span.upper{
 }	
 
 	body.lightmode #activechats{
-		background: #bbc1c7;
+		background: #c9cbce;
 	}
 
 	#activechats .buttons{
