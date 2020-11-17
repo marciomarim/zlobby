@@ -906,7 +906,7 @@ ul.list {
 	
 	.battle-main-info{
 		width: 100%;
-		padding: 1em;
+		padding: 0 1em 1em 1em;
 		font-size: 13px;
 	}
 	
@@ -2131,6 +2131,7 @@ span.upper{
 	
 	#chatlist.over{
 		z-index: 99999;
+		pointer-events: none;
 	}
 	
 	#chatlist .title,
@@ -2155,6 +2156,7 @@ span.upper{
 	
 	#chatlist.over #chats{
 		width: 45%;
+		pointer-events: all;
 	}
 	
 	#chatlist.active.over #chats{

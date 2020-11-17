@@ -31,6 +31,12 @@ $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 	$(this).addClass('active');
 });
 
+$(document).keyup(function(e) {
+	if (e.key === 'Escape') {
+		$('#chatlist').removeClass('over');
+	}
+});
+
 $('body').on('click', 'a', event => {
 	event.preventDefault();
 	let link = event.target.href;

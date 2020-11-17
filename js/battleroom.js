@@ -215,6 +215,10 @@ $('body').on('click', '.startbattle', function(e) {
 	}
 });
 
+// $('body').on('click', '#battleroom .left', function(e) {
+// 	$('#chatlist').removeClass('over');
+// });
+
 $('body').on('keydown', '.battleroom_input', function(e) {
 	var arrow = { left: 37, up: 38, right: 39, down: 40 };
 

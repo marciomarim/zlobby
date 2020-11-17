@@ -137,9 +137,6 @@ $('.userchat_input').focus(function() {
 
 //user chat
 $('body').on('keydown', '.userchat_input', function(e) {
-	if (e.which == 27) {
-		$('#chatlist').removeClass('over');
-	}
 	if (e.which == 13) {
 		var username = $(this).data('username');
 		var message = $(this).val();
