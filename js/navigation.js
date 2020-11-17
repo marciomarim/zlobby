@@ -7,6 +7,8 @@ $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 	var tab = $(this).data('target');
 	var id = '#' + $(this).data('target');
 
+	$('#chatlist').removeClass('over');
+
 	if (tab == 'chatlist') {
 		$('#chats').addClass('active');
 		var useractive = $('.userchat.active').data('username');

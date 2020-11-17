@@ -51,7 +51,23 @@
 				<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
 			</div>
 
-			<div id="start" class="container active wide">
+			<div id="chatlist" class="container">
+				<div class="title icon icon-chat-double-bubble-4">Chatlist</div>
+
+				<div class="left">
+					<div class="text-scroll">
+						<ul id="chat-list" class="list"></ul>
+					</div>
+				</div>
+
+				<div id="chats">
+					<div id="activechats">
+						<div class="buttons"></div>
+					</div>
+				</div>
+			</div>
+
+			<div id="start" class="container active">
 				<div id="videocontainer">
 					<video id="bademovideo" autoplay muted loop>
 						<source src="assets/videos/bamoviecrop_fix.mp4" type="video/mp4" />
@@ -138,7 +154,7 @@
 				</div>
 			</div>
 
-			<div id="battlelist" class="container wide latest">
+			<div id="battlelist" class="container backdark latest">
 				<div class="title icon icon-game-controller-3">Battlelist</div>
 				<!--
 		    <div id="gamefilter" class="pretty p-switch p-fill">
@@ -153,7 +169,7 @@
 				</div>
 			</div>
 
-			<div id="battleroom" class="container wide"></div>
+			<div id="battleroom" class="container backdark"></div>
 
 			<div id="battleroomtemplate" style="display:none;">
 				<div class="left">
@@ -179,7 +195,7 @@
 						<div id="mutebattleroom" class="pretty p-switch p-fill option">
 							<input class="mutebattleroom" type="checkbox" />
 							<div class="state">
-								<label>Sounds</label>
+								<label>Mute sounds</label>
 							</div>
 						</div>
 
@@ -225,7 +241,7 @@
 				</div>
 
 				<div id="battle-right-info">
-					<div class="scroll" style="padding-bottom: 185px; padding-right: 0.6em;">
+					<div class="scroll main" style="padding-bottom: 185px; padding-right: 0.6em;">
 						<div class="title">Battle Info</div>
 
 						<div class="battle-main-info"></div>
@@ -252,7 +268,7 @@
 							<div class="pickmap-btn">PICK MAP</div>
 						</div>
 
-						<div class="ui-label">Options</div>
+						<div class="ui-label" style="padding: 1em 0.1em;">Options</div>
 
 						<div id="battleoptions" class="options">
 							<div class="ui-label">Game</div>
@@ -304,14 +320,14 @@
 						</div>
 
 						<div class="line">
-							<!--
-					    <div class="pretty p-switch p-fill">
-					        <input class="autounspecbattle" type="checkbox" />
-					        <div class="state">
-					            <label>Auto unspec</label>
-					        </div>
-					    </div>
--->
+							<div class="pickarm icon icon-arm active">ARM</div>
+							<div class="pickcore icon icon-core">CORE</div>
+
+							<div class="colorpicked">
+								<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>
+								<div class="label">COLOR</div>
+							</div>
+
 							<div class="item">
 								<label for="pickally"></label>
 								<select id="pickally" name="pickally">
@@ -355,14 +371,6 @@
 									<option value="16">ID 16</option>
 								</select>
 							</div>
-
-							<div class="pickarm icon icon-arm active">ARM</div>
-							<div class="pickcore icon icon-core">CORE</div>
-
-							<div class="colorpicked">
-								<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>
-								<div class="label">COLOR</div>
-							</div>
 						</div>
 
 						<div class="line">
@@ -395,7 +403,7 @@
 				</div>
 			</div>
 
-			<div id="singleplayer" class="container wide">
+			<div id="singleplayer" class="container backdark">
 				<div class="title icon icon-bunker-soldier-standing">Singleplayer</div>
 
 				<div class="singlecontainer">
@@ -450,23 +458,7 @@
 			</div>
 			<!-- end of singleplayer -->
 
-			<div id="chatlist" class="container wide">
-				<div class="title icon icon-chat-double-bubble-4">Chatlist</div>
-
-				<div class="left">
-					<div class="text-scroll">
-						<ul id="chat-list" class="list"></ul>
-					</div>
-				</div>
-
-				<div id="chats">
-					<div id="activechats">
-						<div class="buttons"></div>
-					</div>
-				</div>
-			</div>
-
-			<div id="channellist" class="container">
+			<div id="channellist" class="container backdark">
 				<div class="left">
 					<div class="title icon icon-radio-5">Channels</div>
 					<div class="text-scroll">
@@ -477,18 +469,18 @@
 				<div id="channels"></div>
 			</div>
 
-			<div id="bawebsite" class="container wide">
+			<div id="bawebsite" class="container">
 				<div class="title icon icon-computer-imac-1">Balanced Annihilation</div>
 				<webview id="bawebsite" src="https://balancedannihilation.com/" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
 			</div>
 
-			<div id="badiscord" class="container wide">
+			<div id="badiscord" class="container">
 				<div class="title icon icon-discord">Discord</div>
 				<webview id="replaywebsite" src="https://discord.com/invite/Yd6nT2m" style="display:inline-flex; width:100%; height:calc(100vh - 60px);" disablewebsecurity></webview>
 				<!-- https://discord.gg/Yd6nT2m -->
 			</div>
 
-			<div id="replays" class="container wide">
+			<div id="replays" class="container backdark">
 				<div class="title icon icon-account-television">Replays</div>
 				<div class="text-scroll">
 					<div class="inline-title">Filter replays by map</div>
@@ -497,7 +489,7 @@
 				</div>
 			</div>
 
-			<div id="preferences" class="container wide">
+			<div id="preferences" class="container">
 				<div class="title icon icon-speed-gauge">Preferences</div>
 				<div class="text-scroll">
 					<div id="prefs">

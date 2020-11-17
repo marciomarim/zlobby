@@ -31,6 +31,7 @@ $('body').on('click', '.userchat .closewin', function(e) {
 		.closest('.userchat')
 		.removeClass('active');
 	var username = $(this).data('username');
+	$('#chatlist').removeClass('over');
 });
 
 $('body').on('click', '.userchat .clearchat', function(e) {
@@ -109,6 +110,8 @@ function checkunsentmessages() {
 }
 
 $('#activechats').on('click', '.userpm-select', function(e) {
+	$('#chatlist').addClass('over');
+
 	var username = $(this).data('username');
 
 	$('.userchat, .userpm-select').removeClass('active');
@@ -133,7 +136,10 @@ $('.userchat_input').focus(function() {
 });
 
 //user chat
-$('body').on('keypress', '.userchat_input', function(e) {
+$('body').on('keydown', '.userchat_input', function(e) {
+	if (e.which == 27) {
+		$('#chatlist').removeClass('over');
+	}
 	if (e.which == 13) {
 		var username = $(this).data('username');
 		var message = $(this).val();

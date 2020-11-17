@@ -172,8 +172,8 @@ export default class User {
 		} else if (newStatus.spec == false) {
 			// if me and not trying to unspec
 			if (myusername == username && !$('body').hasClass('joinningbattle') && !$('body').hasClass('unspecing')) {
-				$('.specbattle').prop('checked', true);
-				$('.readybattle').prop('checked', false);
+				$('#battleroom .specbattle').prop('checked', true);
+				$('#battleroom .readybattle').prop('checked', false);
 			}
 			$('#battleroom .battle-speclist').append($('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]'));
 			$('.battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();

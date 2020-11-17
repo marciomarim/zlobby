@@ -145,7 +145,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		left:0;
 		top:0;
 		height: calc(100vh - 30px);
-		width: 119px;
+		width: 120px;
 		background: #111418;
 	    padding: 20px 10px;
 		border-right: 1px solid #111418;
@@ -262,17 +262,21 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	}
 
 	.container{
-		position: relative;
-		width: 100%;		
+		position: absolute;
+		width: calc(100% - 250px);		
 		height: 100%;
-		top:0;
-		left: 0;		
-		display: none;	
+		top: 0;
+		left: 120px;		
+		display: none;			
 	}
 	
 		.container.active{
 			display: block;	
 		}
+		
+	.backdark{
+		background: #2b2c38;
+	}	
 	
 	.container .title{
 	    position: fixed;
@@ -287,6 +291,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	    font-size: 0.9em;
 	    padding: 0.4em;
 	    pointer-events: none;
+		background: #111418;
 	}
 	
 	body.lightmode .container .title{		
@@ -437,8 +442,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	}
 	
 	.userchat{
-		height: 100%;
-		margin-right: 130px;
+		height: 100%;		
 	}
 	
 	.userchat .text-scroll{
@@ -459,7 +463,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	}
 	
 	#chats .bottom-input {
-		width: calc(100% - 130px);
+		width: 100%;
 	}
 	
 	
@@ -1280,6 +1284,7 @@ ul.list {
 		position: fixed;	
 		bottom: inherit;
 		top: 4em;		
+		right: 150px;
 	}
 	
 	.minimaps:hover > .pickmap-btn{
@@ -1616,6 +1621,10 @@ ul.list {
 		background: transparent;
 	}
 	
+	select option{	    
+		color: #666;
+	}
+	
 	body.lightmode select{		
 		color: #111;
 	}
@@ -1676,19 +1685,17 @@ ul.list {
 		
 		.icon.pickcore,
 		.icon.pickarm{
-			cursor: pointer;
-			filter: grayscale(50%);
-			opacity: 0.5;
+			cursor: pointer;		
 	        top: 0px;
 		    border: 2px solid #4a5173;
 		    padding: 6px 10px 6px 30px;
 		    border-radius: 20px;
+			display: none;
 		}
 		
 		.icon.pickcore.active,
 		.icon.pickarm.active{
-			filter: grayscale(0);
-			opacity: 1;
+			display: block;
 		}
 		
 		.icon.pickcore:before,
@@ -1756,8 +1763,18 @@ ul.list {
 		top: 0;
 		height: 100%;
 		background: #111418;
-		overflow: auto;
+		
 		padding: 1em 0.5em 1em 1em;
+	}
+	
+	#battle-right-info .scroll.main{
+		overflow: hidden;
+		margin-right: 6px;
+	}
+	
+	#battle-right-info .scroll.main:hover{
+		margin-right: 0px;
+		overflow: auto;
 	}
 	
 	body.lightmode #battle-right-info{
@@ -1802,6 +1819,10 @@ ul.list {
 	#battleoptions{
 		background: #191d24;
 	    padding: 1em;
+		opacity: 0.1;
+	}
+	#battleoptions:hover{
+		opacity: 1;
 	}
 	
 	body.lightmode #battleoptions{
@@ -2093,30 +2114,59 @@ span.upper{
 	}
 
 
-	#channellist .left,
+	
+	
+	#start{
+		width: calc(100% - 120px);
+	}
+	
+	#chatlist{				
+		display: block;
+		z-index: -1;
+	}
+	
+	#chatlist.over{
+		z-index: 99999;
+	}
+	
+	#chatlist .title,
 	#chatlist .left{
-		width: 45%;
-		height: 100%;
+		display: none;
+	}
+	
+	#chatlist.active .title,
+	#chatlist.active .left{
+		display: block;
 	}
 	
 	#channels,
 	#chats{
-	    width: 55%;
+	    width: 50%;
 	    position: absolute;
 	    top: 0;
 	    right: 0;
 	    height: 100%;
 	    background: #1d2229;
+	}	
+	
+	#chatlist.over #chats{
+		width: 45%;
+	}
+	
+	#chatlist.active.over #chats{
+		width: 50%;
 	}
 	
 	body.lightmode #channels,
 	body.lightmode #chats{
 		background: #cccfd4;
 	}
-
-#channellist{
-
-}	
+	
+	#channellist .left,
+	#chatlist .left{
+		width: 50%;
+		height: 100%;
+	}	
 	
 	#chat-list{
 		padding: 1em;
@@ -2126,7 +2176,7 @@ span.upper{
 #activechats{
 	position: absolute;
 	width: 130px;
-	right: 0;
+	right: -130px;
 	height: 100%;	
 	background: #111213;
 	overflow: auto;

@@ -59,21 +59,21 @@ $('body').on('click', '.leavebattle', function(e) {
 });
 
 $('body').on('click', '.specbattle', function(e) {
-	if ($('.specbattle').prop('checked') == true) {
+	if ($('#battleroom .specbattle').prop('checked') == true) {
 		$('body').removeClass('unspecing');
 	} else {
 		$('body').addClass('unspecing');
 	}
-	if ($('.readybattle').prop('checked') == true) {
-		$('.readybattle').prop('checked', false);
+	if ($('#battleroom .readybattle').prop('checked') == true) {
+		$('#battleroom .readybattle').prop('checked', false);
 	}
 	$(this).prop('checked');
 	utils.sendbattlestatus();
 });
 
 $('body').on('click', '.readybattle', function(e) {
-	if ($('.specbattle').prop('checked') == true) {
-		$('.specbattle').prop('checked', false);
+	if ($('#battleroom .specbattle').prop('checked') == true) {
+		$('#battleroom .specbattle').prop('checked', false);
 	}
 	$(this).prop('checked');
 	utils.sendbattlestatus();
@@ -147,21 +147,21 @@ $('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
 });
 
 $('body').on('click', '.pickarm', function(e) {
-	$('.pickcore').removeClass('active');
-	$(this).addClass('active');
-	utils.sendbattlestatus();
-
-	//save prefered faction
-	store.set('user.faction', 1);
-});
-
-$('body').on('click', '.pickcore', function(e) {
-	$('.pickarm').removeClass('active');
-	$(this).addClass('active');
+	$('#battleroom .pickcore').addClass('active');
+	$(this).removeClass('active');
 	utils.sendbattlestatus();
 
 	//save prefered faction
 	store.set('user.faction', 0);
+});
+
+$('body').on('click', '.pickcore', function(e) {
+	$('#battleroom .pickarm').addClass('active');
+	$(this).removeClass('active');
+	utils.sendbattlestatus();
+
+	//save prefered faction
+	store.set('user.faction', 1);
 });
 
 $('body').on('click', '.colorpicked', function(e) {

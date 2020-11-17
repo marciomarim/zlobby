@@ -52,8 +52,8 @@ export default class Utils {
 
 		var chat = '<div class="userchat active" data-username="' + username + '">';
 		chat += '<div class="actions">';
-		chat += '<div class="clearchat" data-username="' + username + '">CLEAR</div>';
 		chat += '<div class="closewin" data-username="' + username + '">CLOSE</div>';
+		chat += '<div class="clearchat" data-username="' + username + '">CLEAR</div>';
 		chat += '<div class="deletechat" data-username="' + username + '">DELETE</div>';
 		chat += '</div>';
 		//chat += '<div class="title">'+username+'</div>';
@@ -594,7 +594,7 @@ export default class Utils {
 			spec = 1; //try to unspec
 		}
 
-		if ($('.pickarm').hasClass('active')) {
+		if ($('#battleroom .pickarm').hasClass('active')) {
 			faction = 0;
 		} else {
 			faction = 1;
