@@ -21,6 +21,7 @@ import { trackEvent } from './init.js';
 var apiurl = 'https://files.balancedannihilation.com/api.php';
 // https://files.balancedannihilation.com/api.php?command=getmapslist
 // https://files.balancedannihilation.com/api.php?command=getminimapslist
+// https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=lost_v2.sdz&maptype=minimap
 // https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=duckquestv0.9.sdz&xmax=300&ymax=300&maptype=minimap&keepratio=true
 // https://files.balancedannihilation.com/data/mapscontent/deltasiegedry_v3.sd7/maps/BAfiles_metadata/mapinfo.json
 
@@ -326,7 +327,7 @@ export default class Battle {
 		}
 
 		if (localmapok) {
-			console.log('Local minimap found:' + filename);
+			//console.log('Local minimap found:' + filename);
 			battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
 		} else {
 			console.log('Saving remote minimaps:' + filename);

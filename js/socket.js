@@ -73,7 +73,7 @@ export function login() {
 		//console.log( socketClient.bytesRead );
 		//console.log( data.toString().length );
 		protocol.server(data.toString());
-		if (data.toString() != 'PONG') {
+		if (!data.toString().startsWith('PONG')) {
 			console.log(data.toString());
 		}
 		clearInterval(connectInterval);
