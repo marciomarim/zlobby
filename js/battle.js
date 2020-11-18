@@ -330,38 +330,43 @@ export default class Battle {
 			//console.log('Local minimap found:' + filename);
 			battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
 		} else {
-			console.log('Saving remote minimaps:' + filename);
 			//&xmax=1000&ymax=1000
 			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
 			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
 			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
 
-			var sizeinfos = mapinfo['sizeinfos'];
-			var w = sizeinfos['width'],
-				h = sizeinfos['height'];
+			if (mapinfo) {
+				console.log('Saving remote minimaps:' + filename);
 
-			Jimp.read(urlmap).then(image => {
-				// Do stuff with the image.
-				image
-					.resize(w, h)
-					.quality(70)
-					.write(localmap, function() {
-						battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-					});
-			});
+				var sizeinfos = mapinfo['sizeinfos'];
+				var w = sizeinfos['width'],
+					h = sizeinfos['height'];
 
-			Jimp.read(urlmmap).then(image => {
-				image
-					.resize(w, h)
-					.quality(70)
-					.write(localmmap);
-			});
-			Jimp.read(urlhmap).then(image => {
-				image
-					.resize(w, h)
-					.quality(70)
-					.write(localhmap);
-			});
+				Jimp.read(urlmap).then(image => {
+					// Do stuff with the image.
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localmap, function() {
+							battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+						});
+				});
+
+				Jimp.read(urlmmap).then(image => {
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localmmap);
+				});
+				Jimp.read(urlhmap).then(image => {
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localhmap);
+				});
+			} else {
+				console.warn('File info is missing for:' + filename);
+			}
 		}
 	}
 
@@ -520,7 +525,8 @@ export default class Battle {
 
 		if (sentences.length == 3) {
 			var mapname = parts.slice(11).join(' ');
-			var title = sentences[1].split(')').slice(1);
+			//var title = sentences[1].split(')').slice(1);
+			var title = sentences[1].slice(sentences[1].indexOf(')') + 1, sentences[1].length);
 			var gameName = sentences[2];
 			var engine = sentences[1].slice(sentences[1].indexOf('(') + 1, sentences[1].indexOf(')'));
 		} else {
