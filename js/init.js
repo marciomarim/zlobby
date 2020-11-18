@@ -25,12 +25,16 @@ function initial_check() {
 	enginepath = store.get('paths.enginepath');
 	var springdir_saved = store.get('paths.springdir');
 
+	console.warn('debug engine checking: 0');
+
 	if (springdir_saved && fs.existsSync(springdir_saved)) {
 		springdir = springdir_saved;
+		console.warn('debug engine checking: 1');
 	} else {
 		// set default springdir
 		if (platform == 'win32') {
 			springdir = homedir + '\\Documents\\My Games\\Spring\\';
+			console.warn('debug engine checking: 2');
 		} else if (platform == 'darwin') {
 			springdir = homedir + '/.spring/';
 		} else if (platform == 'linux') {
@@ -59,6 +63,7 @@ initial_check();
 function set_detault_paths(enginepath, springdir) {
 	// set default paths based on saved base paths
 	if (platform == 'win32') {
+		console.warn('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
 		minimapsdir = appPath + '\\minimaps\\';
 		modsdir = springdir + 'games\\';
@@ -69,9 +74,11 @@ function set_detault_paths(enginepath, springdir) {
 		enginedir = springdir + 'engine\\';
 		engineverdir = springdir + 'engine\\103\\';
 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\')) {
+			console.warn('debug engine checking: 4');
 			engineverdir = springdir + 'engine\\103.0\\';
 			replaysdir2 = springdir + 'engine\\103.0\\demos\\';
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\')) {
+			console.warn('debug engine checking: 5');
 			engineverdir = springdir + 'engine\\103\\';
 			replaysdir2 = springdir + 'engine\\103\\demos\\';
 		}
@@ -162,15 +169,19 @@ function lookforengine() {
 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
 			enginefound = 1;
+			console.warn('debug engine checking: 6');
 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 			enginefound = 1;
+			console.warn('debug engine checking: 7');
 		} else if (fs.existsSync('C:\\Program Files (x86)\\Spring\\spring.exe')) {
 			enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
 			enginefound = 1;
+			console.warn('debug engine checking: 8');
 		} else {
 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
 			enginefound = 0;
+			console.warn('debug engine checking: 9');
 		}
 		store.set('paths.enginepath', enginepath);
 	} else if (platform == 'darwin') {
@@ -186,6 +197,7 @@ function lookforengine() {
 	}
 
 	if (!enginefound) {
+		console.warn('debug engine checking: 10');
 		setTimeout(function() {
 			var answer = window.confirm('Engine not found, click OK to download or CANCEL to setup manually?');
 			if (answer) {
@@ -207,6 +219,7 @@ function lookforengine() {
 }
 
 function prepareenginedownload() {
+	console.warn('debug engine checking: 11');
 	if (platform == 'win32') {
 		if (arch == 'x64') {
 			zipfile = 'spring_103.0_win64-minimal-portable.7z';
