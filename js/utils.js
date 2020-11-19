@@ -11,7 +11,7 @@ const Store = require('electron-store');
 const store = new Store();
 
 var votetimerId;
-var votetimer = 45;
+var votestarted;
 //const { spawn } = require('child_process');
 
 export default class Utils {
@@ -491,7 +491,7 @@ export default class Utils {
 				$('#battleroom .voteformap').empty();
 			}
 
-			votetimer = 45;
+			votestarted = Math.floor(Date.now() / 1000);
 			votetimerId = setInterval(this.votecountdown, 1000);
 		}
 
@@ -518,12 +518,12 @@ export default class Utils {
 	}
 
 	votecountdown() {
-		if (votetimer == -1) {
+		var votecounter = 45 - (Math.floor(Date.now() / 1000) - votestarted);
+		if (votecounter <= 0) {
 			clearTimeout(votetimerId);
 			$('#battleroom #votewin').removeClass('active');
 		} else {
-			$('#battleroom #votecountdown').text(votetimer);
-			votetimer--;
+			$('#battleroom #votecountdown').text(votecounter);
 		}
 	}
 
