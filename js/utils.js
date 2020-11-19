@@ -24,7 +24,7 @@ export default class Utils {
 
 	get fulltimenow() {
 		var today = new Date();
-		return today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear() + ' ' + today.getHours() + ':' + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes() + ':' + (today.getSeconds() < 10 ? '0' : '') + today.getSeconds();
+		return today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate() + ' ' + today.getHours() + ':' + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes() + ':' + (today.getSeconds() < 10 ? '0' : '') + today.getSeconds();
 	}
 
 	urlify(string) {
@@ -61,7 +61,6 @@ export default class Utils {
 
 	init_chat(username) {
 		var safe_username = jQuery.escapeSelector(username);
-		console.log(username);
 
 		// if chat doesnt exit, create
 		if (!$('.userchat[data-username="' + safe_username + '"]').length) {
@@ -74,29 +73,45 @@ export default class Utils {
 		}
 		$('.active .userchat_input').focus();
 
+		if (!fs.existsSync(chatlogsdir + 'pm-' + username + '.log')) {
+			fs.appendFileSync(chatlogsdir + 'pm-' + username + '.log', ' ');
+		}
+
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			if (data) $('.userchat[data-username="' + safe_username + '"] .messages').html(data.toString());
-		});
 
-		// create active chats button
-		if (!$('#activechats .userpm-select[data-username="' + safe_username + '"]').length) {
-			//check if user is online
-			if ($('#chat-list li[data-username="' + safe_username + '"]').length) {
-				var div = '<div class="userpm-select online" data-username="' + username + '">' + username + '</div>';
-			} else {
-				var div = '<div class="userpm-select" data-username="' + username + '">' + username + '</div>';
+			// create active chats button
+			if (!$('#activechats .userpm-select[data-username="' + safe_username + '"]').length) {
+				//check if user is online
+				if ($('#chat-list li[data-username="' + safe_username + '"]').length) {
+					var div = '<div class="userpm-select online" data-username="' + username + '">' + username + '</div>';
+				} else {
+					var div = '<div class="userpm-select" data-username="' + username + '">' + username + '</div>';
+				}
+
+				$('#activechats .buttons').append(div);
 			}
 
-			$('#activechats .buttons').append(div);
-		}
+			// add timestamp to userpm-select
+			var datelast = $('.userchat[data-username="' + safe_username + '"] .messages .time')
+				.last()
+				.text();
 
-		setTimeout(function() {
+			if (datelast) {
+				var order = new Date(datelast);
+				order = -Math.floor(order.getTime() / 1000);
+				$('#activechats .userpm-select[data-username="' + safe_username + '"]').css('order', order);
+			}
+
+			// scroll bottom
 			$('.userchat[data-username="' + safe_username + '"] .text-scroll').scrollTop($('.userchat[data-username="' + safe_username + '"] .messages')[0].scrollHeight);
-		}, 500);
+		});
 	}
 
 	add_message_to_chat(username, message, me) {
+		var datenow = -Math.floor(Date.now() / 1000);
+
 		// if user not online, mark messages as unsent
 		var chatnotifications = store.get('prefs.chatnotifications');
 		var user_online = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length;
@@ -123,14 +138,12 @@ export default class Utils {
 			.html();
 
 		// save if not bot
-		if (!$('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').hasClass('bot')) fs.appendFileSync(chatlogsdir + 'pm-' + username + '.log', container);
+		if (!$('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').hasClass('bot')) {
+			fs.appendFileSync(chatlogsdir + 'pm-' + username + '.log', container);
+		}
 
-		//reorder active chats
-		$('#activechats .userpm-select').each(function(index) {
-			$(this).css('order', index + 1);
-		});
 		$('#activechats .userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]')
-			.css('order', '0')
+			.css('order', datenow)
 			.addClass('active');
 
 		// update unread messages count if not mine
@@ -204,6 +217,7 @@ export default class Utils {
 			files.forEach(file => {
 				if (file.startsWith('pm')) {
 					var username = file.replace('pm-', '').replace('.log', '');
+
 					//console.log(username);
 					if (!$('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
 						if ($('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
@@ -213,6 +227,8 @@ export default class Utils {
 						}
 						$('#activechats .buttons').append(div);
 					}
+
+					this.init_chat(username);
 				}
 			});
 		});

@@ -580,7 +580,7 @@ export default class Battle {
 		$('.battle-card[data-battleid="' + battleid + '"]').remove();
 		$('.tab.battlelist .count').text($('.battle-card').length);
 
-		// if my battle is closed
+		// if my battle is closed, refrech interface
 		if ($('#battleroom .battleid').text() == battleid) {
 			$('.tab.battleroom .status').removeClass('active');
 			$('#battleroom').removeClass('active');
