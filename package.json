@@ -1,6 +1,6 @@
 {
   "name": "Elobby",
-  "version": "0.2.12",
+  "version": "0.2.13",
   "description": "Electron based lobby",
   "main": "main.js",
   "author": {
@@ -12,7 +12,7 @@
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder --mac --win",
-    "deploy": "electron-builder build -mw --publish always"
+    "deploy": "electron-builder build -mwl --publish always"
   },
   "devDependencies": {
     "electron": "^9.3.2",
