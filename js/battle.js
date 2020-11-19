@@ -579,6 +579,16 @@ export default class Battle {
 	closebattle(battleid) {
 		$('.battle-card[data-battleid="' + battleid + '"]').remove();
 		$('.tab.battlelist .count').text($('.battle-card').length);
+
+		// if my battle is closed
+		if ($('#battleroom .battleid').text() == battleid) {
+			$('.tab.battleroom .status').removeClass('active');
+			$('#battleroom').removeClass('active');
+			$('#battlelist').addClass('active');
+			$('#battleroom').empty();
+			$('body').removeClass('inbattleroom');
+			$('.activebattle').removeClass('activebattle');
+		}
 	}
 
 	updatebattleinfo(battleid, spectatorCount, locked, maphash, mapname) {
