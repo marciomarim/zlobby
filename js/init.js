@@ -102,7 +102,7 @@ function set_detault_paths(enginepath, springdir) {
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
 		replaysdir = springdir + 'demos/';
-		enginedir = springdir + 'engine/103/';
+		enginedir = springdir + 'engine/103.0/';
 		engineverdir = enginedir;
 	} else {
 		$('#enginestatus')
@@ -196,7 +196,10 @@ function lookforengine() {
 			enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
 		}
 	} else if (platform == 'linux') {
-		if (fs.existsSync(springdir + 'engine/103/spring')) {
+		if (fs.existsSync(springdir + 'engine/103.0/spring')) {
+			enginefound = 1;
+			enginepath = springdir + 'engine/103.0/spring';
+		} else if (fs.existsSync(springdir + 'engine/103/spring')) {
 			enginefound = 1;
 			enginepath = springdir + 'engine/103/spring';
 		}
