@@ -2094,6 +2094,12 @@ span.upper{
 		display: flex;
 		justify-content: center;
 		padding: 5px;
+		background: #111015;
+	}
+	
+	body.lightmode .channelchat .actions,
+	body.lightmode .userchat .actions{
+		background: #91949c;
 	}
 	
 	.channelchat .actions .clearchannel,
@@ -2152,6 +2158,7 @@ span.upper{
 	    right: 0;
 	    height: 100%;
 	    background: #191c21;
+		box-shadow: -2px 0 3px #000;
 	}	
 	
 	#chatlist.over #chats{
@@ -2166,6 +2173,7 @@ span.upper{
 	body.lightmode #channels,
 	body.lightmode #chats{
 		background: #b3b7bd;
+		box-shadow: -2px 0 3px #b3b7bd;
 	}
 	
 	#channellist .left,
