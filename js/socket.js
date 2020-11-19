@@ -62,11 +62,12 @@ export function login() {
 	// save my username
 	$('#myusername').text(username);
 
-	trackEvent('User', 'login', 'username', username);
+	//trackEvent('User', 'login', 'username', username);
 
 	var socketInterval = setInterval(function() {
 		socketClient.write('PING\n');
 		trackEvent('Lobby', 'ping', appVersion);
+		trackEvent('User', 'username', username);
 	}, 15000);
 
 	socketClient.on('data', data => {
