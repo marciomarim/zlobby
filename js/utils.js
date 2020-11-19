@@ -22,6 +22,11 @@ export default class Utils {
 		return today.getHours() + ':' + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes() + ':' + (today.getSeconds() < 10 ? '0' : '') + today.getSeconds();
 	}
 
+	get fulltimenow() {
+		var today = new Date();
+		return today.getDate() + '/' + (today.getMonth() + 1) + '/' + today.getFullYear() + ' ' + today.getHours() + ':' + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes() + ':' + (today.getSeconds() < 10 ? '0' : '') + today.getSeconds();
+	}
+
 	urlify(string) {
 		const urls = string.match(/(((ftp|https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g);
 		if (urls) {
@@ -36,16 +41,6 @@ export default class Utils {
 		if (message == 'PONG' || message == '\n' || message == ' ' || message == '') return false;
 		$('#server').append('<li>' + message + '</li>');
 	}
-
-	/*
-	filter_battles(){
-		
-		if ($('.gamefilter').prop("checked") == true){
-			var game = 'Balanced Annihilation V';
-		}
-		
-	}
-*/
 
 	create_chat_window(username) {
 		$('.userchat.active').removeClass('active');
@@ -109,9 +104,9 @@ export default class Utils {
 
 		if (me) {
 			$bubble.addClass('mine');
-			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
+			$bubble.append('<div class="messageinfo"><div class="userspeaking">Me</div><div class="time">' + this.fulltimenow + '</div></div><div class="message">' + message + '</div>');
 		} else {
-			$bubble.append('<div class="messageinfo"><div class="userspeaking">' + username + '</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
+			$bubble.append('<div class="messageinfo"><div class="userspeaking">' + username + '</div><div class="time">' + this.fulltimenow + '</div></div><div class="message">' + message + '</div>');
 		}
 
 		if (!user_online) {
