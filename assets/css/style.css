@@ -1937,6 +1937,11 @@ span.upper{
         overflow-wrap: anywhere;
 	}
 	
+	.messages li .message.ishost{
+		white-space: pre;
+		font-family: monospace;
+	}
+	
 	body.lightmode .messages li .message{
 		background: #ddd;
 	}
