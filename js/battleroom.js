@@ -248,8 +248,26 @@ $('body').on('keydown', '.battleroom_input', function(e) {
 				bmcount = bmessages.length - 1;
 			}
 			break;
+		case 9:
+			e.preventDefault();
+			var message = $(this).val();
+			autocompleteusers(message);
 	}
 });
+
+function autocompleteusers(message) {
+	var lastword = message.split(' ');
+	lastword = lastword[lastword.length - 1];
+	if (lastword) {
+		$('.battle-players li').each(function(index) {
+			var username = $(this).data('username');
+			if (username.startsWith(lastword)) {
+				message = message.substring(0, message.length - lastword.length) + username;
+				$('.battleroom_input').val(message);
+			}
+		});
+	}
+}
 
 // battleroom chat
 $('body').on('keypress', '.battleroom_input', function(e) {

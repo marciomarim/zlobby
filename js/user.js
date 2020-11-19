@@ -234,11 +234,11 @@ export default class User {
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 
 		var battlesize = 'normal';
-		if (numberofplayers > 14) {
+		if (numberofplayers > 16) {
 			battlesize = 'huge';
-		} else if (numberofplayers > 12) {
+		} else if (numberofplayers > 14) {
 			battlesize = 'verybig';
-		} else if (numberofplayers > 10) {
+		} else if (numberofplayers > 12) {
 			battlesize = 'big';
 		}
 		$('#battleroom').data('battlesize', battlesize);
