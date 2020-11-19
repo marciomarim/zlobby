@@ -40,6 +40,7 @@ function initial_check() {
 		} else if (platform == 'linux') {
 			springdir = homedir + '/.spring/';
 		}
+		store.set('paths.springdir', springdir);
 	}
 	// add it to preferences tab
 	$('#springdir').val(springdir);
@@ -113,6 +114,11 @@ function set_detault_paths(enginepath, springdir) {
 function check_folders() {
 	// additional checks for win
 	if (platform == 'win32') {
+		var documentsdir = homedir + '\\Documents\\';
+		if (!fs.existsSync(documentsdir)) {
+			fs.mkdirSync(documentsdir);
+		}
+
 		var mygamesdir = homedir + '\\Documents\\My Games\\';
 		if (!fs.existsSync(mygamesdir)) {
 			fs.mkdirSync(mygamesdir);
