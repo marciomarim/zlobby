@@ -323,7 +323,10 @@ export default class Battle {
 		var localmap = minimapsdir + mapfilenamebase + '.jpg';
 		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
 		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
+
 		var localmapok = true;
+		var localmmapok = true;
+		var localhmapok = true;
 
 		// check if minimaps were saved and not empty
 		if (fs.existsSync(localmap)) {
@@ -334,15 +337,19 @@ export default class Battle {
 				if (fs.existsSync(localmmap)) {
 					var mmapstats = fs.statSync(localmmap);
 					if (mmapstats['size'] <= 0) {
-						localmapok = false;
+						localmmapok = false;
 					} else {
 						if (fs.existsSync(localhmap)) {
 							var hmapstats = fs.statSync(localhmap);
 							if (hmapstats['size'] <= 0) {
-								localmapok = false;
+								localhmapok = false;
 							}
+						} else {
+							localhmapok = false;
 						}
 					}
+				} else {
+					localmmapok = false;
 				}
 			}
 		} else {
@@ -396,18 +403,32 @@ export default class Battle {
 	appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap) {
 		var battles = this;
 
-		var sizeinfos = mapinfo['sizeinfos'];
-		var w = sizeinfos['width'],
-			h = sizeinfos['height'],
-			xsmu = sizeinfos['xsmu'],
-			ysmu = sizeinfos['ysmu'],
-			Description = sizeinfos['Description'],
-			fulltilewidth = sizeinfos['fulltilewidth'],
-			fulltileheight = sizeinfos['fulltileheight'];
+		if (mapinfo) {
+			var sizeinfos = mapinfo['sizeinfos'];
+			var w = sizeinfos['width'],
+				h = sizeinfos['height'],
+				xsmu = sizeinfos['xsmu'],
+				ysmu = sizeinfos['ysmu'],
+				Description = sizeinfos['Description'],
+				fulltilewidth = sizeinfos['fulltilewidth'],
+				fulltileheight = sizeinfos['fulltileheight'];
+			var ratio = w / h;
+			var maxwh = 220;
+			battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
+		} else {
+			const img = new Image();
+			img.src = localmap;
+			img.onload = function() {
+				var w = this.width;
+				var h = this.width;
+				var ratio = w / h;
+				var maxwh = 220;
+				battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
+			};
+		}
+	}
 
-		var ratio = w / h;
-		var maxwh = 220;
-
+	appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio) {
 		if (w > h) {
 			var map = '<img class="map" src="' + localmap + '" width="220" height="' + maxwh / ratio + '">';
 		} else if (w == h) {
