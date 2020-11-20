@@ -14,7 +14,7 @@ const store = new Store();
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
 
 import { trackEvent } from './init.js';
 
@@ -131,6 +131,8 @@ export default class Battle {
 		} else {
 			var fileurl = remotemapsurl + filename;
 			var fileurl2 = remotemapsurl + filename2;
+			var fileurl3 = remotemapsurl2 + filename;
+			var fileurl4 = remotemapsurl2 + filename2;
 			//console.log('Need need download! ' + fileurl);
 			var battle = this;
 
@@ -143,8 +145,29 @@ export default class Battle {
 						url: fileurl2,
 						type: 'HEAD',
 						error: function() {
-							$('#battleroom .map-download').addClass('downloading');
-							$('#battleroom .map-download .download-title').text('Map not found for download.');
+							// try springfiles
+							$.ajax({
+								url: fileurl3,
+								type: 'HEAD',
+								error: function() {
+									$.ajax({
+										url: fileurl4,
+										type: 'HEAD',
+										error: function() {
+											$('#battleroom .map-download').addClass('downloading');
+											$('#battleroom .map-download .download-title').text('Map not found for download.');
+										},
+										success: function() {
+											console.log(fileurl4 + ' exist!');
+											battle.downloadmap(fileurl4, filename2);
+										},
+									});
+								},
+								success: function() {
+									//console.log(fileurl2 + ' exist!');
+									battle.downloadmap(fileurl3, filename);
+								},
+							});
 						},
 						success: function() {
 							//console.log(fileurl2 + ' exist!');

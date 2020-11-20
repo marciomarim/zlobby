@@ -15,6 +15,7 @@ const ua = require('universal-analytics');
 
 var remotemodsurl = 'https://springfightclub.com/data/';
 var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
+var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
 
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
@@ -469,4 +470,4 @@ export function trackEvent(category, action, label, value) {
 }
 trackEvent('App', 'launched');
 
-export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl };
+export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 };
