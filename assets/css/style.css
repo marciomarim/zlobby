@@ -1941,6 +1941,9 @@ span.upper{
 	.messages li .message.ishost{
 		white-space: pre;
 		font-family: monospace;
+		font-size: 0.75em;
+		letter-spacing: -0.5px;
+		background: transparent;
 	}
 	
 	body.lightmode .messages li .message{
