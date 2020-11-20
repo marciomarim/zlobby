@@ -319,6 +319,11 @@ export default class Battle {
 	}
 
 	load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
+		if ($('#battleroom').data('battleid') == battleid) {
+			$('#battleroom .minimaps').css('width', '');
+			$('#battleroom .minimaps').css('height', '');
+		}
+
 		var battles = this;
 		var localmap = minimapsdir + mapfilenamebase + '.jpg';
 		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
