@@ -22,6 +22,14 @@ $('#appVersion').text('Elobby v' + appVersion);
 
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
+if (platform == 'win32') {
+	$('body').addClass('win32');
+} else if (platform == 'darwin') {
+	$('body').addClass('darwin');
+} else if (platform == 'linux') {
+	$('body').addClass('linux');
+}
+
 function initial_check() {
 	enginepath = store.get('paths.enginepath');
 	var springdir_saved = store.get('paths.springdir');

@@ -9,6 +9,8 @@ let utils = new Utils();
 
 import User from './user.js';
 
+var app = require('electron').remote.app;
+
 $('body').on('keypress', '.chat', function(e) {
 	if (e.which == 13) {
 		socketClient.write($(this).val() + '\n');
@@ -37,6 +39,13 @@ $('body').on('click', '.userchat .closewin', function(e) {
 $('body').on('click', '.userchat .clearchat', function(e) {
 	var username = $(this).data('username');
 	utils.clear_user_chat(username);
+});
+
+$('body').on('click', '.emojibtn', function(e) {
+	if (app.isEmojiPanelSupported()) {
+		$('.userchat.active .userchat_input').focus();
+		app.showEmojiPanel();
+	}
 });
 
 $('body').on('click', '.userchat .deletechat', function(e) {

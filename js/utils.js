@@ -53,7 +53,7 @@ export default class Utils {
 		chat += '</div>';
 		//chat += '<div class="title">'+username+'</div>';
 		chat += '<div class="text-scroll"><ul class="messages"></ul></div>';
-		chat += '<div class="bottom-input"><input type="text" class="userchat_input" data-username="' + username + '"/ placeholder="Message @' + username + '"></div>';
+		chat += '<div class="bottom-input"><input type="text" class="userchat_input" data-username="' + username + '"/ placeholder="Message @' + username + '"><div class="emojibtn">✋🏽</div></div>';
 		chat += '</div>';
 
 		$('#chats').append(chat);
