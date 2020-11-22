@@ -300,7 +300,6 @@ export default class Battle {
 			.join('_');
 
 		//https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
-
 		//var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
 		//var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
 
