@@ -25,6 +25,8 @@ var apiurl = 'https://files.balancedannihilation.com/api.php';
 // https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=duckquestv0.9.sdz&xmax=300&ymax=300&maptype=minimap&keepratio=true
 // https://files.balancedannihilation.com/data/mapscontent/deltasiegedry_v3.sd7/maps/BAfiles_metadata/mapinfo.json
 
+// https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
+
 export default class Battle {
 	constructor() {}
 
@@ -297,8 +299,13 @@ export default class Battle {
 			.split(' ')
 			.join('_');
 
-		var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
-		var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
+		//https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
+
+		//var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
+		//var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
+
+		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
+		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';
 
 		try {
 			$.getJSON(url1, function(mapinfo) {
