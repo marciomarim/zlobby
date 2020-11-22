@@ -15,8 +15,17 @@ var Filter = require('bad-words'),
 const Store = require('electron-store');
 const store = new Store();
 
+var app = require('electron').remote.app;
+
 var bmessages = [];
 var bmcount = 1;
+
+$('body').on('click', '#battleroom .emojibtn', function(e) {
+	if (app.isEmojiPanelSupported()) {
+		$('#battleroom .battleroom_input').focus();
+		app.showEmojiPanel();
+	}
+});
 
 $('body').on('click', '.battle-card', function(e) {
 	var username = $('#myusername').text();

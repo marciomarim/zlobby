@@ -41,7 +41,7 @@ $('body').on('click', '.userchat .clearchat', function(e) {
 	utils.clear_user_chat(username);
 });
 
-$('body').on('click', '.emojibtn', function(e) {
+$('body').on('click', '#chatlist .emojibtn', function(e) {
 	if (app.isEmojiPanelSupported()) {
 		$('.userchat.active .userchat_input').focus();
 		app.showEmojiPanel();
