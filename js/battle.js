@@ -18,7 +18,7 @@ import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, engi
 
 import { trackEvent } from './init.js';
 
-var apiurl = 'https://files.balancedannihilation.com/api.php';
+// var apiurl = 'https://files.balancedannihilation.com/api.php';
 // https://files.balancedannihilation.com/api.php?command=getmapslist
 // https://files.balancedannihilation.com/api.php?command=getminimapslist
 // https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=lost_v2.sdz&maptype=minimap

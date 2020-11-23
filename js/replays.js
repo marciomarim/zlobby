@@ -104,6 +104,7 @@ $('body').on('click', '.replayitem', function(e) {
 
 	const bat = spawn(enginepath, [replaypath], {
 		detached: true,
+		stdio: 'ignore',
 		//stdio: ['ignore', out, err],
 	});
 

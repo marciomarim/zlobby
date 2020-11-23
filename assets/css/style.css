@@ -2172,13 +2172,12 @@ span.upper{
 	    top: 0;
 	    right: 0;
 	    height: 100%;
-	    background: #191c21;
-		box-shadow: -2px 0 3px #000;
+	    background: #191c21;		
 	}	
 	
 	#chatlist.over #chats{
 		width: 45%;
-		pointer-events: all;
+		pointer-events: all;		
 	}
 	
 	#chatlist.active.over #chats{
