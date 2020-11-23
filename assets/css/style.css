@@ -506,8 +506,7 @@ button {
 	border: 1px solid #1553da;
 }
 
-button.command{
-	text-transform: lowercase;
+button.command{	
 	font-size: 11px;
 	border-radius: 3px;
 	padding: 0.7em 1.2em;
