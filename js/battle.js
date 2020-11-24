@@ -24,8 +24,10 @@ import { trackEvent } from './init.js';
 // https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=lost_v2.sdz&maptype=minimap
 // https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=duckquestv0.9.sdz&xmax=300&ymax=300&maptype=minimap&keepratio=true
 // https://files.balancedannihilation.com/data/mapscontent/deltasiegedry_v3.sd7/maps/BAfiles_metadata/mapinfo.json
-
 // https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
+//https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
+//var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
+//var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
 
 export default class Battle {
 	constructor() {}
@@ -92,28 +94,6 @@ export default class Battle {
 				fs.unlink(modsdir + filename);
 			});
 		});
-
-		// 		ipcRenderer.send('download-game', {
-		// 			url: fileurl,
-		// 			properties: { directory: modsdir },
-		// 		});
-		//
-		// 		ipcRenderer.on('download-game progress', (event, progress) => {
-		// 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
-		// 				var w = Math.round(progress.percent * 100) + '%';
-		// 				$('#battleroom .game-download .download-title').text('Downloading game: ' + w + ' of 100%');
-		// 				$('#battleroom .game-download .progress').css('width', w);
-		// 			}
-		// 		});
-		//
-		// 		ipcRenderer.on('download-game complete', (event, progress) => {
-		// 			if ($('#battleroom .game-download .download-title').text() == 'Game not found for download.') {
-		// 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
-		// 				utils.sendbattlestatus();
-		// 				$('#battleroom .game-download').removeClass('downloading');
-		// 				this.checkmap();
-		// 			}
-		// 		});
 	}
 
 	checkmap() {
@@ -213,27 +193,6 @@ export default class Battle {
 				fs.unlink(mapsdir + filename);
 			});
 		});
-
-		// 		ipcRenderer.send('download-map', {
-		// 			url: fileurl,
-		// 			properties: { directory: mapsdir },
-		// 		});
-		//
-		// 		ipcRenderer.on('download-map progress', async (event, progress) => {
-		// 			$('#battleroom .map-download').addClass('downloading');
-		// 			var w = Math.round(progress.percent * 100) + '%';
-		// 			$('#battleroom .map-download .download-title').text('Downloading map: ' + w + ' of 100%');
-		// 			$('#battleroom .map-download .progress').css('width', w);
-		// 		});
-		//
-		// 		ipcRenderer.on('download-map complete', (event, progress) => {
-		// 			$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
-		// 			utils.sendbattlestatus();
-		//
-		// 			setTimeout(function() {
-		// 				$('#battleroom .map-download').removeClass('downloading');
-		// 			}, 4000);
-		// 		});
 	}
 
 	createbattleroom() {
@@ -298,10 +257,6 @@ export default class Battle {
 			.replace("'", '_')
 			.split(' ')
 			.join('_');
-
-		//https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
-		//var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
-		//var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
 
 		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
 		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';

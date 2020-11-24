@@ -1103,6 +1103,7 @@ ul.list {
 		    font-size: 7px;			
 		}
 		
+		.battle-players li .bonus,
 		.battle-players li .trueskill,
 		.battle-players li .ally,
 		.battle-players li .team{
@@ -1934,7 +1935,7 @@ span.upper{
 	
 	.messages li .message{
 		float: left;
-		padding: 5px 12px 6px;
+		padding: 3px 12px 4px;
 		background: rgba(255,255,255,0.1);
 		background: rgba(255,255,255,0.1);
 		border-radius: 16px;
