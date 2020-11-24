@@ -375,9 +375,7 @@ export default class Battle {
 				h = sizeinfos['height'],
 				xsmu = sizeinfos['xsmu'],
 				ysmu = sizeinfos['ysmu'],
-				Description = sizeinfos['Description'],
-				fulltilewidth = sizeinfos['fulltilewidth'],
-				fulltileheight = sizeinfos['fulltileheight'];
+				Description = sizeinfos['Description'];
 			var ratio = w / h;
 			var maxwh = 220;
 			battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
@@ -425,21 +423,27 @@ export default class Battle {
 				$('#battleroom .minimaps').css('width', ratio * 400 + 'px');
 			}
 
-			var teamlist = mapinfo['teamslist'];
-			if (teamlist.length) {
-				// clear old points
-				$('.minimaps .startpos').remove();
-				teamlist.forEach(async function(item) {
-					//console.log(item);
-					//console.log(fulltilewidth);
-					//console.log(fulltileheight);
+			if (mapinfo) {
+				var sizeinfos = mapinfo['sizeinfos'],
+					teamlist = mapinfo['teamslist'],
+					fulltilewidth = sizeinfos['fulltilewidth'],
+					fulltileheight = sizeinfos['fulltileheight'];
 
-					var xrel = (item['StartPosX'] / fulltilewidth) * 100;
-					var yrel = (item['StartPosZ'] / fulltileheight) * 100;
-					var teamnum = item['teamnum'] + 1;
-					var point = '<div class="startpos" style="top:' + yrel + '%; left:' + xrel + '%;">' + teamnum + '</div>';
-					$('#battleroom .minimaps').append(point);
-				});
+				if (teamlist.length) {
+					// clear old points
+					$('.minimaps .startpos').remove();
+					teamlist.forEach(async function(item) {
+						//console.log(item);
+						//console.log(fulltilewidth);
+						//console.log(fulltileheight);
+
+						var xrel = (item['StartPosX'] / fulltilewidth) * 100;
+						var yrel = (item['StartPosZ'] / fulltileheight) * 100;
+						var teamnum = item['teamnum'] + 1;
+						var point = '<div class="startpos" style="top:' + yrel + '%; left:' + xrel + '%;">' + teamnum + '</div>';
+						$('#battleroom .minimaps').append(point);
+					});
+				}
 			}
 		}
 	}
