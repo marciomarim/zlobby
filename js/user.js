@@ -56,6 +56,8 @@ export default class User {
 
 	// update simple status on chatlist and battlelist
 	updatestatus(username, status) {
+		var safe_username = jQuery.escapeSelector(username);
+
 		var newStatus = {
 			inGame: (status & 1) > 0,
 			away: (status & 2) > 0,
@@ -65,38 +67,40 @@ export default class User {
 			statusMask: status,
 		};
 
-		if (newStatus.timeRank) $('li[data-username="' + jQuery.escapeSelector(username) + '"] .rank').addClass('icon-rank' + newStatus.timeRank);
+		if (newStatus.timeRank) $('li[data-username="' + safe_username + '"] .rank').addClass('icon-rank' + newStatus.timeRank);
 
 		if (newStatus.inGame) {
-			$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('ingame');
+			$('li[data-username="' + safe_username + '"] .icon-user').addClass('ingame');
 		} else {
-			$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').removeClass('ingame');
+			$('li[data-username="' + safe_username + '"] .icon-user').removeClass('ingame');
 		}
 
-		if (newStatus.away) $('li[data-username="' + jQuery.escapeSelector(username) + '"] .away').removeClass('false');
+		if (newStatus.away) $('li[data-username="' + safe_username + '"] .away').removeClass('false');
 
-		if (newStatus.admin) $('li[data-username="' + jQuery.escapeSelector(username) + '"] .admin').removeClass('false');
+		if (newStatus.admin) $('li[data-username="' + safe_username + '"] .admin').removeClass('false');
 
 		if (newStatus.lobbyBot) {
-			$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('bot');
+			$('li[data-username="' + safe_username + '"] .icon-user').addClass('bot');
 		} else {
-			$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').removeClass('bot');
+			$('li[data-username="' + safe_username + '"] .icon-user').removeClass('bot');
 		}
 
 		// any battle that start should update battle status
-		if ($('.battle-card[data-founder="' + username + '"]').length && newStatus.inGame) {
+		if ($('.battle-card[data-founder="' + safe_username + '"]').length && newStatus.inGame) {
 			// battle is running should change status
-			$('#battleroom[data-founder="' + username + '"] .status').addClass('ingame');
-			$('.battle-card[data-founder="' + username + '"] .status').addClass('ingame');
+			$('#battleroom[data-founder="' + safe_username + '"] .status').addClass('ingame');
+			$('.battle-card[data-founder="' + safe_username + '"] .status').addClass('ingame');
 			//console.log('battle started');
-		} else if ($('.battle-card[data-founder="' + username + '"]').length && !newStatus.inGame) {
+		} else if ($('.battle-card[data-founder="' + safe_username + '"]').length && !newStatus.inGame) {
 			//battle ended
-			$('#battleroom[data-founder="' + username + '"] .status').removeClass('ingame');
-			$('.battle-card[data-founder="' + username + '"] .status').removeClass('ingame');
+			$('#battleroom[data-founder="' + safe_username + '"] .status').removeClass('ingame');
+			$('.battle-card[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			// remove class so it can start again
 		}
 
 		// detect is it's my battle
+		// runs for founder status
+		// game start
 		if (username == $('#battleroom .founder').text() && newStatus.inGame) {
 			var myusername = jQuery.escapeSelector($('#myusername').text());
 
@@ -104,7 +108,7 @@ export default class User {
 				battles.launchgame();
 				$('body').addClass('ingame');
 				utils.sendstatus(); // ingame
-				$('.readybattle').prop('checked', false);
+				$('#battleroom .readybattle').prop('checked', false);
 				console.log('Spring should launch as player');
 			}
 
@@ -114,9 +118,16 @@ export default class User {
 				utils.sendstatus(); //ingame
 				console.log('Spring should launch as spec');
 			}
+
+			// game end
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
+			var autoready = store.get('user.autoready');
 			$('body').removeClass('ingame');
-			$('.readybattle').prop('checked', false);
+			if (autoready && $('.battle-playerlist li[data-username="' + myusername + '"]').length) {
+				$('#battleroom .readybattle').prop('checked', true);
+			} else {
+				$('#battleroom .readybattle').prop('checked', false);
+			}
 			utils.sendstatus();
 			utils.sendbattlestatus();
 		}

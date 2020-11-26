@@ -289,6 +289,10 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 
 		if (message == '/clear') {
 			utils.clear_battleroom_chat();
+		} else if (message == '/autoready 1') {
+			store.set('user.autoready', 1);
+		} else if (message == '/autoready 0') {
+			store.set('user.autoready', 0);
 		} else if (message.startsWith('/me')) {
 			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
 			socketClient.write(command);
