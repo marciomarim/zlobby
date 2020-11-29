@@ -108,14 +108,14 @@ export default class Battle {
 		var mapexist = false;
 
 		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
-			//console.log('Map exist');
+			console.warn('Map found in local path');
 			utils.sendbattlestatus();
 		} else {
 			var fileurl = remotemapsurl + filename;
 			var fileurl2 = remotemapsurl + filename2;
 			var fileurl3 = remotemapsurl2 + filename;
 			var fileurl4 = remotemapsurl2 + filename2;
-			//console.log('Need need download! ' + fileurl);
+			console.warn('Need need download! ' + fileurl);
 			var battle = this;
 
 			// check if file exist first
@@ -140,24 +140,25 @@ export default class Battle {
 											$('#battleroom .map-download .download-title').text('Map not found for download.');
 										},
 										success: function() {
-											console.log(fileurl4 + ' exist!');
+											console.warn(fileurl4 + ' exist!');
 											battle.downloadmap(fileurl4, filename2);
 										},
 									});
 								},
 								success: function() {
-									//console.log(fileurl2 + ' exist!');
+									console.warn(fileurl2 + ' exist!');
 									battle.downloadmap(fileurl3, filename);
 								},
 							});
 						},
 						success: function() {
-							//console.log(fileurl2 + ' exist!');
+							console.warn(fileurl2 + ' exist!');
 							battle.downloadmap(fileurl2, filename2);
 						},
 					});
 				},
 				success: function() {
+					console.warn(fileurl + ' exist!');
 					battle.downloadmap(fileurl, filename);
 				},
 			});
@@ -280,11 +281,6 @@ export default class Battle {
 	}
 
 	load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
-		if ($('#battleroom').data('battleid') == battleid) {
-			$('#battleroom .minimaps').css('width', '');
-			$('#battleroom .minimaps').css('height', '');
-		}
-
 		var battles = this;
 		var localmap = minimapsdir + mapfilenamebase + '.jpg';
 		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
@@ -612,8 +608,14 @@ export default class Battle {
 		// check if map changed
 		if (mapname != currentmapname || $('.battle-card[data-battleid="' + battleid + '"] .minimap').is(':empty')) {
 			// check if it's battleroom
-			if ($('#battleroom .battleid').text() == battleid) {
+			if ($('#battleroom').data('battleid') == battleid) {
 				$('.startbox').remove();
+				$('.startpos').remove();
+				$('#battleroom .minimaps').css('width', '');
+				$('#battleroom .minimaps').css('height', '');
+				$('#battleroom #battle-minimap').empty();
+				$('#battleroom #battle-metalmap').empty();
+				$('#battleroom #battle-heightmap').empty();
 			}
 		}
 		//this.load_remote_map_image(battleid);
@@ -632,7 +634,7 @@ export default class Battle {
 		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
 
 		// update options
-		if ($('#battleroom .battleid').text() == battleid) {
+		if ($('#battleroom').data('battleid') == battleid) {
 			$('#battleroom .spectatorCount').text(spectatorCount);
 			$('#battleroom .mapname').text(mapname);
 
