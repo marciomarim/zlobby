@@ -15,7 +15,9 @@ filter.addWords('FAGGOTS', 'DICKS', 'dickhead', 'pussy');
 export var socketClient;
 var connectInterval;
 
-var appVersion = require('electron').remote.app.getVersion();
+var app = require('electron').remote.app;
+var appVersion = app.getVersion();
+
 var error_count = 0;
 
 import { trackEvent } from './init.js';
@@ -94,12 +96,15 @@ export function login() {
 		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
 			error_count += 1;
 
-			if (error_count > 5) {
-				error_count = 0;
-				resetUI();
-				socketClient.destroy();
-				socket_connect();
-				login();
+			if (error_count > 3) {
+				app.relaunch();
+				app.exit();
+
+				// error_count = 0;
+				// resetUI();
+				// socketClient.destroy();
+				// socket_connect();
+				// login();
 			}
 		}
 	});
