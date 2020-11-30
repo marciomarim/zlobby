@@ -291,8 +291,12 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 			utils.clear_battleroom_chat();
 		} else if (message == '/autoready 1') {
 			store.set('user.autoready', 1);
+			$('#battleroom .readybattle').prop('checked', true);
+			utils.sendbattlestatus();
 		} else if (message == '/autoready 0') {
 			store.set('user.autoready', 0);
+			$('#battleroom .readybattle').prop('checked', false);
+			utils.sendbattlestatus();
 		} else if (message.startsWith('/me')) {
 			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
 			socketClient.write(command);
