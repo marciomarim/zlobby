@@ -637,7 +637,17 @@ export default class Utils {
 			.text()
 			.toLowerCase();
 		var index = currentmod.lastIndexOf(' ');
-		var filename = currentmod.substring(0, index).replace(' ', '_') + '-' + currentmod.substring(index).replace(' ', '') + '.sdz';
+		var filename =
+			currentmod
+				.substring(0, index)
+				.split(' ')
+				.join('_') +
+			'-' +
+			currentmod
+				.substring(index)
+				.split(' ')
+				.join('') +
+			'.sdz';
 
 		if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
 			//console.log('STATUS: GAME OK');

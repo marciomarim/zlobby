@@ -37,7 +37,17 @@ export default class Battle {
 			.text()
 			.toLowerCase();
 		var index = currentmod.lastIndexOf(' ');
-		var filename = currentmod.substring(0, index).replace(' ', '_') + '-' + currentmod.substring(index).replace(' ', '') + '.sdz';
+		var filename =
+			currentmod
+				.substring(0, index)
+				.split(' ')
+				.join('_') +
+			'-' +
+			currentmod
+				.substring(index)
+				.split(' ')
+				.join('') +
+			'.sdz';
 		var modexist = false;
 
 		if (fs.existsSync(modsdir + filename)) {
