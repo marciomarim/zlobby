@@ -1,5 +1,8 @@
 const os = require('os');
-var fs = require('fs');
+var fs = require('fs'),
+	spawn = require('child_process').spawn,
+	https = require('https');
+
 const sevenmin = require('7zip-min');
 const Store = require('electron-store');
 const store = new Store();
@@ -19,6 +22,57 @@ var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
 
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
+
+$.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', function(releaseinfo) {
+	console.warn('Data: ' + releaseinfo['name']);
+
+	if (releaseinfo['name'] > appVersion && platform == 'win32') {
+		console.warn('Update available: ' + releaseinfo['name']);
+		//var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe';
+		var fileurl = 'https://yhello.co/Elobby Setup ' + releaseinfo['name'] + '.exe.zip';
+		var filepipe = fs.createWriteStream(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
+
+		console.warn('url: ' + fileurl);
+
+		https.get(fileurl, function(response) {
+			var len = parseInt(response.headers['content-length'], 10);
+			var body = '';
+			var cur = 0;
+			var total = len / 1048576;
+
+			console.warn(total.toFixed(2) + ' Mb');
+
+			response.pipe(filepipe);
+
+			response.on('data', function(chunk) {
+				body += chunk;
+				cur += chunk.length;
+				var status = ((100.0 * cur) / len).toFixed(2);
+				$('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
+				//$('#appUpdate').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
+			});
+
+			response.on('end', function() {
+				$('#appUpdate').text('Download completed!');
+				// unpack
+				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', err => {
+					const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
+						detached: true,
+						stdio: 'ignore',
+					});
+
+					bat.unref();
+				});
+			});
+
+			response.on('error', err => {
+				fs.unlink(homedir + '/Elobby-Setup-' + releaseinfo['name'] + '.zip');
+			});
+		});
+	} else {
+		console.warn('You have latest version: ' + appVersion + ' repo version: ' + releaseinfo['name']);
+	}
+});
 
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
