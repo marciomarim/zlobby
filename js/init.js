@@ -29,7 +29,6 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		console.warn('Update available: ' + releaseinfo['name']);
-		//var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe';
 		var fileurl = 'https://yhello.co/Elobby Setup ' + releaseinfo['name'] + '.exe.zip';
 		var filepipe = fs.createWriteStream(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
 
@@ -49,16 +48,14 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 				body += chunk;
 				cur += chunk.length;
 				var status = ((100.0 * cur) / len).toFixed(2);
-				$('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
-				//$('#appUpdate').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
+				// $('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
 			});
 
 			response.on('end', function() {
-				$('#appUpdate').text('Unzipping!');
-				// unpack
+				console.warn('Unzipping!');
 				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
-					console.warn('Zip unpacked');
-					$('#appUpdate').text('Update ready!');
+					console.warn('Update ready!');
+					$('#appUpdate').text('Click to update');
 					$('body').on('click', '#appUpdate', function(e) {
 						const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
 							detached: true,
