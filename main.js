@@ -26,7 +26,9 @@ function createWindow() {
 	//win.webContents.openDevTools()
 
 	win.once('ready-to-show', () => {
-		autoUpdater.checkForUpdatesAndNotify();
+		if (process.platform !== 'win32') {
+			autoUpdater.checkForUpdatesAndNotify();
+		}
 	});
 
 	ipcMain.on('download', async (event, info) => {
