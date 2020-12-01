@@ -27,9 +27,42 @@ $('#appVersion').text('Elobby v' + appVersion);
 $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', function(releaseinfo) {
 	console.warn('Data: ' + releaseinfo['name']);
 
+	// 	if (releaseinfo['name'] > appVersion && platform == 'darwin') {
+	// 		console.warn('Update available: ' + releaseinfo['name']);
+	// 		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+	// 		console.warn(fileurl);
+	//
+	// 		ipcRenderer.send('download', {
+	// 			url: fileurl,
+	// 			properties: { directory: homedir + '/Downloads/' },
+	// 		});
+	//
+	// 		ipcRenderer.on('download progress', async (event, progress) => {
+	// 			var w = Math.round(progress.percent * 100) + '%';
+	// 			console.warn('Downloading update: ' + w + ' of 100%');
+	// 			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
+	// 		});
+	//
+	// 		ipcRenderer.on('download complete', (event, progress) => {
+	// 			console.warn('Unzipping');
+	// 			// unpack
+	// 			sevenmin.unpack(homedir + '/Downloads/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '/Downloads/', err => {
+	// 				$('#appUpdate').text('Click to update');
+	// 				$('body').on('click', '#appUpdate', function(e) {
+	// 					const bat = spawn(homedir + '/Downloads/Elobby Setup ' + releaseinfo['name'] + '.exe', {
+	// 						detached: true,
+	// 						stdio: 'ignore',
+	// 					});
+	// 					bat.unref();
+	// 					remote.getCurrentWindow().close();
+	// 				});
+	// 			});
+	// 		});
+	// 	}
+
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		console.warn('Update available: ' + releaseinfo['name']);
-		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 
 		ipcRenderer.send('download', {
 			url: fileurl,
@@ -38,7 +71,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 
 		ipcRenderer.on('download progress', async (event, progress) => {
 			var w = Math.round(progress.percent * 100) + '%';
-			console.warn('Downloading engine: ' + w + ' of 100%');
+			console.warn('Downloading update: ' + w + ' of 100%');
 			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
 		});
 
@@ -46,9 +79,13 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 			console.warn('Unzipping');
 			// unpack
 			sevenmin.unpack(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+				// show button to update
 				$('#appUpdate').text('Click to update');
+				// delete zip file after unpack
+				//fs.unlink(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe.zip');
+
 				$('body').on('click', '#appUpdate', function(e) {
-					const bat = spawn(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe', {
+					const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
 						detached: true,
 						stdio: 'ignore',
 					});
@@ -57,58 +94,11 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 				});
 			});
 		});
-	} else {
-		console.warn('You have latest version: ' + appVersion + ' repo version: ' + releaseinfo['name']);
 	}
 
-	// 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
-	//
-	// 		console.warn('Update available: ' + releaseinfo['name']);
-	// 		var fileurl = 'https://yhello.co/Elobby Setup ' + releaseinfo['name'] + '.exe.zip';
-	// 		var filepipe = fs.createWriteStream(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
-	//
-	// 		console.warn('url: ' + fileurl);
-	//
-	// 		https.get(fileurl, function(response) {
-	// 			var len = parseInt(response.headers['content-length'], 10);
-	// 			var body = '';
-	// 			var cur = 0;
-	// 			var total = len / 1048576;
-	//
-	// 			console.warn(total.toFixed(2) + ' Mb');
-	//
-	// 			response.pipe(filepipe);
-	//
-	// 			response.on('data', function(chunk) {
-	// 				body += chunk;
-	// 				cur += chunk.length;
-	// 				var status = ((100.0 * cur) / len).toFixed(2);
-	// 				// $('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
-	// 			});
-	//
-	// 			response.on('end', function() {
-	// 				console.warn('Unzipping!');
-	// 				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
-	// 					console.warn('Update ready!');
-	// 					$('#appUpdate').text('Click to update');
-	// 					$('body').on('click', '#appUpdate', function(e) {
-	// 						const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
-	// 							detached: true,
-	// 							stdio: 'ignore',
-	// 						});
-	// 						bat.unref();
-	// 						remote.getCurrentWindow().close();
-	// 					});
-	// 				});
-	// 			});
-	//
-	// 			response.on('error', err => {
-	// 				fs.unlink(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
-	// 			});
-	// 		});
-	// 	} else {
-	// 		console.warn('You have latest version: ' + appVersion + ' repo version: ' + releaseinfo['name']);
-	// 	}
+	if (releaseinfo['name'] > appVersion && platform == 'linux') {
+		// show info
+	}
 });
 
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
@@ -164,7 +154,8 @@ function set_detault_paths(enginepath, springdir) {
 	if (platform == 'win32') {
 		console.warn('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
-		minimapsdir = appPath + '\\minimaps\\';
+		//minimapsdir = appPath + '\\minimaps\\';
+		minimapsdir = 'minimaps\\';
 		modsdir = springdir + 'games\\';
 		replaysdir = springdir + 'demos\\';
 		chatlogsdir = springdir + 'chatlogs\\';
@@ -183,7 +174,7 @@ function set_detault_paths(enginepath, springdir) {
 		}
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = appPath + '/minimaps/';
+		minimapsdir = 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
@@ -194,7 +185,7 @@ function set_detault_paths(enginepath, springdir) {
 		engineverdir = enginedir;
 	} else if (platform == 'linux') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = appPath + '/minimaps/';
+		minimapsdir = 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
