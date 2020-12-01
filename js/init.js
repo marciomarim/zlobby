@@ -29,51 +29,86 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		console.warn('Update available: ' + releaseinfo['name']);
-		var fileurl = 'https://yhello.co/Elobby Setup ' + releaseinfo['name'] + '.exe.zip';
-		var filepipe = fs.createWriteStream(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
+		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 
-		console.warn('url: ' + fileurl);
+		ipcRenderer.send('download', {
+			url: fileurl,
+			properties: { directory: homedir + '\\Downloads\\' },
+		});
 
-		https.get(fileurl, function(response) {
-			var len = parseInt(response.headers['content-length'], 10);
-			var body = '';
-			var cur = 0;
-			var total = len / 1048576;
+		ipcRenderer.on('download progress', async (event, progress) => {
+			var w = Math.round(progress.percent * 100) + '%';
+			console.warn('Downloading engine: ' + w + ' of 100%');
+			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
+		});
 
-			console.warn(total.toFixed(2) + ' Mb');
-
-			response.pipe(filepipe);
-
-			response.on('data', function(chunk) {
-				body += chunk;
-				cur += chunk.length;
-				var status = ((100.0 * cur) / len).toFixed(2);
-				// $('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
-			});
-
-			response.on('end', function() {
-				console.warn('Unzipping!');
-				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
-					console.warn('Update ready!');
-					$('#appUpdate').text('Click to update');
-					$('body').on('click', '#appUpdate', function(e) {
-						const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
-							detached: true,
-							stdio: 'ignore',
-						});
-						bat.unref();
-						remote.getCurrentWindow().close();
+		ipcRenderer.on('download complete', (event, progress) => {
+			console.warn('Unzipping');
+			// unpack
+			sevenmin.unpack(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+				$('#appUpdate').text('Click to update');
+				$('body').on('click', '#appUpdate', function(e) {
+					const bat = spawn(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe', {
+						detached: true,
+						stdio: 'ignore',
 					});
+					bat.unref();
+					remote.getCurrentWindow().close();
 				});
-			});
-
-			response.on('error', err => {
-				fs.unlink(homedir + '/Elobby-Setup-' + releaseinfo['name'] + '.zip');
 			});
 		});
 	} else {
 		console.warn('You have latest version: ' + appVersion + ' repo version: ' + releaseinfo['name']);
 	}
+
+	// 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
+	//
+	// 		console.warn('Update available: ' + releaseinfo['name']);
+	// 		var fileurl = 'https://yhello.co/Elobby Setup ' + releaseinfo['name'] + '.exe.zip';
+	// 		var filepipe = fs.createWriteStream(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
+	//
+	// 		console.warn('url: ' + fileurl);
+	//
+	// 		https.get(fileurl, function(response) {
+	// 			var len = parseInt(response.headers['content-length'], 10);
+	// 			var body = '';
+	// 			var cur = 0;
+	// 			var total = len / 1048576;
+	//
+	// 			console.warn(total.toFixed(2) + ' Mb');
+	//
+	// 			response.pipe(filepipe);
+	//
+	// 			response.on('data', function(chunk) {
+	// 				body += chunk;
+	// 				cur += chunk.length;
+	// 				var status = ((100.0 * cur) / len).toFixed(2);
+	// 				// $('#appUpdate').text('Downloading ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
+	// 			});
+	//
+	// 			response.on('end', function() {
+	// 				console.warn('Unzipping!');
+	// 				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+	// 					console.warn('Update ready!');
+	// 					$('#appUpdate').text('Click to update');
+	// 					$('body').on('click', '#appUpdate', function(e) {
+	// 						const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
+	// 							detached: true,
+	// 							stdio: 'ignore',
+	// 						});
+	// 						bat.unref();
+	// 						remote.getCurrentWindow().close();
+	// 					});
+	// 				});
+	// 			});
+	//
+	// 			response.on('error', err => {
+	// 				fs.unlink(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip');
+	// 			});
+	// 		});
+	// 	} else {
+	// 		console.warn('You have latest version: ' + appVersion + ' repo version: ' + releaseinfo['name']);
+	// 	}
 });
 
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
@@ -89,8 +124,6 @@ if (platform == 'win32') {
 function initial_check() {
 	enginepath = store.get('paths.enginepath');
 	var springdir_saved = store.get('paths.springdir');
-
-	console.warn('debug engine checking: 0');
 
 	if (springdir_saved && fs.existsSync(springdir_saved)) {
 		springdir = springdir_saved;
