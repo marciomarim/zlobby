@@ -10,8 +10,9 @@ const homedir = os.homedir();
 const arch = os.arch();
 const platform = os.platform();
 const { ipcRenderer } = require('electron');
-var appVersion = require('electron').remote.app.getVersion();
-var appPath = require('electron').remote.app.getAppPath();
+const remote = require('electron').remote;
+var appVersion = remote.app.getVersion();
+var appPath = remote.app.getAppPath();
 var Jimp = require('jimp');
 const { dialog } = require('electron').remote;
 const ua = require('universal-analytics');
@@ -53,15 +54,19 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 			});
 
 			response.on('end', function() {
-				$('#appUpdate').text('Download completed!');
+				$('#appUpdate').text('Unzipping!');
 				// unpack
-				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', err => {
-					const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
-						detached: true,
-						stdio: 'ignore',
+				sevenmin.unpack(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+					console.warn('Zip unpacked');
+					$('#appUpdate').text('Update ready!');
+					$('body').on('click', '#appUpdate', function(e) {
+						const bat = spawn(homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe', {
+							detached: true,
+							stdio: 'ignore',
+						});
+						bat.unref();
+						remote.getCurrentWindow().close();
 					});
-
-					bat.unref();
 				});
 			});
 

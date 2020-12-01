@@ -136,6 +136,18 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 			font-family: LatoBold;
 		}
 		
+		#topbar #appUpdate{
+			background: #1553da;
+			margin: 4px 20px 4px 10px;
+			padding: 2px 10px;
+			color: #fff;
+			border-radius: 5px;
+		}
+		
+		#topbar #appUpdate:empty{
+			display: none;
+		}
+		
 		body.lightmode #topbar #appUpdate,
 		body.lightmode #topbar #appVersion,
 		body.lightmode #topbar #myusername{
