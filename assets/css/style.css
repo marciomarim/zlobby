@@ -128,6 +128,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 			background-color: #1553da;	
 		}
 		
+		#topbar #appUpdate,
 		#topbar #appVersion,
 		#topbar #myusername{
 			color: #6e7486;
@@ -135,6 +136,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 			font-family: LatoBold;
 		}
 		
+		body.lightmode #topbar #appUpdate,
 		body.lightmode #topbar #appVersion,
 		body.lightmode #topbar #myusername{
 			color: #111;			
