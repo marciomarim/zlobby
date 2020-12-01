@@ -68,8 +68,8 @@ export function login() {
 
 	var socketInterval = setInterval(function() {
 		socketClient.write('PING\n');
-		trackEvent('Lobby', 'ping', appVersion);
-		trackEvent('User', 'username', username);
+		trackEvent('Lobby', appVersion);
+		trackEvent('User', username);
 	}, 15000);
 
 	socketClient.on('data', data => {

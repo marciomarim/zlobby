@@ -722,7 +722,6 @@ export default class Battle {
 		this.checkgame();
 		this.checkmap();
 		utils.init_battlerrom_chat();
-		trackEvent('User', 'joinbattle');
 	}
 
 	// when anyone joins a battle
