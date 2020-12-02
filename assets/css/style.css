@@ -556,6 +556,11 @@ input[type=text]{
 	border-radius: 20px;
 }
 
+input.userchat_input,
+input.battleroom_input{
+	padding: 10px 3em 10px 1.2em;
+}
+
 body.lightmode input[type=password], 
 body.lightmode input[type=text]{
 	border: 1px solid #333;
