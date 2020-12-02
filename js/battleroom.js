@@ -28,37 +28,44 @@ $('body').on('click', '#battleroom .emojibtn', function(e) {
 });
 
 $('body').on('click', '.battle-card', function(e) {
-	var username = $('#myusername').text();
+	if (!$('body').hasClass('clickbattle')) {
+		$('body').addClass('clickbattle');
+		setTimeout(function() {
+			$('body').removeClass('clickbattle');
+		}, 2000);
 
-	// hide map picker
-	$('.mappicker').removeClass('active');
+		var username = $('#myusername').text();
 
-	//if I'm in, just go to battleroom
-	if ($(this).hasClass('activebattle')) {
-		$('.container, .tab').removeClass('active');
-		$('#battleroom, .tab.battleroom').addClass('active');
+		// hide map picker
+		$('.mappicker').removeClass('active');
 
-		$(id).addClass('active');
-		$(this).addClass('active');
+		//if I'm in, just go to battleroom
+		if ($(this).hasClass('activebattle')) {
+			$('.container, .tab').removeClass('active');
+			$('#battleroom, .tab.battleroom').addClass('active');
 
-		// need to leave another battle
-	} else if ($('.activebattle').length) {
-		var command = 'LEAVEBATTLE \n';
-		socketClient.write(command);
+			$(id).addClass('active');
+			$(this).addClass('active');
 
-		var battleid = $(this).data('battleid');
+			// need to leave another battle
+		} else if ($('.activebattle').length) {
+			var command = 'LEAVEBATTLE \n';
+			socketClient.write(command);
 
-		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
-		console.log(command);
-		socketClient.write(command);
+			var battleid = $(this).data('battleid');
 
-		// try to join
-	} else {
-		var battleid = $(this).data('battleid');
-		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+			var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+			console.log(command);
+			socketClient.write(command);
 
-		console.log(command);
-		socketClient.write(command);
+			// try to join
+		} else {
+			var battleid = $(this).data('battleid');
+			var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+
+			console.log(command);
+			socketClient.write(command);
+		}
 	}
 });
 
