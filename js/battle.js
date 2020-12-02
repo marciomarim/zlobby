@@ -368,6 +368,7 @@ export default class Battle {
 				});
 			} else {
 				console.warn('File info is missing for:' + filename);
+				battles.appendimagedivs(battleid, '', '', '', '');
 			}
 		}
 	}
@@ -375,26 +376,39 @@ export default class Battle {
 	appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap) {
 		var battles = this;
 
-		if (mapinfo) {
-			var sizeinfos = mapinfo['sizeinfos'];
-			var w = sizeinfos['width'],
-				h = sizeinfos['height'],
-				xsmu = sizeinfos['xsmu'],
-				ysmu = sizeinfos['ysmu'],
-				Description = sizeinfos['Description'];
-			var ratio = w / h;
-			var maxwh = 220;
-			battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-		} else {
-			const img = new Image();
-			img.src = localmap;
-			img.onload = function() {
-				var w = this.width;
-				var h = this.width;
+		if (localmap) {
+			if (mapinfo) {
+				var sizeinfos = mapinfo['sizeinfos'];
+				var w = sizeinfos['width'],
+					h = sizeinfos['height'],
+					xsmu = sizeinfos['xsmu'],
+					ysmu = sizeinfos['ysmu'],
+					Description = sizeinfos['Description'];
 				var ratio = w / h;
 				var maxwh = 220;
 				battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-			};
+			} else {
+				const img = new Image();
+				img.src = localmap;
+				img.onload = function() {
+					var w = this.width;
+					var h = this.width;
+					var ratio = w / h;
+					var maxwh = 220;
+					battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
+				};
+			}
+		} else {
+			// no local map
+			// cant save remotely
+			console.warn('No remote minimap');
+			// remove map
+			$('.battle-card[data-battleid="' + battleid + '"] .minimap').empty();
+			if ($('#battleroom').data('battleid') == battleid) {
+				$('#battleroom #battle-minimap').empty();
+				$('#battleroom #battle-metalmap').empty();
+				$('#battleroom #battle-heightmap').empty();
+			}
 		}
 	}
 
@@ -498,7 +512,7 @@ export default class Battle {
 				var filename = val['filename'];
 				var mapfilenamebase = filename.replace('.sd7', '').replace('.sdz', '');
 
-				var jsonurl = 'https://files.balancedannihilation.com/data/mapscontent/' + filename + '/maps/BAfiles_metadata/mapinfo.json';
+				var jsonurl = 'https://files.balancedannihilation.com/data/metadata/' + filename + '/mapinfo.json';
 
 				$.getJSON(jsonurl, function(mapinfo) {
 					var sizeinfos = mapinfo['sizeinfos'];
