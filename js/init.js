@@ -154,8 +154,8 @@ function set_detault_paths(enginepath, springdir) {
 	if (platform == 'win32') {
 		console.warn('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
-		//minimapsdir = appPath + '\\minimaps\\';
-		minimapsdir = 'minimaps\\';
+		minimapsdir = appPath + '\\minimaps\\';
+		//minimapsdir = 'minimaps\\';
 		modsdir = springdir + 'games\\';
 		replaysdir = springdir + 'demos\\';
 		chatlogsdir = springdir + 'chatlogs\\';
