@@ -62,7 +62,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		console.warn('Update available: ' + releaseinfo['name']);
-		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 
 		ipcRenderer.send('download', {
 			url: fileurl,
