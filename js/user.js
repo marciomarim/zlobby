@@ -6,6 +6,9 @@ let battles = new Battle();
 import Utils from './utils.js';
 let utils = new Utils();
 
+const Store = require('electron-store');
+const store = new Store();
+
 import { trackEvent } from './init.js';
 
 export default class User {
