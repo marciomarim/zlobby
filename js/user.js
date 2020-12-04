@@ -57,6 +57,7 @@ export default class User {
 	// update simple status on chatlist and battlelist
 	updatestatus(username, status) {
 		var safe_username = jQuery.escapeSelector(username);
+		var autoready = store.get('user.autoready');
 
 		var newStatus = {
 			inGame: (status & 1) > 0,
@@ -121,15 +122,16 @@ export default class User {
 
 			// game end
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
-			var autoready = store.get('user.autoready');
 			$('body').removeClass('ingame');
-			if (autoready && $('.battle-playerlist li[data-username="' + myusername + '"]').length) {
+			if (autoready == 1 && $('.battle-playerlist li[data-username="' + myusername + '"]').length) {
 				$('#battleroom .readybattle').prop('checked', true);
 			} else {
 				$('#battleroom .readybattle').prop('checked', false);
 			}
-			utils.sendstatus();
-			utils.sendbattlestatus();
+			setTimeout(function() {
+				utils.sendstatus();
+				utils.sendbattlestatus();
+			}, 1000);
 		}
 	}
 
