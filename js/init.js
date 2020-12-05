@@ -60,8 +60,6 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 	// 		});
 	// 	}
 
-
-	
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		console.warn('Update available: ' + releaseinfo['name']);
 		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
@@ -102,8 +100,8 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 		// show info
 		// dpkg -i debfile
 		console.warn('Update available: ' + releaseinfo['name']);
-		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby_' + releaseinfo['name'] + '_amd64.deb';		
-		
+		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby_' + releaseinfo['name'] + '_amd64.deb';
+
 		ipcRenderer.send('download', {
 			url: fileurl,
 			properties: { directory: homedir + '/Downloads/' },
@@ -111,21 +109,21 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 
 		ipcRenderer.on('download progress', async (event, progress) => {
 			var w = Math.round(progress.percent * 100) + '%';
-			console.warn('Downloading update: ' + w + ' of 100%');			
+			console.warn('Downloading update: ' + w + ' of 100%');
 		});
 
-		ipcRenderer.on('download complete', (event, progress) => {			
+		ipcRenderer.on('download complete', (event, progress) => {
 			// show button to update
-			$('#appUpdate').text('Click to update');						
+			$('#appUpdate').text('Click to update');
 
 			$('body').on('click', '#appUpdate', function(e) {
-				const bat = spawn('dpkg -i ' homedir + '/Downloads/Elobby_' + releaseinfo['name'] + '_amd64.deb', {
+				const bat = spawn('dpkg -i ' + homedir + '/Downloads/Elobby_' + releaseinfo['name'] + '_amd64.deb', {
 					detached: true,
 					stdio: 'ignore',
 				});
 				bat.unref();
 				remote.getCurrentWindow().close();
-			});			
+			});
 		});
 	}
 });
