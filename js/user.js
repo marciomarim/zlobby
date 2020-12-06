@@ -60,6 +60,7 @@ export default class User {
 	// update simple status on chatlist and battlelist
 	updatestatus(username, status) {
 		var safe_username = jQuery.escapeSelector(username);
+		var safe_myusername = jQuery.escapeSelector($('#myusername').text());
 		var autoready = store.get('user.autoready');
 
 		var newStatus = {
@@ -106,9 +107,7 @@ export default class User {
 		// runs for founder status
 		// game start
 		if (username == $('#battleroom .founder').text() && newStatus.inGame) {
-			var myusername = jQuery.escapeSelector($('#myusername').text());
-
-			if ($('.battle-playerlist li[data-username="' + myusername + '"]').length) {
+			if ($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
 				battles.launchgame();
 				$('body').addClass('ingame');
 				utils.sendstatus(); // ingame
@@ -116,7 +115,7 @@ export default class User {
 				console.log('Spring should launch as player');
 			}
 
-			if ($('.battle-speclist li[data-username="' + myusername + '"]').length && $('.autolaunchbattle').prop('checked') == true) {
+			if ($('.battle-speclist li[data-username="' + safe_myusername + '"]').length && $('.autolaunchbattle').prop('checked') == true) {
 				battles.launchgame();
 				$('body').addClass('ingame');
 				utils.sendstatus(); //ingame
@@ -126,9 +125,15 @@ export default class User {
 			// game end
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
 			$('body').removeClass('ingame');
-			if (autoready == 1 && $('.battle-playerlist li[data-username="' + myusername + '"]').length) {
+
+			console.warn(autoready);
+			console.warn($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length);
+
+			if (autoready && $('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
+				console.warn('autoready true');
 				$('#battleroom .readybattle').prop('checked', true);
 			} else {
+				console.warn('autoready false');
 				$('#battleroom .readybattle').prop('checked', false);
 			}
 			setTimeout(function() {
