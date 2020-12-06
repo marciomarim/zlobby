@@ -67,7 +67,7 @@ $('body').on('click', '.userchat.active', function(e) {
 //deal with unsent messages
 $('body').on('click', '.messages .offline', function(e) {
 	var username = $('.userchat.active').data('username');
-	var html = $(this).html();
+	var html = $(this).get(0).outerHTML;
 
 	// if offline
 	if (!$('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
@@ -98,7 +98,7 @@ function checkunsentmessages() {
 	$('.userpm-select.online').each(function() {
 		var username = $(this).data('username');
 		$('.userchat[data-username=' + jQuery.escapeSelector(username) + '] .messages .offline').each(function() {
-			var html = $(this).html();
+			var html = $(this).get(0).outerHTML;
 			var message = $(this)
 				.children('.message')
 				.text();

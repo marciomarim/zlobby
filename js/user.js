@@ -126,14 +126,14 @@ export default class User {
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
 			$('body').removeClass('ingame');
 
-			console.warn(autoready);
-			console.warn($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length);
+			//console.warn(autoready);
+			//console.warn($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length);
 
 			if (autoready && $('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
-				console.warn('autoready true');
+				//console.warn('autoready true');
 				$('#battleroom .readybattle').prop('checked', true);
 			} else {
-				console.warn('autoready false');
+				//console.warn('autoready false');
 				$('#battleroom .readybattle').prop('checked', false);
 			}
 			setTimeout(function() {

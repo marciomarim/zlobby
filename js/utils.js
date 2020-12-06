@@ -198,6 +198,7 @@ export default class Utils {
 	}
 
 	send_unsent_message(username, html) {
+		console.warn('deleting: ' + html);
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			var content = data.toString().replace(html, '');
@@ -206,6 +207,7 @@ export default class Utils {
 	}
 
 	delete_unsent_message(username, html) {
+		console.warn('deleting: ' + html);
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			var content = data.toString().replace(html, '');
