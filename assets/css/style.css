@@ -548,7 +548,7 @@ body.lightmode button.gray {
 input[type=password], 
 input[type=text]{
 	border: 1px solid #3b5fb3;
-	padding: 10px 1.2em 10px 1.2em;
+	padding: 1em 1.2em 1em 1.2em;
 	width: 100%;
 	margin-right: .5%;
 	background: #11151a;
@@ -870,7 +870,6 @@ ul.list {
 		#battleroom .minimaps .startbox.box1:before{
 			content: '2';
 		}
-		
 		
 		#battleroom .minimaps .startpos{
 			position: absolute;
@@ -1702,7 +1701,8 @@ ul.list {
 		.ui-label{
 			font-size: 11px;
 			text-transform: uppercase;
-			color: #889;		
+			color: #889;
+			padding: 1em 0.1em;		
 		}
 		
 		body.lightmode .ui-label{
@@ -1712,7 +1712,44 @@ ul.list {
 		.battle-players .ui-label{
 			text-align: center;
 		}
-						
+		
+		.gameboxes .box{
+			display: flex;	
+		}
+		
+		.gameboxes input{
+			font-size: 0.8em;
+			border-radius: 0;
+			margin: 1% 1% 1% 0;
+			padding: 0.5em;
+		}	
+		
+		.gameboxes label{
+			font-size: 0.8em;
+			padding: 0.5em;
+			margin: 1% 0;
+			text-transform: uppercase;
+			background: #000;
+			white-space: nowrap;
+		}
+		
+		.gameboxes .boxes{
+			opacity: 0.1;
+		}
+		.gameboxes .boxes:hover{
+			opacity: 1;
+		}
+		
+		.setboxes-btn{									
+			font-size: 11px;
+			border-radius: 3px;
+			padding: 0.7em 1.2em;
+			background: #202427;
+			cursor: pointer;
+			z-index: 99;
+			color: #fff;
+			display: inline-block;
+		}			
 		
 		.icon.pickcore,
 		.icon.pickarm{
