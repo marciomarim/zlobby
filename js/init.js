@@ -201,7 +201,7 @@ function set_detault_paths(enginepath, springdir) {
 		}
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = 'minimaps/';
+		minimapsdir = appPath + '/minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
@@ -212,7 +212,7 @@ function set_detault_paths(enginepath, springdir) {
 		engineverdir = enginedir;
 	} else if (platform == 'linux') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = 'minimaps/';
+		minimapsdir = appPath + '/minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
