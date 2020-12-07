@@ -469,11 +469,55 @@ export default class Battle {
 	}
 
 	addstartrect(allyNo, left, top, right, bottom) {
+		// 		var target = '#battleroom .box' + (parseInt(allyNo) + 1);
+		// 		//console.warn('adding boxes ally ' + target);
+		//
+		// 		$(target + ' .boxleft').val(left / 2);
+		// 		$(target + ' .boxtop').val(top / 2);
+		// 		$(target + ' .boxright').val(right / 2);
+		// 		$(target + ' .boxbottom').val(bottom / 2);
+
 		var width = right / 2 - left / 2;
 		var height = bottom / 2 - top / 2;
 		$('.startbox.box' + allyNo).remove();
-		var startbox = '<div class="startbox box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"></div>';
+		var id = 'box' + (parseInt(allyNo) + 1);
+		//var startbox = '<div id="' + id + '" class="startbox resizable box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"><div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>';
+		var startbox = '<div id="' + id + '" class="startbox box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"></div>';
+
 		$('#battleroom .minimaps').append(startbox);
+
+		$('#' + id)
+			.resizable({
+				containment: 'parent',
+				stop: function(event, ui) {
+					var parent = $('#battleroom .minimaps');
+
+					var left = Math.round((ui.position.left / parent.width()) * 200);
+					var top = Math.round((ui.position.top / parent.height()) * 200);
+					var right = Math.round((ui.size.width / parent.width()) * 200) + left;
+					var bottom = Math.round((ui.size.height / parent.height()) * 200) + top;
+
+					var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' ' + (parseInt(allyNo) + 1) + ' \n';
+					console.warn(command);
+					socketClient.write(command);
+				},
+			})
+			.draggable({
+				containment: 'parent',
+				stop: function(event, ui) {
+					var parent = $('#battleroom .minimaps');
+
+					var left = Math.round((ui.position.left / parent.width()) * 200);
+					var top = Math.round((ui.position.top / parent.height()) * 200);
+
+					var right = Math.round(($(this).width() / parent.width()) * 200) + left;
+					var bottom = Math.round(($(this).height() / parent.height()) * 200) + top;
+
+					var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' ' + (parseInt(allyNo) + 1) + ' \n';
+					console.warn(command);
+					socketClient.write(command);
+				},
+			});
 	}
 
 	removestartrect(allyNo) {

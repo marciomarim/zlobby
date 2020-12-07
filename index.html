@@ -9,16 +9,18 @@
 		<link rel="stylesheet" type="text/css" href="assets/css/fontello.css" />
 		<link rel="stylesheet" type="text/css" href="assets/css/flag-icon.min.css" />
 		<link rel="stylesheet" type="text/css" href="assets/css/pretty-checkbox.min.css" />
+		<link rel="stylesheet" type="text/css" href="assets/css/jquery-ui.min.css" />
 		<script>
 			var $ = jQuery = require("jquery")
 		</script>
 		<script src="node_modules/jquery/dist/jquery.slim.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
 		<script type="module" src="js/init.js"></script>
 		<script type="module" src="js/socket.js"></script>
 		<script type="module" src="js/navigation.js"></script>
 		<script type="module" src="js/chat.js"></script>
 		<script type="module" src="js/battleroom.js"></script>
-		<!-- <script type="module" src="js/singleplayer.js"></script> -->
+		<script type="module" src="js/singleplayer.js"></script>
 		<script type="module" src="js/replays.js"></script>
 		<script type="module" src="js/acolorpicker.js"></script>
 	</head>
@@ -43,7 +45,7 @@
 				<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>
 				<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>
 				<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
-				<!-- <div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div> -->
+				<div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div>
 				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
 				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
 				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
@@ -274,7 +276,39 @@
 							<div class="pickmap-btn">PICK MAP</div>
 						</div>
 
-						<div class="ui-label" style="padding: 1em 0.1em;">Options</div>
+						<!-- <div class="gameboxes">
+							<div class="ui-label">Startbox</div>
+							<div class="boxes">
+								<div class="box1 box">
+									<label>TEAM 1</label>
+									<label>left</label>
+									<input type="text" class="boxleft" placeholder="0-100" />
+									<label>top</label>
+									<input type="text" class="boxtop" placeholder="0-100" />
+									<label>right</label>
+									<input type="text" class="boxright" placeholder="0-100" />
+									<label>bottom</label>
+									<input type="text" class="boxbottom" placeholder="0-100" />
+								</div>
+
+								<div class="box2 box">
+									<label>TEAM 2</label>
+									<label>left</label>
+									<input type="text" class="boxleft" placeholder="0-100" />
+									<label>top</label>
+									<input type="text" class="boxtop" placeholder="0-100" />
+									<label>right</label>
+									<input type="text" class="boxright" placeholder="0-100" />
+									<label>bottom</label>
+									<input type="text" class="boxbottom" placeholder="0-100" />
+								</div>
+								<div style="text-align: center">
+									<div class="setboxes-btn">SET BOXES</div>
+								</div>
+							</div>
+						</div> -->
+
+						<div class="ui-label">Options</div>
 
 						<div id="battleoptions" class="options">
 							<div class="ui-label">Game</div>
@@ -417,7 +451,17 @@
 					<div class="left">
 						<div class="item" style="margin: 1em;">
 							<label for="spickmod">GAME</label>
-							<select id="spickmod" name="spickmod"> </select>
+							<select id="spickmod" name="spickmod"></select>
+						</div>
+
+						<div class="item">
+							<label for="pickteam">STARTPOS</label>
+							<select id="startpostype" name="startpostype">
+								<option value="0">Fixed</option>
+								<option value="1">Random</option>
+								<option value="2">Choose ingame</option>
+								<option value="3">Choose before</option>
+							</select>
 						</div>
 
 						<div class="smallnav">

@@ -27,6 +27,28 @@ $('body').on('click', '#battleroom .emojibtn', function(e) {
 	}
 });
 
+// $('body').on('click', '.setboxes-btn', function(e) {
+// 	var username = $('#myusername').text();
+//
+// 	var left = $('.box1 .boxleft').val() * 2;
+// 	var top = $('.box1 .boxtop').val() * 2;
+// 	var right = $('.box1 .boxright').val() * 2;
+// 	var bottom = $('.box1 .boxbottom').val() * 2;
+//
+// 	var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' 1 \n';
+// 	console.warn(command);
+// 	socketClient.write(command);
+//
+// 	var left = $('.box2 .boxleft').val() * 2;
+// 	var top = $('.box2 .boxtop').val() * 2;
+// 	var right = $('.box2 .boxright').val() * 2;
+// 	var bottom = $('.box2 .boxbottom').val() * 2;
+//
+// 	var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' 2 \n';
+// 	console.warn(command);
+// 	socketClient.write(command);
+// });
+
 $('body').on('click', '.battle-card', function(e) {
 	if (!$('body').hasClass('clickbattle')) {
 		$('body').addClass('clickbattle');
