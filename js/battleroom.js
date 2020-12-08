@@ -420,9 +420,7 @@ $('body').on('click', '.usercommand', function(e) {
 
 	if (command == '!status' || command == '!stats') {
 		socketClient.write('SAYPRIVATE ' + username + ' ' + command + '\n');
-
 		$('#chatlist').addClass('over');
-
 		$('.userchat, .userpm-select').removeClass('active');
 		$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
 		$('.userpm-select [data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
