@@ -120,7 +120,6 @@ function checkunsentmessages() {
 
 $('#activechats').on('click', '.userpm-select', function(e) {
 	$('#chatlist').addClass('over');
-
 	var username = $(this).data('username');
 
 	$('.userchat, .userpm-select').removeClass('active');

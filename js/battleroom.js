@@ -368,16 +368,23 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li', function(e) {
 	var username = $(this).data('username');
-	var usermuted = store.get('users.' + username + '.mute');
+	var founder = $('#battleroom .founder').text();
 
 	// create popoup
 	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
-	var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
-	commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
-	if (usermuted) {
-		commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
+
+	if (username == founder) {
+		var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!status">!status</div>';
+		commands += '<div class="usercommand" data-username="' + username + '" data-command="!stats">!stats</div>';
 	} else {
-		commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
+		var usermuted = store.get('users.' + username + '.mute');
+		var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
+		commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
+		if (usermuted) {
+			commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
+		} else {
+			commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
+		}
 	}
 
 	$userwin.append(commands);
@@ -410,7 +417,23 @@ $('body').on('keypress', '.pminput', function(e) {
 $('body').on('click', '.usercommand', function(e) {
 	var username = $(this).data('username');
 	var command = $(this).data('command');
-	socketClient.write('SAYBATTLE ' + command + ' ' + username + '\n');
+	if (command == '!status' || command == '!stats') {
+		socketClient.write('SAYPRIVATE ' + username + ' ' + command + '\n');
+
+		$('#chatlist').addClass('over');
+		// 		var username = $(this).data('username');
+		//
+		// 		$('.userchat, .userpm-select').removeClass('active');
+		// 		$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
+		// 		$(this).addClass('active');
+		//
+		// 		if (!$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
+		// 			utils.init_chat(username);
+		// 		}
+		// 		$('#chats .text-scroll').scrollTop($('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .messages')[0].scrollHeight);
+	} else {
+		socketClient.write('SAYBATTLE ' + command + ' ' + username + '\n');
+	}
 });
 
 $('body').on('click', '.muteuser', function(e) {
