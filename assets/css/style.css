@@ -664,8 +664,7 @@ ul.list {
 		background: #e0e0e0;
 		border: 1px solid #bbb;
 		color: #111;
-	}
-	
+	}	
 	
 	.battle-card.activebattle:after,
 	.battle-card:hover:after{		
@@ -2446,5 +2445,23 @@ span.upper{
 #prefs button{
     font-size: 0.8em;
 	margin-right: 1em;
+}
+
+
+@media (max-width: 1440px){
+	.battle-card{
+		width: 99.4%;
+	}	
+	
+	#replaylist .replayitem {
+		width: 32%;
+	}
+}
+
+@media (max-width: 1024px){	
+	
+	#replaylist .replayitem {
+		width: 49%;
+	}
 }
 	
