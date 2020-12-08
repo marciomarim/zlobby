@@ -481,7 +481,6 @@ export default class Battle {
 		var height = bottom / 2 - top / 2;
 		$('.startbox.box' + allyNo).remove();
 		var id = 'box' + (parseInt(allyNo) + 1);
-		//var startbox = '<div id="' + id + '" class="startbox resizable box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"><div class="resizers"><div class="resizer top-left"></div><div class="resizer top-right"></div><div class="resizer bottom-left"></div><div class="resizer bottom-right"></div></div></div>';
 		var startbox = '<div id="' + id + '" class="startbox box' + allyNo + '" style="left:' + left / 2 + '%; top:' + top / 2 + '%; width:' + width + '%; height:' + height + '%;"></div>';
 
 		$('#battleroom .minimaps').append(startbox);
