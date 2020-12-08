@@ -334,9 +334,9 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 			var remainder = nplayers % 2;
 
 			if (remainder == 0) {
-				var dmessage = '2 players needed to ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
+				var dmessage = '2 players needed for ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
 			} else {
-				var dmessage = '1 player needed to ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
+				var dmessage = '1 player needed for ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
 			}
 
 			var request = new XMLHttpRequest();
@@ -417,20 +417,20 @@ $('body').on('keypress', '.pminput', function(e) {
 $('body').on('click', '.usercommand', function(e) {
 	var username = $(this).data('username');
 	var command = $(this).data('command');
+
 	if (command == '!status' || command == '!stats') {
 		socketClient.write('SAYPRIVATE ' + username + ' ' + command + '\n');
 
 		$('#chatlist').addClass('over');
-		// 		var username = $(this).data('username');
-		//
-		// 		$('.userchat, .userpm-select').removeClass('active');
-		// 		$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
-		// 		$(this).addClass('active');
-		//
-		// 		if (!$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
-		// 			utils.init_chat(username);
-		// 		}
-		// 		$('#chats .text-scroll').scrollTop($('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .messages')[0].scrollHeight);
+
+		$('.userchat, .userpm-select').removeClass('active');
+		$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
+		$('.userpm-select [data-username="' + jQuery.escapeSelector(username) + '"]').addClass('active');
+
+		if (!$('.userchat[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
+			utils.init_chat(username);
+		}
+		$('#chats .text-scroll').scrollTop($('.userchat[data-username="' + jQuery.escapeSelector(username) + '"] .messages')[0].scrollHeight);
 	} else {
 		socketClient.write('SAYBATTLE ' + command + ' ' + username + '\n');
 	}
