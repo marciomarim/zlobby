@@ -783,6 +783,7 @@ export default class Battle {
 
 	// when anyone joins a battle
 	joinedbattle(battleid, username) {
+		var myusername = $('#myusername').text();
 		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) + 1;
 		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
 
@@ -803,6 +804,9 @@ export default class Battle {
 			$('#battleroom .spectatorCount').text(spectatorCount);
 			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
 			$('#battleroom .battle-playerlist').append(user);
+			if (username == myusername) {
+				$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
+			}
 		}
 	}
 

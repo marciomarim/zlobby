@@ -844,11 +844,13 @@ ul.list {
 		#battleroom .minimaps .startbox{
 			position: absolute;
 			background: rgba(255, 63, 63, 0.3);
-			display: none;	
+			display: none;
+			border: 2px solid rgba(255, 63, 63, 0.3);	
 		}	
 		
 		#battleroom .minimaps .startbox.box1{
 			background: rgba(63, 63, 255, 0.3);
+			border: 2px solid rgba(63, 63, 255, 0.3);	
 		}
 		
 		#battleroom .minimaps .startbox.box0:before,
@@ -869,6 +871,14 @@ ul.list {
 		}
 		#battleroom .minimaps .startbox.box1:before{
 			content: '2';
+		}
+		
+		#battleroom .minimaps .startbox.box0:hover{
+			border: 2px solid rgba(255, 63, 63, 1);
+		}
+		
+		#battleroom .minimaps .startbox.box1:hover{
+			border: 2px solid rgba(63, 63, 255, 1);
 		}
 		
 		#battleroom .minimaps .startpos{
@@ -1065,6 +1075,17 @@ ul.list {
 			
 			.battle-players li:nth-child(odd) {
 				background: none;
+			}
+			
+			.battle-players li.me .name:before{
+				content: '';
+				position: absolute;
+				background: rgba(101, 137, 218, 0.2);
+				width: 100%;
+				height: 100%;
+				top: -2px;
+				left: -8px;
+				border-radius: 20px;
 			}
 		
 			#battleroom[data-battlesize="big"] .battle-players li{
@@ -2356,7 +2377,7 @@ span.upper{
 		border: 2px solid transparent;
 	}
 	
-	#mapfilter .mapfilter.active{		
+	#mapfilter .mapfilter.active img{		
 		border: 2px solid #1553da;
 	}
 	
