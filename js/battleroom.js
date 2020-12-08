@@ -310,6 +310,7 @@ function autocompleteusers(message) {
 // battleroom chat
 $('body').on('keypress', '.battleroom_input', function(e) {
 	if (e.which == 13) {
+		var myusername = $('#myusername').text();
 		var message = $(this).val();
 
 		// save sent messages
@@ -326,6 +327,29 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 			store.set('user.autoready', 0);
 			$('#battleroom .readybattle').prop('checked', false);
 			utils.sendbattlestatus();
+		} else if (message.startsWith('!promote')) {
+			var nplayers = $('#battleroom .battle-playerlist li').length;
+			var half = nplayers / 2;
+			var quotient = Math.floor(nplayers / 2) + 1;
+			var remainder = nplayers % 2;
+
+			if (remainder == 0) {
+				var dmessage = '2 players needed to ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
+			} else {
+				var dmessage = '1 player needed to ' + quotient + 'v' + quotient + '\nJoin ' + $('#battle-right-info .title').text() + '! (' + myusername + ')';
+			}
+
+			var request = new XMLHttpRequest();
+			request.open('POST', 'https://discord.com/api/webhooks/785817997013024778/mTgpoGg0ZwOPaxWr5Y-CpIZPcG1chsO1S3LjCfYfAOChoT1Y64TQZNsZm5e12brbVvQo');
+			request.setRequestHeader('Content-type', 'application/json');
+			var params = {
+				username: 'Battle',
+				avatar_url: '',
+				content: dmessage,
+			};
+			request.send(JSON.stringify(params));
+			var command = 'SAYBATTLE ' + message + '\n';
+			socketClient.write(command);
 		} else if (message.startsWith('/me')) {
 			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
 			socketClient.write(command);
