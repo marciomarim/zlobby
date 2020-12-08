@@ -117,14 +117,16 @@ $('body').on('click', '.startsinglebattle', function(e) {
 		.replace('_', ' ')
 		.replace('-', ' ');
 
+	var startpostype = $('#startpostype').val();
+
 	var teams = [];
 	var allys = [];
 
 	var numplayers = 1;
 
 	var script = '[GAME]\n{\n\t';
-	script += 'GameType=' + modname + ';\n\t' + 'IsHost=1;\n\t' + 'MapName=' + mapname + ';\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'NumPlayers=' + numplayers + ';\n\t';
-
+	script += 'GameType=' + modname + ';\n\t' + 'IsHost=1;\n\t' + 'MapName=' + mapname + '.sd7;\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'NumPlayers=' + numplayers + ';\n\t';
+	script += 'StartPosType=' + startpostype + ';\n\t';
 	script += '[PLAYER0]\n\t{\n\t\t';
 	script += 'Team=0;';
 	script += '\n\t}';
