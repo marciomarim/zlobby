@@ -548,7 +548,7 @@ body.lightmode button.gray {
 input[type=password], 
 input[type=text]{
 	border: 1px solid #3b5fb3;
-	padding: 1em 1.2em 1em 1.2em;
+	padding: 0.8em 1.2em 0.8em 1.2em;
 	width: 100%;
 	margin-right: .5%;
 	background: #11151a;
