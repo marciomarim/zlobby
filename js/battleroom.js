@@ -96,8 +96,6 @@ function checkExternalData(data) {
 
 	if (data[0] == 'elobby://joinbattle') {
 		
-		//clearInterval(joinbattlelink);
-		
 		var username = $('#myusername').text();
 		var battleid = data[1];
 		console.warn(battleid);
@@ -351,10 +349,10 @@ function autocompleteusers(message) {
 }
 
 const Discord = require('discord.js');
-const webhookClient = new Discord.WebhookClient('786225906012127273', 'UNxJ9AEEdkFjaqpUDZekLFM2-1fxuEE2koTiGgoSmIc_vZ36c19-EhfIdMxtrgmq90Jx');
-
-
-
+// #admin-roadmap
+//const webhookClient = new Discord.WebhookClient('786225906012127273', 'UNxJ9AEEdkFjaqpUDZekLFM2-1fxuEE2koTiGgoSmIc_vZ36c19-EhfIdMxtrgmq90Jx');
+// #battles
+const webhookClient = new Discord.WebhookClient('785817997013024778', 'mTgpoGg0ZwOPaxWr5Y-CpIZPcG1chsO1S3LjCfYfAOChoT1Y64TQZNsZm5e12brbVvQo');
 
 
 // battleroom chat
@@ -415,18 +413,10 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 					embeds: [embed],
 				});
 				
-			}
+			}			
 
-			var request = new XMLHttpRequest();
-			//battles webhook
-			// request.open('POST', 'https://discord.com/api/webhooks/785817997013024778/mTgpoGg0ZwOPaxWr5Y-CpIZPcG1chsO1S3LjCfYfAOChoT1Y64TQZNsZm5e12brbVvQo');
-			//admin roadmap
-			// request.open('POST', 'https://discord.com/api/webhooks/786225906012127273/UNxJ9AEEdkFjaqpUDZekLFM2-1fxuEE2koTiGgoSmIc_vZ36c19-EhfIdMxtrgmq90Jx');
-			// request.setRequestHeader('Content-type', 'application/json');
-			// request.send(JSON.stringify(params));
-
-			//var command = 'SAYBATTLE ' + message + '\n';
-			//socketClient.write(command);
+			var command = 'SAYBATTLE ' + message + '\n';
+			socketClient.write(command);
 		} else if (message.startsWith('/me')) {
 			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
 			socketClient.write(command);
