@@ -37,6 +37,15 @@ function createWindow() {
 		info.properties.onProgress = status => win.webContents.send('download progress', status);
 		download(BrowserWindow.getFocusedWindow(), info.url, info.properties).then(dl => win.webContents.send('download complete', dl.getSavePath()));
 	});
+
+	app.on('open-url', function(event, data) {
+		event.preventDefault();
+		//log('open-url event: ' + data);
+		win.webContents.executeJavaScript(`document.querySelector('#externaldata').innerHTML="${data}"`);
+		link = data;
+	});
+
+	app.setAsDefaultProtocolClient('elobby');
 }
 
 // This method will be called when Electron has finished
@@ -66,6 +75,7 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+
 autoUpdater.logger = require('electron-log');
 autoUpdater.logger.transports.file.level = 'info';
 

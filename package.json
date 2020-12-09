@@ -11,7 +11,7 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder --mac --win",
+    "mac": "electron-builder build --mac",
     "win": "electron-builder build --win",
     "deploy": "electron-builder build -mwl --publish always"
   },
@@ -24,6 +24,7 @@
     "bad-words": "^3.0.3",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
+    "discord.js": "^12.5.1",
     "electron-dl": "^3.0.2",
     "electron-log": "^4.2.4",
     "electron-notarize": "^1.0.0",
@@ -55,6 +56,12 @@
         "repo": "elobby"
       }
     ],
+    "protocols": {
+      "name": "elobby-protocol",
+      "schemes": [
+        "elobby"
+      ]
+    },
     "mac": {
       "hardenedRuntime": true,
       "entitlements": "entitlements.mac.plist",
@@ -76,9 +83,11 @@
     },
     "win": {
       "icon": "assets/icons/icon.png",
-      "publisherName": ["Apple Development: marcio@yhello.co (2S7KUV69ZN)"],
+      "publisherName": [
+        "Apple Development: marcio@yhello.co (2S7KUV69ZN)"
+      ],
       "target": [
-        "nsis"        
+        "nsis"
       ]
     }
   }
