@@ -195,6 +195,9 @@ $('body').on('click', '.mutebattleroom', function(e) {
 });
 
 $('body').on('click', '.command', function(e) {
+	if($(this).data('command') == '!promote'){
+		promoteDiscord();
+	}
 	var command = 'SAYBATTLE ' + $(this).data('command') + '\n';
 	socketClient.write(command);
 });
@@ -354,6 +357,47 @@ const Discord = require('discord.js');
 // #battles
 const webhookClient = new Discord.WebhookClient('785817997013024778', 'mTgpoGg0ZwOPaxWr5Y-CpIZPcG1chsO1S3LjCfYfAOChoT1Y64TQZNsZm5e12brbVvQo');
 
+function promoteDiscord(){
+	var myusername = $('#myusername').text();
+	var battleid = $('#battleroom .battleid').text();
+	var nplayers = $('#battleroom .battle-playerlist li').length;
+	var half = nplayers / 2;
+	var quotient = Math.floor(nplayers / 2) + 1;
+	var remainder = nplayers % 2;
+
+	if (remainder == 0) {
+		var title = '2 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
+		var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
+		console.warn(url);								
+		const embed = new Discord.MessageEmbed()
+			.setTitle(title)
+			.setURL(url)									
+			.setFooter(myusername)
+			.setColor('#5588ff');
+		
+		webhookClient.send('', {
+			username: 'Battle',
+			avatarURL: 'https://yhello.co/elobby.png',
+			embeds: [embed],
+		});
+	} else {
+		var title = '1 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
+		var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
+		console.warn(url);								
+		const embed = new Discord.MessageEmbed()
+			.setTitle(title)
+			.setURL(url)									
+			.setFooter(myusername)
+			.setColor('#5588ff');
+		
+		webhookClient.send('', {
+			username: 'Battle',
+			avatarURL: 'https://yhello.co/elobby.png',
+			embeds: [embed],
+		});
+		
+	}
+}
 
 // battleroom chat
 $('body').on('keypress', '.battleroom_input', function(e) {
@@ -375,46 +419,8 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 			store.set('user.autoready', 0);
 			$('#battleroom .readybattle').prop('checked', false);
 			utils.sendbattlestatus();
-		} else if (message.startsWith('!promote')) {
-			var battleid = $('#battleroom .battleid').text();
-			var nplayers = $('#battleroom .battle-playerlist li').length;
-			var half = nplayers / 2;
-			var quotient = Math.floor(nplayers / 2) + 1;
-			var remainder = nplayers % 2;
-
-			if (remainder == 0) {
-				var title = '2 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
-				var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
-				console.warn(url);								
-				const embed = new Discord.MessageEmbed()
-					.setTitle(title)
-					.setURL(url)									
-					.setFooter(myusername)
-					.setColor('#5588ff');
-				
-				webhookClient.send('', {
-					username: 'Battle',
-					avatarURL: 'https://yhello.co/elobby.png',
-					embeds: [embed],
-				});
-			} else {
-				var title = '1 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
-				var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
-				console.warn(url);								
-				const embed = new Discord.MessageEmbed()
-					.setTitle(title)
-					.setURL(url)									
-					.setFooter(myusername)
-					.setColor('#5588ff');
-				
-				webhookClient.send('', {
-					username: 'Battle',
-					avatarURL: 'https://yhello.co/elobby.png',
-					embeds: [embed],
-				});
-				
-			}			
-
+		} else if (message.startsWith('!promote')) {						
+			promoteDiscord();
 			var command = 'SAYBATTLE ' + message + '\n';
 			socketClient.write(command);
 		} else if (message.startsWith('/me')) {
