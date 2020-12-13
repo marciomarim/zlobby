@@ -1015,8 +1015,7 @@ ul.list {
 		display: flex;				
 		height: calc(50vh - 75px);
 		overflow: auto;
-		position: relative;
-		padding-top: 0.5em;
+		position: relative;		
 	}
 	
 		.battle-players .battle-speclist,
@@ -1722,7 +1721,7 @@ ul.list {
 			font-size: 11px;
 			text-transform: uppercase;
 			color: #889;
-			padding: 1em 0.1em;		
+			padding: 0.5em 0.1em;		
 		}
 		
 		body.lightmode .ui-label{
