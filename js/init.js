@@ -24,6 +24,20 @@ var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
 //console.log('Elobby v' + appVersion);
 $('#appVersion').text('Elobby v' + appVersion);
 
+var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
+
+if (platform == 'win32') {
+	$('body').addClass('win32');
+} else if (platform == 'darwin') {
+	$('body').addClass('darwin');
+} else if (platform == 'linux') {
+	$('body').addClass('linux');
+}
+
+if (remote.app.isEmojiPanelSupported()){
+	$('body').addClass('emoji');
+}
+
 $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', function(releaseinfo) {
 	console.warn('Data: ' + releaseinfo['name']);
 
@@ -154,15 +168,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 	}
 });
 
-var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
-if (platform == 'win32') {
-	$('body').addClass('win32');
-} else if (platform == 'darwin') {
-	$('body').addClass('darwin');
-} else if (platform == 'linux') {
-	$('body').addClass('linux');
-}
 
 function initial_check() {
 	enginepath = store.get('paths.enginepath');

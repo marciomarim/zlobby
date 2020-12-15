@@ -486,11 +486,17 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		width: 100%;
 	}
 	
+	
 	.emojibtn{
 		position: absolute;
 		right: 14px;
 		top: 14px;
 		font-size: 1.6em;	
+		display: none;
+	}
+	
+	body.emoji .emojibtn{
+		display: block;
 	}
 	
 	
