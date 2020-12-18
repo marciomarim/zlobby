@@ -58,7 +58,7 @@ export function login() {
 		.update(password)
 		.digest('base64');
 
-	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Elobby ' + appVersion + ' \n';
+	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Zlobby ' + appVersion + ' \n';
 	socketClient.write(loginString);
 
 	// save my username

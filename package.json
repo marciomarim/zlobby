@@ -1,5 +1,5 @@
 {
-  "name": "Elobby",
+  "name": "Zlobby",
   "version": "0.3.4",
   "description": "Electron based lobby",
   "main": "main.js",
@@ -45,8 +45,8 @@
     "url": "https://github.com/marciomarim/elobby.git"
   },
   "build": {
-    "appId": "com.electron.elobby",
-    "productName": "Elobby",
+    "appId": "com.electron.zlobby",
+    "productName": "Zlobby",
     "copyright": "Copyright @ 2020 Zorro",
     "publish": [
       {

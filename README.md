@@ -1,4 +1,4 @@
-# Elobby
+# Zlobby
 
 Electron based lobby client
 

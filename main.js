@@ -45,7 +45,7 @@ function createWindow() {
 		link = data;
 	});
 
-	app.setAsDefaultProtocolClient('elobby');
+	app.setAsDefaultProtocolClient('zlobby');
 }
 
 // This method will be called when Electron has finished

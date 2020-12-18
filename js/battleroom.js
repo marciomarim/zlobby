@@ -94,7 +94,7 @@ function checkExternalData(data) {
 			
 	console.warn(data);
 
-	if (data[0] == 'elobby://joinbattle') {
+	if (data[0] == 'zlobby://joinbattle') {
 		
 		var username = $('#myusername').text();
 		var battleid = data[1];
@@ -377,7 +377,7 @@ function promoteDiscord(){
 		
 		webhookClient.send('', {
 			username: 'Battle',
-			avatarURL: 'https://yhello.co/elobby.png',
+			avatarURL: 'https://yhello.co/zlobby.png',
 			embeds: [embed],
 		});
 	} else {
@@ -392,7 +392,7 @@ function promoteDiscord(){
 		
 		webhookClient.send('', {
 			username: 'Battle',
-			avatarURL: 'https://yhello.co/elobby.png',
+			avatarURL: 'https://yhello.co/zlobby.png',
 			embeds: [embed],
 		});
 		

@@ -21,8 +21,8 @@ var remotemodsurl = 'https://springfightclub.com/data/';
 var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
 
-//console.log('Elobby v' + appVersion);
-$('#appVersion').text('Elobby v' + appVersion);
+//console.log('Zlobby v' + appVersion);
+$('#appVersion').text('Zlobby v' + appVersion);
 
 var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginedir, engineverdir, enginepath, infologfile, scriptfile, zipfile;
 
@@ -38,12 +38,12 @@ if (remote.app.isEmojiPanelSupported()){
 	$('body').addClass('emoji');
 }
 
-$.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', function(releaseinfo) {
+$.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', function(releaseinfo) {
 	console.warn('Data: ' + releaseinfo['name']);
 
 	// 	if (releaseinfo['name'] > appVersion && platform == 'darwin') {
 	// 		console.warn('Update available: ' + releaseinfo['name']);
-	// 		var fileurl = 'https://github.com/marciomarim/elobby/releases/download/' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+	// 		var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 	// 		console.warn(fileurl);
 	//
 	// 		ipcRenderer.send('download', {
@@ -60,10 +60,10 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 	// 		ipcRenderer.on('download complete', (event, progress) => {
 	// 			console.warn('Unzipping');
 	// 			// unpack
-	// 			sevenmin.unpack(homedir + '/Downloads/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '/Downloads/', err => {
+	// 			sevenmin.unpack(homedir + '/Downloads/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '/Downloads/', err => {
 	// 				$('#appUpdate').text('Click to update');
 	// 				$('body').on('click', '#appUpdate', function(e) {
-	// 					const bat = spawn(homedir + '/Downloads/Elobby Setup ' + releaseinfo['name'] + '.exe', {
+	// 					const bat = spawn(homedir + '/Downloads/Zlobby Setup ' + releaseinfo['name'] + '.exe', {
 	// 						detached: true,
 	// 						stdio: 'ignore',
 	// 					});
@@ -77,7 +77,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		
 		console.warn('Update available: ' + releaseinfo['name']);
-		var updatefile = homedir + '\\Downloads\\Elobby Setup ' + releaseinfo['name'] + '.exe';
+		var updatefile = homedir + '\\Downloads\\Zlobby Setup ' + releaseinfo['name'] + '.exe';
 		
 		// already downloaded
 		if (fs.existsSync(updatefile)){
@@ -87,7 +87,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 			});
 			bat.unref();			
 		}else{
-			var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+			var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 	
 			ipcRenderer.send('download', {
 				url: fileurl,
@@ -103,11 +103,11 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 			ipcRenderer.on('download complete', (event, progress) => {
 				console.warn('Unzipping');
 				// unpack
-				sevenmin.unpack(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+				sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
 					// show button to update
 					$('#appUpdate').text('Click to update');
 					// delete zip file after unpack
-					//fs.unlink(homedir + '\\Downloads\\Elobby-Setup-' + releaseinfo['name'] + '.exe.zip');
+					//fs.unlink(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip');
 	
 					$('body').on('click', '#appUpdate', function(e) {
 						const bat = spawn( updatefile , {
@@ -125,7 +125,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 	
 	if (releaseinfo['name'] > appVersion && platform == 'linux') {
 		
-		var updatefile = homedir + '/Downloads/Elobby_' + releaseinfo['name'] + '_amd64.deb';
+		var updatefile = homedir + '/Downloads/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
 		
 		// already downloaded
 		if (fs.existsSync(updatefile)){
@@ -137,7 +137,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/elobby/releases/latest', fun
 		}else{
 			// show info		
 			console.warn('Update available: ' + releaseinfo['name']);
-			var fileurl = 'https://github.com/marciomarim/elobby/releases/download/v' + releaseinfo['name'] + '/Elobby_' + releaseinfo['name'] + '_amd64.deb';
+			var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
 	
 			ipcRenderer.send('download', {
 				url: fileurl,
@@ -520,6 +520,12 @@ $('body').on('click', '.savepaths', function(e) {
 		$('#springdir').val('spring folder not found');
 		alert('spring folder not found');
 	}
+});
+
+$('body').on('click', '.resetpaths', function(e) {
+	store.set('paths.enginepath', '');
+	store.set('paths.springdir', '');	
+	initial_check();
 });
 
 $('body').on('click', '.autoconnect', function(e) {
