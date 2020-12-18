@@ -57,9 +57,9 @@
       }
     ],
     "protocols": {
-      "name": "elobby-protocol",
+      "name": "zlobby-protocol",
       "schemes": [
-        "elobby"
+        "zlobby"
       ]
     },
     "mac": {
