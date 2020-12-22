@@ -13,11 +13,12 @@ Electron based lobby client
 - Auto-downloads engine, games and maps
 - Seemless auto-updates 
   - [x] Mac 
-  - [ ] Windows
+  - [x] Windows
   - [ ] Linux
 - View minimaps before download
 - Local cache minimaps
 - Bubble chat
+  - [x] Active chats always visible
   - [x] Save, load and clear chats  
   - [x] Offline pm messages (save and send automatically if online)
   - [x] Unread counter
@@ -32,6 +33,7 @@ Electron based lobby client
   - [x] Commands UI
   - [x] Sync unsync status
   - [x] Mute/unmute players
+  - [x] !promote push on discord channel
 - Map picker
   - [x] Favorite system
   - [ ] Preview remote maps
@@ -54,7 +56,6 @@ Electron based lobby client
 
 ## To Do
 
-- [ ] Test on Linux
 – [ ] Notarize on Mac
 - [ ] Automate for future engine/games 
 - [ ] Host battles
