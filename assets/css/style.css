@@ -546,6 +546,11 @@ button.gray{
 	border: 1px solid #4e5e80;
 }	
 
+button.red{
+	background: red;
+	border: 1px solid red;
+}	
+
 body.lightmode button.gray {
 	background: #c3c9d4;	
 	color: #111;

@@ -14,7 +14,7 @@ const { ipcRenderer } = require('electron');
 const remote = require('electron').remote;
 var appVersion = remote.app.getVersion();
 var appPath = remote.app.getAppPath();
-var appData = remote.app.getPath('userData');
+var appData = remote.app.getPath('appData');
 var Jimp = require('jimp');
 const { dialog } = require('electron').remote;
 const ua = require('universal-analytics');
@@ -539,18 +539,20 @@ $('body').on('click', '.resetpaths', function(e) {
 
 $('body').on('click', '.deleteall', function(e) {
 	
+	
+	
 	if (fs.existsSync(appData)){
-		log.warn('Deleting: ' + appData);
-		rimraf(appData, error => {
-		  if (error) log.error(error);
-		 });
+		console.warn(appData);
+		// rimraf(appData, error => {
+		//   if (error) log.error(error);
+		//  });
 	}
 	
 	if (fs.existsSync(springdir)){
-		log.warn('Deleting: ' + springdir);
-		rimraf(springdir, error => {
-		  if (error) log.error(error);
-		 });
+		console.warn(springdir);
+		// rimraf(springdir, error => {
+		//   if (error) log.error(error);
+		//  });
 	}
 	
 });

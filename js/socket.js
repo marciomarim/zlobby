@@ -1,5 +1,6 @@
 const net = require('net');
 const crypto = require('crypto');
+const log = require('electron-log');
 
 const Store = require('electron-store');
 const store = new Store();
@@ -76,6 +77,7 @@ export function login() {
 		//console.log( socketClient.bytesRead );
 		//console.log( data.toString().length );
 		protocol.server(data.toString());
+		log.info(data.toString());
 		if (!data.toString().startsWith('PONG')) {
 			console.log(data.toString());
 		}
@@ -85,14 +87,22 @@ export function login() {
 	socketClient.on('end', data => {
 		console.log('Socket End: Disconnected from server');
 		console.log(data.toString());
+		log.info('Socket End: Disconnected from server');
+		log.info(data.toString());
 		resetUI();
 		//socket_connect();
 	});
 
 	socketClient.on('error', data => {
-		console.log('Socket Error');
+		
 		var err = data.toString();
+		
+		console.log('Socket Error');
 		console.log(err);
+		
+		log.info('Socket Error');
+		log.info(err);
+		
 		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
 			error_count += 1;
 
