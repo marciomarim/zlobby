@@ -533,7 +533,7 @@ $(document).mouseup(function(e) {
 });
 
 // map picker
-$('body').on('click', '.pickmap-btn', function(e) {
+$('body').on('click', '.pickmap.btn', function(e) {
 	$('.mappicker').addClass('active');
 	if (!$('.local.mapscontainer .map').length) battles.loadmapspickmap();
 });
@@ -575,6 +575,6 @@ $('body').on('click', '.mappicker .map .delete', function(e) {
 		.remove();
 });
 
-$('body').on('click', '.pickmapclose-btn', function(e) {
+$('body').on('click', '.pickmapclose.btn', function(e) {
 	$('.mappicker').removeClass('active');
 });
