@@ -98,7 +98,7 @@ $('body').on('click', '.smap', function(e) {
 
 $(window).ready(function() {
 	var mapname = store.get('singleplayer.map');
-	console.warn(mapname);
+	//console.warn(mapname);
 	if (mapname) {
 		loadmapdiv(mapname);
 	}

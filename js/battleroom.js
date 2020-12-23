@@ -538,6 +538,16 @@ $('body').on('click', '.pickmap.btn', function(e) {
 	if (!$('.local.mapscontainer .map').length) battles.loadmapspickmap();
 });
 
+$('body').on('click', '.reloadmap.btn', function(e) {	
+	var battleid = $('#battleroom .battleid').text();
+	battles.get_map_info(battleid);
+});
+
+$('body').on('click', '.addboxes.btn', function(e) {	
+	$('.splitmenu').toggleClass('active');
+});
+
+
 $('body').on('click', '.filter.remotemaps', function(e) {
 	$('.filter.localmaps, .local.mapscontainer').removeClass('active');
 	$('.filter.remotemaps, .remote.mapscontainer').addClass('active');

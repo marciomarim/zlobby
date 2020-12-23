@@ -19,6 +19,10 @@ var Jimp = require('jimp');
 const { dialog } = require('electron').remote;
 const ua = require('universal-analytics');
 const log = require('electron-log');
+// clear log at start
+log.transports.file.clear();
+var logfilepath = log.transports.file.getFile().path;
+console.log(logfilepath);
 
 var remotemodsurl = 'https://springfightclub.com/data/';
 var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';

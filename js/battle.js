@@ -10,6 +10,7 @@ let utils = new Utils();
 
 const Store = require('electron-store');
 const store = new Store();
+const log = require('electron-log');
 
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
@@ -261,6 +262,8 @@ export default class Battle {
 	}
 
 	get_map_info(battleid) {
+		console.log("Getting map info");
+		log.info("Getting map info");
 		var battles = this;
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
 		var mapfilenamebase = mapname

@@ -1345,7 +1345,14 @@ ul.list {
 		top: 4em;		
 		right: 150px;
 	}
-		
+	
+	.splitmenu{
+		display: none;
+	}		
+	
+	.splitmenu.active{
+		display: flex;
+	}		
 	
 	.scroll.mappicker{
 		display: none;	
