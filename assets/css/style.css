@@ -1347,12 +1347,82 @@ ul.list {
 	}
 	
 	.splitmenu{
-		display: none;
-	}		
+		display: inline-flex;
+		position: relative;
+		top: 10px;
+	}	
 	
-	.splitmenu.active{
-		display: flex;
-	}		
+		.splitmenu .split.btn{
+			width: 30px;
+			height: 30px;
+			position: relative;
+			overflow: hidden;
+		}	
+		
+			.splitmenu .split:before{
+				content: '';
+				position: absolute;		
+				background: rgba(255, 63, 63, 0.8);		
+			}
+			
+			.splitmenu .split:after{
+				content: '';
+				position: absolute;	
+				background: rgba(63, 63, 255, 0.8);
+			}	
+			
+			.splitmenu .split.v:before{
+				width: 25%;
+				height: 100%;
+				left:0;
+				top:0;	
+			}
+			.splitmenu .split.v:after{
+				width: 25%;
+				height: 100%;
+				right:0;
+				top:0;		
+			}
+			
+			.splitmenu .split.h:before{
+				height: 25%;
+				width: 100%;
+				left:0;
+				top:0;	
+			}
+			.splitmenu .split.h:after{
+				height: 25%;
+				width: 100%;
+				bottom: 0;
+				left: 0;	
+			}
+			
+			.splitmenu .split.c1:before{
+				height: 35%;
+				width: 35%;
+				left:0;
+				top:0;	
+			}
+			.splitmenu .split.c1:after{
+				height: 35%;
+				width: 35%;
+				bottom: 0;
+				right: 0;	
+			}
+			
+			.splitmenu .split.c2:after{
+				height: 35%;
+				width: 35%;
+				right:0;
+				top:0;	
+			}
+			.splitmenu .split.c2:before{
+				height: 35%;
+				width: 35%;
+				bottom: 0;
+				left: 0;	
+			}
+			
 	
 	.scroll.mappicker{
 		display: none;	

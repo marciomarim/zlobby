@@ -281,12 +281,15 @@
 						<div class="mapactions">
 							<div class="pickmap btn">PICK MAP</div>
 							<div class="reloadmap btn">RELOAD MAP</div>
-							<div class="addboxes btn">ADD BOXES</div>
+							
 							<div class="splitmenu">
-								<div class="split btn" data-cmd="!split h 20"></div>
-								<div class="split btn" data-cmd="!split v 20"></div>
-								<div class="split btn" data-cmd="!split h 20"></div>
-								<div class="split btn" data-cmd="!split h 20"></div>
+								
+								<div class="split btn v" data-command="!split v 25"></div>
+								<div class="split btn h" data-command="!split h 25"></div>
+								<div class="split btn c1" data-command="!split c1 25"></div>
+								<div class="split btn c2" data-command="!split c2 25"></div>
+								<!-- <div class="split btn c" data-command="!split c 20"></div>
+								<div class="split btn s" data-command="!split s 20"></div> -->
 							</div>
 						</div>
 
@@ -646,11 +649,17 @@
 							
 							
 							<div class="section">
+								
+								<div class="line">
 								<div class="section-title">Reset & Debug</div>
 
 								<button class="sendlog gray">Send log</button>
 								
-								<button class="deleteall red">Delete Spring & App Data</button>
+								<button class="deleteappdata red">Delete App Data</button>
+								
+								<button class="deletespringdir red">Delete Spring</button>
+								
+								</div>
 								
 							</div>
 							

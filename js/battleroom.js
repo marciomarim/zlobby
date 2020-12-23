@@ -543,8 +543,10 @@ $('body').on('click', '.reloadmap.btn', function(e) {
 	battles.get_map_info(battleid);
 });
 
-$('body').on('click', '.addboxes.btn', function(e) {	
-	$('.splitmenu').toggleClass('active');
+$('body').on('click', '.splitmenu .btn', function(e) {	
+	var command = $(this).data('command');
+	socketClient.write('SAYBATTLE ' + command + '\n');
+	//socketClient.write(command);
 });
 
 

@@ -540,7 +540,7 @@ $('body').on('click', '.resetpaths', function(e) {
 	initial_check();
 });
 
-$('body').on('click', '.deleteall', function(e) {
+$('body').on('click', '.deleteappdata', function(e) {
 	
 	if (fs.existsSync(appData)){
 		log.warn('Deleting: ' + appData);
@@ -548,6 +548,10 @@ $('body').on('click', '.deleteall', function(e) {
 		  if (error) log.error(error);
 		 });
 	}
+	
+});
+
+$('body').on('click', '.deletespringdir', function(e) {
 	
 	if (fs.existsSync(springdir)){
 		log.warn('Deleting: ' + springdir);
