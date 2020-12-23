@@ -22,7 +22,6 @@ const log = require('electron-log');
 // clear log at start
 log.transports.file.clear();
 var logfilepath = log.transports.file.getFile().path;
-console.log(logfilepath);
 
 var remotemodsurl = 'https://springfightclub.com/data/';
 var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
@@ -556,6 +555,45 @@ $('body').on('click', '.deleteall', function(e) {
 		  if (error) log.error(error);
 		 });
 	}
+	
+});
+
+$('body').on('click', '.sendlog', function(e) {		
+	
+	const sgMail = require('@sendgrid/mail');
+	
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);	
+	
+	fs.readFile(logfilepath , function(err, data) {
+		if (err) throw err;
+		if (data) {
+			
+			var message = data.toString();		
+			message = message.replace(/(?:\r\n|\r|\n)/g, '<br>');
+			
+			const msg = {
+				  to: 'marciomarim@gmail.com',
+				  from: 'marciomarim@gmail.com', // Use the email address or domain you verified above
+				  subject: 'Zlobby log',				  
+				  html: message,				  
+				};			
+				//ES8
+				(async () => {
+				  try {
+					await sgMail.send(msg);
+				  } catch (error) {
+					console.error(error);
+				 
+					if (error.response) {
+					  console.error(error.response.body)
+					}
+				  }
+				})();	
+		}
+	});
+	
+	
+	
 	
 });
 

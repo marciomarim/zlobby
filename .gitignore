@@ -1,3 +1,4 @@
+keys.env
 node_modules/
 dist/
 .DS_Store
@@ -9,4 +10,3 @@ yarn-error.log
 */.DS_Store
 .nova/Configuration.json
 package.json
-package-lock.json
