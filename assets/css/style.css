@@ -1925,6 +1925,18 @@ ul.list {
 		background-color: #fd9b22!important;	
 	}
 	
+	.pretty.ready{
+		background: #dc3939;
+		padding: 1em;
+		border-radius: 30px;
+		color: #fff;
+		font-family: LatoBold;
+	}
+	
+	.pretty.ready.active{
+		background: #1c944c;	
+	}
+	
 	
 	
 	

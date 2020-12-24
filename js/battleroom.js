@@ -145,6 +145,7 @@ $('body').on('click', '.specbattle', function(e) {
 	}
 	if ($('#battleroom .readybattle').prop('checked') == true) {
 		$('#battleroom .readybattle').prop('checked', false);
+		$('#battleroom .pretty.ready').removeClass('active');
 	}
 	$(this).prop('checked');
 	utils.sendbattlestatus();
@@ -152,7 +153,13 @@ $('body').on('click', '.specbattle', function(e) {
 
 $('body').on('click', '.readybattle', function(e) {
 	if ($('#battleroom .specbattle').prop('checked') == true) {
-		$('#battleroom .specbattle').prop('checked', false);
+		$('#battleroom .specbattle').prop('checked', false);		
+	}
+	
+	if($('#battleroom .pretty.ready').hasClass('active')){		
+		$('#battleroom .pretty.ready').removeClass('active');
+	}else{		
+		$('#battleroom .pretty.ready').addClass('active');
 	}
 	$(this).prop('checked');
 	utils.sendbattlestatus();
@@ -414,10 +421,12 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 		} else if (message == '/autoready 1') {
 			store.set('user.autoready', 1);
 			$('#battleroom .readybattle').prop('checked', true);
+			$('#battleroom .pretty.ready').addClass('active');
 			utils.sendbattlestatus();
 		} else if (message == '/autoready 0') {
 			store.set('user.autoready', 0);
 			$('#battleroom .readybattle').prop('checked', false);
+			$('#battleroom .pretty.ready').removeClass('active');
 			utils.sendbattlestatus();
 		} else if (message.startsWith('!promote')) {						
 			promoteDiscord();

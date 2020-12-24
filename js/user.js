@@ -112,6 +112,7 @@ export default class User {
 				$('body').addClass('ingame');
 				utils.sendstatus(); // ingame
 				$('#battleroom .readybattle').prop('checked', false);
+				$('#battleroom .pretty.ready').removeClass('active');
 				console.log('Spring should launch as player');
 			}
 
@@ -132,9 +133,11 @@ export default class User {
 			if (autoready && $('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
 				//console.warn('autoready true');
 				$('#battleroom .readybattle').prop('checked', true);
+				$('#battleroom .pretty.ready').addClass('active');
 			} else {
 				//console.warn('autoready false');
 				$('#battleroom .readybattle').prop('checked', false);
+				$('#battleroom .pretty.ready').removeClass('active');
 			}
 			setTimeout(function() {
 				utils.sendstatus();
