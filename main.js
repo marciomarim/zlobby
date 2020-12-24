@@ -9,8 +9,9 @@ function createWindow() {
 	const win = new BrowserWindow({
 		width: 1800,
 		height: 1000,
-		minWidth: 1000,
-		minHeight: 700,
+		minWidth: 1100,
+		minHeight: 800,
+		backgroundColor: '#000000',
 		//icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
 		//frame: false,
