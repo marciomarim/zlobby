@@ -58,6 +58,13 @@ export default class Protocol {
 					break;
 
 				case 'ADDBOT':
+					//ADDBOT battleID name owner battleStatus teamColor {ai dll}
+					var battleid = parts[1];
+					var botname = parts[2];
+					var owner = parts[3];
+					var battleStatus = parts[4];
+					var teamColor = parts[5];					
+					battles.botjoinedbattle(battleid, botname, owner, battleStatus, teamColor);
 					break;
 
 				case 'ADDSTARTRECT':
@@ -310,6 +317,9 @@ export default class Protocol {
 					break;
 
 				case 'REMOVEBOT':
+					var battleid = parts[1];
+					var botname = parts[2];									
+					battles.botremovedbattle(battleid, botname);
 					break;
 
 				case 'REMOVESCRIPTTAGS':
