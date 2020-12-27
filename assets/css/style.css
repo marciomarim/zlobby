@@ -525,6 +525,11 @@ button {
     font-size: 12px;
     cursor: pointer;
 	border: 1px solid #1553da;
+	opacity: 1;
+}
+
+button.inactive{
+	opacity: 0.2;
 }
 
 button.command{	

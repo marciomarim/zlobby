@@ -812,6 +812,47 @@ export default class Battle {
 			}
 		}
 	}
+	
+	// when bot joins a battle
+	botjoinedbattle(battleid, botname, owner, battleStatus, teamColor) {
+		
+		var myusername = $('#myusername').text();
+		
+		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) + 1;
+		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
+
+		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
+		var players = nUsers - spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -players);
+		
+
+		// append user to bnattle-card
+		//var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
+		//$('.battle-card[data-battleid="' + battleid + '"] .playerlist').append(user);
+
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
+			$('#battleroom .players').text(players);
+			$('#battleroom .spectatorCount').text(spectatorCount);
+			var user = $('#battleroom li[data-username="' + jQuery.escapeSelector(owner) + '"]').clone();
+			user.children('.name').text(botname + '(' + owner + ')');
+			$('#battleroom .battle-playerlist').append(user);
+			// if (owner == myusername) {
+			// 	$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
+			// }
+		}
+	}
+	
+	botremovedbattle(battleid, botname) {
+		
+		var myusername = $('#myusername').text();
+
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
+			$('#battleroom .players').text(players);
+			$('#battleroom .spectatorCount').text(spectatorCount);
+			$('#battleroom li[data-username="' + jQuery.escapeSelector(botname) + '"]').remove();						
+		}
+	}
 
 	leftbattle(battleid, username) {
 		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) - 1;

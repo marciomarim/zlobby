@@ -56,7 +56,7 @@ Electron based lobby client
 
 ## To Do
 
-– [ ] Notarize on Mac
+- [ ] Notarize on Mac
 - [ ] Automate for future engine/games 
 - [ ] Host battles
 - [ ] Singleplayer
