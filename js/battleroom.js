@@ -27,28 +27,6 @@ $('body').on('click', '#battleroom .emojibtn', function(e) {
 	}
 });
 
-// $('body').on('click', '.setboxes-btn', function(e) {
-// 	var username = $('#myusername').text();
-//
-// 	var left = $('.box1 .boxleft').val() * 2;
-// 	var top = $('.box1 .boxtop').val() * 2;
-// 	var right = $('.box1 .boxright').val() * 2;
-// 	var bottom = $('.box1 .boxbottom').val() * 2;
-//
-// 	var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' 1 \n';
-// 	console.warn(command);
-// 	socketClient.write(command);
-//
-// 	var left = $('.box2 .boxleft').val() * 2;
-// 	var top = $('.box2 .boxtop').val() * 2;
-// 	var right = $('.box2 .boxright').val() * 2;
-// 	var bottom = $('.box2 .boxbottom').val() * 2;
-//
-// 	var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' 2 \n';
-// 	console.warn(command);
-// 	socketClient.write(command);
-// });
-
 $('body').on('click', '.battle-card', function(e) {
 	if (!$('body').hasClass('clickbattle')) {
 		$('body').addClass('clickbattle');
@@ -80,6 +58,7 @@ $('body').on('click', '.battle-card', function(e) {
 	}
 });
 
+// discord or other link to join battle
 var joinbattlelink = setInterval(function() {
 	var data = $('#externaldata').text();
 	if (data) {
@@ -262,6 +241,26 @@ $('body').on('click', '#pickteam, #pickally', function(e) {
 	$('body').addClass('picking');
 });
 
+
+$('body').on('click', '.addbot', function(e) {
+	var command = 'ADDBOT BOT ' + getbattlestatus() + ' 255 \n';
+	socketClient.write(command);
+});
+
+function getbattlestatus() {	
+
+	var ready = 1,
+		team = 0,
+		ally = 0,
+		spec = 1,
+		synced = 1,
+		faction = 0;
+		
+	var bitcode = ready * 2 + 2 ** 2 * team + 2 ** 6 * ally + spec * 2 ** 10 + 2 ** (23 - synced) + faction * 2 ** 24;
+	return bitcode;
+}
+
+
 $('body').on('change', '#pickteam', function(e) {
 	var teamNo = $(this).val();
 	var myusername = $('#myusername').text();
@@ -287,20 +286,19 @@ $('body').on('change', '#pickally', function(e) {
 });
 
 $('body').on('click', '.startbattle', function(e) {
+	
 	var founder = $('#battleroom .founder').text();
-
+	var myusername = $('#myusername').text();
+	
 	if ($('.battle-players li[data-username="' + jQuery.escapeSelector(founder) + '"] .icon-user').hasClass('ingame')) {
-		if ($('.specbattle').prop('checked') == true) {
-			battles.launchgame();
-		} else {
-			battles.launchgame();
-		}
-
+		battles.launchgame();
 		$('body').addClass('ingame');
 		utils.sendstatus();
 	} else {
-		var command = 'SAYBATTLE !start\n';
-		socketClient.write(command);
+		if ( $('.battle-playerlist li[data-username="' + jQuery.escapeSelector(myusername) + '"]').length ){
+			var command = 'SAYBATTLE !start\n';
+			socketClient.write(command);	
+		}		
 	}
 });
 
