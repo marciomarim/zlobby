@@ -150,6 +150,7 @@
 
 .icon-away:before{	
 	background-image: url(../svg/056-clock.svg);
+	cursor: pointer;
 }
 
 #battleroom .icon-away:before{	
@@ -158,6 +159,11 @@
 
 .icon-away.false:before{	
 	background-image: none;
+}
+
+.me:hover .icon-away.false:before{	
+	background-image: url(../svg/056-clock.svg);
+	filter: grayscale(0.7);
 }
 
 

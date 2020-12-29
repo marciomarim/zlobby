@@ -1138,7 +1138,7 @@ ul.list {
 		}
 		
 		.battle-playerlist li .name{
-			flex: 0.35;	
+			flex: 0.4;	
 		}
 		
 		.battle-speclist li div{
@@ -1155,25 +1155,24 @@ ul.list {
 		
 		.battle-players .gospec,
 		.battle-players .goplay{
-			position: absolute;			
-			top: 0;
+			position: absolute;
+			top: 2px;
 			background: #1553da;
-			border-radius: 3px;
+			border-radius: 15px;
 			font-size: 10px;
-			padding: 0.3em 0.6em;			
+			padding: 0.2em 0.6em;
 			display: none;
 			z-index: 999;			
 		}
 		
 		.battle-playerlist li:hover > .gospec{
 			display: block;
-			right: 20px;
-			top: -1px;
+			right: 45%;	
 			cursor: e-resize;
 		}
 		.battle-speclist li:hover > .goplay{
 			display: block;
-			left: 3px;			
+			right: 26%;			
 			cursor: w-resize;
 		}
 		
@@ -1285,23 +1284,25 @@ ul.list {
 			display: none;
 		}
 		
+		li.muted .name,
+		li.muted .flag-icon,
+		li.muted .rank{
+			filter: grayscale(1);
+		}
+		
 		.battle-players .userwin{
 			display: none;
 			position: absolute;
 			top: 30px;
-			left: 50px;
+			left: 70px;
 			background: #12171d;
 			border-radius: 6px;
 			padding: 1em;
-			z-index: 9;
+			z-index: 9;			
 		}
 		
 			.battle-players .userwin.active{
 				display: block;
-			}
-			
-			.battle-players .userwin .title{
-				font-size: 12px;
 			}
 			
 			.userwin .usercommands{
@@ -1784,9 +1785,9 @@ ul.list {
 	select {	    
 	    color: #fff;
 		font-size: 0.9em;
-	    border: 2px solid #4a5173;
-	    padding: 8px 10px 8px 10px;
-    	border-radius: 20px;
+		border: 2px solid #4a5173;
+		padding: 5px 0 5px 6px;
+		border-radius: 20px;
 		background: transparent;
 	}
 	
@@ -1812,6 +1813,8 @@ ul.list {
 	.pickallyteam{
 		display: flex;	
 	}
+	
+	
 	
 	.scroll{
 	    position: relative;
@@ -1879,6 +1882,7 @@ ul.list {
 		.gameboxes .boxes{
 			opacity: 0.1;
 		}
+		
 		.gameboxes .boxes:hover{
 			opacity: 1;
 		}

@@ -474,6 +474,16 @@ function promoteDiscord(){
 	}
 }
 
+$('body').on('click', '.me .icon-away', function(e) {
+	
+	$('#myusername').toggleClass('away');
+	setTimeout(function(){
+		utils.sendstatus();	
+	}, 500);
+	
+});
+
+
 // battleroom chat
 $('body').on('keypress', '.battleroom_input', function(e) {
 	if (e.which == 13) {
@@ -526,12 +536,12 @@ $('body').on('click', '.battle-players li .name', function(e) {
 	var username = $(this).parent('li').data('username');
 	var founder = $('#battleroom .founder').text();
 	// create popoup
-	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
+	var $userwin = $('<div class="userwin active" data-username="' + username + '"></div>');
 	
 	if ( $(this).parent('li').hasClass('me') ){
 		
-		if ($('.battle-playerlist [data-username="' + jQuery.escapeSelector(username) + '"]').length){
-			var commands = $('.pickallyteamcontainer').html();					
+		if ($('.battle-playerlist [data-username="' + jQuery.escapeSelector(username) + '"]').length){			
+			var commands = $('.pickallyteamcontainer').html();								
 		}		
 	
 	}else if( $(this).parent('li').hasClass('mybot') ){
@@ -614,6 +624,7 @@ $('body').on('click', '.muteuser', function(e) {
 		.addClass('unmuteuser')
 		.removeClass('muteuser')
 		.text('unmute');
+	$('li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('muted');	
 });
 
 $('body').on('click', '.unmuteuser', function(e) {
@@ -623,6 +634,7 @@ $('body').on('click', '.unmuteuser', function(e) {
 		.addClass('muteuser')
 		.removeClass('unmuteuser')
 		.text('mute');
+	$('li[data-username="' + jQuery.escapeSelector(username) + '"]').removeClass('muted');
 });
 
 $(document).mouseup(function(e) {

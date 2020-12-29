@@ -803,9 +803,14 @@ export default class Battle {
 			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
 			$('#battleroom .battle-playerlist').append(user);
 			if (username == myusername) {
-				$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
-				$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"] .name').before('<div class="goplay">PLAY</div><div class="gospec">SPEC</div>');
+				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
+				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .name').before('<div class="goplay">PLAY</div><div class="gospec">SPEC</div>');
 			}
+		}
+		
+		var usermuted = store.get('users.' + username + '.mute');		
+		if (usermuted) {
+			$('li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('muted');
 		}
 	}
 	
