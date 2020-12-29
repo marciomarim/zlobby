@@ -214,7 +214,9 @@ export default class Battle {
 			.clone();
 		$('#battleroom').append(battlediv);
 		$('#battleroom .battleroom_input').focus();
-
+		$('#battleroom')
+			.removeClass('ffa')
+			.addClass('teams');
 		this.loadbattleprefs();
 	}
 
@@ -969,11 +971,13 @@ export default class Battle {
 			}
 
 			if (parts[2] == 'mo_ffa' && val == '1') {
+				console.warn('moffa');
 				$('#battleroom')
 					.removeClass('teams')
 					.addClass('ffa');
 				$('#battleroom .gametype').text('FFA');
 			} else if (parts[2] == 'mo_ffa' && val == '0') {
+				console.warn('team');
 				$('#battleroom .ffatype').text('');
 				$('#battleroom')
 					.removeClass('ffa')

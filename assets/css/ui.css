@@ -150,7 +150,6 @@
 
 .icon-away:before{	
 	background-image: url(../svg/056-clock.svg);
-	cursor: pointer;
 }
 
 #battleroom .icon-away:before{	

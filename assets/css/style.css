@@ -1249,6 +1249,7 @@ ul.list {
 	    
 		.battle-players li .name,
 	    .battle-players li.me .icon-user,
+		.battle-players li.me .icon-away,
 		.battle-players li.me .faction,
 		.battle-players li.me .color{
 			cursor: pointer;
