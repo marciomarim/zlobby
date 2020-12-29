@@ -1219,6 +1219,7 @@ ul.list {
 		    background: #2e54ab;
 	    }
 	    
+		.battle-players li .name,
 	    .battle-players li .icon-user,
 		.battle-players li .faction,
 		.battle-players li .color{
