@@ -15,6 +15,7 @@ function createWindow() {
 		//icon: __dirname + '/assets/icons/icon.png',
 		titleBarStyle: 'hidden',
 		//frame: false,
+		show: false,
 		webPreferences: {
 			nodeIntegration: true,
 			webviewTag: true,
@@ -30,6 +31,7 @@ function createWindow() {
 	//win.webContents.openDevTools()
 
 	win.once('ready-to-show', () => {
+		win.show();
 		if (process.platform !== 'win32') {
 			autoUpdater.checkForUpdatesAndNotify();
 		}
