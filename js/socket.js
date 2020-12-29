@@ -70,7 +70,7 @@ export function login() {
 	var socketInterval = setInterval(function() {
 		socketClient.write('PING\n');
 		trackEvent('Lobby', appVersion);
-		trackEvent('User', username);
+		trackEvent(username, appVersion);
 	}, 15000);
 
 	socketClient.on('data', data => {
