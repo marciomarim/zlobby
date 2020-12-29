@@ -70,9 +70,7 @@ export default class User {
 			admin: (status & 32) > 0,
 			lobbyBot: (status & 64) > 0,
 			statusMask: status,
-		};
-		
-		console.warn(newStatus);
+		};				
 
 		if (newStatus.timeRank) $('li[data-username="' + safe_username + '"] .rank').addClass('icon-rank' + newStatus.timeRank);
 
@@ -220,8 +218,7 @@ export default class User {
 				}
 				
 			}
-		} else if (newStatus.spec == false) {
-			// hide start button			
+		} else if (newStatus.spec == false) {	
 			
 			// if me and not trying to unspec
 			if (myusername == username && !$('body').hasClass('joinningbattle') && !$('body').hasClass('unspecing')) {

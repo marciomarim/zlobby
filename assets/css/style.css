@@ -668,6 +668,7 @@ ul.list {
 	
 	.battle-card{
 		width: 49.4%;
+		min-height: 250px;
 		margin: 0.3%;
 		padding: 1%;
 		background: #101113;		
@@ -1039,6 +1040,7 @@ ul.list {
 		overflow: auto;
 		position: relative;		
 	}
+	
 	.battle-players::-webkit-scrollbar {
 		width: 0;
 	}
@@ -1149,6 +1151,30 @@ ul.list {
 		
 		.battle-players li .team{
 			flex: 0.05;
+		}
+		
+		.battle-players .gospec,
+		.battle-players .goplay{
+			position: absolute;			
+			top: 0;
+			background: #1553da;
+			border-radius: 3px;
+			font-size: 10px;
+			padding: 0.3em 0.6em;			
+			display: none;
+			z-index: 999;			
+		}
+		
+		.battle-playerlist li:hover > .gospec{
+			display: block;
+			right: 20px;
+			top: -1px;
+			cursor: e-resize;
+		}
+		.battle-speclist li:hover > .goplay{
+			display: block;
+			left: 3px;			
+			cursor: w-resize;
 		}
 		
 		.battle-players li .trueskill,

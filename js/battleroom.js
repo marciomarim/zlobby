@@ -117,16 +117,38 @@ $('body').on('click', '.leavebattle', function(e) {
 });
 
 $('body').on('click', '.specbattle', function(e) {
-	if ($('#battleroom .specbattle').prop('checked') == true) {
+	
+	if ($('#battleroom .specbattle').prop('checked') == true) {		
 		$('body').removeClass('unspecing');
-	} else {
+	} else {		
 		$('body').addClass('unspecing');
 	}
+	
 	if ($('#battleroom .readybattle').prop('checked') == true) {
 		$('#battleroom .readybattle').prop('checked', false);
 		$('#battleroom .pretty.ready').removeClass('active');
 	}
-	$(this).prop('checked');
+	
+	$('#battleroom .specbattle').prop('checked');
+	utils.sendbattlestatus();
+});
+
+$('body').on('click', '.gospec, .goplay', function(e) {
+	
+	if ($('#battleroom .specbattle').prop('checked') == true) {
+		$('#battleroom .specbattle').prop('checked', false);
+		$('body').addClass('unspecing');
+	} else {
+		$('body').removeClass('unspecing');
+		$('#battleroom .specbattle').prop('checked', true);
+	}
+	
+	if ($('#battleroom .readybattle').prop('checked') == true) {
+		$('#battleroom .readybattle').prop('checked', false);
+		$('#battleroom .pretty.ready').removeClass('active');
+	}
+	
+	$('#battleroom .specbattle').prop('checked');
 	utils.sendbattlestatus();
 });
 
@@ -506,9 +528,11 @@ $('body').on('click', '.battle-players li .name', function(e) {
 	// create popoup
 	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
 	
-	if ($(this).parent('li').hasClass('me')){
+	if ( $(this).parent('li').hasClass('me') ){
 		
-		var commands = $('.pickallyteamcontainer').html();				
+		if ($('.battle-playerlist [data-username="' + jQuery.escapeSelector(username) + '"]').length){
+			var commands = $('.pickallyteamcontainer').html();					
+		}		
 	
 	}else if( $(this).parent('li').hasClass('mybot') ){
 		
@@ -534,9 +558,11 @@ $('body').on('click', '.battle-players li .name', function(e) {
 				
 	}
 	
-	$userwin.append(commands);
-	$(this).parent('li').append($userwin);
-	$('.pminput').focus();	
+	if (commands){
+		$userwin.append(commands);
+		$(this).parent('li').append($userwin);
+		$('.pminput').focus();		
+	}
 	
 });
 

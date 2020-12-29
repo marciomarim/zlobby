@@ -769,12 +769,6 @@ export default class Battle {
 			.clone();
 		$('#battleroom .battle-playerlist').append(players);
 
-		// AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
-		// 	$('#battleroom .colorpicked').css('background-color', color);
-		// 	store.set('user.mycolor', color);
-		// });
-		//AColorPicker.setColor("#5588ff", true);
-
 		//this.load_remote_map_image(battleid);
 		this.get_map_info(battleid);
 
@@ -810,6 +804,7 @@ export default class Battle {
 			$('#battleroom .battle-playerlist').append(user);
 			if (username == myusername) {
 				$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
+				$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"] .name').before('<div class="goplay">PLAY</div><div class="gospec">SPEC</div>');
 			}
 		}
 	}
