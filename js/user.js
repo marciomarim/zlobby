@@ -23,7 +23,6 @@ export default class User {
 		line += '<div class="trueskill">–</div>';
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
-
 		line += '<div class="country">' + country + '</div>';
 		if (cpu != 0) line += '<div class="cpu">' + cpu + '</div>';
 		if (userID != 0 && userID != undefined) line += '<div class="userID">' + userID + '</div>';
@@ -157,6 +156,15 @@ export default class User {
 		if (!$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .faction').length) {
 			//add user battle status to players
 			this.addbattlestatusfields(username);
+			if (myusername == username) {
+				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .color').append('<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>');
+				AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
+					store.set('user.mycolor', color);
+					$('#battleroom .me .color').css('background-color', color);
+					$('#topbar .status').css('background-color', color);										
+					utils.sendbattlestatus();
+				});
+			}
 		}
 
 		var status2 = dec2bin(status);
@@ -239,8 +247,11 @@ export default class User {
 			$('select#pickally')
 				.val(newStatus.ally)
 				.change();
-
-			$('#battleroom .colorpicked').css('background-color', csscolor);
+			
+			//$('#battleroom .color').append('<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>');			
+			$('#battleroom .colorpicked').css('background-color', csscolor);	
+			//$('#battleroom .colorpicked').css('background-color', csscolor);
+			
 		}
 
 		$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .team').text(newStatus.team);
