@@ -835,9 +835,9 @@ export default class Battle {
 		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
 			$('#battleroom .players').text(players);
 			$('#battleroom .spectatorCount').text(spectatorCount);
-			var user = $('#battleroom li[data-username="' + jQuery.escapeSelector(owner) + '"]').clone();
-			user.children('.name').text(botname + '(' + owner + ')');
-			$('#battleroom .battle-playerlist').append(user);
+			var bot = $('#battleroom li[data-username="' + jQuery.escapeSelector(owner) + '"]').clone().removeClass('me').addClass('mybot');
+			bot.children('.name').text(botname + ' (' + owner + ')');
+			$('#battleroom .battle-playerlist').append(bot);
 			// if (owner == myusername) {
 			// 	$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
 			// }

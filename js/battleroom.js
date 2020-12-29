@@ -453,6 +453,11 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 
 		if (message == '/clear') {
 			utils.clear_battleroom_chat();
+		} else if (message == '/away') {	
+			$('#myusername').toggleClass('away');
+			setTimeout(function(){
+				utils.sendstatus();	
+			}, 500);					
 		} else if (message == '/autoready 1') {
 			store.set('user.autoready', 1);
 			$('#battleroom .readybattle').prop('checked', true);

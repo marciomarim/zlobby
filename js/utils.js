@@ -572,14 +572,12 @@ export default class Utils {
 		} else {
 			ingame = 0; //unspec
 		}
-
-		/*
-		if ($('.meaway').prop("checked") == true){
+		
+		if ( $('#myusername').hasClass('away') ){
 			away = 1;
 		}else{
-			away = 0; 
-		}
-		*/
+			away = 0;			
+		}		
 
 		var bitcode = ingame + away * 2;
 		var command = 'MYSTATUS ' + bitcode + '\n';

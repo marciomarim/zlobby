@@ -152,6 +152,10 @@
 	background-image: url(../svg/056-clock.svg);
 }
 
+#battleroom .icon-away:before{	
+	top: -2px;
+}
+
 .icon-away.false:before{	
 	background-image: none;
 }

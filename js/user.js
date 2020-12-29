@@ -71,6 +71,8 @@ export default class User {
 			lobbyBot: (status & 64) > 0,
 			statusMask: status,
 		};
+		
+		console.warn(newStatus);
 
 		if (newStatus.timeRank) $('li[data-username="' + safe_username + '"] .rank').addClass('icon-rank' + newStatus.timeRank);
 
@@ -80,9 +82,17 @@ export default class User {
 			$('li[data-username="' + safe_username + '"] .icon-user').removeClass('ingame');
 		}
 
-		if (newStatus.away) $('li[data-username="' + safe_username + '"] .away').removeClass('false');
+		if (newStatus.away){
+			$('li[data-username="' + safe_username + '"] .away').removeClass('false');
+		}else{
+			$('li[data-username="' + safe_username + '"] .away').addClass('false');
+		}
 
-		if (newStatus.admin) $('li[data-username="' + safe_username + '"] .admin').removeClass('false');
+		if (newStatus.admin) {
+			$('li[data-username="' + safe_username + '"] .admin').removeClass('false');
+		}else{
+			$('li[data-username="' + safe_username + '"] .admin').addClass('false');
+		}
 
 		if (newStatus.lobbyBot) {
 			$('li[data-username="' + safe_username + '"] .icon-user').addClass('bot');
