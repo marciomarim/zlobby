@@ -816,11 +816,24 @@ export default class Battle {
 
 		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {			
 			var bot = $('#battleroom li[data-username="' + jQuery.escapeSelector(owner) + '"]').clone().removeClass('me').addClass('mybot');
+			bot.children('.goplay').remove();
+			bot.children('.gospec').remove();
 			bot.children('.name').text(botname);
 			bot.attr('data-username', botname);
 			$('#battleroom .battle-playerlist').append(bot);
 		}
 	}
+	
+	// updatebot(battleid, botname, battleStatus, teamColor) {
+	// 	
+	// 	var myusername = $('#myusername').text();				
+	// 	if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
+	// 		var bot = $('#battleroom li[data-username="' + jQuery.escapeSelector(botname) + '"]');
+	// 		bot.children('.name').text(botname);
+	// 		bot.attr('data-username', botname);
+	// 		$('#battleroom .battle-playerlist').append(bot);
+	// 	}
+	// }
 	
 	botremovedbattle(battleid, botname) {		
 		var myusername = $('#myusername').text();

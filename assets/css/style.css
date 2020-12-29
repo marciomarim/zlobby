@@ -1312,9 +1312,9 @@ ul.list {
 				
 				
 				.userwin .btn{
-					padding: 4px 6px;
+					padding: 0.2em 0.8em;
 					border-radius: 15px;
-					margin: 0 5px;
+					margin: 0 0.3em;
 					cursor: pointer;
 					background: #434851;
 					font-size: 12px;

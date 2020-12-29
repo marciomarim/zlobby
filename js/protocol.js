@@ -451,6 +451,12 @@ export default class Protocol {
 					break;
 
 				case 'UPDATEBOT':
+					var battleid = parts[1];
+					var botname = parts[2];
+					var battleStatus = parts[3];
+					var teamColor = parts[4];
+					//battles.updatebot();
+					users.updatebattlestatus(botname, battleStatus, teamColor);
 					break;
 
 				default:
