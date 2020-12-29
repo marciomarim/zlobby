@@ -1720,6 +1720,12 @@ ul.list {
 			    padding: 2px 0px 2px 13px;
 			    margin: 9px 3px;
 			    font-size: 0.9em;
+				cursor: pointer;
+			}
+			
+			.votes .vote.b{
+				padding: 5px 20px 2px 20px;
+				font-size: 15px;
 			}
 			
 			.votes .endvote{				

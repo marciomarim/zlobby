@@ -262,6 +262,12 @@ $('body').on('click', '.vote.no', function(e) {
 	$('#votewin').removeClass('active');
 });
 
+$('body').on('click', '.vote.b', function(e) {
+	var command = 'SAYBATTLE !vote b\n';
+	socketClient.write(command);
+	$('#votewin').removeClass('active');
+});
+
 $('body').on('click', '.endvote', function(e) {
 	var command = 'SAYBATTLE !ev \n';
 	socketClient.write(command);
