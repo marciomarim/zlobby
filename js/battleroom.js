@@ -130,7 +130,9 @@ $('body').on('click', '.specbattle', function(e) {
 	utils.sendbattlestatus();
 });
 
+// click on ready button
 $('body').on('click', '.readybattle', function(e) {
+	
 	if ($('#battleroom .specbattle').prop('checked') == true) {
 		$('#battleroom .specbattle').prop('checked', false);		
 	}
@@ -141,6 +143,40 @@ $('body').on('click', '.readybattle', function(e) {
 		$('#battleroom .pretty.ready').addClass('active');
 	}
 	$(this).prop('checked');
+	utils.sendbattlestatus();
+	
+});
+
+// click on own user icon 
+$('body').on('click', '.me .icon-user', function(e) {
+	
+	if ($('#battleroom .readybattle').prop('checked') == true) {
+		$('#battleroom .readybattle').prop('checked', false);		
+	}else{
+		$('#battleroom .readybattle').prop('checked', true);
+		$('#battleroom .specbattle').prop('checked', false);
+	}
+	
+	if($('#battleroom .pretty.ready').hasClass('active')){		
+		$('#battleroom .pretty.ready').removeClass('active');
+	}else{		
+		$('#battleroom .pretty.ready').addClass('active');
+	}
+	
+	utils.sendbattlestatus();
+	
+});
+
+// click on own user icon 
+$('body').on('click', '.me .faction', function(e) {
+	
+	if ( $(this).hasClass('icon-arm') ){
+		$(this).removeClass('icon-arm').addClass('icon-core');	
+		store.set('user.faction', 1);
+	}else{
+		$(this).removeClass('icon-core').addClass('icon-arm');	
+		store.set('user.faction', 0);
+	}		
 	utils.sendbattlestatus();
 });
 
@@ -232,10 +268,11 @@ $('body').on('click', '.pickcore', function(e) {
 	store.set('user.faction', 1);
 });
 
-$('body').on('click', '.colorpicked', function(e) {
-	$('.colorpicker').toggleClass('active');
-	utils.sendbattlestatus();
+
+$('body').on('click', '.color', function(e) {	
+	$('.colorpicker').toggleClass('active');	
 });
+
 
 $('body').on('click', '#pickteam, #pickally', function(e) {
 	$('body').addClass('picking');
@@ -447,30 +484,37 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li', function(e) {
-	var username = $(this).data('username');
-	var founder = $('#battleroom .founder').text();
-
-	// create popoup
-	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
-
-	if (username == founder) {
-		var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!status">!status</div>';
-		commands += '<div class="usercommand" data-username="' + username + '" data-command="!stats">!stats</div>';
-	} else {
-		var usermuted = store.get('users.' + username + '.mute');
-		var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
-		commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
-		if (usermuted) {
-			commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
+	
+	if ($(this).hasClass('me')){
+		// add personal window here
+	}else{
+		var username = $(this).data('username');	
+		var founder = $('#battleroom .founder').text();
+	
+		// create popoup
+		var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
+	
+		if (username == founder) {
+			var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!status">!status</div>';
+			commands += '<div class="usercommand" data-username="' + username + '" data-command="!stats">!stats</div>';
 		} else {
-			commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
+			var usermuted = store.get('users.' + username + '.mute');
+			var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
+			commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
+			if (usermuted) {
+				commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
+			} else {
+				commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
+			}
 		}
+	
+		$userwin.append(commands);
+		$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>');
+		$(this).append($userwin);
+		$('.pminput').focus();	
 	}
-
-	$userwin.append(commands);
-	$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>');
-	$(this).append($userwin);
-	$('.pminput').focus();
+	
+	
 });
 
 $('body').on('keypress', '.pminput', function(e) {
