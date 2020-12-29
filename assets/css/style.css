@@ -1219,13 +1219,20 @@ ul.list {
 		    background: #2e54ab;
 	    }
 	    
-	    
+	    .battle-players li .icon-user,
+		.battle-players li .faction,
+		.battle-players li .color{
+			cursor: pointer;
+		}
+		
 	    .battle-players li .color{
 		    width: 18px;
 		    height: 18px;
 		    border-radius: 20px;
 	        flex: inherit;
 	        border: 2px solid #4a5173;
+			position: relative;
+			overflow: visible;
 	    }
 		
 /*
@@ -1894,15 +1901,15 @@ ul.list {
 		    cursor: pointer;
 		}
 		
-		.colorpicked .colorpicker{
+		.colorpicker{
 			position: absolute;
 			display: none;		
 			top: 0;
 			left: 0;
-		    transform: translate3d(-50%, -105%, 0);
+		    transform: translate3d(-50%, 10%, 0);
 		}
 		
-		.colorpicked .colorpicker.active{
+		.colorpicker.active{
 			display: block;
 		}
 		
