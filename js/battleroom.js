@@ -180,6 +180,10 @@ $('body').on('click', '.me .faction', function(e) {
 	utils.sendbattlestatus();
 });
 
+$('body').on('click', '.me .color', function(e) {	
+	$('.colorpicker').toggleClass('active');	
+});
+
 $('body').on('click', '.showhostmessages', function(e) {
 	if ($('.showhostmessages').prop('checked') == true) {
 		//$('.showhostmessages').prop("checked", false);
@@ -250,28 +254,26 @@ $('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
 	$(target).addClass('active');
 });
 
-$('body').on('click', '.pickarm', function(e) {
-	$('#battleroom .pickcore').addClass('active');
-	$(this).removeClass('active');
-	utils.sendbattlestatus();
+// $('body').on('click', '.pickarm', function(e) {
+// 	$('#battleroom .pickcore').addClass('active');
+// 	$(this).removeClass('active');
+// 	utils.sendbattlestatus();
+// 
+// 	//save prefered faction
+// 	store.set('user.faction', 0);
+// });
+// 
+// $('body').on('click', '.pickcore', function(e) {
+// 	$('#battleroom .pickarm').addClass('active');
+// 	$(this).removeClass('active');
+// 	utils.sendbattlestatus();
+// 
+// 	//save prefered faction
+// 	store.set('user.faction', 1);
+// });
 
-	//save prefered faction
-	store.set('user.faction', 0);
-});
-
-$('body').on('click', '.pickcore', function(e) {
-	$('#battleroom .pickarm').addClass('active');
-	$(this).removeClass('active');
-	utils.sendbattlestatus();
-
-	//save prefered faction
-	store.set('user.faction', 1);
-});
 
 
-$('body').on('click', '.color', function(e) {	
-	$('.colorpicker').toggleClass('active');	
-});
 
 
 $('body').on('click', '#pickteam, #pickally', function(e) {
@@ -497,20 +499,18 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 });
 
 // userwin in battleroom, chat and commands
-$('body').on('click', '.battle-players li', function(e) {
+$('body').on('click', '.battle-players li .name', function(e) {
 	
-	var username = $(this).data('username');	
+	var username = $(this).parent('li').data('username');
 	var founder = $('#battleroom .founder').text();
 	// create popoup
 	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
 	
-	if ($(this).hasClass('me')){
+	if ($(this).parent('li').hasClass('me')){
 		
-		var commands = '<div class="usercommands"><div class="usercommand btn" data-username="' + username + '" data-command="!status">!status</div>';
-		commands += '<div class="usercommand btn" data-username="' + username + '" data-command="!stats">!stats</div></div>';		
-		commands += '<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>';		
+		var commands = $('.pickallyteamcontainer').html();				
 	
-	}else if( $(this).hasClass('mybot') ){
+	}else if( $(this).parent('li').hasClass('mybot') ){
 		
 		var commands = '<div class="usercommands"><div class="removebot btn" data-username="' + username + '">REMOVE BOT</div></div>';
 			
@@ -535,7 +535,7 @@ $('body').on('click', '.battle-players li', function(e) {
 	}
 	
 	$userwin.append(commands);
-	$(this).append($userwin);
+	$(this).parent('li').append($userwin);
 	$('.pminput').focus();	
 	
 });
@@ -603,6 +603,11 @@ $(document).mouseup(function(e) {
 	var container = $('.userwin.active');
 	if (!container.is(e.target) && container.has(e.target).length === 0) {
 		container.remove();
+	}
+	
+	container = $('#battleroom .colorpicker');
+	if (!container.is(e.target) && container.has(e.target).length === 0) {
+		container.removeClass('active');
 	}
 });
 

@@ -1039,6 +1039,9 @@ ul.list {
 		overflow: auto;
 		position: relative;		
 	}
+	.battle-players::-webkit-scrollbar {
+		width: 0;
+	}
 	
 		.battle-players .battle-speclist,
 		.battle-players .battle-playerlist{
@@ -1220,9 +1223,9 @@ ul.list {
 	    }
 	    
 		.battle-players li .name,
-	    .battle-players li .icon-user,
-		.battle-players li .faction,
-		.battle-players li .color{
+	    .battle-players li.me .icon-user,
+		.battle-players li.me .faction,
+		.battle-players li.me .color{
 			cursor: pointer;
 		}
 		
@@ -1778,6 +1781,10 @@ ul.list {
 	label.pickteam,
 	label.pickally{
 		color: #aaa;
+	}
+	
+	.pickallyteam{
+		display: flex;	
 	}
 	
 	.scroll{
