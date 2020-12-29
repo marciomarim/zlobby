@@ -474,6 +474,11 @@ $(window).ready(function() {
 
 	var chatnotifications = store.get('prefs.chatnotifications');
 	if (chatnotifications == undefined) store.set('prefs.chatnotifications', 0);
+	
+	// set default color
+	var mycolor = store.get('user.mycolor');
+	if (mycolor == undefined) store.set('user.mycolor', '556677');
+	
 
 	// load preferences and update checkboxes
 	autoconnect = store.get('prefs.autoconnect');
@@ -511,6 +516,7 @@ $(window).ready(function() {
 	} else {
 		$('.chatnotifications').prop('checked', true);
 	}
+	
 });
 
 // save preferences
