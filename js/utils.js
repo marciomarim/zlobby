@@ -540,7 +540,7 @@ export default class Utils {
 		var g = 0;
 		var b = 0;
 
-		var color = $('.colorpicked')
+		var color = $('#topbar .status')
 			.css('background-color')
 			.replace('rgb(', '')
 			.replace(')', '')
@@ -623,7 +623,7 @@ export default class Utils {
 			spec = 1; //try to unspec
 		}
 
-		if ($('#battleroom .pickarm').hasClass('active')) {
+		if ($('#battleroom .me .faction').hasClass('icon-arm')) {
 			faction = 0;
 		} else {
 			faction = 1;
