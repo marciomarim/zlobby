@@ -1280,23 +1280,16 @@ ul.list {
 			    margin: 0 0 1em 0;
 			    justify-content: center;
 			}
-			
-				.userwin .usercommand{
+				
+				
+				.userwin .btn{
 					padding: 4px 6px;
 					border-radius: 15px;
 					margin: 0 5px;
 					cursor: pointer;
 					background: #434851;
 					font-size: 12px;
-				}
-				.userwin .unmuteuser,
-				.userwin .muteuser{
-					padding: 4px 6px;
-					border-radius: 15px;
-					margin: 0 5px;
-					cursor: pointer;
-					background: #434851;
-					font-size: 12px;
+					white-space: nowrap;
 				}
 				
 				.userwin .unmuteuser{

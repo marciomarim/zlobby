@@ -817,40 +817,20 @@ export default class Battle {
 	// when bot joins a battle
 	botjoinedbattle(battleid, botname, owner, battleStatus, teamColor) {
 		
-		var myusername = $('#myusername').text();
-		
-		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) + 1;
-		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
+		var myusername = $('#myusername').text();				
 
-		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
-		var players = nUsers - spectatorCount;
-		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -players);
-		
-
-		// append user to bnattle-card
-		//var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
-		//$('.battle-card[data-battleid="' + battleid + '"] .playerlist').append(user);
-
-		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
-			$('#battleroom .players').text(players);
-			$('#battleroom .spectatorCount').text(spectatorCount);
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {			
 			var bot = $('#battleroom li[data-username="' + jQuery.escapeSelector(owner) + '"]').clone().removeClass('me').addClass('mybot');
-			bot.children('.name').text(botname + ' (' + owner + ')');
+			bot.children('.name').text(botname);
+			bot.attr('data-username', botname);
 			$('#battleroom .battle-playerlist').append(bot);
-			// if (owner == myusername) {
-			// 	$('#battleroom .battle-playerlist li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
-			// }
 		}
 	}
 	
-	botremovedbattle(battleid, botname) {
-		
+	botremovedbattle(battleid, botname) {		
 		var myusername = $('#myusername').text();
 
-		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
-			$('#battleroom .players').text(players);
-			$('#battleroom .spectatorCount').text(spectatorCount);
+		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {					
 			$('#battleroom li[data-username="' + jQuery.escapeSelector(botname) + '"]').remove();						
 		}
 	}

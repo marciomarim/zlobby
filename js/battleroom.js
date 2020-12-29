@@ -280,8 +280,17 @@ $('body').on('click', '#pickteam, #pickally', function(e) {
 
 
 $('body').on('click', '.addbot', function(e) {
-	var command = 'ADDBOT BOT ' + getbattlestatus() + ' 255 \n';
+	var myusername = $('#myusername').text();
+	var count = $('mybot').length + 1;
+	var command = 'ADDBOT BOT' + count + '-' + myusername + ' ' + getbattlestatus() + ' 255 \n';
 	socketClient.write(command);
+});
+
+$('body').on('click', '.removebot', function(e) {
+	var botname = $(this).data('username');
+	var command = 'REMOVEBOT ' + botname + '\n';
+	socketClient.write(command);
+	console.log(command);
 });
 
 function getbattlestatus() {	
@@ -490,35 +499,44 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li', function(e) {
 	
+	var username = $(this).data('username');	
+	var founder = $('#battleroom .founder').text();
+	// create popoup
+	var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
+	
 	if ($(this).hasClass('me')){
-		// add personal window here
-	}else{
-		var username = $(this).data('username');	
-		var founder = $('#battleroom .founder').text();
+		
+		var commands = '<div class="usercommands"><div class="usercommand btn" data-username="' + username + '" data-command="!status">!status</div>';
+		commands += '<div class="usercommand btn" data-username="' + username + '" data-command="!stats">!stats</div></div>';		
+		commands += '<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>';		
 	
-		// create popoup
-		var $userwin = $('<div class="userwin active" data-username="' + username + '"><div class="title">' + username + '</div></div>');
-	
-		if (username == founder) {
-			var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!status">!status</div>';
-			commands += '<div class="usercommand" data-username="' + username + '" data-command="!stats">!stats</div>';
+	}else if( $(this).hasClass('mybot') ){
+		
+		var commands = '<div class="usercommands"><div class="removebot btn" data-username="' + username + '">REMOVE BOT</div></div>';
+			
+	}else if(username == founder ){
+		
+		var commands = '<div class="usercommands"><div class="usercommand btn" data-username="' + username + '" data-command="!status">!status</div>';
+		commands += '<div class="usercommand btn" data-username="' + username + '" data-command="!stats">!stats</div></div>';
+		commands += '<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>';
+		
+	}else{			
+			
+		var usermuted = store.get('users.' + username + '.mute');
+		var commands = '<div class="usercommands"><div class="usercommand btn" data-username="' + username + '" data-command="!ring">!ring</div>';
+		commands += '<div class="usercommand btn" data-username="' + username + '" data-command="!spec">!spec</div>';
+		if (usermuted) {
+			commands += '<div class="unmuteuser btn" data-username="' + username + '">unmute</div></div>';
 		} else {
-			var usermuted = store.get('users.' + username + '.mute');
-			var commands = '<div class="usercommands"><div class="usercommand" data-username="' + username + '" data-command="!ring">!ring</div>';
-			commands += '<div class="usercommand" data-username="' + username + '" data-command="!spec">!spec</div>';
-			if (usermuted) {
-				commands += '<div class="unmuteuser" data-username="' + username + '">unmute</div></div>';
-			} else {
-				commands += '<div class="muteuser" data-username="' + username + '">mute</div></div>';
-			}
+			commands += '<div class="muteuser btn" data-username="' + username + '">mute</div></div>';
 		}
-	
-		$userwin.append(commands);
-		$userwin.append('<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>');
-		$(this).append($userwin);
-		$('.pminput').focus();	
+		commands += '<div class="floatinginput"><input type="text" class="pminput" data-username="' + username + '" placeholder="Message @' + username + '"></div>';
+				
 	}
 	
+	$userwin.append(commands);
+	$(this).append($userwin);
+	$('.pminput').focus();	
 	
 });
 
