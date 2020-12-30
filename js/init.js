@@ -138,11 +138,25 @@ $.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', fun
 		
 		// already downloaded
 		if (fs.existsSync(updatefile)){
-			const bat = spawn('xterm -e sudo dpkg -i ' + updatefile, {
-				detached: true,
-				stdio: 'ignore',
+			// const bat = spawn('xterm -e sudo dpkg -i ' + updatefile, {
+			// 	detached: true,
+			// 	stdio: 'ignore',
+			// });
+			// bat.unref();
+			
+			const { exec } = require("child_process");
+			exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
+				if(error){
+					log.error(error.message);
+					return;
+				}
+				if(getter){
+					log.info(data);
+					return;
+				}
+				log.info(data);			
 			});
-			bat.unref();			
+						
 		}else{
 			// show info					
 			var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
@@ -163,11 +177,18 @@ $.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', fun
 				$('#appUpdate').text('Click to update');
 	
 				$('body').on('click', '#appUpdate', function(e) {
-					const bat = spawn('xterm -e sudo dpkg -i ' + updatefile, {
-						detached: true,
-						stdio: 'ignore',
+					const { exec } = require("child_process");
+					exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
+						if(error){
+							log.error(error.message);
+							return;
+						}
+						if(getter){
+							log.info(data);
+							return;
+						}
+						log.info(data);			
 					});
-					bat.unref();
 					remote.getCurrentWindow().close();
 				});
 			});
