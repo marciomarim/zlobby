@@ -32,7 +32,7 @@ function createWindow() {
 
 	win.once('ready-to-show', () => {
 		win.show();
-		if (process.platform !== 'win32') {
+		if (process.platform == 'darwin') {
 			autoUpdater.checkForUpdatesAndNotify();
 		}
 	});
@@ -56,7 +56,9 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
-	autoUpdater.checkForUpdatesAndNotify();
+	if (process.platform == 'darwin') {
+		autoUpdater.checkForUpdatesAndNotify();
+	}
 	createWindow();
 });
 
@@ -64,9 +66,9 @@ app.on('ready', function() {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
-	if (process.platform !== 'darwin') {
+	//if (process.platform !== 'darwin') {
 		app.quit();
-	}
+	//}
 });
 
 app.on('activate', () => {

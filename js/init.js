@@ -45,41 +45,40 @@ if (remote.app.isEmojiPanelSupported()){
 }
 
 $.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', function(releaseinfo) {
-	console.warn('Data: ' + releaseinfo['name']);
+	//console.warn('Data: ' + releaseinfo['name']);
 	log.info('Data: ' + releaseinfo['name']);
 
-	// 	if (releaseinfo['name'] > appVersion && platform == 'darwin') {
-	// 		console.warn('Update available: ' + releaseinfo['name']);
-	// 		var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
-	// 		console.warn(fileurl);
-	//
-	// 		ipcRenderer.send('download', {
-	// 			url: fileurl,
-	// 			properties: { directory: homedir + '/Downloads/' },
-	// 		});
-	//
-	// 		ipcRenderer.on('download progress', async (event, progress) => {
-	// 			var w = Math.round(progress.percent * 100) + '%';
-	// 			console.warn('Downloading update: ' + w + ' of 100%');
-	// 			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
-	// 		});
-	//
-	// 		ipcRenderer.on('download complete', (event, progress) => {
-	// 			console.warn('Unzipping');
-	// 			// unpack
-	// 			sevenmin.unpack(homedir + '/Downloads/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '/Downloads/', err => {
-	// 				$('#appUpdate').text('Click to update');
-	// 				$('body').on('click', '#appUpdate', function(e) {
-	// 					const bat = spawn(homedir + '/Downloads/Zlobby Setup ' + releaseinfo['name'] + '.exe', {
-	// 						detached: true,
-	// 						stdio: 'ignore',
-	// 					});
-	// 					bat.unref();
-	// 					remote.getCurrentWindow().close();
-	// 				});
-	// 			});
-	// 		});
-	// 	}
+// 	if (releaseinfo['name'] > appVersion && platform == 'darwin') {
+// 		console.warn('Update available: ' + releaseinfo['name']);
+// 		var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/' + releaseinfo['name'] + '/Zlobby-' + releaseinfo['name'] + '-mac.zip';		
+// 
+// 		ipcRenderer.send('download', {
+// 			url: fileurl,
+// 			properties: { directory: homedir + '/Downloads/' },
+// 		});
+// 
+// 		ipcRenderer.on('download progress', async (event, progress) => {
+// 			var w = Math.round(progress.percent * 100) + '%';
+// 			console.warn('Downloading update: ' + w + ' of 100%');
+// 			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
+// 		});
+// 
+// 		ipcRenderer.on('download complete', (event, progress) => {
+// 			console.warn('Unzipping');
+// 			// unpack
+// 			sevenmin.unpack(homedir + '/Downloads/Zlobby-' + releaseinfo['name'] + '-mac.zip', homedir + '/Downloads/', err => {
+// 				$('#appUpdate').text('Click to update');
+// 				$('body').on('click', '#appUpdate', function(e) {
+// 					const bat = spawn(homedir + '/Downloads/Zlobby Setup ' + releaseinfo['name'] + '.exe', {
+// 						detached: true,
+// 						stdio: 'ignore',
+// 					});
+// 					bat.unref();
+// 					remote.getCurrentWindow().close();
+// 				});
+// 			});
+// 		});
+// 	}
 
 	if (releaseinfo['name'] > appVersion && platform == 'win32') {
 		

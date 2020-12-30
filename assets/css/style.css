@@ -522,7 +522,7 @@ button {
     border-radius: 25px;
     font-family: LatoBold;
     text-transform: uppercase;
-    font-size: 12px;
+    font-size: 1em;
     cursor: pointer;
 	border: 1px solid #1553da;
 	opacity: 1;
@@ -957,14 +957,12 @@ ul.list {
 	
 	.battle-main-info{
 		width: 100%;
-		padding: 0 1em 1em 1em;
-		font-size: 13px;
+		padding: 0 1em 1em 1em;		
 	}
 	
 		.battle-main-info .meta{
 			display: flex;
-			justify-content: space-between;
-			font-size: 12px;
+			justify-content: space-between;			
 			font-family: LatoBold;
 			color: #ccc;
 		}
@@ -1364,7 +1362,7 @@ ul.list {
 	}
 		
 	.btn{		
-		font-size: 11px;
+		font-size: 0.9em;
 		border-radius: 3px;
 		padding: 0.7em 1.2em;
 		background: #202427;
@@ -1834,8 +1832,7 @@ ul.list {
 	    right: 0;
 	    width: 100%;		
 	    background: #14161b;
-	    padding: 0.5em 2em 2em 2em;
-	    font-size: 12px;
+	    padding: 0.5em 2em 2em 2em;	    
 		z-index: 999;
 	}
 	
@@ -2592,8 +2589,26 @@ span.upper{
 	margin-right: 1em;
 }
 
+@media (max-width: 1660px){
+	body {
+		font: 12px Lato, Helvetica, Arial;
+	}
+	.splitmenu .split.btn {
+		width: 24px;
+		height: 24px;
+	}
+	button.command {
+		font-size: 10px;
+	}	
+	button {		
+		padding: 0.8em 1.2em;
+	}
+}
 
 @media (max-width: 1440px){
+	body {
+		font: 11px Lato, Helvetica, Arial;
+	}
 	.battle-card{
 		width: 99.4%;
 	}	
