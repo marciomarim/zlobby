@@ -4,6 +4,8 @@ import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, engi
 
 var fs = require('fs');
 
+var win = require('electron').remote.getCurrentWindow();
+
 var Filter = require('bad-words'),
 	filter = new Filter();
 
@@ -13,6 +15,7 @@ const store = new Store();
 var votetimerId;
 var votestarted;
 //const { spawn } = require('child_process');
+
 
 export default class Utils {
 	constructor() {}
@@ -166,6 +169,7 @@ export default class Utils {
 		if ($('#chatlist').hasClass('active') && $('.userchat[data-username="' + safe_username + '"]').hasClass('active') && $('body').hasClass('focus')) {
 			// chat is open and active
 		} else {
+			win.flashFrame(true);
 			if (!me) {
 				if ($('#activechats .userpm-select[data-username="' + safe_username + '"] .unread').text()) {
 					var unread = parseInt($('#activechats .userpm-select[data-username="' + safe_username + '"] .unread').text());
@@ -415,6 +419,7 @@ export default class Utils {
 		// (ring && !$('li[data-username="' + jQuery.escapeSelector(myusername) + '"] .icon-user').hasClass('ready'))
 		if (ring && talkingabout > 0) {
 			$('#ringsound')[0].play();
+			win.flashFrame(true);
 		}
 
 		message = message.replace('\n', ' ');

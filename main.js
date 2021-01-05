@@ -36,6 +36,8 @@ function createWindow() {
 			autoUpdater.checkForUpdatesAndNotify();
 		}
 	});
+	
+	win.once('focus', () => win.flashFrame(false));
 
 	ipcMain.on('download', async (event, info) => {
 		info.properties.onProgress = status => win.webContents.send('download progress', status);
