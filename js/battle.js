@@ -52,7 +52,7 @@ export default class Battle {
 		var modexist = false;
 
 		if (fs.existsSync(modsdir + filename)) {
-			this.checkmap();
+			log.info('Game found in local path');			
 		} else {
 			var fileurl = remotemodsurl + filename;
 			var battle = this;
@@ -63,8 +63,7 @@ export default class Battle {
 				type: 'HEAD',
 				error: function() {
 					$('#battleroom .game-download').addClass('downloading');
-					$('#battleroom .game-download .download-title').text('Game not found for download.');
-					battle.checkmap();
+					$('#battleroom .game-download .download-title').text('Game not found for download.');					
 				},
 				success: function() {
 					battle.downloadgame(fileurl, filename);
@@ -97,8 +96,7 @@ export default class Battle {
 			response.on('end', function() {
 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
 				$('#battleroom .game-download').removeClass('downloading');
-				utils.sendbattlestatus();
-				//this.checkmap();
+				utils.sendbattlestatus();				
 			});
 
 			response.on('error', err => {
@@ -116,17 +114,20 @@ export default class Battle {
 		currentmap = currentmap.split(' ').join('_');
 		var filename = currentmap + '.sd7';
 		var filename2 = currentmap + '.sdz';
-		var mapexist = false;
-
+		var mapexist = false;						
+		
 		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
-			console.warn('Map found in local path');
-			utils.sendbattlestatus();
+			
+			//this.check_file_integrity(filename);
+			log.info('Map found in local path');
+			utils.sendbattlestatus();		
+				
 		} else {
 			var fileurl = remotemapsurl + filename;
 			var fileurl2 = remotemapsurl + filename2;
 			var fileurl3 = remotemapsurl2 + filename;
 			var fileurl4 = remotemapsurl2 + filename2;
-			console.warn('Need need download! ' + fileurl);
+			log.info('Need map download! ' + fileurl);
 			var battle = this;
 
 			// check if file exist first
@@ -175,7 +176,31 @@ export default class Battle {
 			});
 		}
 	}
-
+	
+	check_file_integrity( filename ){
+		
+		fs.readFile(mapsdir + filename, function read(err, data) {
+				if (err) {
+					throw err;
+				}						
+				var maphash = crypto.createHash('md5').update(data).digest('hex');	
+				log.warn('maphash:' + maphash);							
+			});
+			
+		// $.getJSON('https://files.balancedannihilation.com/api.php?command=getmapslist', function(data) {			
+		// 	
+		// 	data = data['mapslist'];
+		// 	$.each(data, function(key, val) {
+		// 		
+		// 		if( val['filename'] == filename ){
+		// 			console.warn('key: ' + key + ' val: ' + val);
+		// 		}				
+		// 	});							
+		// 	
+		// });	
+		
+	}
+	
 	downloadmap(fileurl, filename) {
 		$('#battleroom .map-download').addClass('downloading');
 		const file = fs.createWriteStream(mapsdir + filename);
@@ -263,6 +288,9 @@ export default class Battle {
 			
 		}
 	}
+	
+	
+	
 
 	get_map_info(battleid) {
 		console.log("Getting map info");
