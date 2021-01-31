@@ -89,12 +89,18 @@ $.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', fun
 		var updatefile = homedir + '\\Downloads\\Zlobby Setup ' + releaseinfo['name'] + '.exe';
 		
 		// already downloaded
-		if (fs.existsSync(updatefile)){
-			const bat = spawn( updatefile , {
-				detached: true,
-				stdio: 'ignore',
+		if (fs.existsSync(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip')){
+			
+			sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {				
+				
+				const bat = spawn( updatefile , {
+					detached: true,
+					stdio: 'ignore',
+				});
+				bat.unref();
+				remote.getCurrentWindow().close();				
 			});
-			bat.unref();			
+									
 		}else{
 			var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
 	
@@ -130,7 +136,7 @@ $.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', fun
 			});	
 		}		
 	}
-	
+		
 	
 	if (releaseinfo['name'] > appVersion && platform == 'linux') {
 		
