@@ -158,8 +158,8 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		}
 		
 	.lmenu{
-		-webkit-user-select: none;
-	    -webkit-app-region: drag;
+		/* -webkit-user-select: none;
+	    -webkit-app-region: drag; */
 		position: relative;
 		left:0;
 		top:0;
