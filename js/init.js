@@ -40,6 +40,7 @@ if (platform == 'win32') {
 	$('body').addClass('linux');
 }
 
+
 if (remote.app.isEmojiPanelSupported()){
 	$('body').addClass('emoji');
 }
@@ -384,7 +385,27 @@ function lookforengine() {
 			enginepath = springdir + 'engine/103/spring';
 		}
 	}
-
+	
+	// check if engine already downloaded
+	if(!enginefound && fs.existsSync(enginedir + zipfile)){
+		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
+			log.info('Engine unpacked.');
+			enginefound = 1;
+			$('#enginestatus')
+				.addClass('active')
+				.text('Engine: ok');
+	
+			// add it to preferences tab
+			$('#enginepath').val(enginepath);
+	
+			$('#start .engine-download .download-title').text('All ready!');
+			setTimeout(function() {
+				$('#start .engine-download').removeClass('downloading');
+			}, 3000);
+		});	
+	}
+	
+	
 	if (!enginefound) {
 		log.info('debug engine checking: 10');
 		setTimeout(function() {
@@ -411,10 +432,10 @@ function prepareenginedownload() {
 	log.info('debug engine checking: 11');
 	if (platform == 'win32') {
 		if (arch == 'x64') {
-			zipfile = 'spring_103.0_win64-minimal-portable.7z';
+			zipfile = 'spring_103.0_win64-minimal-portable.7z';			
 			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;
 		} else {
-			zipfile = 'spring_103.0_win32-minimal-portable.7z';
+			zipfile = 'spring_103.0_win32-minimal-portable.7z';			
 			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;
 		}
 	} else if (platform == 'darwin') {
@@ -460,7 +481,11 @@ function downloadengine(engineurl) {
 		log.info('Engine download: completed!');
 		$('#start .engine-download .download-title').text('Extracting files...');
 		// unpack
+		log.info('source:' + enginedir + zipfile);
+		log.info('destination:' + engineverdir);
+		
 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
+			log.info('Engine unpacked.');
 			$('#enginestatus')
 				.addClass('active')
 				.text('Engine: ok');
