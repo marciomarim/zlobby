@@ -445,15 +445,18 @@ function promoteDiscord(){
 	var half = nplayers / 2;
 	var quotient = Math.floor(nplayers / 2) + 1;
 	var remainder = nplayers % 2;
+	
+	var battlename = $('#battleroom #battle-right-info .title').text();
+	var footermessage = 'with ' + myusername + ' on ' + $('#battleroom .mapname').text();
 
 	if (remainder == 0) {
-		var title = '2 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
+		var title = '2 player needed for ' + quotient + 'v' + quotient + ' in ' + battlename;
 		var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
 		console.warn(url);								
 		const embed = new Discord.MessageEmbed()
 			.setTitle(title)
 			.setURL(url)									
-			.setFooter(myusername)
+			.setFooter(footermessage)
 			.setColor('#5588ff');
 		
 		webhookClient.send('', {
@@ -462,13 +465,13 @@ function promoteDiscord(){
 			embeds: [embed],
 		});
 	} else {
-		var title = '1 player needed for ' + quotient + 'v' + quotient + ' in ' + $('#battle-right-info .title').text();
+		var title = '1 player needed for ' + quotient + 'v' + quotient + ' in ' + battlename;
 		var url = 'https://yhello.co/redirect.php?var=joinbattle&val=' + battleid;
 		console.warn(url);								
 		const embed = new Discord.MessageEmbed()
 			.setTitle(title)
 			.setURL(url)									
-			.setFooter(myusername)
+			.setFooter(footermessage)
 			.setColor('#5588ff');
 		
 		webhookClient.send('', {
