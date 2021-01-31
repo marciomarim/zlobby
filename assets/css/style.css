@@ -102,8 +102,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	    display: flex;
 	    justify-content: flex-end;
 	    width: calc(100% - 120px);	    
-	    -webkit-app-region: drag;
-	    -webkit-app-select: none;
+	    
         z-index: 9999;
 	}
 	
@@ -115,6 +114,12 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		#topbar .middle,
 		#topbar .right{
 			display: flex;			
+		}
+		
+		#topbar .left{			
+			flex-grow: 8;
+			-webkit-app-region: drag;
+			-webkit-app-select: none;	
 		}
 		
 		#topbar .status{
