@@ -710,6 +710,7 @@ export default class Battle {
 		if (mapname != currentmapname || $('.battle-card[data-battleid="' + battleid + '"] .minimap').is(':empty')) {
 			// check if it's battleroom
 			if ($('#battleroom').data('battleid') == battleid) {
+				log.info('Cleaning map boxes and size');
 				$('.startbox').remove();
 				$('.startpos').remove();
 				$('#battleroom .minimaps').css('width', '');
@@ -718,9 +719,11 @@ export default class Battle {
 				$('#battleroom #battle-metalmap').empty();
 				$('#battleroom #battle-heightmap').empty();
 			}
+			
+			//this.load_remote_map_image(battleid);
+			this.get_map_info(battleid);
 		}
-		//this.load_remote_map_image(battleid);
-		this.get_map_info(battleid);
+		
 
 		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
 
