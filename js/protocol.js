@@ -1,5 +1,7 @@
 import { socketClient, login } from './socket.js';
 
+const log = require('electron-log');
+
 var Filter = require('bad-words'),
 	filter = new Filter();
 
@@ -230,9 +232,10 @@ export default class Protocol {
 
 				case 'JOINBATTLEFAILED':
 					var reason = parts.slice(1).join(' ');
-					var notification = new Notification('Join battle failed:', {
-						body: reason,
-					});
+					log.warn('JOINBATTLEFAILED: ' + reason);
+					// var notification = new Notification('Join battle failed:', {
+					// 	body: reason,
+					// });
 					break;
 
 				case 'JOINBATTLEREQUEST':
