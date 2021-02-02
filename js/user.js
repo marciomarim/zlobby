@@ -288,11 +288,13 @@ export default class User {
 		//update counts
 		var numberofplayers = $('#battleroom .battle-playerlist li').length;
 		var numberofspecs = $('#battleroom .battle-speclist li').length;
+		
 		$('#battleroom .battle-playerlist .ui-label').text(numberofplayers + ' PLAYERS');
 		$('#battleroom .battle-speclist .ui-label').text(numberofspecs + ' SPECTATORS');
-
 		$('#battleroom #battle-main-info .players').text(numberofplayers);
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
+		
+		
 
 		var battlesize = 'normal';
 		if (numberofplayers > 16) {
