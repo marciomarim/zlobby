@@ -242,13 +242,24 @@ $('body').on('click', '.mutebattleroom', function(e) {
 	}
 });
 
+var promotelocked = false;
+
 $('body').on('click', '.command', function(e) {
-	if($(this).data('command') == '!promote'){
+	
+	if (!promotelocked && $(this).data('command') == '!promote' ) {
+		promotelocked = true;
 		promoteDiscord();
+		// lock for 30 secs
+		setTimeout(promoteunlock, 30000);
 	}
+	
 	var command = 'SAYBATTLE ' + $(this).data('command') + '\n';
 	socketClient.write(command);
 });
+
+function promoteunlock () {
+	promotelocked = false;
+}
 
 $('body').on('click', '.vote.yes', function(e) {
 	var command = 'SAYBATTLE !vote y\n';
