@@ -152,25 +152,25 @@ export default class Battle {
 											$('#battleroom .map-download .download-title').text('Map not found for download.');
 										},
 										success: function() {
-											console.warn(fileurl4 + ' exist!');
+											log.info(fileurl4 + ' exist!');
 											battle.downloadmap(fileurl4, filename2);
 										},
 									});
 								},
 								success: function() {
-									console.warn(fileurl2 + ' exist!');
+									log.info(fileurl2 + ' exist!');
 									battle.downloadmap(fileurl3, filename);
 								},
 							});
 						},
 						success: function() {
-							console.warn(fileurl2 + ' exist!');
+							log.info(fileurl2 + ' exist!');
 							battle.downloadmap(fileurl2, filename2);
 						},
 					});
 				},
 				success: function() {
-					console.warn(fileurl + ' exist!');
+					log.info(fileurl + ' exist!');
 					battle.downloadmap(fileurl, filename);
 				},
 			});
@@ -193,7 +193,7 @@ export default class Battle {
 		// 	$.each(data, function(key, val) {
 		// 		
 		// 		if( val['filename'] == filename ){
-		// 			console.warn('key: ' + key + ' val: ' + val);
+		// 			log.info('key: ' + key + ' val: ' + val);
 		// 		}				
 		// 	});							
 		// 	
@@ -293,10 +293,12 @@ export default class Battle {
 	
 
 	get_map_info(battleid) {
-		console.log("Getting map info");
-		log.info("Getting map info");
+		
+		
 		var battles = this;
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+		log.info("Getting map info: " + mapname);
+		
 		var mapfilenamebase = mapname
 			.toLowerCase()
 			.replace("'", '_')
@@ -363,7 +365,7 @@ export default class Battle {
 		}
 
 		if (localmapok) {
-			//console.log('Local minimap found:' + filename);
+			log.info('Local minimap found:' + filename);
 			battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
 		} else {
 			//&xmax=1000&ymax=1000
@@ -372,7 +374,7 @@ export default class Battle {
 			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
 
 			if (mapinfo) {
-				console.log('Saving remote minimaps:' + filename);
+				log.info('Saving remote minimaps:' + filename);
 
 				var sizeinfos = mapinfo['sizeinfos'];
 				var w = sizeinfos['width'],
@@ -401,7 +403,7 @@ export default class Battle {
 						.write(localhmap);
 				});
 			} else {
-				console.warn('File info is missing for:' + filename);
+				log.info('File info is missing for:' + filename);
 				battles.appendimagedivs(battleid, '', '', '', '');
 			}
 		}
@@ -435,7 +437,7 @@ export default class Battle {
 		} else {
 			// no local map
 			// cant save remotely
-			console.warn('No remote minimap');
+			log.info('No remote minimap');
 			// remove map
 			$('.battle-card[data-battleid="' + battleid + '"] .minimap').empty();
 			if ($('#battleroom').data('battleid') == battleid) {
@@ -487,9 +489,9 @@ export default class Battle {
 					// clear old points
 					$('.minimaps .startpos').remove();
 					teamlist.forEach(async function(item) {
-						//console.log(item);
-						//console.log(fulltilewidth);
-						//console.log(fulltileheight);
+						//log.info(item);
+						//log.info(fulltilewidth);
+						//log.info(fulltileheight);
 
 						var xrel = (item['StartPosX'] / fulltilewidth) * 100;
 						var yrel = (item['StartPosZ'] / fulltileheight) * 100;
@@ -504,7 +506,7 @@ export default class Battle {
 
 	addstartrect(allyNo, left, top, right, bottom) {
 		// 		var target = '#battleroom .box' + (parseInt(allyNo) + 1);
-		// 		//console.warn('adding boxes ally ' + target);
+		// 		//log.info('adding boxes ally ' + target);
 		//
 		// 		$(target + ' .boxleft').val(left / 2);
 		// 		$(target + ' .boxtop').val(top / 2);
@@ -531,7 +533,7 @@ export default class Battle {
 					var bottom = Math.round((ui.size.height / parent.height()) * 200) + top;
 
 					var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' ' + (parseInt(allyNo) + 1) + ' \n';
-					console.warn(command);
+					log.info(command);
 					socketClient.write(command);
 				},
 			})
@@ -547,7 +549,7 @@ export default class Battle {
 					var bottom = Math.round(($(this).height() / parent.height()) * 200) + top;
 
 					var command = 'SAYBATTLE !addBox ' + left + ' ' + top + ' ' + right + ' ' + bottom + ' ' + (parseInt(allyNo) + 1) + ' \n';
-					console.warn(command);
+					log.info(command);
 					socketClient.write(command);
 				},
 			});
@@ -1008,13 +1010,13 @@ export default class Battle {
 			}
 
 			if (parts[2] == 'mo_ffa' && val == '1') {
-				console.warn('moffa');
+				log.info('moffa');
 				$('#battleroom')
 					.removeClass('teams')
 					.addClass('ffa');
 				$('#battleroom .gametype').text('FFA');
 			} else if (parts[2] == 'mo_ffa' && val == '0') {
-				console.warn('team');
+				log.info('team');
 				$('#battleroom .ffatype').text('');
 				$('#battleroom')
 					.removeClass('ffa')
@@ -1203,7 +1205,7 @@ export default class Battle {
 			fs.writeFileSync(scriptfile, script, 'utf-8');
 		} catch (e) {
 			alert('Failed to save the script file!');
-			console.log(e);
+			log.info(e);
 		}
 
 		// 		try {

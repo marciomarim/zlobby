@@ -3,7 +3,7 @@ import { socketClient } from './socket.js';
 import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile } from './init.js';
 
 var fs = require('fs');
-
+const log = require('electron-log');
 var win = require('electron').remote.getCurrentWindow();
 
 var Filter = require('bad-words'),
@@ -202,7 +202,7 @@ export default class Utils {
 	}
 
 	send_unsent_message(username, html) {
-		console.warn('deleting: ' + html);
+		log.info('sending unsent message: ' + html);
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			var content = data.toString().replace(html, '');
@@ -211,7 +211,7 @@ export default class Utils {
 	}
 
 	delete_unsent_message(username, html) {
-		console.warn('deleting: ' + html);
+		log.info('deleting unsent message: ' + html);
 		fs.readFile(chatlogsdir + 'pm-' + username + '.log', function(err, data) {
 			if (err) throw err;
 			var content = data.toString().replace(html, '');
@@ -235,12 +235,12 @@ export default class Utils {
 
 	// load all chats at startup
 	load_chats() {
+		log.info('loading chats');
 		fs.readdir(chatlogsdir, (err, files) => {
 			files.forEach(file => {
 				if (file.startsWith('pm')) {
 					var username = file.replace('pm-', '').replace('.log', '');
-
-					//console.log(username);
+					
 					if (!$('.userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
 						if ($('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').length) {
 							var div = '<div class="userpm-select online" data-username="' + username + '">' + username + '</div>';
@@ -262,7 +262,6 @@ export default class Utils {
 		var channel = '<div class="channelchat active" data-channame="' + chanName + '">';
 
 		channel += '<div class="channelusers">';
-
 		channel += '</div>';
 
 		channel += '<div class="right">';
@@ -304,6 +303,7 @@ export default class Utils {
 	clear_channel_chat(chanName) {
 		fs.unlinkSync(chatlogsdir + 'channel-' + chanName + '.log');
 		$('.channelchat[data-channame="' + chanName + '"] .messages').empty();
+		$('.channelchat[data-channame="' + chanName + '"] .channelusers').empty();
 	}
 
 	add_message_to_channel(chanName, username, message, is_ex) {
@@ -435,8 +435,7 @@ export default class Utils {
 		var $bubble = $('<li></li>');
 		var last_user_msg = $('#battle-room li .userspeaking')
 			.last()
-			.text();
-		//console.log(last_user_msg);
+			.text();		
 
 		if (username == last_user_msg) {
 			$bubble.append('<div class="messageinfo hidden"><div class="userspeaking">' + username + '</div><div class="time">' + this.timenow + '</div></div><div class="message">' + message + '</div>');
@@ -655,7 +654,7 @@ export default class Utils {
 			'.sdz';
 
 		if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
-			//console.log('STATUS: GAME OK');
+			log.info('Game status ok');
 			var currentmap = $('#battleroom .mapname')
 				.text()
 				.replace("'", '_')
@@ -664,15 +663,15 @@ export default class Utils {
 			var filename = currentmap + '.sd7';
 			var filename2 = currentmap + '.sdz';
 
-			if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {
-				//console.log('STATUS: MAP OK');
+			if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {				
+				log.info('Map status ok');
 				return 1;
 			} else {
-				//console.error('STATUS: MAP MISSING');
+				log.info('Map is missing');
 				return 0;
 			}
 		} else {
-			//console.error('STATUS: GAME MISSING');
+			log.info('Game is missing');
 			return 0;
 		}
 	}
