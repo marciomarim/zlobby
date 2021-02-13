@@ -6,6 +6,9 @@ let battles = new Battle();
 import Utils from './utils.js';
 let utils = new Utils();
 
+import Replay from './replays.js';
+let replays = new Replay();
+
 const Store = require('electron-store');
 const store = new Store();
 const log = require('electron-log');
@@ -103,12 +106,13 @@ export default class User {
 			// battle is running should change status
 			$('#battleroom[data-founder="' + safe_username + '"] .status').addClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').addClass('ingame');
-			//console.log('battle started');
+			log.info('battle running');
 		} else if ($('.battle-card[data-founder="' + safe_username + '"]').length && !newStatus.inGame) {
 			//battle ended
 			$('#battleroom[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			// remove class so it can start again
+			log.info('battle not running');
 		}
 
 		// detect is it's my battle
@@ -133,6 +137,8 @@ export default class User {
 
 			// game end
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
+			
+			log.info('Game ended');
 			$('body').removeClass('ingame');			
 
 			if (autoready && $('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
@@ -148,6 +154,11 @@ export default class User {
 				utils.sendstatus();
 				utils.sendbattlestatus();
 			}, 1000);
+			
+			// reload replay list
+			log.info('reloading replays');
+			replays.load_replays();			
+			
 		}
 	}
 
