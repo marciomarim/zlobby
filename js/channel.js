@@ -33,7 +33,7 @@ export default class Channel {
     leftchannel( chanName, username ){	
 		
 		$('#channel-list li[data-channame='+chanName+'] .status').removeClass('active');
-				
+		$('.channelchat[data-channame="' + chanName + '"] .channelusers').empty();	
     }
     
     
