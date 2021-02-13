@@ -15,7 +15,7 @@ export default class Replay {
 		
 		//clear loaded replays 
 		$('#replaylist').empty();
-		$('#mapfilter').empty();
+		//$('#mapfilter').empty();
 		
 		var obj = this;
 		
