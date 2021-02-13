@@ -720,6 +720,7 @@ ul.list {
 		
 		.battle-card .header{
 			display: flex;
+			flex-direction: row-reverse;
 		}
 		
 		.battle-card .minimap{
@@ -763,7 +764,7 @@ ul.list {
 		.battle-card .header .infos{
 			flex: 1;
 			max-width: calc(100% - 220px);
-			padding-right: 1.5em;
+			padding-left: 1.5em;
 		}
 			
 			.battle-card .battletitle{
@@ -788,9 +789,10 @@ ul.list {
 			display: flex;
 			justify-content: space-between;
 			flex-wrap: wrap;			
-		    margin: -80px 0 0 0;
+		    margin: -80px 0 0 220px;
 			padding: 0;			
-			width: calc(100% - 220px);			
+			width: calc(100% - 220px);	
+			padding-left: 1.5em;		
 		}
 		
 			.battle-card .playerlist:empty{
