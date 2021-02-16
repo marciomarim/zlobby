@@ -653,14 +653,19 @@ ul.list {
 		max-width: 32px;		
 	}
 	
-	#chat-list li .lobbyID,
+	#chat-list li .userID,
 	#chat-list li .cpu{
 		display: none;
+	}
+	
+	#chat-list li .lobbyID{
+		flex: 0.4;
+		max-width: none;
 	}
 
 #battle-list li .engine,
 #battle-list li .username{
-	flex: 0.6;
+	flex: 0.4;
 }
 
 #battle-list{
@@ -1279,7 +1284,7 @@ ul.list {
 		}
 */
 		
-		
+		.battle-players li .lobbyID,
 		.battle-players li .country,
 		.battle-players li .admin{
 			display: none;

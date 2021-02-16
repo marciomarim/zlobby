@@ -18,7 +18,7 @@ import { trackEvent } from './init.js';
 export default class User {
 	constructor() {}
 
-	adduser(username, country, cpu, userID, lobbyID) {
+	adduser(username, country, userID, lobbyID) {
 		var line = '<div class="icon icon-user"></div>';
 		line += '<div class="flag-icon flag-icon-squared flag-icon-' + country.toLowerCase() + '"></div>';
 		line += '<div class="rank icon icon-rank0"></div>';
@@ -27,8 +27,8 @@ export default class User {
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
 		line += '<div class="country">' + country + '</div>';
-		if (cpu != 0) line += '<div class="cpu">' + cpu + '</div>';
-		if (userID != 0 && userID != undefined) line += '<div class="userID">' + userID + '</div>';
+		//if (cpu != 0) line += '<div class="cpu">' + cpu + '</div>';
+		//if (userID != 0 && userID != undefined) line += '<div class="userID">' + userID + '</div>';
 		if (lobbyID) line += '<div class="lobbyID">' + lobbyID + '</div>';
 
 		line += '</div>';
@@ -305,7 +305,9 @@ export default class User {
 		$('#battleroom #battle-main-info .players').text(numberofplayers);
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 		
-		
+		var battle_order = 20*nUsers + spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(numberofplayers);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
 
 		var battlesize = 'normal';
 		if (numberofplayers > 16) {

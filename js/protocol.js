@@ -81,13 +81,13 @@ export default class Protocol {
 				case 'ADDUSER':
 					var username = parts[1];
 					var country = parts[2];
-					var cpu = parts[3];
-					var userID = parts[4];
-					var lobbyID = parts.slice(5).join(' ');
+					var userID = parts[3];
+					//var userID = parts[4];
+					var lobbyID = parts.slice(4).join(' ');
 
 					if (lobbyID) {
 						// new protocol
-						users.adduser(username, country, cpu, userID, lobbyID);
+						users.adduser(username, country, userID, lobbyID);
 					} else {
 						users.adduser(username, country, 0, 0, 0);
 					}
