@@ -738,23 +738,25 @@ export default class Battle {
 		}
 
 		//var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10);
-		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length ;
-		//var players = nUsers - spectatorCount;				
-		var battle_order = 20*players + spectatorCount;
-		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
+		// var nUsers = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length;		
+		// var players = nUsers - spectatorCount;				
+		// var battle_order = 20*players + spectatorCount;
+		// $('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		// $('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
 
 		// update options
 		if ($('#battleroom').data('battleid') == battleid) {
-			$('#battleroom .spectatorCount').text(spectatorCount);
+			
+			//$('#battleroom #battle-main-info .players').text(players);
+			//$('#battleroom .spectatorCount').text(spectatorCount);
+			
 			$('#battleroom .mapname').text(mapname);
 
 			if (locked === 0) {
 				$('#battleroom .locked').text('LOCKED');
 			} else {
 				$('#battleroom .locked').text('OPEN');
-			}
-			$('#battleroom .players').text(players);
+			}			
 
 			//download map if doesnt have it
 			var status = utils.getsyncstatus();
@@ -827,10 +829,9 @@ export default class Battle {
 
 		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
 		var players = nUsers - spectatorCount;
-		//var battle_order = 20*players + spectatorCount;
-		//$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		//$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
-		//console.warn('battle order 2');
+		var battle_order = 20*players + spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
 		
 		//update chatlist
 		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('battle');
@@ -896,10 +897,9 @@ export default class Battle {
 
 		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
 		var players = nUsers - spectatorCount;
-		// var battle_order = 20*players + spectatorCount;
-		// $('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		// $('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
-		// console.warn('battle order 3');
+		var battle_order = 20*players + spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
 		
 		//update chatlist
 		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').removeClass('battle');

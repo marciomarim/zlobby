@@ -166,7 +166,8 @@ export default class User {
 		
 		var myusername = $('#myusername').text();
 		var safe_founder = jQuery.escapeSelector( $('#battleroom .founder').text() );
-		
+		var battleid = $('#battleroom .battleid').text();
+	
 		// AUTO UNSPEC
 		// if (myusername != username && $('body').hasClass('unspecing') && $('#battleroom .battle-playerlist').length() < 16) {
 		// 	utils.sendbattlestatus();
@@ -305,10 +306,10 @@ export default class User {
 		$('#battleroom #battle-main-info .players').text(numberofplayers);
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 		
-		var battle_order = 20*nUsers + spectatorCount;
+		var battle_order = 20*numberofplayers + numberofspecs;
 		$('.battle-card[data-battleid="' + battleid + '"] .players').text(numberofplayers);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
-
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
+		
 		var battlesize = 'normal';
 		if (numberofplayers > 16) {
 			battlesize = 'huge';
