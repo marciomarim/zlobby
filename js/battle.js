@@ -75,10 +75,11 @@ export default class Battle {
 				var zipfile = springdir + 'engine/Spring_103.0.app.7z';
 				var unzipfolder = springdir + 'engine/' + version + '/'; 
 			}else{
-				var fileurl = 'https://www.springfightclub.com/data/master_103/mac/Spring_103.0.app.7z';
-				var zipfile = springdir + 'engine/Spring_105.0.app.7z';
-				var unzipfolder = springdir + 'engine/' + version + '/';
-				//$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
+				//var fileurl = 'https://www.springfightclub.com/data/105_zips/mac/Spring_105.0.app.7z';
+				//var zipfile = springdir + 'engine/Spring_105.0.app.7z';
+				//var unzipfolder = springdir + 'engine/' + version + '/';
+				var fileurl = 0;
+				$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
 			}
 			
 		} else if (platform == 'linux') {
@@ -93,16 +94,14 @@ export default class Battle {
 			}else{
 				var fileurl = 'https://www.springfightclub.com/data/105_zips/spring_105.0_minimal-portable-linux64-static.7z';
 				var zipfile = springdir + 'engine/spring_105.0_minimal-portable-linux64-static.7z';
-				var unzipfolder = springdir + 'engine/' + version + '/';
-				//$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
+				var unzipfolder = springdir + 'engine/' + version + '/';								
 			}
 		
 		}
 		
 		// set engine path
 		$('#enginepath').text(enginefile);	
-			
-			
+
 		if (fs.existsSync( enginefile )) {
 			
 			log.warn('Engine found');
@@ -112,7 +111,7 @@ export default class Battle {
 			
 			battle.engineunpack(zipfile, unzipfolder);
 			
-		} else {
+		} else if (fileurl){
 			
 			log.warn('Engine need download');
 			$('#battleroom .engine-download').addClass('downloading');
@@ -140,23 +139,19 @@ export default class Battle {
 				}
 				
 			}
-			
-			if (fileurl){				
-	
-				// check if file exist first
-				$.ajax({
-					url: fileurl,
-					type: 'HEAD',
-					error: function() {
-						$('#battleroom .engine-download').addClass('downloading');
-						$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
-					},
-					success: function() {
-						battle.downloadengine(fileurl, zipfile, unzipfolder);
-					},
-				});	
-			}
-			
+							
+			// check if file exist first
+			$.ajax({
+				url: fileurl,
+				type: 'HEAD',
+				error: function() {
+					$('#battleroom .engine-download').addClass('downloading');
+					$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
+				},
+				success: function() {
+					battle.downloadengine(fileurl, zipfile, unzipfolder);
+				},
+			});							
 		}
 	}
 
