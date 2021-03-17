@@ -9,7 +9,7 @@ var spawn = require('child_process').spawn,
 const Store = require('electron-store');
 const store = new Store();
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
 $('body').on('click', '#singleplayer .smallnav .navbtn', function(e) {
 	$('.smallnav .navbtn, .smalltab').removeClass('active');
@@ -206,7 +206,7 @@ $('body').on('click', '.startsinglebattle', function(e) {
 		alert('Failed to save the script file!');
 	}
 
-	console.log(enginepath);
+	var enginepath = $('#enginepath').text();	
 	const bat = spawn(enginepath, [scriptfile], {
 		detached: true,
 		stdio: 'ignore',

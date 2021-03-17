@@ -1,6 +1,6 @@
 import { socketClient } from './socket.js';
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile } from './init.js';
 
 var fs = require('fs');
 const log = require('electron-log');
@@ -9,6 +9,8 @@ var win = require('electron').remote.getCurrentWindow();
 var Filter = require('bad-words'),
 	filter = new Filter();
 
+const os = require('os');
+const platform = os.platform();
 const Store = require('electron-store');
 const store = new Store();
 
@@ -637,43 +639,75 @@ export default class Utils {
 	}
 
 	getsyncstatus() {
-		var currentmod = $('#battleroom .gameName')
+		
+		// get engine sync info 
+		var currentengine = $('#battleroom .engine')
 			.text()
-			.toLowerCase();
-		var index = currentmod.lastIndexOf(' ');
-		var filename =
-			currentmod
-				.substring(0, index)
-				.split(' ')
-				.join('_') +
-			'-' +
-			currentmod
-				.substring(index)
-				.split(' ')
-				.join('') +
-			'.sdz';
-
-		if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
-			log.info('Game status ok');
-			var currentmap = $('#battleroom .mapname')
+			.toLowerCase()
+			.split(' ');
+		
+		var version = currentengine[1];		
+		var engineexist = false;
+		
+		if (platform == 'win32') {
+			var enginefile = springdir + 'engine\\' + version + '\\spring.exe';			
+		} else if (platform == 'darwin') {
+			var enginefile = springdir + 'engine/' + version + '/Spring_'+version+'.app';
+		} else if (platform == 'linux') {
+			var enginefile = springdir + 'engine/' + version + '/spring';			
+		}
+			
+			
+		if (fs.existsSync( enginefile ) && !$('#battleroom .engine-download').hasClass('downloading') ) {
+			
+			log.info('Engine sync');	
+			
+			var currentmod = $('#battleroom .gameName')
 				.text()
-				.replace("'", '_')
 				.toLowerCase();
-			currentmap = currentmap.split(' ').join('_');
-			var filename = currentmap + '.sd7';
-			var filename2 = currentmap + '.sdz';
-
-			if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {				
-				log.info('Map status ok');
-				return 1;
+			var index = currentmod.lastIndexOf(' ');
+			var filename =
+				currentmod
+					.substring(0, index)
+					.split(' ')
+					.join('_') +
+				'-' +
+				currentmod
+					.substring(index)
+					.split(' ')
+					.join('') +
+				'.sdz';
+	
+			if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
+				log.info('Game sync');
+				var currentmap = $('#battleroom .mapname')
+					.text()
+					.replace("'", '_')
+					.toLowerCase();
+				currentmap = currentmap.split(' ').join('_');
+				var filename = currentmap + '.sd7';
+				var filename2 = currentmap + '.sdz';
+	
+				if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {				
+					log.info('Map sync');
+					return 1;
+				} else {
+					log.info('Map unsync');
+					return 0;
+				}
 			} else {
-				log.info('Map is missing');
+				log.info('Game unsync');
 				return 0;
 			}
-		} else {
-			log.info('Game is missing');
+								
+		}else{
+			log.info('Engine unsync');
+			log.warn('Engine not found at: ' + enginefile);
 			return 0;
 		}
+	
+	
+		
 	}
 
 	deletemap(filename) {

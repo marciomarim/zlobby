@@ -8,14 +8,17 @@ import { socketClient } from './socket.js';
 import Utils from './utils.js';
 let utils = new Utils();
 
+const os = require('os');
+const platform = os.platform();
 const Store = require('electron-store');
 const store = new Store();
 const log = require('electron-log');
+const sevenmin = require('7zip-min');
 
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
 
 import { trackEvent } from './init.js';
 
@@ -32,7 +35,182 @@ import { trackEvent } from './init.js';
 
 export default class Battle {
 	constructor() {}
+	
+	checkengine() {
+		
+		var currentengine = $('#battleroom .engine')
+			.text()
+			.toLowerCase()
+			.split(' ');
+		
+		var version = currentengine[1];		
+		var engineexist = false;
+		var battle = this;
+		
+		if (platform == 'win32') {
+			
+			var enginefile = springdir + 'engine\\' + version + '\\spring.exe';						
+			log.warn(enginefile);
+			var filename = 'spring.exe';
+			if ( version == '103.0' ){
+				var fileurl = 'https://www.springfightclub.com/data/master_103/win64/spring_103.0_win64-minimal-portable.7z';
+				var zipfile = springdir + 'engine\\spring_103.0_win64-minimal-portable.7z';
+				var unzipfolder = springdir + 'engine\\' + version + '\\'; 
+			}else if( version == '105.0' ){
+				var fileurl = 'https://www.springfightclub.com/data/105_zips/spring_105.0_win64-minimal-portable.7z';
+				var zipfile = springdir + 'engine\\spring_105.0_win64-minimal-portable.7z';
+				var unzipfolder = springdir + 'engine\\' + version + '\\'; 
+			}
+			
+		} else if (platform == 'darwin') {
+			
+			//var enginefile = '/Applications/Spring_' + version + '.app/Contents/MacOS/spring';
+			var enginefile = springdir + 'engine/' + version + '/Spring_' + version + '.app/Contents/MacOS/spring';
+			
+			log.warn(enginefile);
+			var filename = 'spring';
+			
+			if ( version == '103.0' ){
+				var fileurl = 'https://www.springfightclub.com/data/master_103/mac/Spring_103.0.app.7z';
+				var zipfile = springdir + 'engine/Spring_103.0.app.7z';
+				var unzipfolder = springdir + 'engine/' + version + '/'; 
+			}else{
+				var fileurl = 'https://www.springfightclub.com/data/master_103/mac/Spring_103.0.app.7z';
+				var zipfile = springdir + 'engine/Spring_105.0.app.7z';
+				var unzipfolder = springdir + 'engine/' + version + '/';
+				//$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
+			}
+			
+		} else if (platform == 'linux') {
+			
+			var enginefile = springdir + 'engine/' + version + '/spring';
+			log.warn(enginefile);
+			var filename = 'spring';
+			if ( version == '103.0' ){
+				var fileurl = 'https://www.springfightclub.com/data/master_103/linux64/spring_103.0_minimal-portable-linux64-static.7z';
+				var zipfile = springdir + 'engine/spring_103.0_minimal-portable-linux64-static.7z';
+				var unzipfolder = springdir + 'engine/' + version + '/';
+			}else{
+				var fileurl = 'https://www.springfightclub.com/data/105_zips/spring_105.0_minimal-portable-linux64-static.7z';
+				var zipfile = springdir + 'engine/spring_105.0_minimal-portable-linux64-static.7z';
+				var unzipfolder = springdir + 'engine/' + version + '/';
+				//$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
+			}
+		
+		}
+		
+		// set engine path
+		$('#enginepath').text(enginefile);	
+			
+			
+		if (fs.existsSync( enginefile )) {
+			
+			log.warn('Engine found');
+			$('#battleroom .engine-download').removeClass('downloading');	
+		
+		}else if( fs.existsSync( zipfile ) ){
+			
+			battle.engineunpack(zipfile, unzipfolder);
+			
+		} else {
+			
+			log.warn('Engine need download');
+			$('#battleroom .engine-download').addClass('downloading');
+			$('#battleroom .engine-download .download-title').text('Starting engine download...');
+						
+			if (platform == 'win32') {
+				if (!fs.existsSync(springdir + '\\engine\\')) {
+					fs.mkdirSync(springdir + '\\engine\\');
+					log.info('Creating engine folder');
+				}
+				
+				if (!fs.existsSync(springdir + '\\engine\\' + version + '\\')) {
+					fs.mkdirSync(springdir + '\\engine\\' + version + '\\');
+					log.info('Creating engine version folder');
+				}												
+			}else{
+				if (!fs.existsSync(springdir + '/engine/')) {
+					fs.mkdirSync(springdir + '/engine/');
+					log.info('Creating engine folder');
+				}
+				
+				if (!fs.existsSync(springdir + '/engine/' + version + '/')) {
+					fs.mkdirSync(springdir + '/engine/' + version + '/');
+					log.info('Creating engine version folder');
+				}
+				
+			}
+			
+			if (fileurl){				
+	
+				// check if file exist first
+				$.ajax({
+					url: fileurl,
+					type: 'HEAD',
+					error: function() {
+						$('#battleroom .engine-download').addClass('downloading');
+						$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
+					},
+					success: function() {
+						battle.downloadengine(fileurl, zipfile, unzipfolder);
+					},
+				});	
+			}
+			
+		}
+	}
 
+	downloadengine(fileurl, zipfile, unzipfolder) {
+		
+		const file = fs.createWriteStream( zipfile );
+		var battle = this;
+		
+		https.get(fileurl, function(response) {
+			var len = parseInt(response.headers['content-length'], 10);
+			var body = '';
+			var cur = 0;
+			var total = len / 1048576;
+
+			response.pipe(file);
+
+			response.on('data', function(chunk) {
+				body += chunk;
+				cur += chunk.length;
+				var status = ((100.0 * cur) / len).toFixed(2);				
+				$('#battleroom .engine-download .download-title').text('Downloading engine ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
+				$('#battleroom .engine-download .progress').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
+			});
+
+			response.on('end', function() {
+				$('#battleroom .engine-download .download-title').text('Downloading engine: unpacking.');				
+				battle.engineunpack(zipfile, unzipfolder);	
+			});
+
+			response.on('error', err => {
+				fs.unlink( zipfile );
+			});
+		});
+	}
+	
+	engineunpack(zipfile, unzipfolder){
+		
+		sevenmin.unpack(zipfile, unzipfolder, err => {
+			log.info('Engine unpacked.');			
+			
+			// add it to preferences tab
+			//$('#enginepath').val(enginepath);
+
+			$('#battleroom .engine-download .download-title').text('Downloading engine: completed.');	
+			
+			setTimeout(function() {
+				$('#battleroom .engine-download .download-title').removeClass('downloading');
+				utils.sendbattlestatus();
+			}, 3000);
+		});
+		
+	}
+	
+	
 	checkgame() {
 		var currentmod = $('#battleroom .gameName')
 			.text()
@@ -816,6 +994,7 @@ export default class Battle {
 
 		//check if game exist
 		// after game, check if map exist
+		this.checkengine();
 		this.checkgame();
 		this.checkmap();
 		utils.init_battlerrom_chat();
@@ -1044,8 +1223,10 @@ export default class Battle {
 	}
 
 	startasplayer() {
+		
 		var username = $('#myusername').text();
-
+		var enginepath = $('#enginepath').text();
+		
 		var teams = [];
 		var allys = [];
 
@@ -1199,8 +1380,10 @@ export default class Battle {
 	}
 
 	launchgame() {
+		
 		var username = $('#myusername').text();
-
+		var enginepath = $('#enginepath').text();
+		
 		var script = '[GAME]\n{\n\t';
 		script += 'HostIP=' + $('.battle-main-info .ip').text() + ';\n\t' + 'HostPort=' + $('.battle-main-info .port').text() + ';\n\t' + 'IsHost=0;\n\t' + 'MyPlayerName=' + username + ';\n\t' + 'MyPasswd=' + this.generatePassword(username) + ';\n' + '}\n';
 

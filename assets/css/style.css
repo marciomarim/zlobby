@@ -1011,12 +1011,12 @@ ul.list {
 			position: relative;
 		}
 		
-		.engine-download{
+		/* .engine-download{
 			position: absolute;
 			bottom: 0;
 			left: 0;
 			width: 100%;	
-		}
+		} */
 		
 		.engine-download .download-title,
 		.game-download .download-title,
@@ -1043,11 +1043,14 @@ ul.list {
 			transition: width 1s;			
 		}
 		
-		.engine-download .progress{
+		/* .engine-download .progress{
 			top: inherit;
 			bottom: 0;
-		}
+		} */
 	
+	#enginepath{
+		display: none;
+	}
 	.battle-players{
 		display: flex;				
 		height: calc(50vh - 75px);

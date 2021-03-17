@@ -1,7 +1,7 @@
 var spawn = require('child_process').spawn,
 	fs = require('fs');
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, enginepath, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
 const log = require('electron-log');
 var mapsfound = [];
