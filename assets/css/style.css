@@ -26,7 +26,6 @@ body {
 	color: #ddd;
 	-webkit-font-smoothing: subpixel-antialiased;
 	background: #111418;
-	-webkit-user-select: none;
 	-webkit-app-region: drag;
 }
 
@@ -101,8 +100,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 	    left: 120px;
 	    display: flex;
 	    justify-content: flex-end;
-	    width: calc(100% - 120px);	    
-	    
+	    width: calc(100% - 120px);	    	    
         z-index: 9999;
 	}
 	
@@ -173,6 +171,7 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		background: #111418;
 	    padding: 20px 10px;
 		border-right: 1px solid #111418;
+		-webkit-user-select: none;
 	}
 	
 		body.lightmode .lmenu{
@@ -672,6 +671,7 @@ ul.list {
 	display: flex;
 	flex-wrap: wrap;	
 	margin: 1%;
+	-webkit-user-select: none;
 }
 
 	#gamefilter{
@@ -1029,6 +1029,13 @@ ul.list {
 		.map-download.downloading{
 			display: block;
 		}
+		
+		.engine-download.failed,
+		.game-download.failed,
+		.map-download.failed{
+			display: block;
+			color: red;
+		}		
 		
 		.engine-download .progress,
 		.game-download .progress,
