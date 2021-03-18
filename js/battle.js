@@ -78,8 +78,7 @@ export default class Battle {
 				//var fileurl = 'https://www.springfightclub.com/data/105_zips/mac/Spring_105.0.app.7z';
 				//var zipfile = springdir + 'engine/Spring_105.0.app.7z';
 				//var unzipfolder = springdir + 'engine/' + version + '/';
-				var fileurl = 0;
-				$('#battleroom .engine-download').addClass('Spring engine version not compatible with OS.');
+				var fileurl = 0;								
 			}
 			
 		} else if (platform == 'linux') {
@@ -100,7 +99,7 @@ export default class Battle {
 		}
 		
 		// set engine path
-		$('#enginepath').text(enginefile);	
+		$('#enginepath').text(enginefile);
 
 		if (fs.existsSync( enginefile )) {
 			
@@ -109,6 +108,7 @@ export default class Battle {
 		
 		}else if( fs.existsSync( zipfile ) ){
 			
+			log.warn('Engine unpacking');
 			battle.engineunpack(zipfile, unzipfolder);
 			
 		} else if (fileurl){
@@ -145,13 +145,19 @@ export default class Battle {
 				url: fileurl,
 				type: 'HEAD',
 				error: function() {
-					$('#battleroom .engine-download').addClass('downloading');
+					$('#battleroom .engine-download').removeClass('downloading').addClass('failed');
 					$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
 				},
 				success: function() {
 					battle.downloadengine(fileurl, zipfile, unzipfolder);
 				},
 			});							
+			
+		}else{
+			// send unsync status
+			$('#battleroom .engine-download').removeClass('downloading').addClass('failed');
+			$('#battleroom .engine-download .download-title').text('Spring engine '+version+' not compatible with your OS.');
+			utils.sendbattlestatus();
 		}
 	}
 
@@ -196,11 +202,12 @@ export default class Battle {
 			//$('#enginepath').val(enginepath);
 
 			$('#battleroom .engine-download .download-title').text('Downloading engine: completed.');	
+			$('#battleroom .engine-download .download-title').removeClass('downloading');
 			
-			setTimeout(function() {
-				$('#battleroom .engine-download .download-title').removeClass('downloading');
+			setTimeout(function() {				
 				utils.sendbattlestatus();
-			}, 3000);
+			}, 1000);						
+			
 		});
 		
 	}
@@ -236,8 +243,8 @@ export default class Battle {
 				url: fileurl,
 				type: 'HEAD',
 				error: function() {
-					$('#battleroom .game-download').addClass('downloading');
-					$('#battleroom .game-download .download-title').text('Game not found for download.');					
+					$('#battleroom .game-download').removeClass('downloading').addClass('failed');
+					$('#battleroom .game-download .download-title').text('Game not found for download.');						
 				},
 				success: function() {
 					battle.downloadgame(fileurl, filename);
@@ -269,8 +276,10 @@ export default class Battle {
 
 			response.on('end', function() {
 				$('#battleroom .game-download .download-title').text('Downloading game: Completed!');
-				$('#battleroom .game-download').removeClass('downloading');
-				utils.sendbattlestatus();				
+				$('#battleroom .game-download').removeClass('downloading');				
+				setTimeout(function() {				
+					utils.sendbattlestatus();
+				}, 1000);					
 			});
 
 			response.on('error', err => {
@@ -295,7 +304,7 @@ export default class Battle {
 			//this.check_file_integrity(filename);
 			log.info('Map found in local path');
 			$('#battleroom .map-download').removeClass('downloading');
-			utils.sendbattlestatus();		
+			//utils.sendbattlestatus();		
 				
 		} else {
 			var fileurl = remotemapsurl + filename;
@@ -323,8 +332,8 @@ export default class Battle {
 										url: fileurl4,
 										type: 'HEAD',
 										error: function() {
-											$('#battleroom .map-download').addClass('downloading');
-											$('#battleroom .map-download .download-title').text('Map not found for download.');
+											$('#battleroom .map-download').removeClass('downloading').addClass('failed');
+											$('#battleroom .map-download .download-title').text('Map not found for download.');											
 										},
 										success: function() {
 											log.info(fileurl4 + ' exist!');
@@ -398,7 +407,9 @@ export default class Battle {
 			response.on('end', function() {
 				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 				$('#battleroom .map-download').removeClass('downloading');
-				utils.sendbattlestatus();
+				setTimeout(function() {				
+					utils.sendbattlestatus();
+				}, 1000);
 			});
 
 			response.on('error', err => {

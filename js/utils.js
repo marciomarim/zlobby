@@ -591,6 +591,12 @@ export default class Utils {
 	}
 
 	sendbattlestatus() {
+		
+		// bail out if still downloading
+		if ( $('#battleroom .engine-download').hasClass('downloading') || $('#battleroom .game-download').hasClass('downloading') || $('#battleroom .map-download').hasClass('downloading') ){
+			return false;
+		}
+		
 		var myusername = $('#myusername').text();
 
 		var ready = 0,
@@ -658,9 +664,10 @@ export default class Utils {
 		}
 			
 			
-		if (fs.existsSync( enginefile ) && !$('#battleroom .engine-download').hasClass('downloading') ) {
+		if ( fs.existsSync( enginefile ) ) {
 			
-			log.info('Engine sync');	
+			log.info('Engine sync: ' + enginefile);
+			$('#battleroom .engine-download').removeClass('downloading').removeClass('failed');	
 			
 			var currentmod = $('#battleroom .gameName')
 				.text()
@@ -678,8 +685,9 @@ export default class Utils {
 					.join('') +
 				'.sdz';
 	
-			if (fs.existsSync(modsdir + filename) && !$('#battleroom .game-download').hasClass('downloading')) {
+			if ( fs.existsSync(modsdir + filename) ) {
 				log.info('Game sync');
+				$('#battleroom .game-download').removeClass('downloading').removeClass('failed');
 				var currentmap = $('#battleroom .mapname')
 					.text()
 					.replace("'", '_')
@@ -688,8 +696,9 @@ export default class Utils {
 				var filename = currentmap + '.sd7';
 				var filename2 = currentmap + '.sdz';
 	
-				if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) && !$('#battleroom .map-download').hasClass('downloading')) {				
+				if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2))) {				
 					log.info('Map sync');
+					$('#battleroom .map-download').removeClass('downloading').removeClass('failed');
 					return 1;
 				} else {
 					log.info('Map unsync');
