@@ -1,6 +1,7 @@
 keys.env
 node_modules/
 dist/
+minimaps/
 .DS_Store
 js/notarize.js
 electron-builder.yml
