@@ -24,13 +24,13 @@ export default class User {
 		line += '<div class="rank icon icon-rank0"></div>';
 		line += '<div class="name">' + username + '</div>';
 		line += '<div class="trueskill">–</div>';
+		if (lobbyID) line += '<div class="lobby-icon '+lobbyID+'"></div>';
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
 		line += '<div class="country">' + country + '</div>';
 		//if (cpu != 0) line += '<div class="cpu">' + cpu + '</div>';
 		//if (userID != 0 && userID != undefined) line += '<div class="userID">' + userID + '</div>';
-		if (lobbyID) line += '<div class="lobbyID">' + lobbyID + '</div>';
-
+		if (lobbyID) line += '<div class="lobbyID">' + lobbyID + '</div>';		
 		line += '</div>';
 		$('#chat-list').append('<li data-username="' + username + '">' + line + '</li>');
 		//$('.tab.chatlist .count').text( $('#chat-list li').length );
@@ -43,12 +43,13 @@ export default class User {
 
 	// add battle additional fields
 	addbattlestatusfields(username) {
-		var div = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .trueskill');
-		div.after('<div class="bonus"></div>');
-		div.after('<div class="color"></div>');
-		div.after('<div class="faction icon icon-arm"></div>');
-		div.after('<div class="team">–</div>');
-		div.after('<div class="ally">-</div>');
+		var div1 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .trueskill');
+		var div2 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .lobby-icon');
+		div2.after('<div class="bonus"></div>');
+		div1.after('<div class="color"></div>');
+		div1.after('<div class="faction icon icon-arm"></div>');
+		div1.after('<div class="team">–</div>');
+		div1.after('<div class="ally">-</div>');
 	}
 
 	// user disconnected
