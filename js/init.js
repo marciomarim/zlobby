@@ -45,133 +45,137 @@ if (remote.app.isEmojiPanelSupported()){
 	$('body').addClass('emoji');
 }
 
-if (platform == 'win32' || platform == 'linux'){
-	$.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', function(releaseinfo) {
-		//console.warn('Data: ' + releaseinfo['name']);
-		log.info('Data: ' + releaseinfo['name']);
+if (platform == 'win32' || platform == 'linux' || platform == 'darwin'){
 	
-		if (releaseinfo['name'] > appVersion && platform == 'win32') {
-			
-			console.warn('Update available: ' + releaseinfo['name']);
-			log.warn('Update available: ' + releaseinfo['name']);
-			
-			var updatefile = homedir + '\\Downloads\\Zlobby Setup ' + releaseinfo['name'] + '.exe';
-			
-			// already downloaded
-			if (fs.existsSync(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip')){
+	$.ajax({
+		   url: "https://api.github.com/repos/marciomarim/zlobby/releases/latest",
+			type:"get",
+			dataType: 'text',  
+			error: function(data){			
+				log.error(data);
+			},
+			success:function(releaseinfo) {			  
 				
-				sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {				
-					
-					const bat = spawn( updatefile , {
-						detached: true,
-						stdio: 'ignore',
-					});
-					bat.unref();
-					remote.getCurrentWindow().close();				
-				});
-										
-			}else{
-				var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
-		
-				ipcRenderer.send('download', {
-					url: fileurl,
-					properties: { directory: homedir + '\\Downloads\\' },
-				});
-		
-				ipcRenderer.on('download progress', async (event, progress) => {
-					var w = Math.round(progress.percent * 100) + '%';
-					console.warn('Downloading update: ' + w + ' of 100%');
-					//$('#appUpdate').text('Downloading ' + w + ' of 100%');
-				});
-		
-				ipcRenderer.on('download complete', (event, progress) => {
-					console.warn('Unzipping');
-					// unpack
-					sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
-						// show button to update
-						$('#appUpdate').text('Click to update');
-						// delete zip file after unpack
-						//fs.unlink(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip');
-		
-						$('body').on('click', '#appUpdate', function(e) {
-							const bat = spawn( updatefile , {
-								detached: true,
-								stdio: 'ignore',
-							});
-							bat.unref();
-							remote.getCurrentWindow().close();
-						});
-					});
-				});	
-			}		
-		}
-			
-		
-		if (releaseinfo['name'] > appVersion && platform == 'linux') {
-			
-			var updatefile = homedir + '/Downloads/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
-			log.warn('Update available: ' + releaseinfo['name']);
-			
-			// already downloaded
-			if (fs.existsSync(updatefile)){
-				// const bat = spawn('xterm -e sudo dpkg -i ' + updatefile, {
-				// 	detached: true,
-				// 	stdio: 'ignore',
-				// });
-				// bat.unref();
+				log.info('Data: ' + releaseinfo['name']);
 				
-				const { exec } = require("child_process");
-				exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
-					if(error){
-						log.error(error.message);
-						return;
-					}
-					if(getter){
-						log.info(data);
-						return;
-					}
-					log.info(data);			
-				});
-							
-			}else{
-				// show info					
-				var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
-		
-				ipcRenderer.send('download', {
-					url: fileurl,
-					properties: { directory: homedir + '/Downloads/' },
-				});
-		
-				ipcRenderer.on('download progress', async (event, progress) => {
-					var w = Math.round(progress.percent * 100) + '%';
-					console.warn('Downloading update: ' + w + ' of 100%');
-					$('#appUpdate').text('Downloading update: ' + w + ' of 100%');
-				});
-		
-				ipcRenderer.on('download complete', (event, progress) => {
-					// show button to update
-					$('#appUpdate').text('Click to update');
-		
-					$('body').on('click', '#appUpdate', function(e) {
-						const { exec } = require("child_process");
-						exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
-							if(error){
-								log.error(error.message);
-								return;
-							}
-							if(getter){
-								log.info(data);
-								return;
-							}
-							log.info(data);			
-						});
-						remote.getCurrentWindow().close();
-					});
-				});
+				if (releaseinfo['name'] > appVersion && platform == 'win32') {
+				  
+				  console.warn('Update available: ' + releaseinfo['name']);
+				  log.warn('Update available: ' + releaseinfo['name']);
+				  
+				  var updatefile = homedir + '\\Downloads\\Zlobby Setup ' + releaseinfo['name'] + '.exe';
+				  
+				  // already downloaded
+				  if (fs.existsSync(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip')){
+					  
+					  sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {				
+						  
+						  const bat = spawn( updatefile , {
+							  detached: true,
+							  stdio: 'ignore',
+						  });
+						  bat.unref();
+						  remote.getCurrentWindow().close();				
+					  });
+											  
+				  }else{
+					  var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip';
+				
+					  ipcRenderer.send('download', {
+						  url: fileurl,
+						  properties: { directory: homedir + '\\Downloads\\' },
+					  });
+				
+					  ipcRenderer.on('download progress', async (event, progress) => {
+						  var w = Math.round(progress.percent * 100) + '%';
+						  console.warn('Downloading update: ' + w + ' of 100%');
+						  //$('#appUpdate').text('Downloading ' + w + ' of 100%');
+					  });
+				
+					  ipcRenderer.on('download complete', (event, progress) => {
+						  console.warn('Unzipping');
+						  // unpack
+						  sevenmin.unpack(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip', homedir + '\\Downloads\\', err => {
+							  // show button to update
+							  $('#appUpdate').text('Click to update');
+							  // delete zip file after unpack
+							  //fs.unlink(homedir + '\\Downloads\\Zlobby-Setup-' + releaseinfo['name'] + '.exe.zip');
+				
+							  $('body').on('click', '#appUpdate', function(e) {
+								  const bat = spawn( updatefile , {
+									  detached: true,
+									  stdio: 'ignore',
+								  });
+								  bat.unref();
+								  remote.getCurrentWindow().close();
+							  });
+						  });
+					  });	
+				  }		
+				}
+				  
+				
+				if (releaseinfo['name'] > appVersion && platform == 'linux') {
+				  
+				  var updatefile = homedir + '/Downloads/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
+				  log.warn('Update available: ' + releaseinfo['name']);
+				  
+				  // already downloaded
+				  if (fs.existsSync(updatefile)){					  
+					  
+					  const { exec } = require("child_process");
+					  exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
+						  if(error){
+							  log.error(error.message);
+							  return;
+						  }
+						  if(getter){
+							  log.info(data);
+							  return;
+						  }
+						  log.info(data);			
+					  });
+								  
+				  }else{
+					  // show info					
+					  var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby_' + releaseinfo['name'] + '_amd64.deb';
+				
+					  ipcRenderer.send('download', {
+						  url: fileurl,
+						  properties: { directory: homedir + '/Downloads/' },
+					  });
+				
+					  ipcRenderer.on('download progress', async (event, progress) => {
+						  var w = Math.round(progress.percent * 100) + '%';
+						  console.warn('Downloading update: ' + w + ' of 100%');
+						  $('#appUpdate').text('Downloading update: ' + w + ' of 100%');
+					  });
+				
+					  ipcRenderer.on('download complete', (event, progress) => {
+						  // show button to update
+						  $('#appUpdate').text('Click to update');
+				
+						  $('body').on('click', '#appUpdate', function(e) {
+							  const { exec } = require("child_process");
+							  exec('sudo dpkg -i ' + updatefile, (error, data, getter) => {
+								  if(error){
+									  log.error(error.message);
+									  return;
+								  }
+								  if(getter){
+									  log.info(data);
+									  return;
+								  }
+								  log.info(data);			
+							  });
+							  remote.getCurrentWindow().close();
+						  });
+					  });
+				  }
+				  
+				}
 			}
-			
-		}
-	});
+		});
 }
 
 
