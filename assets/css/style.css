@@ -790,6 +790,20 @@ ul.list {
 					width: 50%;
 				}
 		
+					
+		li .lobby-icon{			
+			background-repeat: no-repeat;
+			background-position: top center;
+			background-size: 70%;			
+		}
+		
+		.lobby-icon.Zlobby{
+			background-image: url(../icons/icon.png);		
+		}
+		.lobby-icon.SpringLobby{
+			background-image: url(../images/sl.png);
+		}
+		
 		.battle-card .playerlist{
 			display: flex;
 			justify-content: space-between;
@@ -813,6 +827,17 @@ ul.list {
 				background: none;
 			}
 			
+			.battle-card .playerlist .name{
+				flex: 0.7;
+			}
+			
+			.battle-card .playerlist .lobby-icon{
+				width: 26px;
+			}
+			
+			.battle-players li .lobby-icon{				
+				background-size: 18px;
+			}
 						
 		#battle-right-info .title,
 		#battleroom .battleid,
@@ -828,7 +853,7 @@ ul.list {
 		.battle-card .playerlist li .trueskill,
 		.battle-card .playerlist li .country,
 		.battle-card .playerlist li .userID,
-		.battle-card .playerlist li .lobbyID,
+		.battle-card .playerlist li .lobbyID,		
 		.battle-card .playerlist li .cpu,
 		.battle-card .playerlist li .admin,
 		.battle-card .playerlist li .away,			
@@ -1058,6 +1083,10 @@ ul.list {
 	#enginepath{
 		display: none;
 	}
+	
+	
+
+	
 	.battle-players{
 		display: flex;				
 		height: calc(50vh - 75px);
