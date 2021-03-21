@@ -1,12 +1,13 @@
 const net = require('net');
 const crypto = require('crypto');
 const log = require('electron-log');
-
 const Store = require('electron-store');
 const store = new Store();
 
 import Protocol from './protocol.js';
 let protocol = new Protocol();
+
+var win = require('electron').remote.getCurrentWindow();
 
 var Filter = require('bad-words'),
 	filter = new Filter();
@@ -105,7 +106,7 @@ export function login() {
 		
 		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
 			
-			app.reload();
+			win.reload();
 			
 // 			error_count += 1;
 // 
