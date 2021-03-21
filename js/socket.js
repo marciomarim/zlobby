@@ -104,18 +104,15 @@ export function login() {
 		log.info(err);
 		
 		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
-			error_count += 1;
-
-			if (error_count > 3) {
-				app.relaunch();
-				app.exit();
-
-				// error_count = 0;
-				// resetUI();
-				// socketClient.destroy();
-				// socket_connect();
-				// login();
-			}
+			
+			app.reload();
+			
+// 			error_count += 1;
+// 
+// 			if (error_count > 3) {
+// 				app.relaunch();
+// 				app.exit();
+// 			}
 		}
 	});
 }
