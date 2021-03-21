@@ -9,7 +9,7 @@ var spawn = require('child_process').spawn,
 const Store = require('electron-store');
 const store = new Store();
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl } from './init.js';
 
 $('body').on('click', '#singleplayer .smallnav .navbtn', function(e) {
 	$('.smallnav .navbtn, .smalltab').removeClass('active');

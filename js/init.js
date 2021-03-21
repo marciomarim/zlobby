@@ -30,7 +30,7 @@ var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
 //console.log('Zlobby v' + appVersion);
 $('#appVersion').text('Zlobby v' + appVersion);
 
-var springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, infologfile, scriptfile, zipfile;
+var springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, zipfile;
 
 if (platform == 'win32') {
 	$('body').addClass('win32');
@@ -49,38 +49,6 @@ if (platform == 'win32' || platform == 'linux'){
 	$.getJSON('https://api.github.com/repos/marciomarim/zlobby/releases/latest', function(releaseinfo) {
 		//console.warn('Data: ' + releaseinfo['name']);
 		log.info('Data: ' + releaseinfo['name']);
-	
-	// 	if (releaseinfo['name'] > appVersion && platform == 'darwin') {
-	// 		console.warn('Update available: ' + releaseinfo['name']);
-	// 		var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/' + releaseinfo['name'] + '/Zlobby-' + releaseinfo['name'] + '-mac.zip';		
-	// 
-	// 		ipcRenderer.send('download', {
-	// 			url: fileurl,
-	// 			properties: { directory: homedir + '/Downloads/' },
-	// 		});
-	// 
-	// 		ipcRenderer.on('download progress', async (event, progress) => {
-	// 			var w = Math.round(progress.percent * 100) + '%';
-	// 			console.warn('Downloading update: ' + w + ' of 100%');
-	// 			//$('#appUpdate').text('Downloading ' + w + ' of 100%');
-	// 		});
-	// 
-	// 		ipcRenderer.on('download complete', (event, progress) => {
-	// 			console.warn('Unzipping');
-	// 			// unpack
-	// 			sevenmin.unpack(homedir + '/Downloads/Zlobby-' + releaseinfo['name'] + '-mac.zip', homedir + '/Downloads/', err => {
-	// 				$('#appUpdate').text('Click to update');
-	// 				$('body').on('click', '#appUpdate', function(e) {
-	// 					const bat = spawn(homedir + '/Downloads/Zlobby Setup ' + releaseinfo['name'] + '.exe', {
-	// 						detached: true,
-	// 						stdio: 'ignore',
-	// 					});
-	// 					bat.unref();
-	// 					remote.getCurrentWindow().close();
-	// 				});
-	// 			});
-	// 		});
-	// 	}
 	
 		if (releaseinfo['name'] > appVersion && platform == 'win32') {
 			
@@ -291,7 +259,7 @@ function set_detault_paths(springdir) {
 		minimapsdir = appPath + '\\minimaps\\';
 		//minimapsdir = 'minimaps\\';
 		modsdir = springdir + 'games\\';
-		replaysdir = springdir + 'demos\\';
+		//replaysdir = springdir + 'demos\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
@@ -313,8 +281,8 @@ function set_detault_paths(springdir) {
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-		replaysdir = homedir + '/.config/demos/';
-		replaysdir2 = homedir + '/.config/spring/demos/';
+		//replaysdir = homedir + '/.config/demos/';
+		//replaysdir2 = homedir + '/.config/spring/demos/';
 		//enginedir = '/Applications/';
 		//engineverdir = enginedir;
 		
@@ -325,7 +293,7 @@ function set_detault_paths(springdir) {
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-		replaysdir = springdir + 'demos/';
+		//replaysdir = springdir + 'demos/';
 		//enginedir = springdir + 'engine/103.0/';
 		//engineverdir = enginedir;
 	} 
@@ -374,9 +342,9 @@ function check_folders() {
 		fs.mkdirSync(modsdir);
 	}
 
-	if (!fs.existsSync(replaysdir)) {
-		fs.mkdirSync(replaysdir);
-	}
+	// if (!fs.existsSync(replaysdir)) {
+	// 	fs.mkdirSync(replaysdir);
+	// }
 
 	if (!fs.existsSync(chatlogsdir)) {
 		fs.mkdirSync(chatlogsdir);
@@ -785,4 +753,4 @@ export function trackEvent(category, action, label, value) {
 }
 trackEvent('App', 'launched');
 
-export { springdir, mapsdir, minimapsdir, modsdir, replaysdir, replaysdir2, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 };
+export { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 };

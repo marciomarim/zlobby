@@ -18,7 +18,7 @@ const sevenmin = require('7zip-min');
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
 
 import { trackEvent } from './init.js';
 

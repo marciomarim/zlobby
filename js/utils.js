@@ -1,6 +1,6 @@
 import { socketClient } from './socket.js';
 
-import { springdir, mapsdir, minimapsdir, modsdir, replaysdir, chatlogsdir, infologfile } from './init.js';
+import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile } from './init.js';
 
 var fs = require('fs');
 const log = require('electron-log');
