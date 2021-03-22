@@ -24,7 +24,12 @@ export default class User {
 		line += '<div class="rank icon icon-rank0"></div>';
 		line += '<div class="name">' + username + '</div>';
 		line += '<div class="trueskill">–</div>';
+		line += '<div class="color"></div>';
+		line += '<div class="faction icon icon-arm"></div>';
+		line += '<div class="team"></div>';
+		line += '<div class="ally"></div>';
 		if (lobbyID) line += '<div class="lobby-icon '+lobbyID+'"></div>';
+		line += '<div class="bonus"></div>';
 		line += '<div class="admin icon icon-admin false"></div>';
 		line += '<div class="away icon icon-away false"></div>';
 		line += '<div class="country">' + country + '</div>';
@@ -42,15 +47,15 @@ export default class User {
 	}
 
 	// add battle additional fields
-	addbattlestatusfields(username) {
-		var div1 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .trueskill');
-		var div2 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .lobby-icon');
-		div2.after('<div class="bonus"></div>');
-		div1.after('<div class="color"></div>');
-		div1.after('<div class="faction icon icon-arm"></div>');
-		div1.after('<div class="team">–</div>');
-		div1.after('<div class="ally">-</div>');
-	}
+	// addbattlestatusfields(username) {
+	// 	var div1 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .trueskill');
+	// 	var div2 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .lobby-icon');
+	// 	div2.after('<div class="bonus"></div>');
+	// 	div1.after('<div class="color"></div>');
+	// 	div1.after('<div class="faction icon icon-arm"></div>');
+	// 	div1.after('<div class="team">–</div>');
+	// 	div1.after('<div class="ally">-</div>');
+	// }
 
 	// user disconnected
 	removeuser(username) {
@@ -120,21 +125,25 @@ export default class User {
 		// runs for founder status
 		// game start
 		if (username == $('#battleroom .founder').text() && newStatus.inGame) {
-			if ($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
-				battles.launchgame();
-				$('body').addClass('ingame');
-				utils.sendstatus(); // ingame
-				$('#battleroom .readybattle').prop('checked', false);
-				$('#battleroom .pretty.ready').removeClass('active');
-				log.info('Launching spring as player');
-			}
-
-			if ($('.battle-speclist li[data-username="' + safe_myusername + '"]').length && $('.autolaunchbattle').prop('checked') == true) {
-				battles.launchgame();
-				$('body').addClass('ingame');
-				utils.sendstatus(); //ingame
-				log.info('Launching spring as spec');
-			}
+			
+			if( !$('#battleroom .engine-download').hasClass('downloading') && !$('#battleroom .game-download').hasClass('downloading') && !$('#battleroom .map-download').hasClass('downloading') && !$('#battleroom .engine-download').hasClass('failed') && !$('#battleroom .game-download').hasClass('failed') && !$('#battleroom .map-download').hasClass('failed') ){
+				
+				if ($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
+					battles.launchgame();
+					$('body').addClass('ingame');
+					utils.sendstatus(); // ingame
+					$('#battleroom .readybattle').prop('checked', false);
+					$('#battleroom .pretty.ready').removeClass('active');
+					log.info('Launching spring as player');
+				}
+	
+				if ($('.battle-speclist li[data-username="' + safe_myusername + '"]').length && $('.autolaunchbattle').prop('checked') == true) {
+					battles.launchgame();
+					$('body').addClass('ingame');
+					utils.sendstatus(); //ingame
+					log.info('Launching spring as spec');
+				}	
+			}						
 
 			// game end
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
@@ -176,7 +185,7 @@ export default class User {
 
 		if (!$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .faction').length) {
 			//add user battle status to players
-			this.addbattlestatusfields(username);
+			//this.addbattlestatusfields(username);
 			if (myusername == username) {
 				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .color').append('<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>');
 				AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
@@ -226,24 +235,33 @@ export default class User {
 				$('#battleroom .startbattle').removeClass('inactive');	
 				if ( $('li[data-username="' + safe_founder + '"] .icon-user').hasClass('ingame') ){						
 					$('#battleroom .startbattle').text('Watch');
+					log.info('debug 1');
 				}else{					
 					$('#battleroom .startbattle').text('Start');	
+					log.info('debug 2');
 				}
 				
 			}
 		} else if (newStatus.spec == false) {	
 			
 			// if me and not trying to unspec
-			if (myusername == username && !$('body').hasClass('joinningbattle') && !$('body').hasClass('unspecing')) {
-				$('#battleroom .specbattle').prop('checked', true);
-				$('#battleroom .readybattle').prop('checked', false);												
-			}
+			// if (myusername == username && !$('body').hasClass('joinningbattle') && !$('body').hasClass('unspecing')) {
+			// 	$('#battleroom .specbattle').prop('checked', true);
+			// 	$('#battleroom .readybattle').prop('checked', false);												
+			// }
+			
 			if (myusername == username){
+				
+				$('#battleroom .specbattle').prop('checked', true);
+				$('#battleroom .readybattle').prop('checked', false);
+				
 				if ( $('li[data-username="' + safe_founder + '"] .icon-user').hasClass('ingame') ){
 					$('#battleroom .startbattle').removeClass('inactive');	
 					$('#battleroom .startbattle').text('Watch');
+					log.info('debug 3');
 				}else{
 					$('#battleroom .startbattle').addClass('inactive');	
+					log.info('debug 4');
 				}
 			}
 			$('#battleroom .battle-speclist').append($('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]'));

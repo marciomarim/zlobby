@@ -29,7 +29,7 @@ export default class Replay {
 				if (fs.statSync(dirContent).isDirectory()) {
 					
 					var demofolder = path.resolve(dirContent, 'demos');
-					log.warn('reading replay folder: ' + demofolder );	
+					log.info('reading replay folder: ' + demofolder );	
 					
 					if (fs.existsSync(demofolder)) {
 						fs.readdir(demofolder, (err, files) => {

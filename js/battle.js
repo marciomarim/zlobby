@@ -960,7 +960,7 @@ export default class Battle {
 		$('body').addClass('joinningbattle');
 		setTimeout(function() {
 			$('body').removeClass('joinningbattle');
-		}, 2000);
+		}, 1000);
 
 		this.createbattleroom();
 		$('#battleroom').data('battleid', battleid);
@@ -1029,7 +1029,8 @@ export default class Battle {
 			$('#battleroom .players').text(players);
 			$('#battleroom .spectatorCount').text(spectatorCount);
 			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
-			$('#battleroom .battle-playerlist').append(user);
+			$('#battleroom .battle-playerlist').append(user);						
+			
 			if (username == myusername) {
 				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('me');
 				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .name').before('<div class="goplay">PLAY</div><div class="gospec">SPEC</div>');

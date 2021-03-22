@@ -839,6 +839,11 @@ ul.list {
 				background-size: 18px;
 			}
 						
+		#chatlist li .color,
+		#chatlist li .faction,
+		#chatlist li .team,
+		#chatlist li .ally,
+		#chatlist li .bonus,
 		#battle-right-info .title,
 		#battleroom .battleid,
 		#battleroom .port,
@@ -851,6 +856,11 @@ ul.list {
 		.battle-card .maphash,
 		.battle-card .ip,
 		.battle-card .playerlist li .trueskill,
+		.battle-card .playerlist li .color,
+		.battle-card .playerlist li .faction,
+		.battle-card .playerlist li .team,
+		.battle-card .playerlist li .ally,
+		.battle-card .playerlist li .bonus,
 		.battle-card .playerlist li .country,
 		.battle-card .playerlist li .userID,
 		.battle-card .playerlist li .lobbyID,		
