@@ -149,7 +149,8 @@ export default class User {
 		} else if (username == $('#battleroom .founder').text() && !newStatus.inGame) {
 			
 			log.info('Game ended');
-			$('body').removeClass('ingame');			
+			$('body').removeClass('ingame');
+			$('#battleroom .icon-user').removeClass('ingame');			
 
 			if (autoready && $('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
 				log.info('autoready true');
