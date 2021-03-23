@@ -59,52 +59,52 @@ $.ajax({
 			console.log(releaseinfo['name']);
 			log.info('Data: ' + releaseinfo['name']);
 			
-			if (releaseinfo['name'] > appVersion && platform == 'darwin') {
-				  				
-				log.warn('Update available: ' + releaseinfo['name']);
-				
-				var updatefile = homedir + '/Downloads/Zlobby-' + releaseinfo['name'] + '-mac.zip';
-				
-				// already downloaded
-				if (fs.existsSync( updatefile )){
-				  
-				  log.info('Update file already downloaded, unzipping...');
-				  sevenmin.unpack( updatefile , '/Applications/', err => {
-					  log.info('Updated!');					  
-				  });
-										  
-				}else{
-				  var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-' + releaseinfo['name'] + '-mac.zip';
-				
-				  ipcRenderer.send('download', {
-					  url: fileurl,
-					  properties: { directory: homedir + '/Downloads/' },
-				  });
-				
-				  ipcRenderer.on('download progress', async (event, progress) => {
-					  var w = Math.round(progress.percent * 100) + '%';
-					  log.info('Downloading update: ' + w + ' of 100%');
-					  $('#appUpdate').text('Downloading ' + w + ' of 100%');					  
-				  });
-				
-				  ipcRenderer.on('download complete', (event, progress) => {
-					  log.info('Download completed, unzipping...');
-					  					  					  
-					  // unpack
-					  sevenmin.unpack( updatefile , '/Applications/', err => {
-						  // show button to update
-						  $('#appUpdate').text('Click to update');
-						  
-						  $('body').on('click', '#appUpdate', function(e) {
-							  
-							  remote.app.relaunch()
-							  remote.app.exit()
-							  
-						  });
-					  });
-				  });	
-				}		
-			}
+			// if (releaseinfo['name'] > appVersion && platform == 'darwin') {
+			// 	  				
+			// 	log.warn('Update available: ' + releaseinfo['name']);
+			// 	
+			// 	var updatefile = homedir + '/Downloads/Zlobby-' + releaseinfo['name'] + '-mac.zip';
+			// 	
+			// 	// already downloaded
+			// 	if (fs.existsSync( updatefile )){
+			// 	  
+			// 	  log.info('Update file already downloaded, unzipping...');
+			// 	  sevenmin.unpack( updatefile , '/Applications/', err => {
+			// 		  log.info('Updated!');					  
+			// 	  });
+			// 							  
+			// 	}else{
+			// 	  var fileurl = 'https://github.com/marciomarim/zlobby/releases/download/v' + releaseinfo['name'] + '/Zlobby-' + releaseinfo['name'] + '-mac.zip';
+			// 	
+			// 	  ipcRenderer.send('download', {
+			// 		  url: fileurl,
+			// 		  properties: { directory: homedir + '/Downloads/' },
+			// 	  });
+			// 	
+			// 	  ipcRenderer.on('download progress', async (event, progress) => {
+			// 		  var w = Math.round(progress.percent * 100) + '%';
+			// 		  log.info('Downloading update: ' + w + ' of 100%');
+			// 		  $('#appUpdate').text('Downloading ' + w + ' of 100%');					  
+			// 	  });
+			// 	
+			// 	  ipcRenderer.on('download complete', (event, progress) => {
+			// 		  log.info('Download completed, unzipping...');
+			// 		  					  					  
+			// 		  // unpack
+			// 		  sevenmin.unpack( updatefile , '/Applications/', err => {
+			// 			  // show button to update
+			// 			  $('#appUpdate').text('Click to update');
+			// 			  
+			// 			  $('body').on('click', '#appUpdate', function(e) {
+			// 				  
+			// 				  remote.app.relaunch()
+			// 				  remote.app.exit()
+			// 				  
+			// 			  });
+			// 		  });
+			// 	  });	
+			// 	}		
+			// }
 				
 			if (releaseinfo['name'] > appVersion && platform == 'win32') {
 			  			  
