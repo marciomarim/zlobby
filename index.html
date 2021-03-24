@@ -48,7 +48,7 @@
 				<div class="tab start icon icon-account-circle-1 active" data-target="start">Start</div>
 				<div class="tab battlelist icon icon-game-controller-3" data-target="battlelist">Battlelist<span class="count"></span></div>
 				<div class="tab battleroom icon icon-tank" data-target="battleroom">Battleroom<span class="status"></span></div>
-				<!-- <div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div> -->
+				<div class="tab singleplayer icon icon-bunker-soldier-standing" data-target="singleplayer">Singleplayer</div>
 				<div class="tab chatlist icon icon-chat-double-bubble-4" data-target="chatlist">Chatlist<span class="count"></span></div>
 				<div class="tab channellist icon icon-radio-5" data-target="channellist">Channels<span class="count"></span></div>
 				<div class="tab replays icon icon-account-television" data-target="replays">Replays</div>
@@ -56,30 +56,15 @@
 				<div class="tab discord icon icon-catapult-1" data-target="badiscord">Discord</div> -->
 				<div class="tab preferences icon icon-speed-gauge" data-target="preferences">Preferences</div>
 			</div>
-
-			<div id="chatlist" class="container">
-				<div class="title icon icon-chat-double-bubble-4">Chatlist</div>
-
-				<div class="left">
-					<div class="text-scroll">
-						<ul id="chat-list" class="list"></ul>
-					</div>
-				</div>
-
-				<div id="chats">
-					<div id="activechats">
-						<div class="buttons"></div>
-					</div>
-				</div>
-			</div>
+			
+			<div id="videocontainer">
+				<video id="bademovideo" autoplay muted loop>
+					<source src="assets/videos/bamoviecrop_fix.mp4" type="video/mp4" />
+				</video>
+			</div>			
 
 			<div id="start" class="container active">
-				<div id="videocontainer">
-					<video id="bademovideo" autoplay muted loop>
-						<source src="assets/videos/bamoviecrop_fix.mp4" type="video/mp4" />
-					</video>
-				</div>
-
+				
 				<div class="title icon icon-account-circle-1">Start</div>
 
 				<div class="account">
@@ -468,10 +453,13 @@
 				</div>
 			</div>
 
-			<div id="singleplayer" class="container backdark">
+			<div id="singleplayer" class="container">
+				
 				<div class="title icon icon-bunker-soldier-standing">Singleplayer</div>
-
-				<div class="singlecontainer">
+				
+				<div id="enginelist"></div>
+				
+				<!-- <div class="singlecontainer">
 					<div class="left">
 						<div class="item" style="margin: 1em;">
 							<label for="spickmod">GAME</label>
@@ -529,11 +517,11 @@
 							<div class="smapscontainer"></div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<!-- end of singleplayer -->
 
-			<div id="channellist" class="container backdark">
+			<div id="channellist" class="container">
 				<div class="left">
 					<div class="title icon icon-radio-5">Channels</div>
 					<div class="text-scroll">
@@ -663,6 +651,22 @@
 							
 						</div>
 					</div>
+				</div>
+			</div>
+			
+			<div id="chatlist" class="container">
+				<div class="title icon icon-chat-double-bubble-4">Chatlist</div>
+
+				<div class="left">
+					<div class="text-scroll">
+						<ul id="chat-list" class="list"></ul>
+					</div>
+				</div>
+
+				<div id="chats"></div>
+									
+				<div id="activechats">
+					<div class="buttons"></div>
 				</div>
 			</div>
 

@@ -1,7 +1,10 @@
 const shell = require('electron').shell;
+var spawn = require('child_process').spawn;
 
 import Utils from './utils.js';
 let utils = new Utils();
+
+import { springdir } from './init.js';
 
 $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 	var tab = $(this).data('target');
@@ -14,6 +17,8 @@ $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
 		var useractive = $('.userchat.active').data('username');
 		if ($('.userpm-select[data-username="' + jQuery.escapeSelector(useractive) + '"] .unread').length) $('.userpm-select[data-username="' + jQuery.escapeSelector(useractive) + '"] .unread').remove();
 		utils.update_global_unread_count();
+	}else{
+		$('#chats').removeClass('active');
 	}
 
 	if (tab == 'channellist') {

@@ -1572,9 +1572,37 @@ ul.list {
 		
 			.mappicker .mapscontainer.active{
 				display: flex;
-			}
+			}		
 		
+		#enginelist{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
 		
+		#enginelist .engineitem{
+			width: 23%;
+			margin: 1%;
+			padding: 1em;
+			text-align: center;
+		}
+		
+		#enginelist .engineitem .play{
+			background: #1553da;
+			border: none;
+			padding: 1em 1.5em;
+			color: #eee;
+			border-radius: 25px;
+			font-family: LatoBold;
+			text-transform: uppercase;
+			font-size: 1em;
+			cursor: pointer;
+			border: 1px solid #1553da;
+			opacity: 1;
+		}
 		
 		.singlecontainer {
 			display: flex;
@@ -2375,7 +2403,14 @@ span.upper{
 			.channelchat .channelusers li .away,
 			.channelchat .channelusers li .admin,
 			.channelchat .channelusers li .bot,
-			.channelchat .channelusers li .trueskill{
+			.channelchat .channelusers li .trueskill,
+			.channelchat .channelusers li .color,
+			.channelchat .channelusers li .faction,
+			.channelchat .channelusers li .team,
+			.channelchat .channelusers li .lobby-icon,
+			.channelchat .channelusers li .lobbyID,
+			.channelchat .channelusers li .bonus,
+			.channelchat .channelusers li .icon-user{
 				display: none;
 			}
 	
@@ -2420,13 +2455,6 @@ span.upper{
 	body.lightmode .userchat .actions .closewin{
 		background: #b5b7bf;
 	}
-
-
-	
-	
-	#start{
-		width: calc(100% - 120px);
-	}
 	
 	#chatlist{				
 		display: block;
@@ -2458,7 +2486,16 @@ span.upper{
 	    background: #191c21;		
 	}	
 	
-	#chatlist.over #chats{
+	#chats{
+		display: none;
+	}
+	
+	#chats.active{
+		display: block;
+	}
+	
+	#chatlist.over #chats{		
+		display: block;
 		width: 45%;
 		pointer-events: all;		
 	}
@@ -2486,6 +2523,7 @@ span.upper{
 
 #activechats{
 	position: absolute;
+	top:0;
 	width: 130px;
 	right: -130px;
 	height: 100%;	
