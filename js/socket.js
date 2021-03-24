@@ -98,22 +98,13 @@ export function login() {
 		
 		var err = data.toString();
 		
-		console.log('Socket Error');
-		console.log(err);
-		
-		log.info('Socket Error');
-		log.info(err);
-		
-		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed') {
+		log.warn('Socket Error');
+		log.warn(err);
+				
+		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed' || err.indexOf('Error: getaddrinfo ENOTFOUND') !== -1) {
 			
 			win.reload();
 			
-// 			error_count += 1;
-// 
-// 			if (error_count > 3) {
-// 				app.relaunch();
-// 				app.exit();
-// 			}
 		}
 	});
 }

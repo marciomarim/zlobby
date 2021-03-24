@@ -126,6 +126,8 @@ export default class User {
 		// game start
 		if (username == $('#battleroom .founder').text() && newStatus.inGame) {
 			
+			$('#battleroom .icon-user').addClass('ingame');
+			
 			if( !$('#battleroom .engine-download').hasClass('downloading') && !$('#battleroom .game-download').hasClass('downloading') && !$('#battleroom .map-download').hasClass('downloading') && !$('#battleroom .engine-download').hasClass('failed') && !$('#battleroom .game-download').hasClass('failed') && !$('#battleroom .map-download').hasClass('failed') ){
 				
 				if ($('.battle-playerlist li[data-username="' + safe_myusername + '"]').length) {
