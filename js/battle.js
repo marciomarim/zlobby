@@ -911,9 +911,8 @@ export default class Battle {
 			//this.load_remote_map_image(battleid);
 			this.get_map_info(battleid);
 		}
-		
-		
-		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount);
+				
+		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount - 1);						
 
 		if (locked === 0) {
 			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');
@@ -921,18 +920,8 @@ export default class Battle {
 			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('OPEN');
 		}
 
-		//var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10);
-		// var nUsers = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length;		
-		// var players = nUsers - spectatorCount;				
-		// var battle_order = 20*players + spectatorCount;
-		// $('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		// $('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
-
 		// update options
 		if ($('#battleroom').data('battleid') == battleid) {
-			
-			//$('#battleroom #battle-main-info .players').text(players);
-			//$('#battleroom .spectatorCount').text(spectatorCount);
 			
 			$('#battleroom .mapname').text(mapname);
 
@@ -1008,15 +997,7 @@ export default class Battle {
 
 	// when anyone joins a battle
 	joinedbattle(battleid, username) {
-		var myusername = $('#myusername').text();
-		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) + 1;
-		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
-
-		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
-		var players = nUsers - spectatorCount;
-		var battle_order = 20*players + spectatorCount;
-		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
+		var myusername = $('#myusername').text();				
 		
 		//update chatlist
 		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('battle');
@@ -1026,8 +1007,7 @@ export default class Battle {
 		$('.battle-card[data-battleid="' + battleid + '"] .playerlist').append(user);
 
 		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
-			$('#battleroom .players').text(players);
-			$('#battleroom .spectatorCount').text(spectatorCount);
+			
 			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
 			$('#battleroom .battle-playerlist').append(user);						
 			
@@ -1041,7 +1021,13 @@ export default class Battle {
 		if (usermuted) {
 			$('li[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('muted');
 		}
+		
+		this.updatebattleorder(battleid);
+		
+		//log.warn('PLAYERS: ' + $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length);
+		
 	}
+			
 	
 	// when bot joins a battle
 	botjoinedbattle(battleid, botname, owner, battleStatus, teamColor) {
@@ -1077,15 +1063,7 @@ export default class Battle {
 		}
 	}
 
-	leftbattle(battleid, username) {
-		var nUsers = parseInt($('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(), 10) - 1;
-		$('.battle-card[data-battleid="' + battleid + '"] .nUsers').text(nUsers);
-
-		var spectatorCount = parseInt($('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(), 10);
-		var players = nUsers - spectatorCount;
-		var battle_order = 20*players + spectatorCount;
-		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
+	leftbattle(battleid, username) {				
 		
 		//update chatlist
 		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').removeClass('battle');
@@ -1111,6 +1089,20 @@ export default class Battle {
 			$('body').removeClass('inbattleroom');
 			$('.activebattle').removeClass('activebattle');
 		}
+		
+		this.updatebattleorder(battleid);
+		
+	}
+	
+	// update player count and battle order in battle list
+	updatebattleorder(battleid){
+		
+		var spectatorCount = $('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text();				
+		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - spectatorCount;		
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
+		var battle_order = 20*players + spectatorCount;
+		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
+		
 	}
 
 	// when client get kicked

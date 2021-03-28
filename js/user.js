@@ -328,9 +328,9 @@ export default class User {
 		$('#battleroom #battle-main-info .players').text(numberofplayers);
 		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
 		
-		var battle_order = 20*numberofplayers + numberofspecs;
-		$('.battle-card[data-battleid="' + battleid + '"] .players').text(numberofplayers);
-		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
+		// var battle_order = 20*numberofplayers + numberofspecs;
+		// $('.battle-card[data-battleid="' + battleid + '"] .players').text(numberofplayers);
+		// $('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
 		
 		var battlesize = 'normal';
 		if (numberofplayers > 16) {
