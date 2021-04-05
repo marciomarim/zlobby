@@ -795,13 +795,19 @@ ul.list {
 			background-repeat: no-repeat;
 			background-position: top center;
 			background-size: 70%;			
+			background-image: url(../images/spring.png);		
 		}
 		
 		.lobby-icon.Zlobby{
 			background-image: url(../icons/icon.png);		
 		}
+		
 		.lobby-icon.SpringLobby{
 			background-image: url(../images/sl.png);
+		}
+		
+		.lobby-icon.LuaLobby{
+			background-image: url(../images/bar.png);
 		}
 		
 		.battle-card .playerlist{
@@ -888,24 +894,26 @@ ul.list {
 	#battleroom .mapname,
 	#battleroom .gameName{
 		position: relative;		
+		padding-left: 18px;
 	}
 	
 	#battleroom .engine:before,
 	#battleroom .mapname:before,
 	#battleroom .gameName:before{
 		content: '';
-		position: absolute;		
-		margin: 10px 3px;
+		position: absolute;	
+		top: 3px;
+		left: 2px;			
 		border-radius: 50%;
-		width: 10px;
-		height: 10px;
+		width: 12px;
+		height: 12px;
 		background: #888;	
 	}
 	
 	#battleroom .engine.sync:before,	
 	#battleroom .mapname.sync:before,	
 	#battleroom .gameName.sync:before{
-		background: green;		
+		background: #00ff08;		
 	}
 		
 	#battleroom .engine.unsync:before,	
@@ -1265,9 +1273,10 @@ ul.list {
 			display: block;
 			right: 45%;				
 		}
+		
 		.battle-speclist li:hover > .goplay{
 			display: block;
-			right: 26%;						
+			right: 32%;						
 		}
 		
 		.battle-players li .trueskill,
