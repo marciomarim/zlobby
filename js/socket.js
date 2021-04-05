@@ -15,7 +15,8 @@ var Filter = require('bad-words'),
 filter.addWords('FAGGOTS', 'DICKS', 'dickhead', 'pussy');
 
 export var socketClient;
-var connectInterval;
+//var connectInterval;
+var socketInterval;
 
 var app = require('electron').remote.app;
 var appVersion = app.getVersion();
@@ -25,7 +26,9 @@ var error_count = 0;
 import { trackEvent } from './init.js';
 
 function socket_connect() {
-	var hostselected = $('.serverhosturl.active').data('url');
+	
+	//var hostselected = $('.serverhosturl.active').data('url');
+	var hostselected = store.get('prefs.hostselected');
 
 	socketClient = net.connect({ host: hostselected, port: 8200 }, () => {
 		// 'connect' listener
@@ -68,7 +71,7 @@ export function login() {
 
 	//trackEvent('User', 'login', 'username', username);
 
-	var socketInterval = setInterval(function() {
+	socketInterval = setInterval(function() {
 		socketClient.write('PING\n');
 		trackEvent('Lobby', appVersion);
 		trackEvent(username, appVersion);
@@ -82,7 +85,7 @@ export function login() {
 		if (!data.toString().startsWith('PONG')) {
 			console.log(data.toString());
 		}
-		clearInterval(connectInterval);
+		//clearInterval(connectInterval);
 	});
 
 	socketClient.on('end', data => {
@@ -112,13 +115,14 @@ export function login() {
 function create_account() {
 	var username = $('#createusername').val();
 	var password = $('#createpassword').val();
+	var email = $('#createemail').val();
 
 	const passwordHash = crypto
 		.createHash('md5')
 		.update(password)
 		.digest('base64');
 
-	var loginString = 'REGISTER ' + username + ' ' + passwordHash + '\n';
+	var loginString = 'REGISTER ' + username + ' ' + passwordHash + ' ' + email + '\n';
 	console.log(loginString);
 	socketClient.write(loginString);
 
@@ -169,6 +173,7 @@ $('body').on('keypress', '#createpassword', function(e) {
 });
 
 $('body').on('click', '.disconnect', function(e) {
+	clearInterval(socketInterval);
 	socket_disconnect();
 	resetUI();
 });
@@ -182,7 +187,9 @@ $(document).ready(function() {
 	$('#password').focus();
 
 	var autoconnect = store.get('prefs.autoconnect');
-	if (autoconnect && username && password) {
+	var hostselected = store.get('prefs.hostselected');
+	
+	if (autoconnect && username && password && hostselected) {
 		socket_connect();
 		login();
 	} else {
