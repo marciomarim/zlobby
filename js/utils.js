@@ -646,13 +646,22 @@ export default class Utils {
 
 	getsyncstatus() {
 		
-		// get engine sync info 
+		var enginesync = 0,
+			gamesync = 0,
+			mapsync = 0;
+			
+		// check for engine
 		var currentengine = $('#battleroom .engine')
 			.text()
 			.toLowerCase()
 			.split(' ');
-		
-		var version = currentengine[1];		
+			
+		if (currentengine[0] == 'spring'){
+			var version = currentengine[1];	
+		}else{
+			var version = currentengine[0];
+		}
+				
 		var engineexist = false;
 		
 		if (platform == 'win32') {
@@ -666,55 +675,73 @@ export default class Utils {
 			
 		if ( fs.existsSync( enginefile ) ) {
 			
+			enginesync = 1;
 			log.info('Engine sync: ' + enginefile);
 			$('#battleroom .engine-download').removeClass('downloading').removeClass('failed');	
-			
-			var currentmod = $('#battleroom .gameName')
-				.text()
-				.toLowerCase();
-			var index = currentmod.lastIndexOf(' ');
-			var filename =
-				currentmod
-					.substring(0, index)
-					.split(' ')
-					.join('_') +
-				'-' +
-				currentmod
-					.substring(index)
-					.split(' ')
-					.join('') +
-				'.sdz';
-	
-			if ( fs.existsSync(modsdir + filename) ) {
-				log.info('Game sync');
-				$('#battleroom .game-download').removeClass('downloading').removeClass('failed');
-				var currentmap = $('#battleroom .mapname')
-					.text()
-					.replace("'", '_')
-					.toLowerCase();
-				currentmap = currentmap.split(' ').join('_');
-				var filename = currentmap + '.sd7';
-				var filename2 = currentmap + '.sdz';
-	
-				if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2))) {				
-					log.info('Map sync');
-					$('#battleroom .map-download').removeClass('downloading').removeClass('failed');
-					return 1;
-				} else {
-					log.info('Map unsync');
-					return 0;
-				}
-			} else {
-				log.info('Game unsync');
-				return 0;
-			}
+			$('#battleroom .engine').removeClass('unsync').addClass('sync');						
 								
 		}else{
 			log.info('Engine unsync');
 			log.warn('Engine not found at: ' + enginefile);
-			return 0;
+			$('#battleroom .engine').removeClass('sync').addClass('unsync');			
 		}
+		
+		// check for game
+		var currentmod = $('#battleroom .gameName')
+			.text()
+			.toLowerCase();
+		var index = currentmod.lastIndexOf(' ');
+		var filename =
+			currentmod
+				.substring(0, index)
+				.split(' ')
+				.join('_') +
+			'-' +
+			currentmod
+				.substring(index)
+				.split(' ')
+				.join('') +
+			'.sdz';
 	
+		if ( fs.existsSync(modsdir + filename) || store.get('game.' + $('#battleroom .gameName').text()) ) {
+			
+			gamesync = 1;
+			log.info('Game sync');
+			$('#battleroom .gameName').removeClass('unsync').addClass('sync');
+			$('#battleroom .game-download').removeClass('downloading').removeClass('failed');
+						
+		} else {
+			log.info('Game unsync');
+			$('#battleroom .gameName').removeClass('sync').addClass('unsync');				
+		}
+		
+		// check for map
+		var currentmap = $('#battleroom .mapname')
+			.text()
+			.replace("'", '_')
+			.toLowerCase();
+		currentmap = currentmap.split(' ').join('_');
+		var filename = currentmap + '.sd7';
+		var filename2 = currentmap + '.sdz';
+	
+		if ((fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2))) {				
+			
+			mapsync = 1;
+			log.info('Map sync');
+			$('#battleroom .mapname').removeClass('unsync').addClass('sync');
+			$('#battleroom .map-download').removeClass('downloading').removeClass('failed');
+			
+		} else {
+			log.info('Map unsync');
+			$('#battleroom .mapname').removeClass('sync').addClass('unsync');					
+		}
+		
+		// if all sync
+		if (enginesync && gamesync && mapsync){
+			return 1;
+		}else{
+			return 0;	
+		}		
 	
 		
 	}
