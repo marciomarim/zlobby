@@ -55,9 +55,8 @@ $.ajax({
 			log.error(data);
 		},
 		success:function( releaseinfo ) {			  
-			
-			console.log(releaseinfo['name']);
-			log.info('Data: ' + releaseinfo['name']);
+						
+			log.info('Zlobby latest release version: ' + releaseinfo['name']);
 			
 			// if (releaseinfo['name'] > appVersion && platform == 'darwin') {
 			// 	  				
@@ -264,42 +263,8 @@ function initial_check() {
 	
 	set_detault_paths(springdir);
 	check_folders(springdir);
-	
-// 	enginepath = store.get('paths.enginepath');
-// 	var springdir_saved = store.get('paths.springdir');
-// 
-// 	if (springdir_saved && fs.existsSync(springdir_saved)) {
-// 		springdir = springdir_saved;
-// 		log.info('debug engine checking: 1');		
-// 	} else {
-// 		// set default springdir
-// 		if (platform == 'win32') {
-// 			springdir = homedir + '\\Documents\\My Games\\Spring\\';
-// 			log.info('debug engine checking: 2');
-// 		} else if (platform == 'darwin') {
-// 			springdir = homedir + '/.spring/';
-// 		} else if (platform == 'linux') {
-// 			springdir = homedir + '/.spring/';
-// 		}
-// 		store.set('paths.springdir', springdir);
-// 	}
-// 	// add it to preferences tab
-// 	$('#springdir').val(springdir);
-// 
-// 	set_detault_paths(enginepath, springdir);
-// 	check_folders(springdir);
-// 
-// 	// check if spring executable exists
-// 	if (enginepath && fs.existsSync(enginepath)) {
-// 		$('#enginestatus')
-// 			.addClass('active')
-// 			.text('Engine: ok');
-// 		// add it to preferences tab
-// 		$('#enginepath').val(enginepath);
-// 	} else {
-// 		lookforengine();
-// 	}
 }
+
 initial_check();
 
 function set_detault_paths(springdir) {
@@ -308,23 +273,11 @@ function set_detault_paths(springdir) {
 		log.info('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
 		minimapsdir = appPath + '\\minimaps\\';
-		//minimapsdir = 'minimaps\\';
 		modsdir = springdir + 'games\\';
-		//replaysdir = springdir + 'demos\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-		//enginedir = springdir + 'engine\\';
-		//engineverdir = springdir + 'engine\\103\\';
-		// if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\')) {
-		// 	log.info('debug engine checking: 4');
-		// 	engineverdir = springdir + 'engine\\103.0\\';
-		// 	replaysdir2 = springdir + 'engine\\103.0\\demos\\';
-		// } else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\')) {
-		// 	log.info('debug engine checking: 5');
-		// 	engineverdir = springdir + 'engine\\103\\';
-		// 	replaysdir2 = springdir + 'engine\\103\\demos\\';
-		// }
+
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
 		minimapsdir = appPath + '/minimaps/';
@@ -332,10 +285,6 @@ function set_detault_paths(springdir) {
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-		//replaysdir = homedir + '/.config/demos/';
-		//replaysdir2 = homedir + '/.config/spring/demos/';
-		//enginedir = '/Applications/';
-		//engineverdir = enginedir;
 		
 	} else if (platform == 'linux') {
 		mapsdir = springdir + 'maps/';
@@ -344,15 +293,7 @@ function set_detault_paths(springdir) {
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-		//replaysdir = springdir + 'demos/';
-		//enginedir = springdir + 'engine/103.0/';
-		//engineverdir = enginedir;
 	} 
-	// else {
-	// 	$('#enginestatus')
-	// 		.addClass('active')
-	// 		.text('Your OS is not supported');
-	// }
 }
 
 function check_folders() {
@@ -393,185 +334,23 @@ function check_folders() {
 		fs.mkdirSync(modsdir);
 	}
 
-	// if (!fs.existsSync(replaysdir)) {
-	// 	fs.mkdirSync(replaysdir);
-	// }
-
 	if (!fs.existsSync(chatlogsdir)) {
 		fs.mkdirSync(chatlogsdir);
 	}
 
-	// additional checks for win
-// 	if (platform == 'win32') {
-// 		if (!fs.existsSync(enginedir)) {
-// 			log.info('Creating engine folder');
-// 			fs.mkdirSync(enginedir);
-// 		}
-// 
-// 		if (!fs.existsSync(engineverdir)) {
-// 			log.info('Creating engine version folder');
-// 			fs.mkdirSync(engineverdir);
-// 		}
-// 	}
 }
 
-// function lookforengine() {
-// 	var enginefound = 0;
-// 	if (platform == 'win32') {
-// 		if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe')) {
-// 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103.0\\spring.exe';
-// 			enginefound = 1;
-// 			log.info('debug engine checking: 6');
-// 		} else if (fs.existsSync(homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe')) {
-// 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
-// 			enginefound = 1;
-// 			log.info('debug engine checking: 7');
-// 		} else if (fs.existsSync('C:\\Program Files (x86)\\Spring\\spring.exe')) {
-// 			enginepath = 'C:\\Program Files (x86)\\Spring\\spring.exe';
-// 			enginefound = 1;
-// 			log.info('debug engine checking: 8');
-// 		} else {
-// 			enginepath = homedir + '\\Documents\\My Games\\Spring\\engine\\103\\spring.exe';
-// 			enginefound = 0;
-// 			log.info('debug engine checking: 9');
-// 		}
-// 		store.set('paths.enginepath', enginepath);
-// 	} else if (platform == 'darwin') {
-// 		if (fs.existsSync('/Applications/Spring_103.0.app/Contents/MacOS/spring')) {
-// 			enginefound = 1;
-// 			enginepath = '/Applications/Spring_103.0.app/Contents/MacOS/spring';
-// 		}
-// 	} else if (platform == 'linux') {
-// 		if (fs.existsSync(springdir + 'engine/103.0/spring')) {
-// 			enginefound = 1;
-// 			enginepath = springdir + 'engine/103.0/spring';
-// 		} else if (fs.existsSync(springdir + 'engine/103/spring')) {
-// 			enginefound = 1;
-// 			enginepath = springdir + 'engine/103/spring';
-// 		}
-// 	}
-// 	
-// 	// check if engine already downloaded
-// 	if(!enginefound && fs.existsSync(enginedir + zipfile)){
-// 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
-// 			log.info('Engine unpacked.');
-// 			enginefound = 1;
-// 			$('#enginestatus')
-// 				.addClass('active')
-// 				.text('Engine: ok');
-// 	
-// 			// add it to preferences tab
-// 			$('#enginepath').val(enginepath);
-// 	
-// 			$('#start .engine-download .download-title').text('All ready!');
-// 			setTimeout(function() {
-// 				$('#start .engine-download').removeClass('downloading');
-// 			}, 3000);
-// 		});	
-// 	}
-// 	
-// 	
-// 	if (!enginefound) {
-// 		log.info('debug engine checking: 10');
-// 		setTimeout(function() {
-// 			var answer = window.confirm('Engine not found, click OK to download or CANCEL to setup manually?');
-// 			if (answer) {
-// 				prepareenginedownload();
-// 			} else {
-// 				$('.tab, .container.active').removeClass('active');
-// 				$('#preferences, .tab.preferences').addClass('active');
-// 			}
-// 		}, 2000);
-// 	} else {
-// 		$('#enginestatus')
-// 			.addClass('active')
-// 			.text('Engine: ok');
-// 
-// 		// add it to preferences tab
-// 		$('#enginepath').val(enginepath);
-// 		store.set('paths.enginepath', enginepath);
-// 	}
-// }
-// 
-// function prepareenginedownload() {
-// 	log.info('debug engine checking: 11');
-// 	if (platform == 'win32') {
-// 		if (arch == 'x64') {
-// 			zipfile = 'spring_103.0_win64-minimal-portable.7z';			
-// 			var engineurl = 'https://www.springfightclub.com/data/master_103/win64/' + zipfile;
-// 		} else {
-// 			zipfile = 'spring_103.0_win32-minimal-portable.7z';			
-// 			var engineurl = 'https://www.springfightclub.com/data/master_103/win32/' + zipfile;
-// 		}
-// 	} else if (platform == 'darwin') {
-// 		zipfile = 'Spring_103.0.app.7z';
-// 		var engineurl = 'https://www.springfightclub.com/data/master_103/mac/' + zipfile;
-// 	} else if (platform == 'linux') {
-// 		if (arch == 'x64' || arch == 'arm64') {
-// 			zipfile = 'spring_103.0_minimal-portable-linux64-static.7z';
-// 			var engineurl = 'https://www.springfightclub.com/data/master_103/linux64/' + zipfile;
-// 		} else {
-// 			zipfile = 'spring_103.0_minimal-portable-linux32-static.7z';
-// 			var engineurl = 'https://www.springfightclub.com/data/master_103/linux32/' + zipfile;
-// 		}
-// 	}
-// 
-// 	$.ajax({
-// 		url: engineurl,
-// 		type: 'HEAD',
-// 		error: function() {
-// 			console.log('Engine not found!');
-// 		},
-// 		success: function() {
-// 			downloadengine(engineurl);
-// 		},
-// 	});
-// }
-// 
-// function downloadengine(engineurl) {
-// 	ipcRenderer.send('download', {
-// 		url: engineurl,
-// 		properties: { directory: enginedir },
-// 	});
-// 
-// 	ipcRenderer.on('download progress', async (event, progress) => {
-// 		var w = Math.round(progress.percent * 100) + '%';
-// 		log.info('Downloading engine: ' + w + ' of 100%');
-// 		$('#start .engine-download').addClass('downloading');
-// 		$('#start .engine-download .download-title').text('Downloading engine: ' + w + ' of 100%');
-// 		$('#start .engine-download .progress').css('width', w);
-// 	});
-// 
-// 	ipcRenderer.on('download complete', (event, progress) => {
-// 		log.info('Engine download: completed!');
-// 		$('#start .engine-download .download-title').text('Extracting files...');
-// 		// unpack
-// 		log.info('source:' + enginedir + zipfile);
-// 		log.info('destination:' + engineverdir);
-// 		
-// 		sevenmin.unpack(enginedir + zipfile, engineverdir, err => {
-// 			log.info('Engine unpacked.');
-// 			$('#enginestatus')
-// 				.addClass('active')
-// 				.text('Engine: ok');
-// 
-// 			// add it to preferences tab
-// 			$('#enginepath').val(enginepath);
-// 
-// 			$('#start .engine-download .download-title').text('All ready!');
-// 			setTimeout(function() {
-// 				$('#start .engine-download').removeClass('downloading');
-// 			}, 3000);
-// 		});
-// 	});
-// }
 
 // preferences
 // load preferences
 $(window).ready(function() {
+	
 	// save defaults on first launch
 	var autoconnect = store.get('prefs.autoconnect');
 	if (autoconnect == undefined) store.set('prefs.autoconnect', 1);
+	
+	var hostselected = store.get('prefs.hostselected');
+	if (hostselected == undefined) store.set('prefs.hostselected', 'springfightclub.com');
 
 	var lightmode = store.get('prefs.lightmode');
 	if (lightmode == undefined) store.set('prefs.lightmode', 0);
@@ -596,6 +375,11 @@ $(window).ready(function() {
 		$('.autoconnect').prop('checked', false);
 	} else {
 		$('.autoconnect').prop('checked', true);
+	}
+	
+	hostselected = store.get('prefs.hostselected');
+	if (hostselected == 0) {		
+		$('.serverhosturl[data-url="'+hostselected+'"]').addClass('active');
 	}
 
 	lightmode = store.get('prefs.lightmode');
@@ -630,7 +414,6 @@ $(window).ready(function() {
 });
 
 // save preferences
-
 $('body').on('click', '.savepaths', function(e) {
 
 	if (fs.existsSync($('#springdir').val())) {

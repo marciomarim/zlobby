@@ -237,11 +237,9 @@ export default class User {
 				}, 1000);
 				$('#battleroom .startbattle').removeClass('inactive');	
 				if ( $('li[data-username="' + safe_founder + '"] .icon-user').hasClass('ingame') ){						
-					$('#battleroom .startbattle').text('Watch');
-					log.info('debug 1');
+					$('#battleroom .startbattle').text('Watch');					
 				}else{					
-					$('#battleroom .startbattle').text('Start');	
-					log.info('debug 2');
+					$('#battleroom .startbattle').text('Start');						
 				}
 				
 			}
@@ -260,11 +258,9 @@ export default class User {
 				
 				if ( $('li[data-username="' + safe_founder + '"] .icon-user').hasClass('ingame') ){
 					$('#battleroom .startbattle').removeClass('inactive');	
-					$('#battleroom .startbattle').text('Watch');
-					log.info('debug 3');
+					$('#battleroom .startbattle').text('Watch');					
 				}else{
-					$('#battleroom .startbattle').addClass('inactive');	
-					log.info('debug 4');
+					$('#battleroom .startbattle').addClass('inactive');						
 				}
 			}
 			$('#battleroom .battle-speclist').append($('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]'));
@@ -321,16 +317,10 @@ export default class User {
 
 		//update counts
 		var numberofplayers = $('#battleroom .battle-playerlist li').length;
-		var numberofspecs = $('#battleroom .battle-speclist li').length;
+		var numberofspecs = $('#battleroom .battle-speclist li').length - 1;
 		
 		$('#battleroom .battle-playerlist .ui-label').text(numberofplayers + ' PLAYERS');
 		$('#battleroom .battle-speclist .ui-label').text(numberofspecs + ' SPECTATORS');
-		$('#battleroom #battle-main-info .players').text(numberofplayers);
-		$('#battleroom #battle-main-info .spectatorCount').text(numberofspecs);
-		
-		// var battle_order = 20*numberofplayers + numberofspecs;
-		// $('.battle-card[data-battleid="' + battleid + '"] .players').text(numberofplayers);
-		// $('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);		
 		
 		var battlesize = 'normal';
 		if (numberofplayers > 16) {
