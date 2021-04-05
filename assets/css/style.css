@@ -851,6 +851,8 @@ ul.list {
 		#battleroom .hashCode,
 		#battleroom .channelName,
 		#battleroom .ip,
+		#battleroom .meta .players,
+		#battleroom .meta .spectatorCount,
 		.battle-card .battleid,
 		.battle-card .port,
 		.battle-card .maphash,
