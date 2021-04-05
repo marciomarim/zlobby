@@ -4,6 +4,9 @@ var spawn = require('child_process').spawn;
 import Utils from './utils.js';
 let utils = new Utils();
 
+const Store = require('electron-store');
+const store = new Store();
+
 import { springdir } from './init.js';
 
 $('body').on('click', '.lmenu .tab, .additional-nav button', function(e) {
@@ -49,8 +52,13 @@ $('body').on('click', 'a', event => {
 });
 
 $('body').on('click', '.serverhosturl', function(e) {
+	
 	$('.serverhosturl').removeClass('active');
 	$(this).addClass('active');
+	
+	var hostselected = $(this).data('url');
+	store.set('prefs.hostselected', hostselected);
+	
 });
 
 $('body').on('click', '.account .btn', function(e) {
