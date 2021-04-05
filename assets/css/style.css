@@ -884,6 +884,36 @@ ul.list {
 		height: 100%;
 	}	
 	
+	#battleroom .engine,
+	#battleroom .mapname,
+	#battleroom .gameName{
+		position: relative;		
+	}
+	
+	#battleroom .engine:before,
+	#battleroom .mapname:before,
+	#battleroom .gameName:before{
+		content: '';
+		position: absolute;		
+		margin: 10px 3px;
+		border-radius: 50%;
+		width: 10px;
+		height: 10px;
+		background: #888;	
+	}
+	
+	#battleroom .engine.sync:before,	
+	#battleroom .mapname.sync:before,	
+	#battleroom .gameName.sync:before{
+		background: green;		
+	}
+		
+	#battleroom .engine.unsync:before,	
+	#battleroom .mapname.unsync:before,	
+	#battleroom .gameName.unsync:before{
+		background: red;
+	}
+	
 	#battleroom .minimaps{
 		width: 100%;
 	    height: 400px;
