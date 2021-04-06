@@ -8,12 +8,17 @@ import { socketClient } from './socket.js';
 import Utils from './utils.js';
 let utils = new Utils();
 
+// const remote = require('electron').remote;
+// var appPath = remote.app.getAppPath();
+// var appData = remote.app.getPath('userData');
+
 const os = require('os');
 const platform = os.platform();
 const Store = require('electron-store');
 const store = new Store();
 const log = require('electron-log');
 const sevenmin = require('7zip-min');
+const path = require('path');
 
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
@@ -21,17 +26,6 @@ const { ipcRenderer } = require('electron');
 import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
 
 import { trackEvent } from './init.js';
-
-// var apiurl = 'https://files.balancedannihilation.com/api.php';
-// https://files.balancedannihilation.com/api.php?command=getmapslist
-// https://files.balancedannihilation.com/api.php?command=getminimapslist
-// https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=lost_v2.sdz&maptype=minimap
-// https://files.balancedannihilation.com/api.php?command=getimgmap&mapname=duckquestv0.9.sdz&xmax=300&ymax=300&maptype=minimap&keepratio=true
-// https://files.balancedannihilation.com/data/mapscontent/deltasiegedry_v3.sd7/maps/BAfiles_metadata/mapinfo.json
-// https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
-//https://files.balancedannihilation.com/data/metadata/talus_v2.sd7/mapinfo.json
-//var url1 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sd7/maps/BAfiles_metadata/mapinfo.json';
-//var url2 = 'https://files.balancedannihilation.com/data/mapscontent/' + mapfilenamebase + '.sdz/maps/BAfiles_metadata/mapinfo.json';
 
 export default class Battle {
 	constructor() {}
@@ -43,7 +37,18 @@ export default class Battle {
 			.toLowerCase()
 			.split(' ');
 		
-		var version = currentengine[1];		
+		var bar = false;
+		
+		if (currentengine[0] == 'spring'){
+			var version = currentengine[1];	
+		}else{
+			var version = currentengine[0];
+			bar = true;
+		}		
+		
+		log.warn('Spring engine: ' + $('#battleroom .engine').text() );
+		log.warn('Spring version: ' + version);
+		
 		var engineexist = false;
 		var battle = this;
 		
@@ -59,7 +64,11 @@ export default class Battle {
 			}else if( version == '105.0' ){
 				var fileurl = 'https://www.springfightclub.com/data/105_zips/spring_105.0_win64-minimal-portable.7z';
 				var zipfile = springdir + 'engine\\spring_105.0_win64-minimal-portable.7z';
-				var unzipfolder = springdir + 'engine\\' + version + '\\'; 
+				var unzipfolder = springdir + 'engine\\' + version + '\\'; 				
+			}else if( bar ){
+				var fileurl = 'https://github.com/beyond-all-reason/spring/releases/download/spring_bar_%7BBAR%7D'+version+'/spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				var zipfile = springdir + 'engine\\spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				var unzipfolder = springdir + 'engine\\' + version + '\\';
 			}
 			
 		} else if (platform == 'darwin') {
@@ -74,11 +83,16 @@ export default class Battle {
 				var fileurl = 'https://www.springfightclub.com/data/master_103/mac/Spring_103.0.app.7z';
 				var zipfile = springdir + 'engine/Spring_103.0.app.7z';
 				var unzipfolder = springdir + 'engine/' + version + '/'; 
-			}else{
+			}else if( version == '105.0') {
 				//var fileurl = 'https://www.springfightclub.com/data/105_zips/mac/Spring_105.0.app.7z';
 				//var zipfile = springdir + 'engine/Spring_105.0.app.7z';
 				//var unzipfolder = springdir + 'engine/' + version + '/';
-				var fileurl = 0;								
+				var fileurl = 0;
+			}else if( bar ){
+				// var fileurl = 'https://github.com/beyond-all-reason/spring/releases/download/spring_bar_%7BBAR%7D'+version+'/spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				// var zipfile = springdir + 'engine/spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				// var unzipfolder = springdir + 'engine/' + version + '/';
+				var fileurl = 0;
 			}
 			
 		} else if (platform == 'linux') {
@@ -90,10 +104,15 @@ export default class Battle {
 				var fileurl = 'https://www.springfightclub.com/data/master_103/linux64/spring_103.0_minimal-portable-linux64-static.7z';
 				var zipfile = springdir + 'engine/spring_103.0_minimal-portable-linux64-static.7z';
 				var unzipfolder = springdir + 'engine/' + version + '/';
-			}else{
+			}else if(version == '105.0'){
 				var fileurl = 'https://www.springfightclub.com/data/105_zips/spring_105.0_minimal-portable-linux64-static.7z';
 				var zipfile = springdir + 'engine/spring_105.0_minimal-portable-linux64-static.7z';
 				var unzipfolder = springdir + 'engine/' + version + '/';								
+			}else if (bar){
+				// var fileurl = 'https://github.com/beyond-all-reason/spring/releases/download/spring_bar_%7BBAR%7D'+version+'/spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				// var zipfile = springdir + 'engine\\spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
+				// var unzipfolder = springdir + 'engine\\' + version + '\\';
+				var fileurl = 0;
 			}
 		
 		}
@@ -139,19 +158,24 @@ export default class Battle {
 				}
 				
 			}
-							
-			// check if file exist first
-			$.ajax({
-				url: fileurl,
-				type: 'HEAD',
-				error: function() {
-					$('#battleroom .engine-download').removeClass('downloading').addClass('failed');
-					$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
-				},
-				success: function() {
-					battle.downloadengine(fileurl, zipfile, unzipfolder);
-				},
-			});							
+			
+			if ( !bar ){
+				// check if file exist first
+				$.ajax({
+					url: fileurl,
+					type: 'HEAD',
+					error: function() {
+						$('#battleroom .engine-download').removeClass('downloading').addClass('failed');
+						$('#battleroom .engine-download .download-title').text('Engine not found for download.');					
+					},
+					success: function() {
+						battle.downloadengine(fileurl, zipfile, unzipfolder);
+					},
+				});	
+			}else{
+				battle.downloadenginebar(fileurl, zipfile, unzipfolder);
+			}	
+										
 			
 		}else{
 			// send unsync status
@@ -191,15 +215,42 @@ export default class Battle {
 				fs.unlink( zipfile );
 			});
 		});
+				
+	}
+	
+	downloadenginebar(fileurl, zipfile, unzipfolder){
+		
+		var enginedir = path.resolve(springdir, 'engine');
+		var battle = this;
+		
+		ipcRenderer.send('download', {
+			  url: fileurl,
+			  properties: { directory: enginedir },
+		  });
+	
+		  ipcRenderer.on('download progress', async (event, progress) => {
+			  var w = Math.round(progress.percent * 100) + '%';
+			  log.info('Downloading update: ' + w + ' of 100%');
+			  $('#battleroom .engine-download .download-title').text('Downloading engine: ' + w + ' of 100%');	
+			  $('#battleroom .engine-download .progress').css('width', w );
+		  });
+	
+		  ipcRenderer.on('download complete', (event, progress) => {
+			  log.info('Download completed, unpacking...');
+			  $('#battleroom .engine-download .download-title').text('Download completed, unpacking...');
+			  // unpack
+			  battle.engineunpack(zipfile, unzipfolder);			  			  
+		  });
+		  
 	}
 	
 	engineunpack(zipfile, unzipfolder){
 		
+		console.warn(zipfile);
+		console.warn(unzipfolder);
+		
 		sevenmin.unpack(zipfile, unzipfolder, err => {
 			log.info('Engine unpacked.');			
-			
-			// add it to preferences tab
-			//$('#enginepath').val(enginepath);
 
 			$('#battleroom .engine-download .download-title').text('Downloading engine: completed.');	
 			$('#battleroom .engine-download .download-title').removeClass('downloading');
@@ -229,9 +280,10 @@ export default class Battle {
 				.split(' ')
 				.join('') +
 			'.sdz';
-		var modexist = false;
-
-		if (fs.existsSync(modsdir + filename)) {
+		var modexist = false;		
+		
+		// check for local file of for rapid download
+		if ( fs.existsSync(modsdir + filename) || store.get('game.' + $('#battleroom .gameName').text()) ) {
 			log.info('Game found in local path');
 			$('#battleroom .game-download').removeClass('downloading');			
 		} else {
@@ -243,14 +295,77 @@ export default class Battle {
 				url: fileurl,
 				type: 'HEAD',
 				error: function() {
-					$('#battleroom .game-download').removeClass('downloading').addClass('failed');
-					$('#battleroom .game-download .download-title').text('Game not found for download.');						
+					log.warn('Game download via rapid');										
+					battle.downloadgamepr( $('#battleroom .gameName').text() );					
 				},
 				success: function() {
+					log.warn('Game download via http');										
 					battle.downloadgame(fileurl, filename);
 				},
 			});
 		}
+	}
+	
+	downloadgamepr( gamename ){
+						
+		const { exec } = require('child_process');										
+				
+		if (platform == 'win32') {			
+			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader.exe');
+		}else if (platform == 'darwin'){
+			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader-mac');
+		}else{
+			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader');			
+		}		
+		
+		console.warn('PR: ' + pr);
+		
+		const prdownloader = exec( pr + ' --download-game ' + '"'+gamename+'"' );
+		$('#battleroom .game-download').addClass('downloading');
+		
+		prdownloader.stdout.on('data', (data) => {
+			var status = data.split(' ');			
+			console.warn(data);			
+			
+			if( data.indexOf('[Info] Download complete!') !== -1){
+				$('#battleroom .game-download .download-title').text('Download complete!');
+				$('#battleroom .game-download').removeClass('downloading');
+				store.set('game.' + gamename, 1);				
+			}						
+			
+			if(status[0] == '[Progress]'){
+				var progress = '0%';
+				if ( status[1].indexOf('%') !== -1 ){
+					progress = status[1];
+				}else if(status[2].indexOf('%') !== -1){
+					progress = status[2];
+				}else if(status[3].indexOf('%') !== -1){
+					progress = status[3];
+				}
+				
+				$('#battleroom .game-download .download-title').text('Downloading ' + gamename + ' status: ' + progress);	
+				$('#battleroom .engine-download .progress').css('width', progress.toString() );
+				
+				if (progress == '100%'){
+					$('#battleroom .game-download').removeClass('downloading');
+					store.set('game.' + gamename, 1);
+				}				
+			}
+			
+		});
+		
+		prdownloader.stderr.on('data', (data) => {
+		  console.error(data);
+		  $('#battleroom .game-download').removeClass('downloading').addClass('failed');
+		  $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
+		});
+		
+		prdownloader.on('close', (code) => {		  
+		  // $('#battleroom .game-download').removeClass('downloading').addClass('failed');
+		  // $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
+		  console.warn('Download closed:' + code);
+		});
+		
 	}
 
 	downloadgame(fileurl, filename) {
@@ -478,8 +593,7 @@ export default class Battle {
 	
 	
 
-	get_map_info(battleid) {
-		
+	get_map_info(battleid) {		
 		
 		var battles = this;
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
@@ -1023,8 +1137,6 @@ export default class Battle {
 		}
 		
 		this.updatebattleorder(battleid);
-		
-		//log.warn('PLAYERS: ' + $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length);
 		
 	}
 			
