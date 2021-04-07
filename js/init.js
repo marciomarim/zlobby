@@ -347,7 +347,7 @@ $(window).ready(function() {
 	
 	// save defaults on first launch
 	var autoconnect = store.get('prefs.autoconnect');
-	if (autoconnect == undefined) store.set('prefs.autoconnect', 1);
+	if (autoconnect == undefined) store.set('prefs.autoconnect', 0);
 	
 	var hostselected = store.get('prefs.hostselected');
 	if (hostselected == undefined) store.set('prefs.hostselected', 'springfightclub.com');
