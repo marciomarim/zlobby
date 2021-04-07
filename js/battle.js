@@ -40,7 +40,7 @@ export default class Battle {
 		var bar = false;
 		
 		if (currentengine[0] == 'spring'){
-			var version = currentengine[1];	
+			var version = currentengine[1];
 		}else{
 			var version = currentengine[0];
 			bar = true;
@@ -109,10 +109,9 @@ export default class Battle {
 				var zipfile = springdir + 'engine/spring_105.0_minimal-portable-linux64-static.7z';
 				var unzipfolder = springdir + 'engine/' + version + '/';								
 			}else if (bar){
-				// var fileurl = 'https://github.com/beyond-all-reason/spring/releases/download/spring_bar_%7BBAR%7D'+version+'/spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
-				// var zipfile = springdir + 'engine\\spring_bar_.BAR.'+version+'_windows-64-minimal-portable.7z';
-				// var unzipfolder = springdir + 'engine\\' + version + '\\';
-				var fileurl = 0;
+				var fileurl = 'https://github.com/beyond-all-reason/spring/releases/download/spring_bar_%7BBAR%7D'+version+'/spring_bar_.BAR.'+version+'_linux-64-minimal-portable.7z';
+				var zipfile = springdir + 'engine/spring_bar_.BAR.'+version+'_linux-64-minimal-portable.7z';
+				var unzipfolder = springdir + 'engine/' + version + '/';
 			}
 		
 		}
@@ -313,7 +312,7 @@ export default class Battle {
 		if (platform == 'win32') {			
 			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader.exe');
 		}else if (platform == 'darwin'){
-			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader-mac');
+			var pr = path.join(path.dirname(__dirname), 'zlobby/extraResources','pr-downloader-mac');
 		}else{
 			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader');			
 		}		
@@ -325,12 +324,12 @@ export default class Battle {
 		
 		prdownloader.stdout.on('data', (data) => {
 			var status = data.split(' ');			
-			console.warn(data);			
+			log.warn(data);			
 			
 			if( data.indexOf('[Info] Download complete!') !== -1){
 				$('#battleroom .game-download .download-title').text('Download complete!');
 				$('#battleroom .game-download').removeClass('downloading');
-				store.set('game.' + gamename, 1);				
+				store.set('game.' + gamename, 1);			
 			}						
 			
 			if(status[0] == '[Progress]'){
@@ -343,19 +342,23 @@ export default class Battle {
 					progress = status[3];
 				}
 				
+				$('#battleroom .game-download').addClass('downloading');
 				$('#battleroom .game-download .download-title').text('Downloading ' + gamename + ' status: ' + progress);	
-				$('#battleroom .engine-download .progress').css('width', progress.toString() );
+				$('#battleroom .game-download .progress').css('width', progress.toString() );
 				
 				if (progress == '100%'){
 					$('#battleroom .game-download').removeClass('downloading');
 					store.set('game.' + gamename, 1);
+					setTimeout(function() {				
+						utils.sendbattlestatus();
+					}, 1000);
 				}				
 			}
 			
 		});
 		
 		prdownloader.stderr.on('data', (data) => {
-		  console.error(data);
+		  log.error(data);
 		  $('#battleroom .game-download').removeClass('downloading').addClass('failed');
 		  $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
 		});
@@ -363,7 +366,7 @@ export default class Battle {
 		prdownloader.on('close', (code) => {		  
 		  // $('#battleroom .game-download').removeClass('downloading').addClass('failed');
 		  // $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
-		  console.warn('Download closed:' + code);
+		  log.warn('Download closed:' + code);
 		});
 		
 	}
@@ -1026,7 +1029,13 @@ export default class Battle {
 			this.get_map_info(battleid);
 		}
 				
-		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount - 1);						
+		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount - 1);
+		
+		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - (spectatorCount - 1);
+		if (players < 0){
+			players = 0;
+		}
+		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);		
 
 		if (locked === 0) {
 			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');
@@ -1210,7 +1219,10 @@ export default class Battle {
 	updatebattleorder(battleid){
 		
 		var spectatorCount = $('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text();				
-		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - spectatorCount;		
+		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - (spectatorCount-1);
+		if (players < 0){
+			players = 0;
+		}
 		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);
 		var battle_order = 20*players + spectatorCount;
 		$('.battle-card[data-battleid="' + battleid + '"]').css('order', -battle_order);
