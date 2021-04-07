@@ -4,6 +4,9 @@ const { autoUpdater } = require('electron-updater');
 
 const { download } = require('electron-dl');
 
+const Store = require('electron-store');
+const store = new Store();
+
 function createWindow() {
 	// Create the browser window.
 	const win = new BrowserWindow({
@@ -11,13 +14,13 @@ function createWindow() {
 		height: 1000,
 		minWidth: 1100,
 		minHeight: 800,
-		backgroundColor: '#000000',
-		//icon: __dirname + '/assets/icons/icon.png',
+		backgroundColor: '#000000',		
 		titleBarStyle: 'hidden',
 		frame: true,
 		show: false,
 		webPreferences: {
 			nodeIntegration: true,
+			contextIsolation: false,			
 			webviewTag: true,
 			enableRemoteModule: true,
 			worldSafeExecuteJavaScript: true,			
