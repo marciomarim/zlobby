@@ -967,7 +967,7 @@ export default class Battle {
 
 		battlediv += '<div class="players icon icon-ingame">0</div>';
 		battlediv += '<div class="spectatorCount icon icon-spec">0</div>';
-		battlediv += '<div class="nUsers" style="display:none;">1</div>';
+		battlediv += '<div class="nUsers" style="display:none;">0</div>';
 		battlediv += '<div class="maxPlayers">' + maxPlayers + '<span class="upper">MAX</span></div>';
 		//battlediv += '<div class="passworded icon icon-locked '+passworded+'"></div>';
 		battlediv += '<div class="ip">' + ip + '</div>';
