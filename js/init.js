@@ -378,7 +378,7 @@ $(window).ready(function() {
 	}
 	
 	hostselected = store.get('prefs.hostselected');
-	if (hostselected == 0) {		
+	if (hostselected) {		
 		$('.serverhosturl[data-url="'+hostselected+'"]').addClass('active');
 	}
 
