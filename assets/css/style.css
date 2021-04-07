@@ -413,7 +413,31 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		
 			.serverhosturl{
 				opacity: 0.5;	
-				margin: 6px;
+				margin: 12px;
+				padding: 0 0 0 20px;
+				position: relative;
+			}
+			
+			.serverhosturl:before{
+				position: absolute;
+				content: '';
+				top: 1px;
+				left: 0;
+				background-size: contain;
+				width: 16px;
+				height: 16px;				
+			}
+			
+			.serverhosturl.ba:before{
+				background-image: url(../images/ba.png);
+			}
+			
+			.serverhosturl.bar:before{
+				background-image: url(../images/bar.png);
+			}
+			
+			.serverhosturl.spring:before{
+				background-image: url(../images/spring.png);
 			}
 			
 			.serverhosturl.active{
