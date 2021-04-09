@@ -391,18 +391,6 @@ body.lightmode ::-webkit-scrollbar-thumb:hover {
 		    margin: 20px;
 		}
 		
-		.account .nav .btn{
-			display: block;
-			color: #999;
-			text-align: center;
-			padding: 1em;
-			cursor: pointer;
-		}
-		
-		body.lightmode .account .nav .btn{			
-			color: #fff;
-		}
-		
 		.account .nav .btn.active{
 			display: none;
 		}
