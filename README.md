@@ -11,6 +11,8 @@ Electron based lobby client
 - Cross platform
 - Dark and light UI modes
 - Auto-downloads engine, games and maps
+- Multi engine
+- Connect to BA, BAR and Spring hosts
 - Seemless auto-updates 
   - [x] Mac 
   - [x] Windows
@@ -48,7 +50,7 @@ Electron based lobby client
   - [ ] Local and Remote list
   - [ ] Show players and winner
 - List and join channels
-- Website and Discord tab
+- Singleplayer
 - Account 
   - [x] Creation
   - [ ] Rename account
@@ -56,10 +58,9 @@ Electron based lobby client
 
 ## To Do
 
+- [ ] Manage multiple sockets
 - [ ] Notarize on Mac
-- [ ] Automate for future engine/games 
 - [ ] Host battles
-- [ ] Singleplayer
 - [ ] Matchmaking
 
 ## Author
