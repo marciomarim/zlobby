@@ -978,9 +978,9 @@ export default class Battle {
 		battlediv += '<div class="battletitle">' + title + '</div>';
 		battlediv += '<div class="meta2">';
 		battlediv += '<div class="gameName">' + gameName + '</div>';
-		battlediv += '<div class="mapname">' + mapname + '</div>';
+		battlediv += '<div class="mapname">' + mapname + '</div>';		
 		battlediv += '<div class="username founder icon icon-bot">' + username + '</div>';
-		battlediv += '<div class="engine">' + engine + '</div>';
+		battlediv += '<div class="engine">' + engine + '</div>';		
 		battlediv += '</div>';
 		battlediv += '</div>';
 		battlediv += '<div class="minimap"></div>';

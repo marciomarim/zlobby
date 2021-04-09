@@ -293,25 +293,6 @@ $('body').on('click', '#battleroom .smallnav .navbtn', function(e) {
 	$(target).addClass('active');
 });
 
-// $('body').on('click', '.pickarm', function(e) {
-// 	$('#battleroom .pickcore').addClass('active');
-// 	$(this).removeClass('active');
-// 	utils.sendbattlestatus();
-// 
-// 	//save prefered faction
-// 	store.set('user.faction', 0);
-// });
-// 
-// $('body').on('click', '.pickcore', function(e) {
-// 	$('#battleroom .pickarm').addClass('active');
-// 	$(this).removeClass('active');
-// 	utils.sendbattlestatus();
-// 
-// 	//save prefered faction
-// 	store.set('user.faction', 1);
-// });
-
-
 
 
 
@@ -549,6 +530,23 @@ $('body').on('keypress', '.battleroom_input', function(e) {
 		return false; //<---- Add this line
 	}
 });
+
+
+$('body').on('click', '.resync', function(e) {
+	utils.sendbattlestatus();
+});
+
+// $('body').on('click', '.mapname', function(e) {
+// 	var $resync = $('<div class="hover btn" data-username="' + username + '"></div>');
+// });
+// 
+// $('body').on('click', '.gameName', function(e) {
+// 	
+// });
+// 
+// $('body').on('click', '.engine', function(e) {
+// 	
+// });
 
 // userwin in battleroom, chat and commands
 $('body').on('click', '.battle-players li .name', function(e) {

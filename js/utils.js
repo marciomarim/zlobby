@@ -592,10 +592,11 @@ export default class Utils {
 
 	sendbattlestatus() {
 		
+		log.info('Sending battle status.');
 		// bail out if still downloading
-		if ( $('#battleroom .engine-download').hasClass('downloading') || $('#battleroom .game-download').hasClass('downloading') || $('#battleroom .map-download').hasClass('downloading') ){
-			return false;
-		}
+		// if ( $('#battleroom .engine-download').hasClass('downloading') || $('#battleroom .game-download').hasClass('downloading') || $('#battleroom .map-download').hasClass('downloading') ){
+		// 	return false;
+		// }
 		
 		var myusername = $('#myusername').text();
 
