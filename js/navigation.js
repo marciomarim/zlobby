@@ -45,6 +45,12 @@ $(document).keyup(function(e) {
 	}
 });
 
+
+// $('body').on('click', '.testfunction', function(e) {
+// 	utils.testfunction();
+// });
+
+
 $('body').on('click', 'a', event => {
 	event.preventDefault();
 	let link = event.target.href;
