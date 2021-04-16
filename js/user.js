@@ -20,7 +20,11 @@ export default class User {
 
 	adduser(username, country, userID, lobbyID) {
 		var line = '<div class="icon icon-user"></div>';
-		line += '<div class="flag-icon flag-icon-squared flag-icon-' + country.toLowerCase() + '"></div>';
+		if (country){
+			line += '<div class="flag-icon flag-icon-squared flag-icon-' + country.toLowerCase() + '"></div>';	
+		}else{
+			line += '<div class="flag-icon flag-icon-squared flag-icon"></div>';
+		}		
 		line += '<div class="rank icon icon-rank0"></div>';
 		line += '<div class="name">' + username + '</div>';
 		line += '<div class="trueskill">–</div>';
@@ -45,17 +49,6 @@ export default class User {
 			$('#activechats .userpm-select[data-username="' + jQuery.escapeSelector(username) + '"]').addClass('online');
 		}
 	}
-
-	// add battle additional fields
-	// addbattlestatusfields(username) {
-	// 	var div1 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .trueskill');
-	// 	var div2 = $('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .lobby-icon');
-	// 	div2.after('<div class="bonus"></div>');
-	// 	div1.after('<div class="color"></div>');
-	// 	div1.after('<div class="faction icon icon-arm"></div>');
-	// 	div1.after('<div class="team">–</div>');
-	// 	div1.after('<div class="ally">-</div>');
-	// }
 
 	// user disconnected
 	removeuser(username) {
@@ -112,11 +105,13 @@ export default class User {
 			// battle is running should change status
 			$('#battleroom[data-founder="' + safe_username + '"] .status').addClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').addClass('ingame');
+			$('.battle-card[data-founder="' + safe_username + '"]').addClass('ingame');
 			log.info('battle running');
 		} else if ($('.battle-card[data-founder="' + safe_username + '"]').length && !newStatus.inGame) {
 			//battle ended
 			$('#battleroom[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').removeClass('ingame');
+			$('.battle-card[data-founder="' + safe_username + '"]').removeClass('ingame');
 			// remove class so it can start again
 			log.info('battle not running');
 		}
