@@ -750,6 +750,7 @@ export default class Utils {
 	deletemap(filename) {
 		fs.unlinkSync(mapsdir + filename);
 	}
+		
 }
 
 function dec2bin(dec) {
