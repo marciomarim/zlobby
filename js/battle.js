@@ -8,10 +8,6 @@ import { socketClient } from './socket.js';
 import Utils from './utils.js';
 let utils = new Utils();
 
-// const remote = require('electron').remote;
-// var appPath = remote.app.getAppPath();
-// var appData = remote.app.getPath('userData');
-
 const os = require('os');
 const platform = os.platform();
 const Store = require('electron-store');
@@ -26,6 +22,8 @@ const { ipcRenderer } = require('electron');
 import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
 
 import { trackEvent } from './init.js';
+
+//import { MapParser } from "spring-map-parser";
 
 export default class Battle {
 	constructor() {}
@@ -326,7 +324,7 @@ export default class Battle {
 			var status = data.split(' ');			
 			log.warn(data);			
 			
-			if( data.indexOf('[Info] Download complete!') !== -1){
+			if( data.indexOf('Download complete!') !== -1){
 				$('#battleroom .game-download .download-title').text('Download complete!');
 				$('#battleroom .game-download').removeClass('downloading');
 				store.set('game.' + gamename, 1);			
@@ -359,11 +357,12 @@ export default class Battle {
 		
 		prdownloader.stderr.on('data', (data) => {
 		  log.error(data);
-		  $('#battleroom .game-download').removeClass('downloading').addClass('failed');
-		  $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
+		  //$('#battleroom .game-download').removeClass('downloading').addClass('failed');
+		  //$('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
 		});
 		
 		prdownloader.on('close', (code) => {		  
+			$('#battleroom .game-download').removeClass('downloading');
 		  // $('#battleroom .game-download').removeClass('downloading').addClass('failed');
 		  // $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
 		  log.warn('Download closed:' + code);
@@ -504,8 +503,12 @@ export default class Battle {
 	}
 	
 	downloadmap(fileurl, filename) {
-		$('#battleroom .map-download').addClass('downloading');
+		
+		$('#battleroom .map-download').addClass('downloading');		
 		const file = fs.createWriteStream(mapsdir + filename);
+		var battleid = $('#battleroom .battleid').text();
+		var battles = this;
+		
 		https.get(fileurl, function(response) {
 			response.pipe(file);
 
@@ -525,8 +528,14 @@ export default class Battle {
 			response.on('end', function() {
 				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
 				$('#battleroom .map-download').removeClass('downloading');
+				
+				
 				setTimeout(function() {				
-					utils.sendbattlestatus();
+					battles.load_map_images(battleid);
+				}, 1000);
+				
+				setTimeout(function() {				
+					utils.sendbattlestatus();					
 				}, 1000);
 			});
 
@@ -596,41 +605,52 @@ export default class Battle {
 	
 	
 
-	get_map_info(battleid) {		
+// 	get_map_info(battleid) {		
+// 		
+// 		var battles = this;
+// 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
+// 		log.info("Getting map info: " + mapname);
+// 		
+// 		var mapfilenamebase = mapname
+// 			.toLowerCase()
+// 			.replace("'", '_')
+// 			.split(' ')
+// 			.join('_');
+// 
+// 		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
+// 		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';
+// 
+// 		try {
+// 			$.getJSON(url1, function(mapinfo) {
+// 				var filename = mapfilenamebase + '.sd7';
+// 				battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
+// 			}).fail(function() {
+// 				try {
+// 					$.getJSON(url2, function(mapinfo) {
+// 						var filename = mapfilenamebase + '.sdz';
+// 						battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
+// 					}).fail(function() {
+// 						var filename = mapfilenamebase + '.sd7'; // tmp
+// 						battles.load_map_images(battleid, null, filename, mapfilenamebase);
+// 					});
+// 				} catch (e) {}
+// 			});
+// 		} catch (e) {}
+// 	}
+
+	//load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
+	load_map_images(battleid) {
 		
+		log.info('loading map images');
 		var battles = this;
-		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
-		log.info("Getting map info: " + mapname);
 		
+		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();		
 		var mapfilenamebase = mapname
 			.toLowerCase()
 			.replace("'", '_')
 			.split(' ')
 			.join('_');
-
-		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
-		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';
-
-		try {
-			$.getJSON(url1, function(mapinfo) {
-				var filename = mapfilenamebase + '.sd7';
-				battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
-			}).fail(function() {
-				try {
-					$.getJSON(url2, function(mapinfo) {
-						var filename = mapfilenamebase + '.sdz';
-						battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
-					}).fail(function() {
-						var filename = mapfilenamebase + '.sd7'; // tmp
-						battles.load_map_images(battleid, null, filename, mapfilenamebase);
-					});
-				} catch (e) {}
-			});
-		} catch (e) {}
-	}
-
-	load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
-		var battles = this;
+		
 		var localmap = minimapsdir + mapfilenamebase + '.jpg';
 		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
 		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
@@ -666,146 +686,257 @@ export default class Battle {
 		} else {
 			localmapok = false;
 		}
-
+		
 		if (localmapok) {
-			log.info('Local minimap found:' + filename);
-			battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-		} else {
-			//&xmax=1000&ymax=1000
-			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
-			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
-			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
-
-			if (mapinfo) {
-				log.info('Saving remote minimaps:' + filename);
-
-				var sizeinfos = mapinfo['sizeinfos'];
-				var w = sizeinfos['width'],
-					h = sizeinfos['height'];
-
-				Jimp.read(urlmap).then(image => {
-					// Do stuff with the image.
-					image
-						.resize(w, h)
-						.quality(70)
-						.write(localmap, function() {
-							battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-						});
-				});
-
-				Jimp.read(urlmmap).then(image => {
-					image
-						.resize(w, h)
-						.quality(70)
-						.write(localmmap);
-				});
-				Jimp.read(urlhmap).then(image => {
-					image
-						.resize(w, h)
-						.quality(70)
-						.write(localhmap);
-				});
-			} else {
-				log.info('File info is missing for:' + filename);
-				battles.appendimagedivs(battleid, '', '', '', '');
-			}
+			battles.appendimage(battleid, localmap, localmmap, localhmap);
+		}else{
+			battles.create_minimap( battleid );	
 		}
+		
+		
+// 		if (localmapok) {
+// 			log.info('Local minimap found:' + filename);
+// 			//battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+// 			battles.appendimage(battleid, mapinfo, localmap, localmmap, localhmap);
+// 		} else {
+// 			//&xmax=1000&ymax=1000
+// 			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
+// 			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
+// 			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
+// 
+// 			if (mapinfo) {
+// 				log.info('Saving remote minimaps:' + filename);
+// 
+// 				var sizeinfos = mapinfo['sizeinfos'];
+// 				var w = sizeinfos['width'],
+// 					h = sizeinfos['height'];
+// 
+// 				Jimp.read(urlmap).then(image => {
+// 					// Do stuff with the image.
+// 					image
+// 						.resize(w, h)
+// 						.quality(70)
+// 						.write(localmap, function() {
+// 							//battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
+// 							battles.appendimage(battleid, mapinfo, localmap, localmmap, localhmap);
+// 						});
+// 				});
+// 
+// 				Jimp.read(urlmmap).then(image => {
+// 					image
+// 						.resize(w, h)
+// 						.quality(70)
+// 						.write(localmmap);
+// 				});
+// 				Jimp.read(urlhmap).then(image => {
+// 					image
+// 						.resize(w, h)
+// 						.quality(70)
+// 						.write(localhmap);
+// 				});
+// 			} else {
+// 				log.info('File info is missing for:' + filename);
+// 				//battles.appendimagedivs(battleid, '', '', '', '');
+// 				battles.create_minimap( battleid );
+// 			}
+// 		}
 	}
 
-	appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap) {
-		var battles = this;
-
-		if (localmap) {
-			if (mapinfo) {
-				var sizeinfos = mapinfo['sizeinfos'];
-				var w = sizeinfos['width'],
-					h = sizeinfos['height'],
-					xsmu = sizeinfos['xsmu'],
-					ysmu = sizeinfos['ysmu'],
-					Description = sizeinfos['Description'];
-				var ratio = w / h;
-				var maxwh = 220;
-				battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-			} else {
-				const img = new Image();
-				img.src = localmap;
-				img.onload = function() {
-					var w = this.width;
-					var h = this.width;
-					var ratio = w / h;
-					var maxwh = 220;
-					battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-				};
+// 	appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap) {
+// 		var battles = this;
+// 
+// 		if (localmap) {
+// 			if (mapinfo) {
+// 				var sizeinfos = mapinfo['sizeinfos'];
+// 				var w = sizeinfos['width'],
+// 					h = sizeinfos['height'],
+// 					xsmu = sizeinfos['xsmu'],
+// 					ysmu = sizeinfos['ysmu'],
+// 					Description = sizeinfos['Description'];
+// 				var ratio = w / h;
+// 				var maxwh = 220;
+// 				battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
+// 			} else {
+// 				const img = new Image();
+// 				img.src = localmap;
+// 				img.onload = function() {
+// 					var w = this.width;
+// 					var h = this.width;
+// 					var ratio = w / h;
+// 					var maxwh = 220;
+// 					battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
+// 				};
+// 			}
+// 		} else {
+// 			// no local map
+// 			// cant save remotely
+// 			log.warn('No remote minimap');
+// 			battles.create_minimap( battleid );
+// 			
+// 			// remove map
+// 			$('.battle-card[data-battleid="' + battleid + '"] .minimap').empty();
+// 			if ($('#battleroom').data('battleid') == battleid) {
+// 				$('#battleroom #battle-minimap').empty();
+// 				$('#battleroom #battle-metalmap').empty();
+// 				$('#battleroom #battle-heightmap').empty();
+// 			}
+// 		}
+// 	}
+	
+		
+	create_minimap( battleid ){						
+		
+		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();		
+		var battles = this;		
+		var mapfilenamebase = mapname
+			.toLowerCase()
+			.replace("'", '_')
+			.split(' ')
+			.join('_');
+							
+		const MapParser = require("spring-map-parser").MapParser;
+		
+		(async () => {
+			
+			const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
+			const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
+			var mapPath = '';
+			
+			if (fs.existsSync(mapPath1)) {
+				mapPath = mapPath1;	
+			}else if(fs.existsSync(mapPath2)){
+				mapPath = mapPath2;	
 			}
-		} else {
-			// no local map
-			// cant save remotely
-			log.info('No remote minimap');
-			// remove map
-			$('.battle-card[data-battleid="' + battleid + '"] .minimap').empty();
-			if ($('#battleroom').data('battleid') == battleid) {
-				$('#battleroom #battle-minimap').empty();
-				$('#battleroom #battle-metalmap').empty();
-				$('#battleroom #battle-heightmap').empty();
-			}
-		}
-	}
-
-	appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio) {
-		if (w > h) {
-			var map = '<img class="map" src="' + localmap + '" width="220" height="' + maxwh / ratio + '">';
-		} else if (w == h) {
-			var map = '<img class="map" src="' + localmap + '" width="220" height="220">';
-		} else {
-			var map = '<img class="map" src="' + localmap + '" width="' + maxwh * ratio + '" height="220">';
-		}
+			
+			if (mapPath != ''){
+				const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
+				const map = await parser.parseMap(mapPath);		
+				console.log(map.info);		
+				
+				await map.textureMap.toFile('minimaps/'+mapfilenamebase+'.jpg');		
+				await map.heightMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-heightmap.jpg');			
+				await map.metalMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				
+				var localmap = minimapsdir + mapfilenamebase + '.jpg';
+				var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+				var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';								
+				
+				battles.appendimage(battleid, localmap, localmmap, localhmap);
+			}			
+			
+		})();
+				
+	}	
+	
+	appendimage(battleid, localmap, localmmap, localhmap){
+		
+		var map = '<img class="map" src="' + localmap + '">';
+	
 		$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(map);
-
+		
 		// if I'm on a battleroom, load metal and height maps
 		if ($('#battleroom').data('battleid') == battleid) {
-			var mapmap = '<img class="map" src="' + localmap + '">';
-			var metalmap = '<img class="map" src="' + localmmap + '">';
-			var heightmap = '<img class="map" src="' + localhmap + '">';
-
+			
+			var maxw = $('.battle-main-info').width();
+			
+			var mapmap = '<img class="map" src="' + localmap + '" style="max-width:'+maxw+'px;">';
+			var metalmap = '<img class="map" src="' + localmmap + '" style="max-width:'+maxw+'px;">';
+			var heightmap = '<img class="map" src="' + localhmap + '" style="max-width:'+maxw+'px;">';
+			
 			$('#battleroom #battle-minimap').html(mapmap);
 			$('#battleroom #battle-metalmap').html(metalmap);
 			$('#battleroom #battle-heightmap').html(heightmap);
-
-			var divwidth = $('#battleroom .minimaps').width();
-			var ratiodiv = divwidth / 400;
-
-			if (ratio > ratiodiv) {
-				$('#battleroom .minimaps').css('height', divwidth / ratio);
-				$('#battleroom .minimaps').css('width', 'auto');
-			} else {
-				$('#battleroom .minimaps').css('height', '400px');
-				$('#battleroom .minimaps').css('width', ratio * 400 + 'px');
+						
+			var maxh = $('#battle-minimap img').height();
+			if (maxh > 0){
+				$('#battleroom .minimaps').css('max-height', maxh + 'px');	
+			}else{
+				$('#battleroom .minimaps').css('max-height', '');
 			}
-
-			if (mapinfo) {
-				var sizeinfos = mapinfo['sizeinfos'],
-					teamlist = mapinfo['teamslist'],
-					fulltilewidth = sizeinfos['fulltilewidth'],
-					fulltileheight = sizeinfos['fulltileheight'];
-
-				if (teamlist.length) {
-					// clear old points
-					$('.minimaps .startpos').remove();
-					teamlist.forEach(async function(item) {
-						//log.info(item);
-						//log.info(fulltilewidth);
-						//log.info(fulltileheight);
-
-						var xrel = (item['StartPosX'] / fulltilewidth) * 100;
-						var yrel = (item['StartPosZ'] / fulltileheight) * 100;
-						var teamnum = item['teamnum'] + 1;
-						var point = '<div class="startpos" style="top:' + yrel + '%; left:' + xrel + '%;">' + teamnum + '</div>';
-						$('#battleroom .minimaps').append(point);
-					});
-				}
-			}
+			
+			
+			
+// 			if (mapinfo) {
+// 				var sizeinfos = mapinfo['sizeinfos'],
+// 					teamlist = mapinfo['teamslist'],
+// 					fulltilewidth = sizeinfos['fulltilewidth'],
+// 					fulltileheight = sizeinfos['fulltileheight'];
+// 
+// 				if (teamlist.length) {
+// 					// clear old points
+// 					$('.minimaps .startpos').remove();
+// 					teamlist.forEach(async function(item) {
+// 						//log.info(item);
+// 						//log.info(fulltilewidth);
+// 						//log.info(fulltileheight);
+// 
+// 						var xrel = (item['StartPosX'] / fulltilewidth) * 100;
+// 						var yrel = (item['StartPosZ'] / fulltileheight) * 100;
+// 						var teamnum = item['teamnum'] + 1;
+// 						var point = '<div class="startpos" style="top:' + yrel + '%; left:' + xrel + '%;">' + teamnum + '</div>';
+// 						$('#battleroom .minimaps').append(point);
+// 					});
+// 				}
+// 			}
 		}
+		
 	}
+
+// 	appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio) {
+// 		if (w > h) {
+// 			var map = '<img class="map" src="' + localmap + '" width="220" height="' + maxwh / ratio + '">';
+// 		} else if (w == h) {
+// 			var map = '<img class="map" src="' + localmap + '" width="220" height="220">';
+// 		} else {
+// 			var map = '<img class="map" src="' + localmap + '" width="' + maxwh * ratio + '" height="220">';
+// 		}
+// 		$('.battle-card[data-battleid="' + battleid + '"] .minimap').html(map);
+// 
+// 		// if I'm on a battleroom, load metal and height maps
+// 		if ($('#battleroom').data('battleid') == battleid) {
+// 			var mapmap = '<img class="map" src="' + localmap + '">';
+// 			var metalmap = '<img class="map" src="' + localmmap + '">';
+// 			var heightmap = '<img class="map" src="' + localhmap + '">';
+// 
+// 			$('#battleroom #battle-minimap').html(mapmap);
+// 			$('#battleroom #battle-metalmap').html(metalmap);
+// 			$('#battleroom #battle-heightmap').html(heightmap);
+// 
+// 			var divwidth = $('#battleroom .minimaps').width();
+// 			var ratiodiv = divwidth / 400;
+// 
+// 			if (ratio > ratiodiv) {
+// 				$('#battleroom .minimaps').css('height', divwidth / ratio);
+// 				$('#battleroom .minimaps').css('width', 'auto');
+// 			} else {
+// 				$('#battleroom .minimaps').css('height', '400px');
+// 				$('#battleroom .minimaps').css('width', ratio * 400 + 'px');
+// 			}
+// 
+// 			if (mapinfo) {
+// 				var sizeinfos = mapinfo['sizeinfos'],
+// 					teamlist = mapinfo['teamslist'],
+// 					fulltilewidth = sizeinfos['fulltilewidth'],
+// 					fulltileheight = sizeinfos['fulltileheight'];
+// 
+// 				if (teamlist.length) {
+// 					// clear old points
+// 					$('.minimaps .startpos').remove();
+// 					teamlist.forEach(async function(item) {
+// 						//log.info(item);
+// 						//log.info(fulltilewidth);
+// 						//log.info(fulltileheight);
+// 
+// 						var xrel = (item['StartPosX'] / fulltilewidth) * 100;
+// 						var yrel = (item['StartPosZ'] / fulltileheight) * 100;
+// 						var teamnum = item['teamnum'] + 1;
+// 						var point = '<div class="startpos" style="top:' + yrel + '%; left:' + xrel + '%;">' + teamnum + '</div>';
+// 						$('#battleroom .minimaps').append(point);
+// 					});
+// 				}
+// 			}
+// 		}
+// 	}
 
 	addstartrect(allyNo, left, top, right, bottom) {
 		// 		var target = '#battleroom .box' + (parseInt(allyNo) + 1);
@@ -986,8 +1117,14 @@ export default class Battle {
 		battlediv += '<div class="minimap"></div>';
 		battlediv += '</div>';
 		battlediv += '<div class="playerlist"></div>';
-
-		$('#battle-list').append('<div class="battle-card" data-battleid="' + battleid + '" data-founder="' + username + '">' + battlediv + '</div>');
+		
+		if (passworded) {
+			var finaldiv = '<div class="battle-card locked" data-battleid="' + battleid + '" data-founder="' + username + '">' + battlediv + '</div>';
+		}else{
+			var finaldiv = '<div class="battle-card" data-battleid="' + battleid + '" data-founder="' + username + '">' + battlediv + '</div>';
+		}
+		
+		$('#battle-list').append(finaldiv);
 
 		$('.tab.battlelist .count').text($('.battle-card').length);
 	}
@@ -1026,7 +1163,7 @@ export default class Battle {
 			}
 			
 			//this.load_remote_map_image(battleid);
-			this.get_map_info(battleid);
+			this.load_map_images(battleid);
 		}
 				
 		$('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text(spectatorCount - 1);
@@ -1037,10 +1174,12 @@ export default class Battle {
 		}
 		$('.battle-card[data-battleid="' + battleid + '"] .players').text(players);		
 
-		if (locked === 0) {
-			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');
-		} else {
+		if (locked == 0) {
 			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('OPEN');
+			$('.battle-card[data-battleid="' + battleid + '"]').removeClass('locked');
+		} else {
+			$('.battle-card[data-battleid="' + battleid + '"] .locked').text('LOCKED');
+			$('.battle-card[data-battleid="' + battleid + '"]').addClass('locked');
 		}
 
 		// update options
@@ -1108,7 +1247,7 @@ export default class Battle {
 		$('#battleroom .battle-playerlist').append(players);
 
 		//this.load_remote_map_image(battleid);
-		this.get_map_info(battleid);
+		this.load_map_images(battleid);
 
 		//check if game exist
 		// after game, check if map exist
