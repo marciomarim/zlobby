@@ -354,7 +354,10 @@ $(window).ready(function() {
 
 	var lightmode = store.get('prefs.lightmode');
 	if (lightmode == undefined) store.set('prefs.lightmode', 0);
-
+	
+	var backgroundvideo = store.get('prefs.backgroundvideo');
+	if (backgroundvideo == undefined) store.set('prefs.backgroundvideo', 1);
+	
 	var savechats = store.get('prefs.savechats');
 	if (savechats == undefined) store.set('prefs.savechats', 0);
 
@@ -375,7 +378,7 @@ $(window).ready(function() {
 		$('.autoconnect').prop('checked', false);
 	} else {
 		$('.autoconnect').prop('checked', true);
-	}
+	}	
 	
 	hostselected = store.get('prefs.hostselected');
 	if (hostselected) {		
@@ -388,6 +391,14 @@ $(window).ready(function() {
 	} else {
 		$('.lightmode').prop('checked', true);
 		$('body').addClass('lightmode');
+	}
+	
+	backgroundvideo = store.get('prefs.backgroundvideo');
+	if (backgroundvideo == 0) {
+		$('.backgroundvideo').prop('checked', false);
+		$('#videocontainer').remove();
+	} else {
+		$('.backgroundvideo').prop('checked', true);
 	}
 
 	rudechat = store.get('prefs.rudechat');
@@ -507,6 +518,15 @@ $('body').on('click', '.lightmode', function(e) {
 	} else {
 		store.set('prefs.lightmode', 0);
 		$('body').removeClass('lightmode');
+	}
+});
+
+$('body').on('click', '.backgroundvideo', function(e) {
+	if ($('.backgroundvideo').prop('checked') == true) {
+		store.set('prefs.backgroundvideo', 1);		
+	} else {
+		store.set('prefs.backgroundvideo', 0);
+		$('#videocontainer').remove();
 	}
 });
 
