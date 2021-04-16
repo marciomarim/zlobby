@@ -425,12 +425,13 @@ function autocompleteusers(message) {
 }
 
 const Discord = require('discord.js');
-// #admin-roadmap
-//const webhookClient = new Discord.WebhookClient('786225906012127273', 'UNxJ9AEEdkFjaqpUDZekLFM2-1fxuEE2koTiGgoSmIc_vZ36c19-EhfIdMxtrgmq90Jx');
-// #battles
 const webhookClient = new Discord.WebhookClient('785817997013024778', 'mTgpoGg0ZwOPaxWr5Y-CpIZPcG1chsO1S3LjCfYfAOChoT1Y64TQZNsZm5e12brbVvQo');
 
-function promoteDiscord(){
+function promoteDiscord(){	
+	// bail out if not ba
+	if ( !$('.serverhosturl.ba').hasClass('active') ){
+		return false;
+	}
 	var myusername = $('#myusername').text();
 	var battleid = $('#battleroom .battleid').text();
 	var nplayers = $('#battleroom .battle-playerlist li').length;
@@ -675,7 +676,7 @@ $('body').on('click', '.pickmap.btn', function(e) {
 
 $('body').on('click', '.reloadmap.btn', function(e) {	
 	var battleid = $('#battleroom .battleid').text();
-	battles.get_map_info(battleid);
+	battles.load_map_images(battleid);
 });
 
 $('body').on('click', '.splitmenu .btn', function(e) {	
