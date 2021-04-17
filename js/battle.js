@@ -811,15 +811,11 @@ export default class Battle {
 			if (mapPath != ''){
 				const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
 				const map = await parser.parseMap(mapPath);		
-				console.log(map.info);		
+				console.log(map.info);										
 				
-				// await map.textureMap.toFile('minimaps/'+mapfilenamebase+'.jpg');		
-				// await map.heightMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-heightmap.jpg');			
-				// await map.metalMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-metalmap.jpg');
-				
-				await map.textureMap.writeAsync('minimaps/'+mapfilenamebase+'.jpg');
-				await map.heightMap.resize(200, -1).writeAsync('minimaps/'+mapfilenamebase+'-heightmap.jpg'); // -1 here means preserve aspect ratio
-				await map.metalMap.writeAsync('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				await map.textureMap.quality(70).writeAsync('minimaps/'+mapfilenamebase+'.jpg');
+				await map.heightMap.quality(70).resize(200, -1).writeAsync('minimaps/'+mapfilenamebase+'-heightmap.jpg'); // -1 here means preserve aspect ratio
+				await map.metalMap.quality(70).writeAsync('minimaps/'+mapfilenamebase+'-metalmap.jpg');
 				
 				//await map.typeMap!.writeAsync("working-files/type.png");
 				//await map.miniMap!.writeAsync("working-files/mini.png");
