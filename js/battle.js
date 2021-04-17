@@ -813,9 +813,17 @@ export default class Battle {
 				const map = await parser.parseMap(mapPath);		
 				console.log(map.info);		
 				
-				await map.textureMap.toFile('minimaps/'+mapfilenamebase+'.jpg');		
-				await map.heightMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-heightmap.jpg');			
-				await map.metalMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				// await map.textureMap.toFile('minimaps/'+mapfilenamebase+'.jpg');		
+				// await map.heightMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-heightmap.jpg');			
+				// await map.metalMap.jpeg({ quality: 50 }).toFile('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				
+				await map.textureMap.writeAsync('minimaps/'+mapfilenamebase+'.jpg');
+				await map.heightMap.resize(200, -1).writeAsync('minimaps/'+mapfilenamebase+'-heightmap.jpg'); // -1 here means preserve aspect ratio
+				await map.metalMap.writeAsync('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				
+				//await map.typeMap!.writeAsync("working-files/type.png");
+				//await map.miniMap!.writeAsync("working-files/mini.png");
+				//await map.textureMap!.scaleToFit(765, 300).quality(80).writeAsync("working-files/test.jpg");
 				
 				var localmap = minimapsdir + mapfilenamebase + '.jpg';
 				var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
