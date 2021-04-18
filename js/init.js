@@ -278,15 +278,16 @@ function set_detault_paths(springdir) {
 	if (platform == 'win32') {
 		log.info('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
-		minimapsdir = appPath + '\\minimaps\\';		
-		minimapsdir = path.join(path.dirname(__dirname), 'minimaps');
+		//minimapsdir = appPath + '\\minimaps\\';				
+		minimapsdir = springdir + '\\minimaps\\';		
 		modsdir = springdir + 'games\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = appPath + '/minimaps/';
+		//minimapsdir = appPath + '/minimaps/';
+		minimapsdir = springdir + '/minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
@@ -294,12 +295,16 @@ function set_detault_paths(springdir) {
 		
 	} else if (platform == 'linux') {
 		mapsdir = springdir + 'maps/';
-		minimapsdir = appPath + '/minimaps/';
+		//minimapsdir = appPath + '/minimaps/';
+		minimapsdir = springdir + '/minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-	} 
+	} 		
+	
+	//minimapsdir = path.join(appPath, 'minimaps/').replace('app.asar', 'app.asar.unpacked');
+	//console.warn('MINIMAPS DIR: ' + minimapsdir);
 }
 
 function check_folders() {
@@ -331,6 +336,10 @@ function check_folders() {
 	if (!fs.existsSync(mapsdir)) {
 		fs.mkdirSync(mapsdir);
 	}
+	
+	if (!fs.existsSync(minimapsdir)) {
+		fs.mkdirSync(minimapsdir);
+	}		
 
 	if (!fs.existsSync(minimapsdir)) {
 		fs.mkdirSync(minimapsdir);
