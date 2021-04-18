@@ -2515,8 +2515,7 @@ span.upper{
 	}
 	
 	#chatlist.over{
-		z-index: 99999;
-		pointer-events: none;
+		z-index: 99999;		
 	}
 	
 	#chatlist .title,
