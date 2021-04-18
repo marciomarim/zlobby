@@ -813,17 +813,17 @@ export default class Battle {
 				const map = await parser.parseMap(mapPath);		
 				console.log(map.info);										
 				
-				await map.textureMap.quality(70).writeAsync('minimaps/'+mapfilenamebase+'.jpg');
-				await map.heightMap.quality(70).resize(200, -1).writeAsync('minimaps/'+mapfilenamebase+'-heightmap.jpg'); // -1 here means preserve aspect ratio
-				await map.metalMap.quality(70).writeAsync('minimaps/'+mapfilenamebase+'-metalmap.jpg');
+				var localmap = minimapsdir + mapfilenamebase + '.jpg';
+				var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+				var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
+				
+				await map.textureMap.quality(70).writeAsync(localmap);
+				await map.heightMap.quality(70).resize(200, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
+				await map.metalMap.quality(70).writeAsync(localhmap);
 				
 				//await map.typeMap!.writeAsync("working-files/type.png");
 				//await map.miniMap!.writeAsync("working-files/mini.png");
-				//await map.textureMap!.scaleToFit(765, 300).quality(80).writeAsync("working-files/test.jpg");
-				
-				var localmap = minimapsdir + mapfilenamebase + '.jpg';
-				var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
-				var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';								
+				//await map.textureMap!.scaleToFit(765, 300).quality(80).writeAsync("working-files/test.jpg");																
 				
 				battles.appendimage(battleid, localmap, localmmap, localhmap);
 			}			

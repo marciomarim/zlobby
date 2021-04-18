@@ -4,6 +4,7 @@ var fs = require('fs'),
 	spawn = require('child_process').spawn,
 	https = require('https');
 
+const path = require('path');
 const sevenmin = require('7zip-min');
 const Store = require('electron-store');
 const store = new Store();
@@ -269,15 +270,20 @@ initial_check();
 
 function set_detault_paths(springdir) {
 	// set default paths based on saved base paths
+	
+	// console.warn('MINIMAPS DIR: ' + minimapsdir);
+	// console.warn('AppPath: ' + appPath);
+	// console.warn('AppData: ' + appData);
+	
 	if (platform == 'win32') {
 		log.info('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
-		minimapsdir = appPath + '\\minimaps\\';
+		minimapsdir = appPath + '\\minimaps\\';		
+		minimapsdir = path.join(path.dirname(__dirname), 'minimaps');
 		modsdir = springdir + 'games\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
-
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
 		minimapsdir = appPath + '/minimaps/';
