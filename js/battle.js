@@ -15,6 +15,7 @@ const store = new Store();
 const log = require('electron-log');
 const sevenmin = require('7zip-min');
 const path = require('path');
+const MapParser = require("spring-map-parser").MapParser;
 
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
@@ -605,43 +606,10 @@ export default class Battle {
 	
 	
 
-// 	get_map_info(battleid) {		
-// 		
-// 		var battles = this;
-// 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
-// 		log.info("Getting map info: " + mapname);
-// 		
-// 		var mapfilenamebase = mapname
-// 			.toLowerCase()
-// 			.replace("'", '_')
-// 			.split(' ')
-// 			.join('_');
-// 
-// 		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
-// 		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';
-// 
-// 		try {
-// 			$.getJSON(url1, function(mapinfo) {
-// 				var filename = mapfilenamebase + '.sd7';
-// 				battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
-// 			}).fail(function() {
-// 				try {
-// 					$.getJSON(url2, function(mapinfo) {
-// 						var filename = mapfilenamebase + '.sdz';
-// 						battles.load_map_images(battleid, mapinfo, filename, mapfilenamebase);
-// 					}).fail(function() {
-// 						var filename = mapfilenamebase + '.sd7'; // tmp
-// 						battles.load_map_images(battleid, null, filename, mapfilenamebase);
-// 					});
-// 				} catch (e) {}
-// 			});
-// 		} catch (e) {}
-// 	}
-
 	//load_map_images(battleid, mapinfo, filename, mapfilenamebase) {
 	load_map_images(battleid) {
 		
-		log.info('loading map images');
+		log.info('loading minimap');
 		var battles = this;
 		
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();		
@@ -691,100 +659,14 @@ export default class Battle {
 			battles.appendimage(battleid, localmap, localmmap, localhmap);
 		}else{
 			battles.create_minimap( battleid );	
-		}
+		}				
 		
-		
-// 		if (localmapok) {
-// 			log.info('Local minimap found:' + filename);
-// 			//battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-// 			battles.appendimage(battleid, mapinfo, localmap, localmmap, localhmap);
-// 		} else {
-// 			//&xmax=1000&ymax=1000
-// 			var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
-// 			var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
-// 			var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;
-// 
-// 			if (mapinfo) {
-// 				log.info('Saving remote minimaps:' + filename);
-// 
-// 				var sizeinfos = mapinfo['sizeinfos'];
-// 				var w = sizeinfos['width'],
-// 					h = sizeinfos['height'];
-// 
-// 				Jimp.read(urlmap).then(image => {
-// 					// Do stuff with the image.
-// 					image
-// 						.resize(w, h)
-// 						.quality(70)
-// 						.write(localmap, function() {
-// 							//battles.appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap);
-// 							battles.appendimage(battleid, mapinfo, localmap, localmmap, localhmap);
-// 						});
-// 				});
-// 
-// 				Jimp.read(urlmmap).then(image => {
-// 					image
-// 						.resize(w, h)
-// 						.quality(70)
-// 						.write(localmmap);
-// 				});
-// 				Jimp.read(urlhmap).then(image => {
-// 					image
-// 						.resize(w, h)
-// 						.quality(70)
-// 						.write(localhmap);
-// 				});
-// 			} else {
-// 				log.info('File info is missing for:' + filename);
-// 				//battles.appendimagedivs(battleid, '', '', '', '');
-// 				battles.create_minimap( battleid );
-// 			}
-// 		}
+	
 	}
 
-// 	appendimagedivs(battleid, mapinfo, localmap, localmmap, localhmap) {
-// 		var battles = this;
-// 
-// 		if (localmap) {
-// 			if (mapinfo) {
-// 				var sizeinfos = mapinfo['sizeinfos'];
-// 				var w = sizeinfos['width'],
-// 					h = sizeinfos['height'],
-// 					xsmu = sizeinfos['xsmu'],
-// 					ysmu = sizeinfos['ysmu'],
-// 					Description = sizeinfos['Description'];
-// 				var ratio = w / h;
-// 				var maxwh = 220;
-// 				battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-// 			} else {
-// 				const img = new Image();
-// 				img.src = localmap;
-// 				img.onload = function() {
-// 					var w = this.width;
-// 					var h = this.width;
-// 					var ratio = w / h;
-// 					var maxwh = 220;
-// 					battles.appendimagedivsfinal(battleid, mapinfo, localmap, localmmap, localhmap, w, h, maxwh, ratio);
-// 				};
-// 			}
-// 		} else {
-// 			// no local map
-// 			// cant save remotely
-// 			log.warn('No remote minimap');
-// 			battles.create_minimap( battleid );
-// 			
-// 			// remove map
-// 			$('.battle-card[data-battleid="' + battleid + '"] .minimap').empty();
-// 			if ($('#battleroom').data('battleid') == battleid) {
-// 				$('#battleroom #battle-minimap').empty();
-// 				$('#battleroom #battle-metalmap').empty();
-// 				$('#battleroom #battle-heightmap').empty();
-// 			}
-// 		}
-// 	}
 	
 		
-	create_minimap( battleid ){						
+	create_minimap( battleid ){										
 		
 		var mapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();		
 		var battles = this;		
@@ -793,42 +675,118 @@ export default class Battle {
 			.replace("'", '_')
 			.split(' ')
 			.join('_');
-							
-		const MapParser = require("spring-map-parser").MapParser;
 		
-		(async () => {
+		var localmap = minimapsdir + mapfilenamebase + '.jpg';
+		var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
+		var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';		
+		var remotemap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '.jpg';		
+		var remotemmap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '-metalmap.jpg';
+		var remotehmap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '-heightmap.jpg';
+		
+		log.info('Appending remote maps');				
+		battles.appendimage(battleid, remotemap, remotemmap, remotehmap);
+		
+		// if I'm on a battleroom, generate local minimap
+		if ($('#battleroom').data('battleid') == battleid) {
 			
-			const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
-			const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
-			var mapPath = '';
-			
-			if (fs.existsSync(mapPath1)) {
-				mapPath = mapPath1;	
-			}else if(fs.existsSync(mapPath2)){
-				mapPath = mapPath2;	
-			}
-			
-			if (mapPath != ''){
-				const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
-				const map = await parser.parseMap(mapPath);		
-				console.log(map.info);										
+			// save local maps for later						
+			(async () => {
 				
-				var localmap = minimapsdir + mapfilenamebase + '.jpg';
-				var localmmap = minimapsdir + mapfilenamebase + '-metalmap.jpg';
-				var localhmap = minimapsdir + mapfilenamebase + '-heightmap.jpg';
+				const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
+				const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
+				var mapPath = '';
 				
-				await map.textureMap.quality(70).writeAsync(localmap);
-				await map.heightMap.quality(70).resize(200, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
-				await map.metalMap.quality(70).writeAsync(localhmap);
+				if (fs.existsSync(mapPath1)) {
+					mapPath = mapPath1;	
+				}else if(fs.existsSync(mapPath2)){
+					mapPath = mapPath2;	
+				}
 				
-				//await map.typeMap!.writeAsync("working-files/type.png");
-				//await map.miniMap!.writeAsync("working-files/mini.png");
-				//await map.textureMap!.scaleToFit(765, 300).quality(80).writeAsync("working-files/test.jpg");																
+				if (mapPath != ''){
+					const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
+					const map = await parser.parseMap(mapPath);		
+					console.log(map.info);																												
+					await map.textureMap.quality(70).writeAsync(localmap);
+					await map.heightMap.quality(70).resize(600, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
+					await map.metalMap.quality(70).resize(600, -1).writeAsync(localhmap);						
+					
+					//check if minimap exist in github repo, if not, create from map file
+					$.ajax({
+						url: remotemap,
+						type: 'HEAD',
+						error: function() {
+							battles.appendimage(battleid, localmap, localmmap, localhmap);
+						},					
+					});
+					
+				}			
 				
-				battles.appendimage(battleid, localmap, localmmap, localhmap);
-			}			
-			
-		})();
+			})();
+		}
+		
+		
+		
+		//check if minimap exist in github repo, if not, create from map file
+		// $.ajax({
+		// 	url: remotemap,
+		// 	type: 'HEAD',
+		// 	error: function() {
+		// 		
+		// 		const MapParser = require("spring-map-parser").MapParser;				
+		// 		(async () => {
+		// 			
+		// 			const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
+		// 			const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
+		// 			var mapPath = '';
+		// 			
+		// 			if (fs.existsSync(mapPath1)) {
+		// 				mapPath = mapPath1;	
+		// 			}else if(fs.existsSync(mapPath2)){
+		// 				mapPath = mapPath2;	
+		// 			}
+		// 			
+		// 			if (mapPath != ''){
+		// 				const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
+		// 				const map = await parser.parseMap(mapPath);		
+		// 				console.log(map.info);																												
+		// 				await map.textureMap.quality(70).writeAsync(localmap);
+		// 				await map.heightMap.quality(70).resize(600, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
+		// 				await map.metalMap.quality(70).resize(600, -1).writeAsync(localhmap);						
+		// 				
+		// 				battles.appendimage(battleid, localmap, localmmap, localhmap);
+		// 			}			
+		// 			
+		// 		})();
+		// 			
+		// 	},
+		// 	success: function() {				
+		// 		// append remote maps to fast render
+		// 		log.info('Appending remote maps');				
+		// 		battles.appendimage(battleid, remotemap, remotemmap, remotehmap);
+		// 		
+		// 		// save remote maps for later
+		// 		var minimapfile = fs.createWriteStream(localmap);
+		// 		var minimaprequest = http.get(remotemap, function(response) {
+		// 			log.info('Piping remote map');				
+		// 			response.pipe(minimapfile);
+		// 		});
+		// 		
+		// 		var metalmapfile = fs.createWriteStream(localmmap);
+		// 		var metalmaprequest = http.get(remotemmap, function(response) {
+		// 			log.info('Piping remote metalmap');
+		// 			response.pipe(metalmapfile);
+		// 		});
+		// 		
+		// 		var heightmapfile = fs.createWriteStream(localhmap);
+		// 		var heightmaprequest = http.get(remotehmap, function(response) {
+		// 			log.info('Piping remote heightmap');
+		// 			response.pipe(heightmapfile);
+		// 		});		
+		// 	},
+		// });
+		
+
+
 				
 	}	
 	
@@ -1268,11 +1226,17 @@ export default class Battle {
 		//update chatlist
 		$('li[data-username="' + jQuery.escapeSelector(username) + '"] .icon-user').addClass('battle');
 
-		// append user to bnattle-card
+		// append user to battle-card
 		var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
+		// first remove if already appended
+		$('.battle-card li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
+		// then append
 		$('.battle-card[data-battleid="' + battleid + '"] .playerlist').append(user);
 
 		if ($('body').hasClass('inbattleroom') && battleid == $('#battleroom').data('battleid')) {
+			
+			// first remove if already appended
+			$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"]').remove();
 			
 			var user = $('#chat-list li[data-username="' + jQuery.escapeSelector(username) + '"]').clone();
 			$('#battleroom .battle-playerlist').append(user);						
