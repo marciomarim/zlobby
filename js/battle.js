@@ -429,7 +429,7 @@ export default class Battle {
 			var fileurl2 = remotemapsurl + filename2;
 			var fileurl3 = remotemapsurl2 + filename;
 			var fileurl4 = remotemapsurl2 + filename2;
-			log.info('Need map download! ' + fileurl);
+			log.info('Looking for map in repos.');
 			var battle = this;
 
 			// check if file exist first
@@ -454,25 +454,25 @@ export default class Battle {
 											$('#battleroom .map-download .download-title').text('Map not found for download.');											
 										},
 										success: function() {
-											log.info(fileurl4 + ' exist!');
+											log.info('Map found @ ' + fileurl4);
 											battle.downloadmap(fileurl4, filename2);
 										},
 									});
 								},
 								success: function() {
-									log.info(fileurl2 + ' exist!');
+									log.info('Map found @ ' + fileurl3);
 									battle.downloadmap(fileurl3, filename);
 								},
 							});
 						},
 						success: function() {
-							log.info(fileurl2 + ' exist!');
+							log.info('Map found @ ' + fileurl2);
 							battle.downloadmap(fileurl2, filename2);
 						},
 					});
 				},
 				success: function() {
-					log.info(fileurl + ' exist!');
+					log.info('Map found @ ' + fileurl);
 					battle.downloadmap(fileurl, filename);
 				},
 			});
@@ -579,6 +579,14 @@ export default class Battle {
 		} else {
 			$('.autoscrollbattle').prop('checked', true);
 		}
+		
+		var inlinechat = store.get('user.inlinechat');
+		if (inlinechat == 0) {
+			$('.inlinechat').prop('checked', false);			
+		} else {
+			$('.inlinechat').prop('checked', true);
+			$('body').addClass('inlinechat');
+		}
 
 		var mutebattleroom = store.get('user.mutebattleroom');
 		if (mutebattleroom == 0 || mutebattleroom == undefined) {
@@ -664,7 +672,135 @@ export default class Battle {
 	
 	}
 
+	downloadminimap( battleid, mapfilenamebase, localmap, localhmap, localmmap ){				
+				
+		var url1 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sd7/mapinfo.json';
+		var url2 = 'https://files.balancedannihilation.com/data/metadata/' + mapfilenamebase + '.sdz/mapinfo.json';
+		var battles = this;	
+		
+		try {
+			$.getJSON(url1, function(mapinfo) {
+				var filename = mapfilenamebase + '.sd7';
+				//&xmax=1000&ymax=1000
+				var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
+				var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
+				var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;		
+				log.info('Saving remote minimaps:' + filename);
+		
+				var sizeinfos = mapinfo['sizeinfos'];
+				var w = sizeinfos['width'],
+					h = sizeinfos['height'];
+		
+				Jimp.read(urlmap).then(image => {
+					// Do stuff with the image.
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localmap, function() {
+							
+						});
+				});
+		
+				Jimp.read(urlmmap).then(image => {
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localmmap);
+				});
+				Jimp.read(urlhmap).then(image => {
+					image
+						.resize(w, h)
+						.quality(70)
+						.write(localhmap);
+				});
+								
+			}).fail(function() {
+				try {
+					$.getJSON(url2, function(mapinfo) {
+						var filename = mapfilenamebase + '.sdz';						
+						//&xmax=1000&ymax=1000
+						var urlmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=minimap&mapname=' + filename;
+						var urlmmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=metalmap&mapname=' + filename;
+						var urlhmap = 'https://files.balancedannihilation.com/api.php?command=getimgmap&maptype=heightmap&mapname=' + filename;		
+						log.info('Saving remote minimaps:' + filename);
+				
+						var sizeinfos = mapinfo['sizeinfos'];
+						var w = sizeinfos['width'],
+							h = sizeinfos['height'];
+				
+						Jimp.read(urlmap).then(image => {
+							// Do stuff with the image.
+							image
+								.resize(w, h)
+								.quality(70)
+								.write(localmap, function() {
+									
+								});
+						});
+				
+						Jimp.read(urlmmap).then(image => {
+							image
+								.resize(w, h)
+								.quality(70)
+								.write(localmmap);
+						});
+						Jimp.read(urlhmap).then(image => {
+							image
+								.resize(w, h)
+								.quality(70)
+								.write(localhmap);
+						});
+					}).fail(function() {
+						// generate from local	
+						battles.generateminimap( battleid, mapfilenamebase, localmap, localhmap, localmmap );					
+					});
+				} catch (e) {}
+			});
+		} catch (e) {}
+		
+		
+		
+	}
 	
+	generateminimap( battleid, mapfilenamebase, localmap, localhmap, localmmap ){
+		
+		var battles = this;	
+		
+		// save local maps for later						
+		(async () => {
+			
+			const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
+			const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
+			var mapPath = '';			
+			
+			if (fs.existsSync(mapPath1)) {
+				mapPath = mapPath1;	
+			}else if(fs.existsSync(mapPath2)){
+				mapPath = mapPath2;	
+			}
+			
+			if (mapPath != ''){
+				const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
+				const map = await parser.parseMap(mapPath);		
+				console.log(map.info);																												
+				await map.textureMap.quality(70).writeAsync(localmap);
+				await map.heightMap.quality(70).resize(600, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
+				await map.metalMap.quality(70).resize(600, -1).writeAsync(localhmap);						
+				
+				var remotemap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '.jpg';
+				//check if minimap exist in github repo, if not, create from map file
+				$.ajax({
+					url: remotemap,
+					type: 'HEAD',
+					error: function() {
+						battles.appendimage(battleid, localmap, localmmap, localhmap);
+					},					
+				});
+				
+			}			
+			
+		})();
+	}
 		
 	create_minimap( battleid ){										
 		
@@ -684,44 +820,11 @@ export default class Battle {
 		var remotehmap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '-heightmap.jpg';
 		
 		log.info('Appending remote maps');				
-		battles.appendimage(battleid, remotemap, remotemmap, remotehmap);
-		
+		battles.appendimage(battleid, remotemap, remotemmap, remotehmap);						
+	
 		// if I'm on a battleroom, generate local minimap
-		if ($('#battleroom').data('battleid') == battleid) {
-			
-			// save local maps for later						
-			(async () => {
-				
-				const mapPath1 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sd7');
-				const mapPath2 = path.resolve(springdir, 'maps/'+mapfilenamebase+'.sdz');
-				var mapPath = '';
-				
-				if (fs.existsSync(mapPath1)) {
-					mapPath = mapPath1;	
-				}else if(fs.existsSync(mapPath2)){
-					mapPath = mapPath2;	
-				}
-				
-				if (mapPath != ''){
-					const parser = new MapParser({ verbose: true, mipmapSize: 4, skipSmt: false });		
-					const map = await parser.parseMap(mapPath);		
-					console.log(map.info);																												
-					await map.textureMap.quality(70).writeAsync(localmap);
-					await map.heightMap.quality(70).resize(600, -1).writeAsync(localmmap); // -1 here means preserve aspect ratio
-					await map.metalMap.quality(70).resize(600, -1).writeAsync(localhmap);						
-					
-					//check if minimap exist in github repo, if not, create from map file
-					$.ajax({
-						url: remotemap,
-						type: 'HEAD',
-						error: function() {
-							battles.appendimage(battleid, localmap, localmmap, localhmap);
-						},					
-					});
-					
-				}			
-				
-			})();
+		if ($('#battleroom').data('battleid') == battleid) {			
+			battles.downloadminimap( battleid, mapfilenamebase, localmap, localhmap, localmmap );
 		}
 		
 		
@@ -784,9 +887,6 @@ export default class Battle {
 		// 		});		
 		// 	},
 		// });
-		
-
-
 				
 	}	
 	
