@@ -382,6 +382,9 @@ $(window).ready(function() {
 	var chatnotifications = store.get('prefs.chatnotifications');
 	if (chatnotifications == undefined) store.set('prefs.chatnotifications', 0);
 	
+	var inlinechat = store.get('prefs.inlinechat');
+	if (inlinechat == undefined) store.set('prefs.inlinechat', 0);
+	
 	// set default color
 	var mycolor = store.get('user.mycolor');
 	if (mycolor == undefined) store.set('user.mycolor', '556677');
