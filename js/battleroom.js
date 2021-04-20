@@ -27,36 +27,47 @@ $('body').on('click', '#battleroom .emojibtn', function(e) {
 	}
 });
 
-$('body').on('click', '.battle-card', function(e) {
-	if (!$('body').hasClass('clickbattle')) {
-		$('body').addClass('clickbattle');
-		setTimeout(function() {
-			$('body').removeClass('clickbattle');
-		}, 2000);
+$('body').on('click dblclick', '.battle-card', function(e) {
+	
+	var $battlecard = $(this);
+	joinbattle($battlecard);
+	
+	// if (!$('body').hasClass('clickbattle')) {
+	// 	$('body').addClass('clickbattle');
+	// 	setTimeout(function() {
+	// 		$('body').removeClass('clickbattle');
+	// 	}, 2000);		
+	// }
+});	
 
-		var username = $('#myusername').text();
-		var battleid = $(this).data('battleid');
+function joinbattle( $battlecard ){
+	
+	var username = $('#myusername').text();
+	var battleid = $battlecard.data('battleid');
 
-		// hide map picker
-		$('.mappicker').removeClass('active');
+	// hide map picker
+	$('.mappicker').removeClass('active');
 
-		//if I'm in, just go to battleroom
-		if ($(this).hasClass('activebattle')) {
-			$('.container, .tab').removeClass('active');
-			$('#battleroom, .tab.battleroom').addClass('active');
-			// need to leave another battle
-		} else if ($('.activebattle').length) {
-			var command = 'LEAVEBATTLE \n';
-			socketClient.write(command);
-			var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
-			socketClient.write(command);
-			// try to join
-		} else {
-			var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
-			socketClient.write(command);
-		}
+	//if I'm in, just go to battleroom
+	if ( $battlecard.hasClass('activebattle') ) {
+		
+		$('.container, .tab').removeClass('active');
+		$('#battleroom, .tab.battleroom').addClass('active');
+	
+	// need to leave another battle	
+	} else if ($('.activebattle').length) {
+		var command = 'LEAVEBATTLE \n';
+		socketClient.write(command);
+		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+		socketClient.write(command);
+		
+	// try to join
+	} else {		
+		var command = 'JOINBATTLE ' + battleid + '  ' + battles.generatePassword(username) + '\n';
+		socketClient.write(command);
 	}
-});
+		
+}
 
 // discord or other link to join battle
 var joinbattlelink = setInterval(function() {
