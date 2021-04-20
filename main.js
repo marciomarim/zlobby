@@ -8,10 +8,10 @@ const Store = require('electron-store');
 const store = new Store();
 
 function createWindow() {
-	// Create the browser window.
+	// Create the browser window.		
 	const win = new BrowserWindow({
 		width: 1800,
-		height: 1000,
+		height: 1200,
 		minWidth: 1100,
 		minHeight: 800,
 		backgroundColor: '#000000',		
