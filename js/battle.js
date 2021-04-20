@@ -511,25 +511,29 @@ export default class Battle {
 		var battles = this;
 		
 		https.get(fileurl, function(response) {
+			
 			response.pipe(file);
 
 			var len = parseInt(response.headers['content-length'], 10);
 			var body = '';
 			var cur = 0;
 			var total = len / 1048576;
+			var status = 0;
 
 			response.on('data', function(chunk) {
 				body += chunk;
 				cur += chunk.length;
-				var status = ((100.0 * cur) / len).toFixed(2);
+				status = ((100.0 * cur) / len).toFixed(2);
 				$('#battleroom .map-download .download-title').text('Downloading map ' + status + '% ' + ' – Total size: ' + total.toFixed(2) + ' Mb');
 				$('#battleroom .map-download .progress').css('width', ((100.0 * cur) / len).toFixed(2) + '%');
 			});
 
 			response.on('end', function() {
-				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
-				$('#battleroom .map-download').removeClass('downloading');
 				
+				console.warn('Ending with status: ' + status);
+				
+				$('#battleroom .map-download .download-title').text('Downloading map: Completed!');
+				$('#battleroom .map-download').removeClass('downloading');				
 				
 				setTimeout(function() {				
 					battles.load_map_images(battleid);
