@@ -27,11 +27,13 @@ var waitforall = false;
 var cmd_first = '';
 var cmd_last = '';
 var cmd_full = '';
+var cmd_memory = '';
 
 export default class Protocol {
 	constructor() {}
 
 	reprocess_data(data) {
+		cmd_memory = data;
 		this.server(data);
 	}
 
@@ -465,12 +467,16 @@ export default class Protocol {
 				default:
 					//need process
 					if (cmd != '') {
-						console.error('CMD NOT FOUND!' + cmd);
+						log.error('CMD NOT FOUND!' + cmd);
 						if (cmd_last == '') {
+							
 						} else {
 							cmd_full = cmd_last + cmd;
-							console.log('Trying to process: ' + cmd_full);
-							protocol.reprocess_data(cmd_full);
+							// avoid multiple calls
+							if (cmd_full != cmd_memory){
+								log.warn('Trying to process: ' + cmd_full);
+								protocol.reprocess_data(cmd_full);	
+							}														
 						}
 						//console.log(cache.data);
 					}
