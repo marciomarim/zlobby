@@ -160,6 +160,16 @@ $('body').on('click', '.createaccount', function(e) {
 	}, 500);
 });
 
+$('body').on('click', '.confirmagreement', function(e) {
+	var code = $('#agreementcode').val();
+	if ( code && code != '' ){
+		var command = 'CONFIRMAGREEMENT ' + code +'\n';	
+	}else{
+		var command = 'CONFIRMAGREEMENT\n';	
+	}	
+	socketClient.write(command);
+});
+
 $('body').on('keypress', '#password', function(e) {
 	if (e.which == 13) {
 		login();

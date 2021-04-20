@@ -1430,7 +1430,7 @@ export default class Battle {
 	updatebattleorder(battleid){
 		
 		var spectatorCount = $('.battle-card[data-battleid="' + battleid + '"] .spectatorCount').text();				
-		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - (spectatorCount-1);
+		var players = $('.battle-card[data-battleid="' + battleid + '"] .playerlist li').length - spectatorCount;
 		if (players < 0){
 			players = 0;
 		}

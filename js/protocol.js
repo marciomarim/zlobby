@@ -52,7 +52,7 @@ export default class Protocol {
 					$('#loginmessage').text('');
 					// hide login pane and show disconnect pane
 					$('.account #disconnectpane').addClass('active');
-					$('.account #loginpane, .account #createpane').removeClass('active');
+					$('.account #loginpane, .account #createpane, #agreementpane').removeClass('active');
 					$('.account .btn').addClass('active');
 					$('.container.active').removeClass('active');
 					$('.tab').removeClass('active');
@@ -96,12 +96,24 @@ export default class Protocol {
 					break;
 
 				case 'AGREEMENT':
+					
+					var message = parts.slice(1).join(' ');
+					var current_message = $('#agreementpane .agreementmessage').text();
+					
+					if (current_message.indexOf(message) !== -1){
+						
+					}else{
+						$('.account #loginpane, .account #createpane').removeClass('active');
+						$('#agreementpane').addClass('active');
+						$('#agreementpane .agreementmessage').append(message + ' ');	
+					}
+					
+					
+					
 					break;
 
 				case 'AGREEMENTEND':
-					// send first time after account creation
-					var command = 'CONFIRMAGREEMENT\n';
-					setTimeout(socketClient.write(command), 1500);
+					// send first time after account creation					
 					break;
 
 				case 'BATTLECLOSED':
