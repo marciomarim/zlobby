@@ -64,6 +64,11 @@ $('body').on('click', '.serverhosturl', function(e) {
 	
 	var hostselected = $(this).data('url');
 	store.set('prefs.hostselected', hostselected);
+	if ( hostselected == 'springfightclub.com'){
+		$('.agreementcode').hide();
+	}else{
+		$('.agreementcode').show();
+	}		
 	
 });
 

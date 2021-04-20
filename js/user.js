@@ -181,19 +181,24 @@ export default class User {
 		// 	utils.sendbattlestatus();
 		// }
 
-		if (!$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .faction').length) {
+		//if (!$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .faction').length) {
 			//add user battle status to players
 			//this.addbattlestatusfields(username);
-			if (myusername == username) {
+			if (myusername == username && !$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .colorpicker').length ) {
+				
 				$('#battleroom li[data-username="' + jQuery.escapeSelector(username) + '"] .color').append('<div class="colorpicker" acp-color="#5588ff" acp-show-rgb="no" acp-show-hsl="yes" acp-show-hex="yes" acp-show-alpha></div>');
+				
+				var sendnewcolor;
+				
 				AColorPicker.from('#battleroom .colorpicker').on('change', (picker, color) => {
 					store.set('user.mycolor', color);
 					$('#battleroom .me .color').css('background-color', color);
-					$('#topbar .status').css('background-color', color);										
-					utils.sendbattlestatus();
+					$('#topbar .status').css('background-color', color);
+					clearTimeout(sendnewcolor);										
+					sendnewcolor = setTimeout( utils.sendbattlestatus(), 1000);
 				});
 			}
-		}
+		//}
 
 		var status2 = dec2bin(status);
 

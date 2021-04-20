@@ -387,6 +387,11 @@ $(window).ready(function() {
 	hostselected = store.get('prefs.hostselected');
 	if (hostselected) {		
 		$('.serverhosturl[data-url="'+hostselected+'"]').addClass('active');
+		if ( hostselected == 'springfightclub.com'){
+			$('.agreementcode').hide();
+		}else{
+			$('.agreementcode').show();
+		}		
 	}
 
 	lightmode = store.get('prefs.lightmode');
