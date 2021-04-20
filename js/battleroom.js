@@ -239,10 +239,10 @@ $('body').on('click', '.autoscrollbattle', function(e) {
 
 $('body').on('click', '.inlinechat', function(e) {
 	if ($('.inlinechat').prop('checked') == true) {
-		store.set('user.inlinechat', 1);
+		store.set('prefs.inlinechat', 1);
 		$('body').addClass('inlinechat');
 	} else {
-		store.set('user.inlinechat', 0);
+		store.set('prefs.inlinechat', 0);
 		$('body').removeClass('inlinechat');
 	}
 });

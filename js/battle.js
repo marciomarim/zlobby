@@ -584,7 +584,7 @@ export default class Battle {
 			$('.autoscrollbattle').prop('checked', true);
 		}
 		
-		var inlinechat = store.get('user.inlinechat');
+		var inlinechat = store.get('prefs.inlinechat');
 		if (inlinechat == 0) {
 			$('.inlinechat').prop('checked', false);			
 		} else {
