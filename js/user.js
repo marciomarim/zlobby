@@ -106,14 +106,14 @@ export default class User {
 			$('#battleroom[data-founder="' + safe_username + '"] .status').addClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').addClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"]').addClass('ingame');
-			log.info('battle running');
+			//log.info('battle running');
 		} else if ($('.battle-card[data-founder="' + safe_username + '"]').length && !newStatus.inGame) {
 			//battle ended
 			$('#battleroom[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"] .status').removeClass('ingame');
 			$('.battle-card[data-founder="' + safe_username + '"]').removeClass('ingame');
 			// remove class so it can start again
-			log.info('battle not running');
+			//log.info('battle not running');
 		}
 
 		// detect is it's my battle
