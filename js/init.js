@@ -279,7 +279,7 @@ function set_detault_paths(springdir) {
 		log.info('debug engine checking: 3');
 		mapsdir = springdir + 'maps\\';
 		//minimapsdir = appPath + '\\minimaps\\';				
-		minimapsdir = springdir + '\\minimaps\\';		
+		minimapsdir = springdir + 'minimaps\\';		
 		modsdir = springdir + 'games\\';
 		chatlogsdir = springdir + 'chatlogs\\';
 		infologfile = springdir + 'infolog.txt';
@@ -287,7 +287,7 @@ function set_detault_paths(springdir) {
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
 		//minimapsdir = appPath + '/minimaps/';
-		minimapsdir = springdir + '/minimaps/';
+		minimapsdir = springdir + 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
@@ -296,7 +296,7 @@ function set_detault_paths(springdir) {
 	} else if (platform == 'linux') {
 		mapsdir = springdir + 'maps/';
 		//minimapsdir = appPath + '/minimaps/';
-		minimapsdir = springdir + '/minimaps/';
+		minimapsdir = springdir + 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
