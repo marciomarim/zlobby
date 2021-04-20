@@ -2276,37 +2276,37 @@ span.upper{
 		padding-left: 0.7em;	
 	}
 	
-		.inlinechat .messages li .messageinfo{
+		.inlinechat #battleroom  .messages li .messageinfo{
 			display: inline-flex;
 			flex-direction: row-reverse;
 		}
 		
-		.inlinechat .messages li .message,
-		.inlinechat .messages li.mine .message,
-		.inlinechat .messages li.winner .message,
-		.inlinechat .messages li.ishost .message,
-		.inlinechat .messages li.talkingabout .message{
+		.inlinechat #battleroom .messages li .message,
+		.inlinechat #battleroom .messages li.mine .message,
+		.inlinechat #battleroom .messages li.winner .message,
+		.inlinechat #battleroom .messages li.ishost .message,
+		.inlinechat #battleroom .messages li.talkingabout .message{
 			background: none;
 			padding: 0;
 		}
 		
-		.inlinechat .messages li.mine{
+		.inlinechat #battleroom .messages li.mine{
 			text-align: left;
 		}
 		
-		.inlinechat .messages li.mine .message,			
-		.inlinechat .messages li .message{
+		.inlinechat #battleroom .messages li.mine .message,			
+		.inlinechat #battleroom .messages li .message{
 			float: none;
 			display: inline-block;
 		}
 		
-		.inlinechat .messages li .messageinfo,
-		.inlinechat .messages li .messageinfo.hidden{
+		.inlinechat #battleroom .messages li .messageinfo,
+		.inlinechat #battleroom .messages li .messageinfo.hidden{
 			display: inline-flex;
 			padding: 0;
 		}
 		
-		.inlinechat .messages li .userspeaking {		
+		.inlinechat #battleroom .messages li .userspeaking {		
 			margin-left: 0.5em;
 		}
 	
