@@ -27,11 +27,10 @@ var logfilepath = log.transports.file.getFile().path;
 var remotemodsurl = 'https://springfightclub.com/data/';
 var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
+var springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, zipfile;
 
-//console.log('Zlobby v' + appVersion);
 $('#appVersion').text('Zlobby v' + appVersion);
 
-var springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, zipfile;
 
 if (platform == 'win32') {
 	$('body').addClass('win32');
@@ -41,11 +40,9 @@ if (platform == 'win32') {
 	$('body').addClass('linux');
 }
 
-
 if (remote.app.isEmojiPanelSupported()){
 	$('body').addClass('emoji');
 }
-
 
 	
 $.ajax({
@@ -271,14 +268,8 @@ initial_check();
 function set_detault_paths(springdir) {
 	// set default paths based on saved base paths
 	
-	// console.warn('MINIMAPS DIR: ' + minimapsdir);
-	// console.warn('AppPath: ' + appPath);
-	// console.warn('AppData: ' + appData);
-	
-	if (platform == 'win32') {
-		log.info('debug engine checking: 3');
-		mapsdir = springdir + 'maps\\';
-		//minimapsdir = appPath + '\\minimaps\\';				
+	if (platform == 'win32') {		
+		mapsdir = springdir + 'maps\\';		
 		minimapsdir = springdir + 'minimaps\\';		
 		modsdir = springdir + 'games\\';
 		chatlogsdir = springdir + 'chatlogs\\';
@@ -286,7 +277,6 @@ function set_detault_paths(springdir) {
 		scriptfile = springdir + 'e-script.txt';
 	} else if (platform == 'darwin') {
 		mapsdir = springdir + 'maps/';
-		//minimapsdir = appPath + '/minimaps/';
 		minimapsdir = springdir + 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
@@ -294,22 +284,18 @@ function set_detault_paths(springdir) {
 		scriptfile = springdir + 'e-script.txt';
 		
 	} else if (platform == 'linux') {
-		mapsdir = springdir + 'maps/';
-		//minimapsdir = appPath + '/minimaps/';
+		mapsdir = springdir + 'maps/';		
 		minimapsdir = springdir + 'minimaps/';
 		modsdir = springdir + 'games/';
 		chatlogsdir = springdir + 'chatlogs/';
 		infologfile = springdir + 'infolog.txt';
 		scriptfile = springdir + 'e-script.txt';
 	} 		
-	
-	//minimapsdir = path.join(appPath, 'minimaps/').replace('app.asar', 'app.asar.unpacked');
-	//console.warn('MINIMAPS DIR: ' + minimapsdir);
 }
 
 function check_folders() {
 	// additional checks for win
-	log.info('Checking folders');
+	log.info('Checking folders in springdir');
 	
 	if (platform == 'win32') {
 		var documentsdir = homedir + '\\Documents\\';
