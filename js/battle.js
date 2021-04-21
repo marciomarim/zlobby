@@ -1148,7 +1148,12 @@ export default class Battle {
 			var gameName = sentences[4];
 			var engine = sentences[1];
 		}
-
+		
+		// bail out if undefined
+		if (title == 'undefined'){
+			return false;
+		}
+		
 		var battlediv = '<div class="header">';
 
 		battlediv += '<div class="infos">';
