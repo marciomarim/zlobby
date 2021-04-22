@@ -25,8 +25,8 @@ log.transports.file.clear();
 var logfilepath = log.transports.file.getFile().path;
 
 var remotemodsurl = 'https://springfightclub.com/data/';
-var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 var remotemapsurl2 = 'https://api.springfiles.com/files/maps/';
+var remotemapsurl = 'https://files.balancedannihilation.com/data/maps/';
 var springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, zipfile;
 
 $('#appVersion').text('Zlobby v' + appVersion);

@@ -558,6 +558,14 @@ $('body').on('click', '.resync', function(e) {
 	utils.sendbattlestatus();
 });
 
+$('body').on('click', '.recheckmap', function(e) {
+	battles.checkmap();
+});
+
+$('body').on('click', '.recheckgame', function(e) {
+	battles.checkgame();
+});
+
 // $('body').on('click', '.mapname', function(e) {
 // 	var $resync = $('<div class="hover btn" data-username="' + username + '"></div>');
 // });
