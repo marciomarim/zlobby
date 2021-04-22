@@ -281,7 +281,7 @@ export default class Battle {
 		var modexist = false;		
 		
 		// check for local file of for rapid download
-		if ( fs.existsSync(modsdir + filename) || store.get('game.' + $('#battleroom .gameName').text()) ) {
+		if ( fs.existsSync(modsdir + filename) ) {
 			log.info('Game found in local path');
 			$('#battleroom .game-download').removeClass('downloading');			
 		} else {
@@ -323,13 +323,7 @@ export default class Battle {
 		
 		prdownloader.stdout.on('data', (data) => {
 			var status = data.split(' ');			
-			log.warn(data);			
-			
-			if( data.indexOf('Download complete!') !== -1){
-				$('#battleroom .game-download .download-title').text('Download complete!');
-				$('#battleroom .game-download').removeClass('downloading');
-				store.set('game.' + gamename, 1);			
-			}						
+			log.warn(data);	
 			
 			if(status[0] == '[Progress]'){
 				var progress = '0%';
@@ -345,13 +339,19 @@ export default class Battle {
 				$('#battleroom .game-download .download-title').text('Downloading ' + gamename + ' status: ' + progress);	
 				$('#battleroom .game-download .progress').css('width', progress.toString() );
 				
-				if (progress == '100%'){
-					$('#battleroom .game-download').removeClass('downloading');
-					store.set('game.' + gamename, 1);
-					setTimeout(function() {				
-						utils.sendbattlestatus();
-					}, 1000);
-				}				
+				// if (progress == '100%'){
+				// 	$('#battleroom .game-download').removeClass('downloading');
+				// 	store.set('game.' + gamename, 1);
+				// 	setTimeout(function() {				
+				// 		utils.sendbattlestatus();
+				// 	}, 1000);
+				// }				
+			}
+			
+			if( data.indexOf('Download complete!') !== -1){
+				$('#battleroom .game-download .download-title').text('Download complete!');
+				$('#battleroom .game-download').removeClass('downloading');
+				store.set('game.' + gamename, 1);			
 			}
 			
 		});
@@ -363,10 +363,28 @@ export default class Battle {
 		});
 		
 		prdownloader.on('close', (code) => {		  
-			$('#battleroom .game-download').removeClass('downloading');
-		  // $('#battleroom .game-download').removeClass('downloading').addClass('failed');
-		  // $('#battleroom .game-download .download-title').text('Game not found for download or error on downloading');
-		  log.warn('Download closed:' + code);
+			
+			$('#battleroom .game-download').removeClass('downloading');	
+				  
+			log.warn('Download closed:' + code);
+			
+			if (code == 'null' || code == '2'){
+				
+				store.set('game.' + gamename, 0);
+				setTimeout(function() {				
+				  utils.sendbattlestatus();
+				}, 1000);
+				
+			}else if(code == '0'){
+				
+				$('#battleroom .game-download').removeClass('downloading');
+				store.set('game.' + gamename, 1);
+				setTimeout(function() {				
+					utils.sendbattlestatus();
+				}, 1000);
+				
+			}
+			
 		});
 		
 	}
@@ -416,19 +434,24 @@ export default class Battle {
 		var filename = currentmap + '.sd7';
 		var filename2 = currentmap + '.sdz';
 		var mapexist = false;						
+		var fileurl = remotemapsurl + filename;
+		var fileurl2 = remotemapsurl + filename2;
+		var fileurl3 = remotemapsurl2 + filename;
+		var fileurl4 = remotemapsurl2 + filename2;
 		
 		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
 			
-			//this.check_file_integrity(filename);
-			log.info('Map found in local path');
+			if (fs.existsSync(mapsdir + filename)){
+				this.check_map_size(filename);				
+			}else{
+				this.check_map_size(filename2);			
+			}
 			$('#battleroom .map-download').removeClass('downloading');
-			//utils.sendbattlestatus();		
+			log.info('Map found in local path, checking file size.');
+			
 				
 		} else {
-			var fileurl = remotemapsurl + filename;
-			var fileurl2 = remotemapsurl + filename2;
-			var fileurl3 = remotemapsurl2 + filename;
-			var fileurl4 = remotemapsurl2 + filename2;
+			
 			log.info('Looking for map in repos.');
 			var battle = this;
 
@@ -441,7 +464,7 @@ export default class Battle {
 						url: fileurl2,
 						type: 'HEAD',
 						error: function() {
-							// try springfiles
+							// try ba repo
 							$.ajax({
 								url: fileurl3,
 								type: 'HEAD',
@@ -479,27 +502,36 @@ export default class Battle {
 		}
 	}
 	
-	check_file_integrity( filename ){
+	check_map_size( filename ){
+				
+		var remote = require('remote-file-size');				
+		var fileurl1 = remotemapsurl + filename;		
+		var fileurl2 = remotemapsurl2 + filename;		
 		
-		fs.readFile(mapsdir + filename, function read(err, data) {
-				if (err) {
-					throw err;
-				}						
-				var maphash = crypto.createHash('md5').update(data).digest('hex');	
-				log.warn('maphash:' + maphash);							
-			});
-			
-		// $.getJSON('https://files.balancedannihilation.com/api.php?command=getmapslist', function(data) {			
-		// 	
-		// 	data = data['mapslist'];
-		// 	$.each(data, function(key, val) {
-		// 		
-		// 		if( val['filename'] == filename ){
-		// 			log.info('key: ' + key + ' val: ' + val);
-		// 		}				
-		// 	});							
-		// 	
-		// });	
+		var mapstats = fs.statSync( mapsdir + filename );
+		var remotesize = 0;
+		
+		remote(fileurl1, function(err, o) {
+			remotesize = o;
+			log.warn('remote size: ' + o);	
+			log.warn('local map size: ' + mapstats['size']);
+		});
+		
+		if (remotesize < 100){
+			remote(fileurl2, function(err, o) {
+				log.warn('remote size: ' +o);
+				log.warn('local map size: ' + mapstats['size']);
+			});	
+		}
+		
+		if (mapstats['size'] <= 0 || remotesize != mapstats['size'] ) {
+			// delete map and redownload
+			fs.unlinkSync( mapsdir + filename );
+			// send battle status (unsync)
+			utils.sendbattlestatus();
+			// re-download map			
+			this.checkmap();
+		}
 		
 	}
 	
