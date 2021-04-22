@@ -493,7 +493,12 @@ export default class Utils {
 					.toLowerCase()
 					.replace('undefined', '');
 				var localmap = 'minimaps/' + mapfilenamebase + '.jpg';
-				var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';
+				if(fs.existSync(localmap)){
+					var imgdiv = '<div class="map"><img src="' + localmap + '"></div>';	
+				}else{
+					var remotemap = 'https://github.com/marciomarim/lobby-minimaps/raw/master/minimaps/' + mapfilenamebase + '.jpg';
+					var imgdiv = '<div class="map"><img src="' + remotemap + '"></div>';
+				}				
 				$('#battleroom .voteformap').html(imgdiv);
 			} else {
 				$('#battleroom .voteformap').empty();
