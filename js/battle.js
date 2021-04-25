@@ -21,7 +21,6 @@ const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
 import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
-
 import { trackEvent } from './init.js';
 
 //import { MapParser } from "spring-map-parser";
@@ -425,11 +424,17 @@ export default class Battle {
 	}
 
 	checkmap() {
+			
 		var currentmap = $('#battleroom .mapname')
 			.text()
 			.replace("'", '_')
 			.toLowerCase();
-
+				
+		
+		if (currentmap == ''){
+			return;
+		}		
+		
 		currentmap = currentmap.split(' ').join('_');
 		var filename = currentmap + '.sd7';
 		var filename2 = currentmap + '.sdz';
@@ -441,14 +446,14 @@ export default class Battle {
 		
 		if (fs.existsSync(mapsdir + filename) || fs.existsSync(mapsdir + filename2)) {
 			
+			$('#battleroom .map-download').removeClass('downloading');
+			log.info('Map found in local path, checking file size.');
+			
 			if (fs.existsSync(mapsdir + filename)){
 				this.check_map_size(filename);				
 			}else{
 				this.check_map_size(filename2);			
-			}
-			$('#battleroom .map-download').removeClass('downloading');
-			log.info('Map found in local path, checking file size.');
-			
+			}						
 				
 		} else {
 			
@@ -509,29 +514,56 @@ export default class Battle {
 		var fileurl2 = remotemapsurl2 + filename;		
 		
 		var mapstats = fs.statSync( mapsdir + filename );
+		var localsize = parseInt(mapstats['size'], 10);
 		var remotesize = 0;
 		
+		log.warn('local map size: ' + localsize);
+		
 		remote(fileurl1, function(err, o) {
-			remotesize = o;
-			log.warn('remote size: ' + o);	
-			log.warn('local map size: ' + mapstats['size']);
-		});
-		
-		if (remotesize < 100){
-			remote(fileurl2, function(err, o) {
-				log.warn('remote size: ' +o);
-				log.warn('local map size: ' + mapstats['size']);
-			});	
-		}
-		
-		if (mapstats['size'] <= 0 || remotesize != mapstats['size'] ) {
-			// delete map and redownload
-			fs.unlinkSync( mapsdir + filename );
-			// send battle status (unsync)
-			utils.sendbattlestatus();
-			// re-download map			
-			this.checkmap();
-		}
+			remotesize = parseInt(o, 10);			
+			
+			if (remotesize == 0){
+				
+				remote(fileurl2, function(err, o) {
+					remotesize = parseInt(o, 10);
+					
+					if ( remotesize != localsize && remotesize > 100 ) {
+												
+						log.warn( 'local map has a problem, re-downloading');			
+													
+						// delete map and redownload
+						fs.unlinkSync( mapsdir + filename );			
+						
+						// re-download map			
+						this.checkmap();
+						
+					}
+					
+					// send battle status sync
+					utils.sendbattlestatus();
+					
+				});
+					
+			}else{
+				log.warn('remote size: ' + remotesize);				
+				
+				if ( remotesize != localsize && remotesize > 100 ) {
+											
+					log.warn( 'local map has a problem, re-downloading');			
+												
+					// delete map and redownload
+					fs.unlinkSync( mapsdir + filename );			
+					
+					// re-download map			
+					this.checkmap();
+					
+				}
+				// send battle status sync
+				utils.sendbattlestatus();
+
+			}
+			
+		});		
 		
 	}
 	
@@ -571,9 +603,11 @@ export default class Battle {
 					battles.load_map_images(battleid);
 				}, 1000);
 				
-				setTimeout(function() {				
-					utils.sendbattlestatus();					
-				}, 1000);
+				// setTimeout(function() {				
+				// 	utils.sendbattlestatus();
+				// }, 1000);
+				battles.check_map_size( filename );					
+				
 			});
 
 			response.on('error', err => {
@@ -1248,6 +1282,7 @@ export default class Battle {
 	}
 
 	updatebattleinfo(battleid, spectatorCount, locked, maphash, mapname) {
+		
 		var currentmapname = $('.battle-card[data-battleid="' + battleid + '"] .mapname').text();
 		$('.battle-card[data-battleid="' + battleid + '"] .mapname').text(mapname);
 
@@ -1263,9 +1298,7 @@ export default class Battle {
 				$('#battleroom #battle-minimap').empty();
 				$('#battleroom #battle-metalmap').empty();
 				$('#battleroom #battle-heightmap').empty();
-			}
-			
-			//this.load_remote_map_image(battleid);
+			}						
 			this.load_map_images(battleid);
 		}
 				
@@ -1356,7 +1389,7 @@ export default class Battle {
 		// after game, check if map exist
 		this.checkengine();
 		this.checkgame();
-		this.checkmap();
+		//this.checkmap();
 		utils.init_battlerrom_chat();
 	}
 
