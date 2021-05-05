@@ -563,6 +563,7 @@ $('body').on('click', '.recheckmap', function(e) {
 });
 
 $('body').on('click', '.recheckgame', function(e) {
+	store.set('game.' + $('#battleroom .gameName').text(), 0);
 	battles.checkgame();
 });
 
