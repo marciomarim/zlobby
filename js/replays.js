@@ -34,11 +34,18 @@ export default class Replay {
 					if (fs.existsSync(demofolder)) {
 						fs.readdir(demofolder, (err, files) => {
 							files.forEach(file => {
-								var data = file.replace('_103.sdfz', '').split('_');
+								
+								var data = file.split('_');
+								var date_time = data[0].slice(0, 15);
 								var date = [data[0].slice(0, 4), '/', data[0].slice(4, 6), '/', data[0].slice(6)].join('');
 								var hour = [data[1].slice(0, 2), ':', data[1].slice(2, 4), ':', data[1].slice(4)].join('');
-								var mapname = data.slice(2).join('');
-					
+								
+								if (file.includes( engineversion )){
+									var mapname = file.substring(16, file.indexOf( engineversion ) - 1);
+								}else if(file.includes('105.sdfz') || file.includes('103.sdfz')){
+									var mapname = file.substring(16, file.indexOf( '.sdfz' ) - 4);
+								}
+								
 								var localmap =
 									minimapsdir +
 									mapname
@@ -52,7 +59,7 @@ export default class Replay {
 									obj.createmapfilter(localmap, mapname);
 								}
 					
-								var div = '<div class="replayitem" data-engine="'+engineversion+'" data-path="' + demofolder + '/' + file + '" data-mapname="' + mapname + '">';
+								var div = '<div style="order:'+date_time+'" class="replayitem" data-engine="'+engineversion+'" data-path="' + demofolder + '/' + file + '" data-mapname="' + mapname + '">';
 								div += '<div class="infos">';
 								div += '<div class="meta">Date: ' + date + '</div>';
 								div += '<div class="meta">Time: ' + hour + '</div>';
