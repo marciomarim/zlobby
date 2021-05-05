@@ -16,14 +16,10 @@ const log = require('electron-log');
 const sevenmin = require('7zip-min');
 const path = require('path');
 const MapParser = require("spring-map-parser").MapParser;
-
 const crypto = require('crypto');
 const { ipcRenderer } = require('electron');
 
 import { springdir, mapsdir, minimapsdir, modsdir, chatlogsdir, infologfile, scriptfile, remotemodsurl, remotemapsurl, remotemapsurl2 } from './init.js';
-import { trackEvent } from './init.js';
-
-//import { MapParser } from "spring-map-parser";
 
 export default class Battle {
 	constructor() {}
@@ -47,14 +43,13 @@ export default class Battle {
 		log.warn('Spring engine: ' + $('#battleroom .engine').text() );
 		log.warn('Spring version: ' + version);
 		
-		var engineexist = false;
 		var battle = this;
 		
 		if (platform == 'win32') {
 			
 			var enginefile = springdir + 'engine\\' + version + '\\spring.exe';						
 			log.warn(enginefile);
-			var filename = 'spring.exe';
+			
 			if ( version == '103.0' ){
 				var fileurl = 'https://www.springfightclub.com/data/master_103/win64/spring_103.0_win64-minimal-portable.7z';
 				var zipfile = springdir + 'engine\\spring_103.0_win64-minimal-portable.7z';
@@ -73,9 +68,7 @@ export default class Battle {
 			
 			//var enginefile = '/Applications/Spring_' + version + '.app/Contents/MacOS/spring';
 			var enginefile = springdir + 'engine/' + version + '/Spring_' + version + '.app/Contents/MacOS/spring';
-			
 			log.warn(enginefile);
-			var filename = 'spring';
 			
 			if ( version == '103.0' ){
 				var fileurl = 'https://www.springfightclub.com/data/master_103/mac/Spring_103.0.app.7z';
@@ -97,7 +90,7 @@ export default class Battle {
 			
 			var enginefile = springdir + 'engine/' + version + '/spring';
 			log.warn(enginefile);
-			var filename = 'spring';
+
 			if ( version == '103.0' ){
 				var fileurl = 'https://www.springfightclub.com/data/master_103/linux64/spring_103.0_minimal-portable-linux64-static.7z';
 				var zipfile = springdir + 'engine/spring_103.0_minimal-portable-linux64-static.7z';
@@ -276,12 +269,13 @@ export default class Battle {
 				.substring(index)
 				.split(' ')
 				.join('') +
-			'.sdz';
-		var modexist = false;		
+			'.sdz';	
 		
+		
+			
 		// check for local file of for rapid download
-		if ( fs.existsSync(modsdir + filename) ) {
-			log.info('Game found in local path');
+		if ( fs.existsSync(modsdir + filename) || store.get('game.' + $('#battleroom .gameName').text() ) ) {
+			log.info('Game already downloaded.');
 			$('#battleroom .game-download').removeClass('downloading');			
 		} else {
 			var fileurl = remotemodsurl + filename;
@@ -305,8 +299,10 @@ export default class Battle {
 	
 	downloadgamepr( gamename ){
 						
-		const { exec } = require('child_process');										
-				
+		const { exec } = require('child_process');
+		$('#battleroom .game-download .download-title').text('Checking game...');
+		$('#battleroom .game-download').addClass('downloading');
+
 		if (platform == 'win32') {			
 			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader.exe');
 		}else if (platform == 'darwin'){
@@ -315,10 +311,8 @@ export default class Battle {
 			var pr = path.join(path.dirname(__dirname), 'extraResources','pr-downloader');			
 		}		
 		
-		console.warn('PR: ' + pr);
-		
 		const prdownloader = exec( pr + ' --download-game ' + '"'+gamename+'"' );
-		$('#battleroom .game-download').addClass('downloading');
+		
 		
 		prdownloader.stdout.on('data', (data) => {
 			var status = data.split(' ');			
@@ -338,13 +332,9 @@ export default class Battle {
 				$('#battleroom .game-download .download-title').text('Downloading ' + gamename + ' status: ' + progress);	
 				$('#battleroom .game-download .progress').css('width', progress.toString() );
 				
-				// if (progress == '100%'){
-				// 	$('#battleroom .game-download').removeClass('downloading');
-				// 	store.set('game.' + gamename, 1);
-				// 	setTimeout(function() {				
-				// 		utils.sendbattlestatus();
-				// 	}, 1000);
-				// }				
+				if (progress == '100%'){
+					$('#battleroom .game-download').removeClass('downloading');					
+				}				
 			}
 			
 			if( data.indexOf('Download complete!') !== -1){
@@ -367,14 +357,14 @@ export default class Battle {
 				  
 			log.warn('Download closed:' + code);
 			
-			if (code == 'null' || code == '2'){
+			if (code == 'null' || code == '1'){
 				
 				store.set('game.' + gamename, 0);
 				setTimeout(function() {				
 				  utils.sendbattlestatus();
 				}, 1000);
 				
-			}else if(code == '0'){
+			}else if(code == '0' || code == '2'){
 				
 				$('#battleroom .game-download').removeClass('downloading');
 				store.set('game.' + gamename, 1);
