@@ -628,29 +628,36 @@ export default class Battle {
 
 		var showhostmessages = store.get('user.showhostmessages');
 		if (showhostmessages == 0) {
-			$('.showhostmessages').prop('checked', false);
+			$('#battleroom .showhostmessages').prop('checked', false);
 		} else {
-			$('.showhostmessages').prop('checked', true);
+			$('#battleroom .showhostmessages').prop('checked', true);
 		}
 
 		var autoscrollbattle = store.get('user.autoscrollbattle');
 		if (autoscrollbattle == 0) {
-			$('.autoscrollbattle').prop('checked', false);
+			$('#battleroom .autoscrollbattle').prop('checked', false);
 		} else {
-			$('.autoscrollbattle').prop('checked', true);
+			$('#battleroom .autoscrollbattle').prop('checked', true);
+		}
+		
+		var autolaunchbattle = store.get('user.autolaunchbattle');
+		if (autolaunchbattle == 0) {
+			$('#battleroom .autolaunchbattle').prop('checked', false);
+		} else {
+			$('#battleroom .autolaunchbattle').prop('checked', true);
 		}
 		
 		var inlinechat = store.get('prefs.inlinechat');
 		if (inlinechat == 0) {
-			$('.inlinechat').prop('checked', false);			
+			$('#battleroom .inlinechat').prop('checked', false);			
 		} else {
-			$('.inlinechat').prop('checked', true);
+			$('#battleroom .inlinechat').prop('checked', true);
 			$('body').addClass('inlinechat');
 		}
 
 		var mutebattleroom = store.get('user.mutebattleroom');
 		if (mutebattleroom == 0 || mutebattleroom == undefined) {
-			$('.mutebattleroom').prop('checked', false);
+			$('#battleroom .mutebattleroom').prop('checked', false);
 			var sound = document.getElementById('messagesound');
 			sound.volume = 1;
 			var ring = document.getElementById('ringsound');
@@ -660,7 +667,7 @@ export default class Battle {
 			sound.volume = 0;
 			var ring = document.getElementById('ringsound');
 			ring.volume = 0;
-			$('.mutebattleroom').prop('checked', true);
+			$('#battleroom .mutebattleroom').prop('checked', true);
 		}
 
 		var mycolor = store.get('user.mycolor');

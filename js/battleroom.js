@@ -144,6 +144,20 @@ $('body').on('click', '.specbattle', function(e) {
 	utils.sendbattlestatus();
 });
 
+$('body').on('click', '.autolaunchbattle', function(e) {
+	
+	if ($('#battleroom .autolaunchbattle').prop('checked') == true) {
+		$('#battleroom .autolaunchbattle').prop('checked', false);
+		store.set('user.autolaunchbattle', 0);
+	}else{
+		$('#battleroom .autolaunchbattle').prop('checked', true);
+		store.set('user.autolaunchbattle', 1);
+	}	
+	$('#battleroom .specbattle').prop('checked');
+	
+});
+
+
 $('body').on('click', '.gospec, .goplay', function(e) {
 	
 	if ($('#battleroom .specbattle').prop('checked') == true) {
