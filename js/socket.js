@@ -92,23 +92,20 @@ export function login() {
 		console.log('Socket End: Disconnected from server');
 		console.log(data.toString());
 		log.info('Socket End: Disconnected from server');
-		log.info(data.toString());
-		resetUI();
-		//socket_connect();
+		log.info(data.toString());		
+		win.reload();		
 	});
 
 	socketClient.on('error', data => {
 		
-		var err = data.toString();
-		
+		var err = data.toString();		
 		log.warn('Socket Error');
 		log.warn(err);
+		win.reload();
 				
-		if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed' || err.indexOf('Error: getaddrinfo ENOTFOUND') !== -1) {
-			
-			win.reload();
-			
-		}
+		// if (err == 'Error [ERR_STREAM_DESTROYED]: Cannot call write after a stream was destroyed' || err.indexOf('Error: getaddrinfo ENOTFOUND') !== -1) {			
+		// 	win.reload();			
+		// }
 	});
 }
 
