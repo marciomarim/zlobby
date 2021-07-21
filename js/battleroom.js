@@ -396,13 +396,20 @@ $('body').on('click', '.startbattle', function(e) {
 // });
 
 $('body').on('keydown', '.battleroom_input', function(e) {
-	var arrow = { left: 37, up: 38, right: 39, down: 40 };
+	var key = {
+          left: 37,
+          up: 38,
+          right: 39,
+          down: 40,
+          tab: 9,
+          enter: 13,
+        };
 
 	switch (e.which) {
-		case arrow.left:
+		case key.left:
 			//..
 			break;
-		case arrow.up:
+		case key.up:
 			if (bmessages[bmcount]) {
 				$('.battleroom_input').val(bmessages[bmcount]);
 				if (bmessages[bmcount - 1]) {
@@ -410,10 +417,10 @@ $('body').on('keydown', '.battleroom_input', function(e) {
 				}
 			}
 			break;
-		case arrow.right:
+		case key.right:
 			//..
 			break;
-		case arrow.down:
+		case key.down:
 			if (bmessages[bmcount]) {
 				$('.battleroom_input').val(bmessages[bmcount]);
 				if (bmessages[bmcount + 1]) {
@@ -424,10 +431,14 @@ $('body').on('keydown', '.battleroom_input', function(e) {
 				bmcount = bmessages.length - 1;
 			}
 			break;
-		case 9:
+		case key.tab:
 			e.preventDefault();
 			var message = $(this).val();
 			autocompleteusers(message);
+                        break;
+		case key.enter:
+                        onSendChat();
+                        break;
 	}
 });
 
@@ -508,51 +519,47 @@ $('body').on('click', '.me .icon-away', function(e) {
 
 
 // battleroom chat
-$('body').on('keypress', '.battleroom_input', function(e) {
-	if (e.which == 13) {
-		var myusername = $('#myusername').text();
-		var message = $(this).val();
+function onSendChat() {
+    var message = $('.battleroom_input').val();
 
-		// save sent messages
-		bmessages.push(message);
-		bmcount = bmessages.length - 1;
+    // save sent messages
+    bmessages.push(message);
+    bmcount = bmessages.length - 1;
 
-		if (message == '/clear') {
-			utils.clear_battleroom_chat();
-		} else if (message == '/away') {	
-			$('#myusername').toggleClass('away');
-			setTimeout(function(){
-				utils.sendstatus();	
-			}, 500);					
-		} else if (message == '/autoready 1') {
-			store.set('user.autoready', 1);
-			$('#battleroom .readybattle').prop('checked', true);
-			$('#battleroom .pretty.ready').addClass('active');
-			utils.sendbattlestatus();
-		} else if (message == '/autoready 0') {
-			store.set('user.autoready', 0);
-			$('#battleroom .readybattle').prop('checked', false);
-			$('#battleroom .pretty.ready').removeClass('active');
-			utils.sendbattlestatus();
-		} else if (message.startsWith('!promote')) {						
-			promoteDiscord();
-			var command = 'SAYBATTLE ' + message + '\n';
-			socketClient.write(command);
-		} else if (message.startsWith('/me')) {
-			var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
-			socketClient.write(command);
-		} else {
-			if ($('.rudechat').prop('checked') == true) {
-				message = filter.clean(message);
-			}
-			var command = 'SAYBATTLE ' + message + '\n';
-			socketClient.write(command);
-		}
-		$(this).val('');
-		return false; //<---- Add this line
-	}
-});
-
+    if (message == '/clear') {
+            utils.clear_battleroom_chat();
+    } else if (message == '/away') {
+            $('#myusername').toggleClass('away');
+            setTimeout(function(){
+                    utils.sendstatus();
+            }, 500);
+    } else if (message == '/autoready 1') {
+            store.set('user.autoready', 1);
+            $('#battleroom .readybattle').prop('checked', true);
+            $('#battleroom .pretty.ready').addClass('active');
+            utils.sendbattlestatus();
+    } else if (message == '/autoready 0') {
+            store.set('user.autoready', 0);
+            $('#battleroom .readybattle').prop('checked', false);
+            $('#battleroom .pretty.ready').removeClass('active');
+            utils.sendbattlestatus();
+    } else if (message.startsWith('!promote')) {
+            promoteDiscord();
+            var command = 'SAYBATTLE ' + message + '\n';
+            socketClient.write(command);
+    } else if (message.startsWith('/me')) {
+            var command = 'SAYBATTLEEX ' + message.replace('/me', '') + '\n';
+            socketClient.write(command);
+    } else {
+            if ($('.rudechat').prop('checked') == true) {
+                    message = filter.clean(message);
+            }
+            var command = 'SAYBATTLE ' + message + '\n';
+            socketClient.write(command);
+    }
+    $('.battleroom_input').val('');
+    return false;
+};
 
 $('body').on('click', '.resync', function(e) {
 	utils.sendbattlestatus();
