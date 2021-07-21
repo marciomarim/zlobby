@@ -152,15 +152,10 @@ export default class Utils {
 		$('.userchat[data-username="' + safe_username + '"] .messages').append($bubble);
 		$('.userchat[data-username="' + safe_username + '"] .text-scroll').scrollTop($('.userchat[data-username="' + safe_username + '"] .messages')[0].scrollHeight);
 
-		// save chat info
-		var container = $bubble
-			.wrap('<p/>')
-			.parent()
-			.html();
-
-		// save if not bot
+		// save chat info if not bot
 		if (!$('#chat-list li[data-username="' + safe_username + '"] .icon-user').hasClass('bot')) {
-			fs.appendFileSync(chatlogsdir + 'pm-' + username + '.log', container);
+                        const logLine = `[${this.fulltimenow}] ${safe_username}: ${message}\n`;
+                        fs.appendFileSync(chatlogsdir + 'pm-' + username + '.log', logLine);
 		}
 
 		$('#activechats .userpm-select[data-username="' + safe_username + '"]')
@@ -331,11 +326,8 @@ export default class Utils {
 		$('.channelchat[data-channame="' + chanName + '"] .text-scroll').scrollTop($('.channelchat[data-channame="' + chanName + '"] .messages')[0].scrollHeight);
 
 		// save chat info
-		var container = $bubble
-			.wrap('<p/>')
-			.parent()
-			.html();
-		fs.appendFileSync(chatlogsdir + 'channel-' + chanName + '.log', container);
+                const logLine = `[${this.timenow}] ${username}: ${message}\n`;
+                fs.appendFileSync(chatlogsdir + 'channel-' + chanName + '.log', logLine);
 
 		//reorder active chats
 		/*
@@ -522,11 +514,8 @@ export default class Utils {
 		// save battle log
 		if ($('.savechats').prop('checked') == true) {
 			var battleid = $('#battleroom .battleid').text();
-			var container = $bubble
-				.wrap('<p/>')
-				.parent()
-				.html();
-			fs.appendFileSync(chatlogsdir + 'battleroom-' + battleid + '.log', container);
+                        const logLine = `[${this.timenow}] ${username}: ${message}\n`;
+                        fs.appendFileSync(chatlogsdir + 'battleroom-' + battleid + '.log', logLine);
 		}
 	}
 
