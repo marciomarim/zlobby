@@ -146,14 +146,11 @@ $('body').on('click', '.specbattle', function(e) {
 
 $('body').on('click', '.autolaunchbattle', function(e) {
 	
-	if ($('#battleroom .autolaunchbattle').prop('checked') == true) {
-		$('#battleroom .autolaunchbattle').prop('checked', false);
-		store.set('user.autolaunchbattle', 0);
-	}else{
-		$('#battleroom .autolaunchbattle').prop('checked', true);
+	if ($('#battleroom .autolaunchbattle').prop('checked') == true) {		
 		store.set('user.autolaunchbattle', 1);
+	}else{		
+		store.set('user.autolaunchbattle', 0);
 	}	
-	$('#battleroom .specbattle').prop('checked');
 	
 });
 

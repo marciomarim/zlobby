@@ -4,6 +4,11 @@ const log = require('electron-log');
 const Store = require('electron-store');
 const store = new Store();
 
+const getmac = require('getmac');
+var macaddress = getmac.default();
+//console.warn( macaddress );
+var CRC32 = require('crc-32');   
+
 import Protocol from './protocol.js';
 let protocol = new Protocol();
 
@@ -62,8 +67,11 @@ export function login() {
 		.createHash('md5')
 		.update(password)
 		.digest('base64');
-
-	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Zlobby ' + appVersion + '	0	l \n';
+		
+	
+	var userID = CRC32.str(macaddress);
+	
+	var loginString = 'LOGIN ' + username + ' ' + passwordHash + ' 0 * Zlobby ' + appVersion + '	'+userID+'	l \n';
 	socketClient.write(loginString);
 
 	// save my username
